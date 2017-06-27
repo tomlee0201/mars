@@ -214,7 +214,7 @@ void mqtt_set_alive(uint16_t alive) {
 	broker->alive = alive;
 }
 
-int mqtt_connect()
+int mqtt_connect(AutoBuffer& _packed)
 {
 	uint8_t flags = 0x00;
 
@@ -241,7 +241,8 @@ int mqtt_connect()
 		0x00,0x06,0x4d,0x51,0x49,0x73,0x64,0x70, // Protocol name: MQIsdp
 		0x03, // Protocol version
 		flags, // Connect flags
-		broker->alive>>8, broker->alive&0xFF, // Keep alive
+		(uint8_t)(broker->alive>>8),
+    (uint8_t)(broker->alive&0xFF), // Keep alive
 	};
 
 
@@ -295,48 +296,41 @@ int mqtt_connect()
 		memcpy(packet+offset, broker->password, passwordlen);
 		offset += passwordlen;
 	}
-
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
-
+  
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 	return 1;
 }
 
-int mqtt_disconnect() {
+int mqtt_disconnect(AutoBuffer& _packed) {
 	uint8_t packet[] = {
 		MQTT_MSG_DISCONNECT, // Message Type, DUP flag, QoS level, Retain
 		0x00 // Remaining length
 	};
 
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 
 	return 1;
 }
 
-int mqtt_ping() {
+int mqtt_ping(AutoBuffer& _packed) {
 	uint8_t packet[] = {
 		MQTT_MSG_PINGREQ, // Message Type, DUP flag, QoS level, Retain
 		0x00 // Remaining length
 	};
 
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 
 	return 1;
 }
 
-int mqtt_publish(const char* topic, const char* msg, uint8_t retain) {
-	return mqtt_publish_with_qos(topic, msg, retain, 0, NULL);
+int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer& _packed) {
+	return mqtt_publish_with_qos(topic, msg, retain, 0, NULL, _packed);
 }
 
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id) {
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 	uint16_t msglen = strlen(msg);
 
@@ -399,31 +393,27 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
 	memcpy(packet+sizeof(fixed_header), var_header, sizeof(var_header));
 	memcpy(packet+sizeof(fixed_header)+sizeof(var_header), msg, msglen);
 
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 
 	return 1;
 }
 
-int mqtt_pubrel(uint16_t message_id) {
+int mqtt_pubrel(uint16_t message_id, AutoBuffer& _packed) {
 	uint8_t packet[] = {
 		MQTT_MSG_PUBREL | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
 		0x02, // Remaining length
-		message_id>>8,
-		message_id&0xFF
+		(uint8_t)(message_id>>8),
+		(uint8_t)(message_id&0xFF)
 	};
 
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 
 	return 1;
 }
 
-int mqtt_subscribe(const char* topic, uint16_t* message_id) {
+int mqtt_subscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 
 	// Variable header
@@ -445,7 +435,7 @@ int mqtt_subscribe(const char* topic, uint16_t* message_id) {
 	// Fixed header
 	uint8_t fixed_header[] = {
 		MQTT_MSG_SUBSCRIBE | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
-		sizeof(var_header)+sizeof(utf_topic)
+		(uint8_t)(sizeof(var_header)+sizeof(utf_topic))
 	};
 
 	uint8_t packet[sizeof(var_header)+sizeof(fixed_header)+sizeof(utf_topic)];
@@ -454,15 +444,13 @@ int mqtt_subscribe(const char* topic, uint16_t* message_id) {
 	memcpy(packet+sizeof(fixed_header), var_header, sizeof(var_header));
 	memcpy(packet+sizeof(fixed_header)+sizeof(var_header), utf_topic, sizeof(utf_topic));
 
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 
 	return 1;
 }
 
-int mqtt_unsubscribe(const char* topic, uint16_t* message_id) {
+int mqtt_unsubscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 
 	// Variable header
@@ -484,7 +472,7 @@ int mqtt_unsubscribe(const char* topic, uint16_t* message_id) {
 	// Fixed header
 	uint8_t fixed_header[] = {
 		MQTT_MSG_UNSUBSCRIBE | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
-		sizeof(var_header)+sizeof(utf_topic)
+		(uint8_t)(sizeof(var_header)+sizeof(utf_topic))
 	};
 
 	uint8_t packet[sizeof(var_header)+sizeof(fixed_header)+sizeof(utf_topic)];
@@ -493,10 +481,8 @@ int mqtt_unsubscribe(const char* topic, uint16_t* message_id) {
 	memcpy(packet+sizeof(fixed_header), var_header, sizeof(var_header));
 	memcpy(packet+sizeof(fixed_header)+sizeof(var_header), utf_topic, sizeof(utf_topic));
 
-	// Send the packet
-	if(broker->send(packet, sizeof(packet)) < sizeof(packet)) {
-		return -1;
-	}
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
 
 	return 1;
 }

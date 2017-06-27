@@ -29,6 +29,7 @@
 #define __LIBEMQTT_H__
 
 #include <stdint.h>
+#include "mars/comm/autobuffer.h"
 
 #ifndef MQTT_CONF_USERNAME_LENGTH
 	#define MQTT_CONF_USERNAME_LENGTH 13 // Recommended by MQTT Specification (12 + '\0')
@@ -203,7 +204,7 @@ void mqtt_set_alive(uint16_t alive);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_connect();
+int mqtt_connect(AutoBuffer& _packed);
 
 /** Disconnect to the broker.
  * @param broker Data structure that contains the connection information with the broker.
@@ -214,7 +215,7 @@ int mqtt_connect();
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_disconnect();
+int mqtt_disconnect(AutoBuffer& _packed);
 
 /** Publish a message on a topic. This message will be published with 0 Qos level.
  * @param broker Data structure that contains the connection information with the broker.
@@ -226,7 +227,7 @@ int mqtt_disconnect();
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_publish(const char* topic, const char* msg, uint8_t retain);
+int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer& _packed);
 
 /** Publish a message on a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -240,7 +241,7 @@ int mqtt_publish(const char* topic, const char* msg, uint8_t retain);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id);
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id, AutoBuffer& _packed);
 
 /** Send a PUBREL message. It's used for PUBLISH message with 2 QoS level.
  * @param broker Data structure that contains the connection information with the broker.
@@ -250,7 +251,7 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_pubrel(uint16_t message_id);
+int mqtt_pubrel(uint16_t message_id, AutoBuffer& _packed);
 
 /** Subscribe to a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -261,7 +262,7 @@ int mqtt_pubrel(uint16_t message_id);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_subscribe(const char* topic, uint16_t* message_id);
+int mqtt_subscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed);
 
 /** Unsubscribe from a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -272,7 +273,7 @@ int mqtt_subscribe(const char* topic, uint16_t* message_id);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_unsubscribe(const char* topic, uint16_t* message_id);
+int mqtt_unsubscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed);
 
 /** Make a ping.
  * @param broker Data structure that contains the connection information with the broker.
@@ -281,7 +282,7 @@ int mqtt_unsubscribe(const char* topic, uint16_t* message_id);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_ping();
+int mqtt_ping(AutoBuffer& _packed);
 
 
 #endif // __LIBEMQTT_H__

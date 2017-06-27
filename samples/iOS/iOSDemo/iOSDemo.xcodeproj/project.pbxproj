@@ -67,7 +67,7 @@
 		1FB577861CE20F7D00ADCF8C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB577851CE20F7D00ADCF8C /* SystemConfiguration.framework */; };
 		1FDE37DA1DE5D45300CAC712 /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE37D91DE5D45300CAC712 /* NetworkService.mm */; };
 		1FDE37E01DE5DC7900CAC712 /* CGITask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE37DF1DE5DC7900CAC712 /* CGITask.mm */; };
-		2EFBADDD1F01FB9D006B53D5 /* libemqtt.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADDC1F01FB9D006B53D5 /* libemqtt.c */; };
+		2EFBADDD1F01FB9D006B53D5 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADDC1F01FB9D006B53D5 /* libemqtt.cc */; };
 		4BDBD14B1E07F611006C62F5 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */; };
 		4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB577871CE20FA300ADCF8C /* libresolv.9.tbd */; };
 		4BDBD16D1E0912BE006C62F5 /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F26718B1DD2B115003F00A1 /* mars.framework */; };
@@ -234,7 +234,7 @@
 		1FDE37DF1DE5DC7900CAC712 /* CGITask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CGITask.mm; path = Bussiness/CGITask.mm; sourceTree = "<group>"; };
 		2EFBADCE1F01F977006B53D5 /* mars-open-iphone.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "mars-open-iphone.xcodeproj"; path = "../../../mars/mars-open-iphone.xcodeproj"; sourceTree = "<group>"; };
 		2EFBADDB1F01FB8F006B53D5 /* libemqtt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libemqtt.h; sourceTree = "<group>"; };
-		2EFBADDC1F01FB9D006B53D5 /* libemqtt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libemqtt.c; sourceTree = "<group>"; };
+		2EFBADDC1F01FB9D006B53D5 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
 		4BDBD1491E07F611006C62F5 /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkStatus.h; path = Bussiness/NetworkStatus.h; sourceTree = "<group>"; };
 		4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkStatus.m; path = Bussiness/NetworkStatus.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -445,7 +445,7 @@
 			isa = PBXGroup;
 			children = (
 				2EFBADDB1F01FB8F006B53D5 /* libemqtt.h */,
-				2EFBADDC1F01FB9D006B53D5 /* libemqtt.c */,
+				2EFBADDC1F01FB9D006B53D5 /* libemqtt.cc */,
 				1F2671C61DD2C227003F00A1 /* shortlink_packer.cc */,
 				1F2671C71DD2C227003F00A1 /* shortlink_packer.h */,
 				1F2671C31DD2BD05003F00A1 /* log_crypt.cc */,
@@ -737,7 +737,7 @@
 				1FDE37DA1DE5D45300CAC712 /* NetworkService.mm in Sources */,
 				029F91DA1E251214000CA522 /* SourceContext.pbobjc.m in Sources */,
 				1F2671C81DD2C227003F00A1 /* shortlink_packer.cc in Sources */,
-				2EFBADDD1F01FB9D006B53D5 /* libemqtt.c in Sources */,
+				2EFBADDD1F01FB9D006B53D5 /* libemqtt.cc in Sources */,
 				029F91841E251205000CA522 /* Messagepush.pbobjc.m in Sources */,
 				1F244E731DE6E831005D1BAC /* NetworkEvent.m in Sources */,
 			);
