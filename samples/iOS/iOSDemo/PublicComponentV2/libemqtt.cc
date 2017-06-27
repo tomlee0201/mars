@@ -189,7 +189,6 @@ uint16_t mqtt_parse_pub_msg_ptr(const uint8_t* buf, const uint8_t **msg_ptr) {
 void mqtt_init(const char* clientid) {
 	// Connection options
 	broker->alive = 300; // 300 seconds = 5 minutes
-	broker->seq = 1; // Sequency for message indetifiers
 	// Client options
 	memset(broker->clientid, 0, sizeof(broker->clientid));
 	memset(broker->username, 0, sizeof(broker->username));
@@ -327,10 +326,10 @@ int mqtt_ping(AutoBuffer& _packed) {
 }
 
 int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer& _packed) {
-	return mqtt_publish_with_qos(topic, msg, retain, 0, NULL, _packed);
+	return mqtt_publish_with_qos(topic, msg, retain, 0, 0, _packed);
 }
 
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id, AutoBuffer& _packed) {
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 	uint16_t msglen = strlen(msg);
 
@@ -352,12 +351,8 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
 	var_header[1] = topiclen&0xFF;
 	memcpy(var_header+2, topic, topiclen);
 	if(qos_size) {
-		var_header[topiclen+2] = broker->seq>>8;
-		var_header[topiclen+3] = broker->seq&0xFF;
-		if(message_id) { // Returning message id
-			*message_id = broker->seq;
-		}
-		broker->seq++;
+		var_header[topiclen+2] = message_id>>8;
+		var_header[topiclen+3] = message_id&0xFF;
 	}
 
 	// Fixed header
@@ -413,17 +408,13 @@ int mqtt_pubrel(uint16_t message_id, AutoBuffer& _packed) {
 	return 1;
 }
 
-int mqtt_subscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed) {
+int mqtt_subscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 
 	// Variable header
 	uint8_t var_header[2]; // Message ID
-	var_header[0] = broker->seq>>8;
-	var_header[1] = broker->seq&0xFF;
-	if(message_id) { // Returning message id
-		*message_id = broker->seq;
-	}
-	broker->seq++;
+	var_header[0] = message_id>>8;
+	var_header[1] = message_id&0xFF;
 
 	// utf topic
 	uint8_t utf_topic[topiclen+3]; // Topic size (2 bytes), utf-encoded topic, QoS byte
@@ -450,17 +441,14 @@ int mqtt_subscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed)
 	return 1;
 }
 
-int mqtt_unsubscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed) {
+int mqtt_unsubscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 
 	// Variable header
 	uint8_t var_header[2]; // Message ID
-	var_header[0] = broker->seq>>8;
-	var_header[1] = broker->seq&0xFF;
-	if(message_id) { // Returning message id
-		*message_id = broker->seq;
-	}
-	broker->seq++;
+	var_header[0] = message_id>>8;
+	var_header[1] = message_id&0xFF;
+
 
 	// utf topic
 	uint8_t utf_topic[topiclen+2]; // Topic size (2 bytes), utf-encoded topic

@@ -167,7 +167,6 @@ typedef struct {
 	uint8_t will_qos;
 	uint8_t clean_session;
 	// Management fields
-	uint16_t seq;
 	uint16_t alive;
 } mqtt_broker_handle_t;
 
@@ -241,7 +240,7 @@ int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer&
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id, AutoBuffer& _packed);
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed);
 
 /** Send a PUBREL message. It's used for PUBLISH message with 2 QoS level.
  * @param broker Data structure that contains the connection information with the broker.
@@ -262,7 +261,7 @@ int mqtt_pubrel(uint16_t message_id, AutoBuffer& _packed);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_subscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed);
+int mqtt_subscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed);
 
 /** Unsubscribe from a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -273,7 +272,7 @@ int mqtt_subscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed)
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_unsubscribe(const char* topic, uint16_t* message_id, AutoBuffer& _packed);
+int mqtt_unsubscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed);
 
 /** Make a ping.
  * @param broker Data structure that contains the connection information with the broker.
