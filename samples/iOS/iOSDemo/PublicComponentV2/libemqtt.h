@@ -155,7 +155,7 @@ uint16_t mqtt_parse_pub_msg_ptr(const uint8_t* buf, const uint8_t** msg_ptr);
 
 typedef struct {
 	void* socket_info;
-	int (*send)(void* socket_info, const void* buf, unsigned int count);
+	int (*send)(const void* buf, unsigned int count);
 	// Connection info
 	char clientid[50];
 	// Auth fields
@@ -177,7 +177,7 @@ typedef struct {
  *
  * @note Only has effect before to call mqtt_connect
  */
-void mqtt_init(mqtt_broker_handle_t* broker, const char* clientid);
+void mqtt_init(const char* clientid);
 
 /** Enable the authentication to connect to the broker.
  * @param broker Data structure that contains the connection information with the broker.
@@ -186,7 +186,7 @@ void mqtt_init(mqtt_broker_handle_t* broker, const char* clientid);
  *
  * @note Only has effect before to call mqtt_connect
  */
-void mqtt_init_auth(mqtt_broker_handle_t* broker, const char* username, const char* password);
+void mqtt_init_auth(const char* username, const char* password);
 
 /** Set the keep alive timer.
  * @param broker Data structure that contains the connection information with the broker.
@@ -194,7 +194,7 @@ void mqtt_init_auth(mqtt_broker_handle_t* broker, const char* username, const ch
  *
  * @note Only has effect before to call mqtt_connect
  */
-void mqtt_set_alive(mqtt_broker_handle_t* broker, uint16_t alive);
+void mqtt_set_alive(uint16_t alive);
 
 /** Connect to the broker.
  * @param broker Data structure that contains the connection information with the broker.
@@ -203,7 +203,7 @@ void mqtt_set_alive(mqtt_broker_handle_t* broker, uint16_t alive);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_connect(mqtt_broker_handle_t* broker);
+int mqtt_connect();
 
 /** Disconnect to the broker.
  * @param broker Data structure that contains the connection information with the broker.
@@ -214,7 +214,7 @@ int mqtt_connect(mqtt_broker_handle_t* broker);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_disconnect(mqtt_broker_handle_t* broker);
+int mqtt_disconnect();
 
 /** Publish a message on a topic. This message will be published with 0 Qos level.
  * @param broker Data structure that contains the connection information with the broker.
@@ -226,7 +226,7 @@ int mqtt_disconnect(mqtt_broker_handle_t* broker);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_publish(mqtt_broker_handle_t* broker, const char* topic, const char* msg, uint8_t retain);
+int mqtt_publish(const char* topic, const char* msg, uint8_t retain);
 
 /** Publish a message on a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -240,7 +240,7 @@ int mqtt_publish(mqtt_broker_handle_t* broker, const char* topic, const char* ms
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_publish_with_qos(mqtt_broker_handle_t* broker, const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id);
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t* message_id);
 
 /** Send a PUBREL message. It's used for PUBLISH message with 2 QoS level.
  * @param broker Data structure that contains the connection information with the broker.
@@ -250,7 +250,7 @@ int mqtt_publish_with_qos(mqtt_broker_handle_t* broker, const char* topic, const
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_pubrel(mqtt_broker_handle_t* broker, uint16_t message_id);
+int mqtt_pubrel(uint16_t message_id);
 
 /** Subscribe to a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -261,7 +261,7 @@ int mqtt_pubrel(mqtt_broker_handle_t* broker, uint16_t message_id);
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_subscribe(mqtt_broker_handle_t* broker, const char* topic, uint16_t* message_id);
+int mqtt_subscribe(const char* topic, uint16_t* message_id);
 
 /** Unsubscribe from a topic.
  * @param broker Data structure that contains the connection information with the broker.
@@ -272,7 +272,7 @@ int mqtt_subscribe(mqtt_broker_handle_t* broker, const char* topic, uint16_t* me
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_unsubscribe(mqtt_broker_handle_t* broker, const char* topic, uint16_t* message_id);
+int mqtt_unsubscribe(const char* topic, uint16_t* message_id);
 
 /** Make a ping.
  * @param broker Data structure that contains the connection information with the broker.
@@ -281,7 +281,7 @@ int mqtt_unsubscribe(mqtt_broker_handle_t* broker, const char* topic, uint16_t* 
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_ping(mqtt_broker_handle_t* broker);
+int mqtt_ping();
 
 
 #endif // __LIBEMQTT_H__
