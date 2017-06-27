@@ -68,6 +68,8 @@
 		1FDE37DA1DE5D45300CAC712 /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE37D91DE5D45300CAC712 /* NetworkService.mm */; };
 		1FDE37E01DE5DC7900CAC712 /* CGITask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE37DF1DE5DC7900CAC712 /* CGITask.mm */; };
 		2EFBADDD1F01FB9D006B53D5 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADDC1F01FB9D006B53D5 /* libemqtt.cc */; };
+		2EFBADE01F0230B6006B53D5 /* ConnectTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADDF1F0230B6006B53D5 /* ConnectTask.m */; };
+		2EFBADE31F0230E2006B53D5 /* DisconnectTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADE21F0230E2006B53D5 /* DisconnectTask.m */; };
 		4BDBD14B1E07F611006C62F5 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */; };
 		4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB577871CE20FA300ADCF8C /* libresolv.9.tbd */; };
 		4BDBD16D1E0912BE006C62F5 /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F26718B1DD2B115003F00A1 /* mars.framework */; };
@@ -235,6 +237,10 @@
 		2EFBADCE1F01F977006B53D5 /* mars-open-iphone.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "mars-open-iphone.xcodeproj"; path = "../../../mars/mars-open-iphone.xcodeproj"; sourceTree = "<group>"; };
 		2EFBADDB1F01FB8F006B53D5 /* libemqtt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libemqtt.h; sourceTree = "<group>"; };
 		2EFBADDC1F01FB9D006B53D5 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
+		2EFBADDE1F0230B6006B53D5 /* ConnectTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectTask.h; path = Bussiness/ConnectTask.h; sourceTree = "<group>"; };
+		2EFBADDF1F0230B6006B53D5 /* ConnectTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectTask.m; path = Bussiness/ConnectTask.m; sourceTree = "<group>"; };
+		2EFBADE11F0230E2006B53D5 /* DisconnectTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisconnectTask.h; sourceTree = "<group>"; };
+		2EFBADE21F0230E2006B53D5 /* DisconnectTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisconnectTask.m; sourceTree = "<group>"; };
 		4BDBD1491E07F611006C62F5 /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkStatus.h; path = Bussiness/NetworkStatus.h; sourceTree = "<group>"; };
 		4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkStatus.m; path = Bussiness/NetworkStatus.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -488,6 +494,10 @@
 				1F244EAE1DE717E8005D1BAC /* UINotifyDelegate.h */,
 				1F08C1531DE82FAB0098EB97 /* CommandID.h */,
 				1F7626BB1E12AA6C000A4AE6 /* PushNotifyDelegate.h */,
+				2EFBADDE1F0230B6006B53D5 /* ConnectTask.h */,
+				2EFBADDF1F0230B6006B53D5 /* ConnectTask.m */,
+				2EFBADE11F0230E2006B53D5 /* DisconnectTask.h */,
+				2EFBADE21F0230E2006B53D5 /* DisconnectTask.m */,
 			);
 			name = Bussiness;
 			sourceTree = "<group>";
@@ -730,6 +740,8 @@
 				029F91801E251205000CA522 /* Chat.pbobjc.m in Sources */,
 				029F91D01E251214000CA522 /* GPBDictionary.m in Sources */,
 				029F91CA1E251214000CA522 /* Empty.pbobjc.m in Sources */,
+				2EFBADE31F0230E2006B53D5 /* DisconnectTask.m in Sources */,
+				2EFBADE01F0230B6006B53D5 /* ConnectTask.m in Sources */,
 				1FAEF2341DEE81D1002F3AA6 /* LogUtil.m in Sources */,
 				029F91D91E251214000CA522 /* GPBWireFormat.m in Sources */,
 				1FB576F61CE209A500ADCF8C /* AppDelegate.mm in Sources */,

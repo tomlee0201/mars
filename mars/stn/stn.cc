@@ -26,7 +26,7 @@
 namespace mars{
     namespace stn{
         
-static uint32_t gs_taskid = 1;
+static uint32_t gs_taskid = 10;
 Task::Task():Task(atomic_inc32(&gs_taskid)) {}
         
 Task::Task(uint32_t _taskid) {

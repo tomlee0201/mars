@@ -72,7 +72,17 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
 }
 
 int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
+  
+  if (_taskid == 1) {
+    const char *data = (const char *)_inbuffer.Ptr();
+    if (*data != 0) {
+      NSLog(@"connect failure %d", *data);
+    }
+  } else if (_taskid == 3) {
     
+  } else {
+    
+  }
     int handle_type = mars::stn::kTaskFailHandleNormal;
     NSData* responseData = [NSData dataWithBytes:(const void *) _inbuffer.Ptr() length:_inbuffer.Length()];
     NSInteger errorCode = [[NetworkService sharedInstance] Buffer2ResponseWithTaskID:_taskid ResponseData:responseData userContext:_user_context];

@@ -33,7 +33,8 @@
 #import <mars/xlog/xlogger.h>
 #import <mars/xlog/xloggerbase.h>
 #import <mars/xlog/appender.h>
-
+#import "ConnectTask.h"
+#import "DisconnectTask.h"
 #import "stnproto_logic.h"
 
 using namespace mars::stn;
@@ -114,10 +115,18 @@ static NetworkService * sharedSingleton = nil;
     Task ctask;
     ctask.cmdid = task.cmdid;
     ctask.channel_select = task.channel_select;
-    ctask.cgi = std::string(task.cgi.UTF8String);
-    ctask.shortlink_host_list.push_back(std::string(task.host.UTF8String));
+//    ctask.cgi = std::string(task.cgi.UTF8String);
+//    ctask.shortlink_host_list.push_back(std::string(task.host.UTF8String));
     ctask.user_context = (__bridge void*)task;
-    
+  
+  if ([task isMemberOfClass:CGITask.class]) {
+    ctask.need_authed = true;
+  } else if ([task isMemberOfClass:ConnectTask.class]) {
+    ctask.taskid = 1; //CONNECT_SEQ
+  } else if ([task isMemberOfClass:DisconnectTask.class]) {
+    ctask.taskid = 3; //DISCONNECT_SEQ
+  }
+  
     mars::stn::StartTask(ctask);
     
     NSString *taskIdKey = [NSString stringWithFormat:@"%d", ctask.taskid];

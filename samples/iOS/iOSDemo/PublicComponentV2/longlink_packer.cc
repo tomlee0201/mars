@@ -29,18 +29,33 @@
 #endif
 #include "mars/comm/autobuffer.h"
 #include "mars/stn/stn.h"
+#include "libemqtt.h"
 
 static uint32_t sg_client_version = 0;
 
-#pragma pack(push, 1)
-struct __STNetMsgXpHeader {
-    uint32_t    head_length;
-    uint32_t    client_version;
-    uint32_t    cmdid;
-    uint32_t    seq;
-    uint32_t	body_length;
-};
-#pragma pack(pop)
+
+/*
+
+MQTT_MSG_CONNECT       -->    MQTT_CONNECT_CMDID
+MQTT_MSG_CONNACK       <--    MQTT_CONNECT_CMDID
+MQTT_MSG_PUBLISH       -->    MQTT_SEND_OUT_CMDID
+MQTT_MSG_PUBLISH       <--    PUSH_DATA_TASKID
+MQTT_MSG_PUBACK        -->    MQTT_SEND_OUT_CMDID
+MQTT_MSG_PUBACK        <--    PUSH_DATA_TASKID
+MQTT_MSG_PINGREQ       -->    NOOP_CMDID
+MQTT_MSG_PINGRESP      <--    NOOP_CMDID
+MQTT_MSG_DISCONNECT    -->    MQTT_DISCONNECT_CMDID
+ 
+ MQTT_MSG_PUBREC        5<<4
+ MQTT_MSG_PUBREL        6<<4
+ MQTT_MSG_PUBCOMP       7<<4
+ MQTT_MSG_SUBSCRIBE     8<<4
+ MQTT_MSG_SUBACK        9<<4
+ MQTT_MSG_UNSUBSCRIBE  10<<4
+ MQTT_MSG_UNSUBACK     11<<4
+ 
+ */
+
 
 namespace mars {
 namespace stn {
@@ -54,49 +69,138 @@ void SetClientVersion(uint32_t _client_version)  {
 }
 
 
+#define NOOP_CMDID 6
+#define SIGNALKEEP_CMDID 243
+#define PUSH_DATA_TASKID 0
+#define MQTT_CONNECT_CMDID 10
+#define MQTT_SEND_OUT_CMDID 11
+#define MQTT_DISCONNECT_CMDID 12
+  
+#define CONNECT_SEQ 1
+#define PING_SEQ 2
+#define DISCONNECT_SEQ 3
+  
 static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
-    __STNetMsgXpHeader st = {0};
-    if (_packed_len < sizeof(__STNetMsgXpHeader)) {
-        _package_len = 0;
-        _body_len = 0;
-        return LONGLINK_UNPACK_CONTINUE;
-    }
-    
-    memcpy(&st, _packed, sizeof(__STNetMsgXpHeader));
-    
-    uint32_t head_len = ntohl(st.head_length);
-    uint32_t client_version = ntohl(st.client_version);
-    if (client_version != sg_client_version) {
-        _package_len = 0;
-        _body_len = 0;
-    	return LONGLINK_UNPACK_FALSE;
-    }
-    _cmdid = ntohl(st.cmdid);
-	_seq = ntohl(st.seq);
-	_body_len = ntohl(st.body_length);
-	_package_len = head_len + _body_len;
+//    __STNetMsgXpHeader st = {0};
+//    if (_packed_len < sizeof(__STNetMsgXpHeader)) {
+//        _package_len = 0;
+//        _body_len = 0;
+//        return LONGLINK_UNPACK_CONTINUE;
+//    }
+//    
+//    memcpy(&st, _packed, sizeof(__STNetMsgXpHeader));
+//    
+//    uint32_t head_len = ntohl(st.head_length);
+//    uint32_t client_version = ntohl(st.client_version);
+//    if (client_version != sg_client_version) {
+//        _package_len = 0;
+//        _body_len = 0;
+//    	return LONGLINK_UNPACK_FALSE;
+//    }
+//    _cmdid = ntohl(st.cmdid);
+//	_seq = ntohl(st.seq);
+//	_body_len = ntohl(st.body_length);
+//	_package_len = head_len + _body_len;
+//
+//    if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
+//    if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
+//    
+//    return LONGLINK_UNPACK_OK;
+  if (_packed_len < 2) {
+    return LONGLINK_UNPACK_CONTINUE;
+  }
+  const unsigned char *data = ( unsigned char *)_packed;
+  int packLen = *(data + 1);
+  if (packLen + 2 < _packed_len) {
+    return LONGLINK_UNPACK_CONTINUE;
+  }
 
-    if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
-    if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
-    
-    return LONGLINK_UNPACK_OK;
+  _package_len = packLen + 2;
+  _body_len = _packed_len;
+  
+      if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
+      if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
+  
+
+  switch (MQTTParseMessageType(( unsigned char *)_packed)) {
+    case MQTT_MSG_CONNACK:
+      _cmdid = MQTT_CONNECT_CMDID;
+      _seq = CONNECT_SEQ;
+      _body_len = _packed_len - 3;
+      break;
+      
+    case MQTT_MSG_PUBLISH:
+      _cmdid = PUSH_DATA_TASKID;
+      _seq = 0;
+      _body_len = _packed_len - 3;
+      break;
+    case MQTT_MSG_PUBACK:
+      _cmdid = MQTT_SEND_OUT_CMDID;
+      _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
+      break;
+      
+    case MQTT_MSG_PUBREC:
+    case MQTT_MSG_PUBREL:
+    case MQTT_MSG_PUBCOMP:
+    case MQTT_MSG_SUBACK:
+    case MQTT_MSG_UNSUBACK:
+      //no available
+      break;
+
+    case MQTT_MSG_PINGRESP:
+      _cmdid = NOOP_CMDID;
+      _seq = Task::kNoopTaskID;
+      break;
+      
+    case MQTT_MSG_SUBSCRIBE:
+    case MQTT_MSG_UNSUBSCRIBE:
+    case MQTT_MSG_PINGREQ:
+    case MQTT_MSG_CONNECT:
+    case MQTT_MSG_DISCONNECT:
+      //can not receive
+      break;
+      
+    default:
+      break;
+  }
+  
+  return LONGLINK_UNPACK_OK;
 }
 
 void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
 = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
-    __STNetMsgXpHeader st = {0};
-    st.head_length = htonl(sizeof(__STNetMsgXpHeader));
-    st.client_version = htonl(sg_client_version);
-    st.cmdid = htonl(_cmdid);
-    st.seq = htonl(_seq);
-    st.body_length = htonl(_body.Length());
+//    __STNetMsgXpHeader st = {0};
+//    st.head_length = htonl(sizeof(__STNetMsgXpHeader));
+//    st.client_version = htonl(sg_client_version);
+//    st.cmdid = htonl(_cmdid);
+//    st.seq = htonl(_seq);
+//    st.body_length = htonl(_body.Length());
+//
+//    _packed.AllocWrite(sizeof(__STNetMsgXpHeader) + _body.Length());
+//    _packed.Write(&st, sizeof(st));
+//    
+//    if (NULL != _body.Ptr()) _packed.Write(_body.Ptr(), _body.Length());
+//    
+//    _packed.Seek(0, AutoBuffer::ESeekStart);
+  switch(_cmdid) {
+    case NOOP_CMDID:
+      mqtt_ping(_packed);
+      break;
+    case SIGNALKEEP_CMDID:
+      break;
+    case PUSH_DATA_TASKID:
+      break;
+    case MQTT_CONNECT_CMDID:
+      mqtt_connect(_packed);
+      break;
+    case MQTT_SEND_OUT_CMDID:
 
-    _packed.AllocWrite(sizeof(__STNetMsgXpHeader) + _body.Length());
-    _packed.Write(&st, sizeof(st));
-    
-    if (NULL != _body.Ptr()) _packed.Write(_body.Ptr(), _body.Length());
-    
-    _packed.Seek(0, AutoBuffer::ESeekStart);
+      mqtt_publish_with_qos((char *)_extension.Ptr(), (char *)_body.Ptr(), 1, 1, _seq, _packed);
+      break;
+    case MQTT_DISCONNECT_CMDID:
+      break;
+  }
+  _packed.Seek(0, AutoBuffer::ESeekStart);
 };
 
 
@@ -112,10 +216,6 @@ int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _s
     return ret;
 };
 
-
-#define NOOP_CMDID 6
-#define SIGNALKEEP_CMDID 243
-#define PUSH_DATA_TASKID 0
 
 uint32_t (*longlink_noop_cmdid)()
 = []() -> uint32_t {
@@ -159,7 +259,7 @@ bool (*longlink_ispush)(uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _bo
     
 bool (*longlink_identify_isresp)(uint32_t _sent_seq, uint32_t _cmdid, uint32_t _recv_seq, const AutoBuffer& _body, const AutoBuffer& _extend)
 = [](uint32_t _sent_seq, uint32_t _cmdid, uint32_t _recv_seq, const AutoBuffer& _body, const AutoBuffer& _extend) {
-    return _sent_seq == _recv_seq && 0 != _sent_seq;
+    return _sent_seq == _recv_seq && PUSH_DATA_TASKID != _sent_seq;
 };
 
 }
