@@ -52,6 +52,7 @@
 }
 
 -(int)onPostDecode:(NSData*)responseData {
+  [self dismissViewControllerAnimated:YES completion:nil];
   return 0;
 }
 

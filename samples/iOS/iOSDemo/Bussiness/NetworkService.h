@@ -40,6 +40,8 @@
 - (void)createMars;
 
 - (void)setClientVersion:(UInt32)clientVersion;
+- (void)setUserName:(NSString *)userName password:(NSString *)password;
+
 - (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port;
 - (void)setShortLinkPort:(const unsigned short)port;
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port debugIP:(NSString *)IP;

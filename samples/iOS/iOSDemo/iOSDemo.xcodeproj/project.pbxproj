@@ -70,6 +70,8 @@
 		2EFBADDD1F01FB9D006B53D5 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADDC1F01FB9D006B53D5 /* libemqtt.cc */; };
 		2EFBADE01F0230B6006B53D5 /* ConnectTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADDF1F0230B6006B53D5 /* ConnectTask.m */; };
 		2EFBADE31F0230E2006B53D5 /* DisconnectTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFBADE21F0230E2006B53D5 /* DisconnectTask.m */; };
+		2EFBADE81F0250BC006B53D5 /* addressbook.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EFBADE71F0250BC006B53D5 /* addressbook.proto */; };
+		2EFBADEA1F025164006B53D5 /* libprotobuf.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFBADE91F025164006B53D5 /* libprotobuf.tbd */; };
 		4BDBD14B1E07F611006C62F5 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */; };
 		4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB577871CE20FA300ADCF8C /* libresolv.9.tbd */; };
 		4BDBD16D1E0912BE006C62F5 /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F26718B1DD2B115003F00A1 /* mars.framework */; };
@@ -241,6 +243,8 @@
 		2EFBADDF1F0230B6006B53D5 /* ConnectTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectTask.m; path = Bussiness/ConnectTask.m; sourceTree = "<group>"; };
 		2EFBADE11F0230E2006B53D5 /* DisconnectTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisconnectTask.h; sourceTree = "<group>"; };
 		2EFBADE21F0230E2006B53D5 /* DisconnectTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisconnectTask.m; sourceTree = "<group>"; };
+		2EFBADE71F0250BC006B53D5 /* addressbook.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addressbook.proto; sourceTree = "<group>"; };
+		2EFBADE91F025164006B53D5 /* libprotobuf.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libprotobuf.tbd; path = usr/lib/libprotobuf.tbd; sourceTree = SDKROOT; };
 		4BDBD1491E07F611006C62F5 /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkStatus.h; path = Bussiness/NetworkStatus.h; sourceTree = "<group>"; };
 		4BDBD14A1E07F611006C62F5 /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkStatus.m; path = Bussiness/NetworkStatus.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -250,6 +254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EFBADEA1F025164006B53D5 /* libprotobuf.tbd in Frameworks */,
 				4BDBD16D1E0912BE006C62F5 /* mars.framework in Frameworks */,
 				4BDBD16C1E0912AD006C62F5 /* libresolv.9.tbd in Frameworks */,
 				1FB577861CE20F7D00ADCF8C /* SystemConfiguration.framework in Frameworks */,
@@ -349,6 +354,7 @@
 		1F7626C11E12BA69000A4AE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EFBADE91F025164006B53D5 /* libprotobuf.tbd */,
 				1F7626C21E12BA6A000A4AE6 /* protobuf.framework */,
 			);
 			name = Frameworks;
@@ -505,6 +511,7 @@
 		1FDE37AF1DE5D27000CAC712 /* Proto */ = {
 			isa = PBXGroup;
 			children = (
+				2EFBADE71F0250BC006B53D5 /* addressbook.proto */,
 				029F91741E251205000CA522 /* Chat.pbobjc.h */,
 				029F91751E251205000CA522 /* Chat.pbobjc.m */,
 				029F91761E251205000CA522 /* chat.proto */,
@@ -658,6 +665,7 @@
 				029F91871E251205000CA522 /* Person.proto in Resources */,
 				029F91831E251205000CA522 /* main.proto in Resources */,
 				029F91851E251205000CA522 /* messagepush.proto in Resources */,
+				2EFBADE81F0250BC006B53D5 /* addressbook.proto in Resources */,
 				1FB577011CE209A500ADCF8C /* LaunchScreen.storyboard in Resources */,
 				1FB576FE1CE209A500ADCF8C /* Assets.xcassets in Resources */,
 				1FB576FC1CE209A500ADCF8C /* Main.storyboard in Resources */,

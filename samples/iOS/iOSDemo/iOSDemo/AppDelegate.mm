@@ -40,6 +40,7 @@
     [[NetworkService sharedInstance] setCallBack];
     [[NetworkService sharedInstance] createMars];
     [[NetworkService sharedInstance] setClientVersion:200];
+  [[NetworkService sharedInstance] setUserName:@"testuser" password:@"passwd"];
     [[NetworkService sharedInstance] setLongLinkAddress:@"localhost" port:1883];
 //    [[NetworkService sharedInstance] setShortLinkPort:8080];
     [[NetworkService sharedInstance] reportEvent_OnForeground:YES];

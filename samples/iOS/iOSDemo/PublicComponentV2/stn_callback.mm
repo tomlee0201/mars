@@ -68,6 +68,10 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
     }
     _outbuffer.AllocWrite(requestData.length);
     _outbuffer.Write(requestData.bytes,requestData.length);
+#define MQTT_TOPIC "topic"
+  
+  _extend.AllocWrite(sizeof(MQTT_TOPIC));
+  _extend.Write(MQTT_TOPIC, sizeof(MQTT_TOPIC));
     return requestData.length > 0;
 }
 

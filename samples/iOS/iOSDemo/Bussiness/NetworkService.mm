@@ -19,7 +19,7 @@
 //
 
 #include "NetworkService.h"
-
+#import <UIKit/UIKit.h>
 #import <SystemConfiguration/SCNetworkReachability.h>
 
 #import "NetworkDelegate.h"
@@ -36,6 +36,7 @@
 #import "ConnectTask.h"
 #import "DisconnectTask.h"
 #import "stnproto_logic.h"
+#import "libemqtt.h"
 
 using namespace mars::stn;
 
@@ -68,11 +69,16 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void) createMars {
+    mqtt_init([[UIDevice currentDevice].identifierForVendor.UUIDString cStringUsingEncoding:kCFStringEncodingUTF8]);
     mars::baseevent::OnCreate();
 }
 
 - (void)setClientVersion:(UInt32)clientVersion {
     mars::stn::SetClientVersion(clientVersion);
+}
+
+- (void)setUserName:(NSString *)userName password:(NSString *)password {
+  mqtt_init_auth([userName cStringUsingEncoding:kCFStringEncodingUTF8], [password cStringUsingEncoding:kCFStringEncodingUTF8]);
 }
 
 - (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port {
