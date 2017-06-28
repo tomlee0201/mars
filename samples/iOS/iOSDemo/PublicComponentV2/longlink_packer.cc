@@ -137,6 +137,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     case MQTT_MSG_PUBACK:
       _cmdid = MQTT_SEND_OUT_CMDID;
       _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
+      _body_len = _packed_len - 3;
       break;
       
     case MQTT_MSG_PUBREC:
