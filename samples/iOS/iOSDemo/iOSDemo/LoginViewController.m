@@ -52,11 +52,11 @@
 }
 
 -(int)onPostDecode:(NSData*)responseData {
-  [self dismissViewControllerAnimated:YES completion:nil];
   return 0;
 }
 
 -(int)onTaskEnd:(uint32_t)tid errType:(uint32_t)errtype errCode:(uint32_t)errcode {
+  [self dismissViewControllerAnimated:YES completion:nil];
   return 0;
 }
 
