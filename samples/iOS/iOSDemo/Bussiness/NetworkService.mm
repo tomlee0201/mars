@@ -33,7 +33,6 @@
 #import <mars/xlog/xlogger.h>
 #import <mars/xlog/xloggerbase.h>
 #import <mars/xlog/appender.h>
-#import "ConnectTask.h"
 #import "DisconnectTask.h"
 #import "stnproto_logic.h"
 #import "libemqtt.h"
@@ -127,8 +126,6 @@ static NetworkService * sharedSingleton = nil;
   
   if ([task isMemberOfClass:CGITask.class]) {
     ctask.need_authed = true;
-  } else if ([task isMemberOfClass:ConnectTask.class]) {
-    ctask.taskid = 1; //CONNECT_SEQ
   } else if ([task isMemberOfClass:DisconnectTask.class]) {
     ctask.taskid = 3; //DISCONNECT_SEQ
   }

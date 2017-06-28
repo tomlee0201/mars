@@ -19,10 +19,8 @@
 
 #import "LoginViewController.h"
 #import "AppDelegate.h"
-#import "ConnectTask.h"
-#import "NetworkService.h"
 
-@interface LoginViewController () <UITextFieldDelegate, UINotifyDelegate>
+@interface LoginViewController () <UITextFieldDelegate>
 @property (nonatomic, weak) IBOutlet UITextField *nameTextField;
 
 @end
@@ -38,26 +36,10 @@
     if (textField.text.length > 0) {
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         appDelegate.username = textField.text;
-//        [self dismissViewControllerAnimated:YES completion:nil];
-      
-      ConnectTask *connect = [[ConnectTask alloc] initAll:ChannelType_LongConn AndCmdId:10  AndCGIUri:nil AndHost:nil];
-      [[NetworkService sharedInstance] startTask:connect ForUI:self];
+        [self dismissViewControllerAnimated:YES completion:nil];
       
     }
     return NO;
-}
-
--(NSData*)requestSendData {
-  return [@"Hello" dataUsingEncoding:kCFStringEncodingUTF8];
-}
-
--(int)onPostDecode:(NSData*)responseData {
-  return 0;
-}
-
--(int)onTaskEnd:(uint32_t)tid errType:(uint32_t)errtype errCode:(uint32_t)errcode {
-  [self dismissViewControllerAnimated:YES completion:nil];
-  return 0;
 }
 
 @end

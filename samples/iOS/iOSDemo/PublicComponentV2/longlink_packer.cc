@@ -76,36 +76,11 @@ void SetClientVersion(uint32_t _client_version)  {
 #define MQTT_SEND_OUT_CMDID 11
 #define MQTT_DISCONNECT_CMDID 12
   
-#define CONNECT_SEQ 1
+
 #define PING_SEQ 2
 #define DISCONNECT_SEQ 3
   
 static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
-//    __STNetMsgXpHeader st = {0};
-//    if (_packed_len < sizeof(__STNetMsgXpHeader)) {
-//        _package_len = 0;
-//        _body_len = 0;
-//        return LONGLINK_UNPACK_CONTINUE;
-//    }
-//    
-//    memcpy(&st, _packed, sizeof(__STNetMsgXpHeader));
-//    
-//    uint32_t head_len = ntohl(st.head_length);
-//    uint32_t client_version = ntohl(st.client_version);
-//    if (client_version != sg_client_version) {
-//        _package_len = 0;
-//        _body_len = 0;
-//    	return LONGLINK_UNPACK_FALSE;
-//    }
-//    _cmdid = ntohl(st.cmdid);
-//	_seq = ntohl(st.seq);
-//	_body_len = ntohl(st.body_length);
-//	_package_len = head_len + _body_len;
-//
-//    if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
-//    if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
-//    
-//    return LONGLINK_UNPACK_OK;
   if (_packed_len < 2) {
     return LONGLINK_UNPACK_CONTINUE;
   }
@@ -125,7 +100,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
   switch (MQTTParseMessageType(( unsigned char *)_packed)) {
     case MQTT_MSG_CONNACK:
       _cmdid = MQTT_CONNECT_CMDID;
-      _seq = CONNECT_SEQ;
+      _seq = Task::kLongLinkIdentifyCheckerTaskID;
       _body_len = _packed_len - 3;
       break;
       

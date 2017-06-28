@@ -19,6 +19,7 @@
 #import <mars/stn/stn.h>
 
 #include "NetworkService.h"
+#include "libemqtt.h"
 
 namespace mars {
     namespace stn {
@@ -127,13 +128,25 @@ void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
 // 需要组件组包，发送一个req过去，网络成功会有resp，但没有taskend，处理事务时要注意网络时序
 // 不需组件组包，使用长链做一个sync，不用重试
 int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, AutoBuffer& _buffer_hash, int32_t& _cmdid) {
-    
-    return IdentifyMode::kCheckNever;
+  
+//  mqtt_connect(_identify_buffer);
+// 
+//  _identify_buffer.Seek(0, AutoBuffer::ESeekStart);
+
+  _cmdid = 10;
+  
+    return IdentifyMode::kCheckNow;
 }
 
 bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash) {
+  unsigned char * _packed = ( unsigned char *)_response_buffer.Ptr();
+  
+  if (*_packed == 0) {
+    //authed
+  } else {
     
-    return false;
+  }
+    return true;
 }
 //
 void StnCallBack::RequestSync() {
