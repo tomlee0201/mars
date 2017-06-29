@@ -92,6 +92,11 @@ public:
     std::vector<std::string> shortlink_host_list;
 };
 
+      struct TaskEx : Task {
+        const AutoBuffer& buffer;
+        const AutoBuffer& extend;
+      };
+      
 enum TaskFailHandleType {
 	kTaskFailHandleNormal = 0,
 	kTaskFailHandleNoError = 0,
@@ -210,7 +215,8 @@ struct IPPortItem {
     IPSourceType 	source_type;
     std::string 	str_host;
 };
-        
+      
+extern void login(std::string &userName, std::string &passwd);
 extern bool (*MakesureAuthed)();
 
 //流量统计

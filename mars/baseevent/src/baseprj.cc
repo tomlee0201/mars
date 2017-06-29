@@ -23,12 +23,15 @@
 #include "mars/comm/bootregister.h"
 #include "mars/comm/platform_comm.h"
 #include "mars/comm/thread/lock.h"
+#include "mars/stn/mqtt/libemqtt.h"
+#include "mars/app/app.h"
 
 namespace mars{
     namespace baseevent{
         
         void OnCreate()
         {
+            mqtt_init(GetDeviceInfo().devicename.c_str());
             GetSignalOnCreate()();
         }
         

@@ -68,7 +68,6 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void) createMars {
-    mqtt_init([[UIDevice currentDevice].identifierForVendor.UUIDString cStringUsingEncoding:kCFStringEncodingUTF8]);
     mars::baseevent::OnCreate();
 }
 
@@ -77,7 +76,7 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)setUserName:(NSString *)userName password:(NSString *)password {
-  mqtt_init_auth([userName cStringUsingEncoding:kCFStringEncodingUTF8], [password cStringUsingEncoding:kCFStringEncodingUTF8]);
+  mars::stn::login([userName cStringUsingEncoding:kCFStringEncodingUTF8], [password cStringUsingEncoding:kCFStringEncodingUTF8]);
 }
 
 - (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port {

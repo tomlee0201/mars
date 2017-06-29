@@ -12,6 +12,11 @@
 		1F25B32F1CD33BEC00AC1003 /* stn_logic.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1F25B32B1CD33BEC00AC1003 /* stn_logic.cc */; };
 		1F25B3301CD33BEC00AC1003 /* stn.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1F25B32D1CD33BEC00AC1003 /* stn.cc */; };
 		1FCE8FF81D479D18002DB759 /* net_channel_factory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE8FF61D479D18002DB759 /* net_channel_factory.cc */; };
+		2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4A1F04727D000F2C79 /* libemqtt.cc */; };
+		2F395A561F04727E000F2C79 /* log_crypt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4C1F04727D000F2C79 /* log_crypt.cc */; };
+		2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4E1F04727D000F2C79 /* longlink_packer.cc */; };
+		2F395A581F04727E000F2C79 /* shortlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A501F04727D000F2C79 /* shortlink_packer.cc */; };
+		2F395A591F04727E000F2C79 /* stn_callback.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A531F04727D000F2C79 /* stn_callback.cc */; };
 		3170A02B177887B0004F5DDA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3170A02A177887B0004F5DDA /* Foundation.framework */; };
 		4B07F2E01C4F8E7A00FD1B8D /* anti_avalanche.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4B07F2D41C4F8E7A00FD1B8D /* anti_avalanche.cc */; };
 		4B07F2E11C4F8E7A00FD1B8D /* dynamic_timeout.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4B07F2D61C4F8E7A00FD1B8D /* dynamic_timeout.cc */; };
@@ -60,6 +65,17 @@
 		1FCE8FF51D479D08002DB759 /* shortlink_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shortlink_interface.h; sourceTree = "<group>"; };
 		1FCE8FF61D479D18002DB759 /* net_channel_factory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_channel_factory.cc; sourceTree = "<group>"; };
 		1FCE8FF71D479D18002DB759 /* net_channel_factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_channel_factory.h; sourceTree = "<group>"; };
+		2F395A4A1F04727D000F2C79 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
+		2F395A4B1F04727D000F2C79 /* libemqtt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libemqtt.h; sourceTree = "<group>"; };
+		2F395A4C1F04727D000F2C79 /* log_crypt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = log_crypt.cc; sourceTree = "<group>"; };
+		2F395A4D1F04727D000F2C79 /* log_crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log_crypt.h; sourceTree = "<group>"; };
+		2F395A4E1F04727D000F2C79 /* longlink_packer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = longlink_packer.cc; sourceTree = "<group>"; };
+		2F395A4F1F04727D000F2C79 /* longlink_packer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = longlink_packer.h; sourceTree = "<group>"; };
+		2F395A501F04727D000F2C79 /* shortlink_packer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shortlink_packer.cc; sourceTree = "<group>"; };
+		2F395A511F04727D000F2C79 /* shortlink_packer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shortlink_packer.h; sourceTree = "<group>"; };
+		2F395A521F04727D000F2C79 /* stn_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stn_callback.h; sourceTree = "<group>"; };
+		2F395A531F04727D000F2C79 /* stn_callback.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stn_callback.cc; sourceTree = "<group>"; };
+		2F395A541F04727D000F2C79 /* stnproto_logic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stnproto_logic.h; sourceTree = "<group>"; };
 		3170A027177887B0004F5DDA /* libstn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libstn.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3170A02A177887B0004F5DDA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4B07F2D41C4F8E7A00FD1B8D /* anti_avalanche.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = anti_avalanche.cc; sourceTree = "<group>"; };
@@ -166,6 +182,24 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		2F395A491F04727D000F2C79 /* mqtt */ = {
+			isa = PBXGroup;
+			children = (
+				2F395A4A1F04727D000F2C79 /* libemqtt.cc */,
+				2F395A4B1F04727D000F2C79 /* libemqtt.h */,
+				2F395A4C1F04727D000F2C79 /* log_crypt.cc */,
+				2F395A4D1F04727D000F2C79 /* log_crypt.h */,
+				2F395A4E1F04727D000F2C79 /* longlink_packer.cc */,
+				2F395A4F1F04727D000F2C79 /* longlink_packer.h */,
+				2F395A501F04727D000F2C79 /* shortlink_packer.cc */,
+				2F395A511F04727D000F2C79 /* shortlink_packer.h */,
+				2F395A521F04727D000F2C79 /* stn_callback.h */,
+				2F395A531F04727D000F2C79 /* stn_callback.cc */,
+				2F395A541F04727D000F2C79 /* stnproto_logic.h */,
+			);
+			path = mqtt;
+			sourceTree = "<group>";
+		};
 		3170A01E177887B0004F5DDA = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +209,7 @@
 				1F25B32C1CD33BEC00AC1003 /* stn_logic.h */,
 				1F25B32D1CD33BEC00AC1003 /* stn.cc */,
 				1F25B32E1CD33BEC00AC1003 /* stn.h */,
+				2F395A491F04727D000F2C79 /* mqtt */,
 				134DEBC5197631D90055FA73 /* src */,
 				3170A029177887B0004F5DDA /* Frameworks */,
 				3170A028177887B0004F5DDA /* Products */,
@@ -249,20 +284,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				134DEC5E197631D90055FA73 /* simple_ipport_sort.cc in Sources */,
+				2F395A591F04727E000F2C79 /* stn_callback.cc in Sources */,
 				4B07F3171C4F8F0700FD1B8D /* net_check_logic.cc in Sources */,
 				4B07F3101C4F8F0700FD1B8D /* longlink_connect_monitor.cc in Sources */,
 				4B07F2E11C4F8E7A00FD1B8D /* dynamic_timeout.cc in Sources */,
 				4B07F3191C4F8F0700FD1B8D /* netsource_timercheck.cc in Sources */,
+				2F395A561F04727E000F2C79 /* log_crypt.cc in Sources */,
 				4B07F2E31C4F8E7A00FD1B8D /* flow_limit.cc in Sources */,
 				1F25B3301CD33BEC00AC1003 /* stn.cc in Sources */,
 				1F25B32F1CD33BEC00AC1003 /* stn_logic.cc in Sources */,
 				4B07F3131C4F8F0700FD1B8D /* longlink_speed_test.cc in Sources */,
+				2F395A581F04727E000F2C79 /* shortlink_packer.cc in Sources */,
 				4B07F31E1C4F8F0700FD1B8D /* timing_sync.cc in Sources */,
 				4B07F3181C4F8F0700FD1B8D /* net_core.cc in Sources */,
 				4BA323A61C4FA889009B26F5 /* net_source.cc in Sources */,
 				134DEC5D197631D90055FA73 /* signalling_keeper.cc in Sources */,
 				4B07F2E41C4F8E7A00FD1B8D /* frequency_limit.cc in Sources */,
 				4F85ED521CA934EF0039267F /* task_profile.cc in Sources */,
+				2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */,
 				4B07F31C1C4F8F0700FD1B8D /* smart_heartbeat.cc in Sources */,
 				4B07F3151C4F8F0700FD1B8D /* longlink_task_manager.cc in Sources */,
 				4B07F31A1C4F8F0700FD1B8D /* shortlink_task_manager.cc in Sources */,
@@ -270,6 +309,7 @@
 				4B07F2E01C4F8E7A00FD1B8D /* anti_avalanche.cc in Sources */,
 				1FCE8FF81D479D18002DB759 /* net_channel_factory.cc in Sources */,
 				4B07F3161C4F8F0700FD1B8D /* longlink.cc in Sources */,
+				2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */,
 				4B07F3111C4F8F0700FD1B8D /* longlink_identify_checker.cc in Sources */,
 				4B07F31B1C4F8F0700FD1B8D /* shortlink.cc in Sources */,
 			);

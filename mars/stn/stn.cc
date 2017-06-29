@@ -21,7 +21,7 @@
 #include "mars/stn/stn.h"
 
 #include "mars/comm/thread/atomic_oper.h"
-
+#include "mars/stn/mqtt/libemqtt.h"
 
 namespace mars{
     namespace stn{
@@ -51,6 +51,8 @@ Task::Task(uint32_t _taskid) {
     user_context = NULL;
 
 }
-        
+      void login(std::string &userName, std::string &passwd) {
+        mqtt_init_auth(userName.c_str(), passwd.c_str());
+      }
     }
 }
