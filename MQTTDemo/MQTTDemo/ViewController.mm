@@ -33,8 +33,14 @@
   mars::stn::StartTask(*publishTask);
 }
 - (IBAction)onSubscribeButton:(id)sender {
+  mars::stn::MQTTSubscribeTask *subscribeTask = new mars::stn::MQTTSubscribeTask(new PublishCallback());
+  subscribeTask->topic = [self.subscribeTopicField.text cStringUsingEncoding:kCFStringEncodingUTF8];
+  mars::stn::StartTask(*subscribeTask);
 }
 - (IBAction)onUnsubscribeButton:(id)sender {
+  mars::stn::MQTTUnsubscribeTask *unsubscribeTask = new mars::stn::MQTTUnsubscribeTask(new PublishCallback());
+  unsubscribeTask->topic = [self.subscribeTopicField.text cStringUsingEncoding:kCFStringEncodingUTF8];
+  mars::stn::StartTask(*unsubscribeTask);
 }
 
 

@@ -62,8 +62,18 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         cmdid = MQTT_SEND_OUT_CMDID;
       }
       
+      MQTTSubscribeTask::MQTTSubscribeTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_SUBSCRIBE) , m_callback(callback) {
+        cmdid = MQTT_SUBSCRIBE_CMDID;
+      }
+      
+      MQTTUnsubscribeTask::MQTTUnsubscribeTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_UNSUBSCRIBE) , m_callback(callback) {
+        cmdid = MQTT_UNSUBSCRIBE_CMDID;
+      }
+      
+      
+      
       MQTTDisconnectTask::MQTTDisconnectTask() : MQTTTask(MQTT_MSG_DISCONNECT) {
-        
+        cmdid = MQTT_DISCONNECT_CMDID;
       }
      
       void login(std::string &userName, std::string &passwd) {

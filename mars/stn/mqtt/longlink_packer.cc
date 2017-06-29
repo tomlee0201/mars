@@ -64,16 +64,10 @@ void SetClientVersion(uint32_t _client_version)  {
     sg_client_version = _client_version;
 }
 
-
-#define NOOP_CMDID 6
-#define SIGNALKEEP_CMDID 243
-#define PUSH_DATA_TASKID 0
-#define MQTT_CONNECT_CMDID 10
-#define MQTT_SEND_OUT_CMDID 11
-#define MQTT_DISCONNECT_CMDID 12
   
   
 static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
+  
   if (_packed_len < 2) {
     return LONGLINK_UNPACK_CONTINUE;
   }
@@ -94,26 +88,33 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     case MQTT_MSG_CONNACK:
       _cmdid = MQTT_CONNECT_CMDID;
       _seq = Task::kLongLinkIdentifyCheckerTaskID;
-      _body_len = _packed_len - 3;
+      _body_len = _packed_len - 2;
       break;
       
     case MQTT_MSG_PUBLISH:
       _cmdid = PUSH_DATA_TASKID;
       _seq = 0;
-      _body_len = _packed_len - 3;
+      _body_len = _packed_len - 2;
       break;
     case MQTT_MSG_PUBACK:
       _cmdid = MQTT_SEND_OUT_CMDID;
       _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 3;
+      _body_len = _packed_len - 4;
       break;
       
     case MQTT_MSG_PUBREC:
     case MQTT_MSG_PUBREL:
     case MQTT_MSG_PUBCOMP:
+      break;
     case MQTT_MSG_SUBACK:
+      _cmdid = MQTT_SUBSCRIBE_CMDID;
+      _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
+      _body_len = _packed_len - 4;
+      break;
     case MQTT_MSG_UNSUBACK:
-      //no available
+      _cmdid = MQTT_UNSUBSCRIBE_CMDID;
+      _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
+      _body_len = _packed_len - 4;
       break;
 
     case MQTT_MSG_PINGRESP:
@@ -151,9 +152,16 @@ void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, c
       break;
     case MQTT_SEND_OUT_CMDID:
 
-      mqtt_publish_with_qos((char *)_extension.Ptr(), (char *)_body.Ptr(), 1, 1, _seq, _packed);
+      mqtt_publish_with_qos((char *)_body.Ptr(), (char *)_extension.Ptr(), 1, 1, _seq, _packed);
+      break;
+    case MQTT_SUBSCRIBE_CMDID:
+      mqtt_subscribe((char *)_body.Ptr(), _seq, _packed);
+      break;
+    case MQTT_UNSUBSCRIBE_CMDID:
+      mqtt_unsubscribe((char *)_body.Ptr(), _seq, _packed);
       break;
     case MQTT_DISCONNECT_CMDID:
+      mqtt_disconnect(_packed);
       break;
   }
   _packed.Seek(0, AutoBuffer::ESeekStart);

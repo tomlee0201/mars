@@ -38,7 +38,14 @@ namespace mars{
 #define MQTT_CONNECT_CMDID 10
 #define MQTT_SEND_OUT_CMDID 11
 #define MQTT_DISCONNECT_CMDID 12
+#define MQTT_SUBSCRIBE_CMDID 13
+#define MQTT_UNSUBSCRIBE_CMDID 14
     
+      typedef enum : int32_t {
+        ChannelType_ShortConn = 1,
+        ChannelType_LongConn = 2,
+        ChannelType_All = 3
+      } ChannelType;
       
       typedef enum : int {
         MQTT_MSG_CONNECT = 1<<4,
@@ -130,13 +137,25 @@ public:
         MQTTTask(MQTT_MSG_TYPE type);
       public:
         const MQTT_MSG_TYPE type;
-        std::string body;
+        std::string topic;
       };
       
       class MQTTPublishTask : public MQTTTask {
       public:
         MQTTPublishTask(MQTTPublishCallback *callback);
-        std::string topic;
+        std::string body;
+        MQTTPublishCallback *m_callback;
+      };
+      
+      class MQTTSubscribeTask : public MQTTTask {
+      public:
+        MQTTSubscribeTask(MQTTPublishCallback *callback);
+        MQTTPublishCallback *m_callback;
+      };
+      
+      class MQTTUnsubscribeTask : public MQTTTask {
+      public:
+        MQTTUnsubscribeTask(MQTTPublishCallback *callback);
         MQTTPublishCallback *m_callback;
       };
       

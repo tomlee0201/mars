@@ -66,15 +66,21 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
-    _outbuffer.AllocWrite(publishTask->body.length());
-    _outbuffer.Write(publishTask->body.c_str(), publishTask->body.length());
+    _extend.AllocWrite(publishTask->body.length());
+    _extend.Write(publishTask->body.c_str(), publishTask->body.length());
     
-    _extend.AllocWrite(publishTask->topic.length());
-    _extend.Write(publishTask->topic.c_str(), publishTask->topic.length());
+    _outbuffer.AllocWrite(publishTask->topic.length());
+    _outbuffer.Write(publishTask->topic.c_str(), publishTask->topic.length());
   }  else if (mqttTask->type == MQTT_MSG_DISCONNECT) {
     
-  } else {
-    
+  } else if (mqttTask->type == MQTT_MSG_SUBSCRIBE){
+    const MQTTSubscribeTask *subscribeTask = (const MQTTSubscribeTask *)_user_context;
+    _outbuffer.AllocWrite(subscribeTask->topic.length());
+    _outbuffer.Write(subscribeTask->topic.c_str(), subscribeTask->topic.length());
+  } else if (mqttTask->type == MQTT_MSG_UNSUBSCRIBE){
+    const MQTTUnsubscribeTask *unsubscribeTask = (const MQTTUnsubscribeTask *)_user_context;
+    _outbuffer.AllocWrite(unsubscribeTask->topic.length());
+    _outbuffer.Write(unsubscribeTask->topic.c_str(), unsubscribeTask->topic.length());
   }
   return true;
 }
@@ -87,16 +93,18 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
       publishTask->m_callback->onSuccess();
   }  else if (mqttTask->type == MQTT_MSG_DISCONNECT) {
     
+  } else if (mqttTask->type == MQTT_MSG_SUBSCRIBE){
+    const MQTTSubscribeTask *subscribeTask = (const MQTTSubscribeTask *)_user_context;
+    if (_error_code == 0)
+      subscribeTask->m_callback->onSuccess();
+  } else if (mqttTask->type == MQTT_MSG_UNSUBSCRIBE){
+    const MQTTUnsubscribeTask *unsubscribeTask = (const MQTTUnsubscribeTask *)_user_context;
+    if (_error_code == 0)
+      unsubscribeTask->m_callback->onSuccess();
   } else {
     
   }
     int handle_type = mars::stn::kTaskFailHandleNormal;
-//    NSData* responseData = [NSData dataWithBytes:(const void *) _inbuffer.Ptr() length:_inbuffer.Length()];
-//    NSInteger errorCode = [[NetworkService sharedInstance] Buffer2ResponseWithTaskID:_taskid ResponseData:responseData userContext:_user_context];
-//    
-//    if (errorCode != 0) {
-//        handle_type = mars::stn::kTaskFailHandleDefault;
-//    }
   
     return handle_type;
 }
@@ -107,6 +115,16 @@ int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _err
   const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
     if (_error_code > 0) {
       publishTask->m_callback->onFalure(_error_code);
+    }
+  } else if (mqttTask->type == MQTT_MSG_SUBSCRIBE){
+    const MQTTSubscribeTask *subscribeTask = (const MQTTSubscribeTask *)_user_context;
+    if (_error_code > 0) {
+      subscribeTask->m_callback->onFalure(_error_code);
+    }
+  } else if (mqttTask->type == MQTT_MSG_UNSUBSCRIBE){
+    const MQTTUnsubscribeTask *unsubscribeTask = (const MQTTUnsubscribeTask *)_user_context;
+    if (_error_code > 0) {
+      unsubscribeTask->m_callback->onFalure(_error_code);
     }
   } else {
     
