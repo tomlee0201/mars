@@ -132,8 +132,8 @@ void SetCallback(Callback* const callback) {
 	sg_callback = callback;
 }
 
-void (*StartTask)(const Task& _task)
-= [](const Task& _task) {
+void (*StartTask)(const MQTTTask& _task)
+= [](const MQTTTask& _task) {
     STN_WEAK_CALL(StartTask(_task));
 };
 

@@ -86,6 +86,7 @@ extern bool (*longlink_complexconnect_need_verify)();
 extern bool  (*longlink_ispush)(uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend);
 extern bool  (*longlink_identify_isresp)(uint32_t _sent_seq, uint32_t _cmdid, uint32_t _recv_seq, const AutoBuffer& _body, const AutoBuffer& _extend);
 
+      extern void SetClientVersion(uint32_t _client_version);
 }
 }
 #endif // STN_SRC_LONGLINKPACKER_H_

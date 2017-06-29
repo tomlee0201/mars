@@ -22,7 +22,7 @@
 #define STNCALLBACK_h
 
 #import <mars/stn/stn_logic.h>
-
+#import <mars/stn/stn.h>
 
 namespace mars {
     namespace stn {
@@ -30,15 +30,16 @@ namespace mars {
 class StnCallBack : public Callback {
     
 private:
-    StnCallBack() {}
+    StnCallBack() : m_connectionStatus(kConnectionStatusLogout) {};
     ~StnCallBack() {}
     StnCallBack(StnCallBack&);
     StnCallBack& operator = (StnCallBack&);
-    
+    ConnectionStatus m_connectionStatus;
 public:
     static StnCallBack* Instance();
     static void Release();
-    
+  
+    void updateConnectionStatus(ConnectionStatus newStatus);
     virtual bool MakesureAuthed();
     
     //流量统计

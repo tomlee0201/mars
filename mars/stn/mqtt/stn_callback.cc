@@ -17,6 +17,7 @@
 #include "mars/comm/autobuffer.h"
 #include "mars/comm/xlogger/xlogger.h"
 #include "mars/stn/stn.h"
+#include "net_core.h"
 
 #include "libemqtt.h"
 
@@ -37,9 +38,13 @@ void StnCallBack::Release() {
     delete instance_;
     instance_ = NULL;
 }
-        
+
+      void StnCallBack::updateConnectionStatus(ConnectionStatus newStatus) {
+        m_connectionStatus = newStatus;
+      }
+      
 bool StnCallBack::MakesureAuthed() {
-    return true;
+    return m_connectionStatus == kConnectionStatusConnected;
 }
 
 
@@ -58,32 +63,33 @@ void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid
 }
 
 bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select) {
-//    NSData* requestData =  [[NetworkService sharedInstance] Request2BufferWithTaskID:_taskid userContext:_user_context];
-//    if (requestData == nil) {
-//        requestData = [[NSData alloc] init];
-//    }
-//    _outbuffer.AllocWrite(requestData.length);
-//    _outbuffer.Write(requestData.bytes,requestData.length);
-//#define MQTT_TOPIC "topic"
-//  
-//  _extend.AllocWrite(sizeof(MQTT_TOPIC));
-//  _extend.Write(MQTT_TOPIC, sizeof(MQTT_TOPIC));
-//    return requestData.length > 0;
+  const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
+  if (mqttTask->type == MQTT_MSG_PUBLISH) {
+    const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
+    _outbuffer.AllocWrite(publishTask->body.length());
+    _outbuffer.Write(publishTask->body.c_str(), publishTask->body.length());
+    
+    _extend.AllocWrite(publishTask->topic.length());
+    _extend.Write(publishTask->topic.c_str(), publishTask->topic.length());
+  }  else if (mqttTask->type == MQTT_MSG_DISCONNECT) {
+    
+  } else {
+    
+  }
   return true;
 }
 
 int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
-//  
-//  if (_taskid == 1) {
-//    const char *data = (const char *)_inbuffer.Ptr();
-//    if (*data != 0) {
-//      NSLog(@"connect failure %d", *data);
-//    }
-//  } else if (_taskid == 3) {
-//    
-//  } else {
-//    
-//  }
+  const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
+  if (mqttTask->type == MQTT_MSG_PUBLISH) {
+    const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
+    if (_error_code == 0)
+      publishTask->m_callback->onSuccess();
+  }  else if (mqttTask->type == MQTT_MSG_DISCONNECT) {
+    
+  } else {
+    
+  }
     int handle_type = mars::stn::kTaskFailHandleNormal;
 //    NSData* responseData = [NSData dataWithBytes:(const void *) _inbuffer.Ptr() length:_inbuffer.Length()];
 //    NSInteger errorCode = [[NetworkService sharedInstance] Buffer2ResponseWithTaskID:_taskid ResponseData:responseData userContext:_user_context];
@@ -96,24 +102,38 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
 }
 
 int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
+  const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
+  if (mqttTask->type == MQTT_MSG_PUBLISH) {
+  const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
+    if (_error_code > 0) {
+      publishTask->m_callback->onFalure(_error_code);
+    }
+  } else {
     
-//    return (int)[[NetworkService sharedInstance] OnTaskEndWithTaskID:_taskid userContext:_user_context errType:_error_type errCode:_error_code];
+  }
+  delete mqttTask;
   return 0;
 
 }
 
+
+      
 void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
     
     switch (longlink_status) {
         case mars::stn::kServerFailed:
         case mars::stn::kServerDown:
         case mars::stn::kGateWayFailed:
+            updateConnectionStatus(kConnectionStatusUnconnected);
             break;
         case mars::stn::kConnecting:
+            updateConnectionStatus(kConnectionStatusConnectiong);
             break;
         case mars::stn::kConnected:
+            updateConnectionStatus(kConnectionStatusConnectiong);
             break;
         case mars::stn::kNetworkUnkown:
+            updateConnectionStatus(kConnectionStatusUnconnected);
             return;
         default:
             return;
@@ -125,13 +145,7 @@ void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
 // 需要组件组包，发送一个req过去，网络成功会有resp，但没有taskend，处理事务时要注意网络时序
 // 不需组件组包，使用长链做一个sync，不用重试
 int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, AutoBuffer& _buffer_hash, int32_t& _cmdid) {
-  
-//  mqtt_connect(_identify_buffer);
-// 
-//  _identify_buffer.Seek(0, AutoBuffer::ESeekStart);
-
-  _cmdid = 10;
-  
+    _cmdid = 10;
     return IdentifyMode::kCheckNow;
 }
 
@@ -139,9 +153,10 @@ bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer,
   unsigned char * _packed = ( unsigned char *)_response_buffer.Ptr();
   
   if (*_packed == 0) {
-    //authed
+    updateConnectionStatus(kConnectionStatusConnected);
   } else {
-    
+    updateConnectionStatus(kConnectionStatusConnectiong);
+    return false;
   }
     return true;
 }

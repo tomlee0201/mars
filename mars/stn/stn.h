@@ -32,10 +32,47 @@
 namespace mars{
     namespace stn{
 
+#define NOOP_CMDID 6
+#define SIGNALKEEP_CMDID 243
+#define PUSH_DATA_TASKID 0
+#define MQTT_CONNECT_CMDID 10
+#define MQTT_SEND_OUT_CMDID 11
+#define MQTT_DISCONNECT_CMDID 12
+    
+      typedef enum : int32_t {
+        ChannelType_ShortConn = 1,
+        ChannelType_LongConn = 2,
+        ChannelType_All = 3
+      } ChannelType;
+      
+      typedef enum : int {
+        MQTT_MSG_CONNECT = 1<<4,
+        MQTT_MSG_CONNACK = 2<<4,
+        MQTT_MSG_PUBLISH = 3<<4,
+        MQTT_MSG_PUBACK = 4<<4,
+        MQTT_MSG_PUBREC = 5<<4,
+        MQTT_MSG_PUBREL = 6<<4,
+        MQTT_MSG_PUBCOMP = 7<<4,
+        MQTT_MSG_SUBSCRIBE = 8<<4,
+        MQTT_MSG_SUBACK = 9<<4,
+        MQTT_MSG_UNSUBSCRIBE = 10<<4,
+        MQTT_MSG_UNSUBACK = 11<<4,
+        MQTT_MSG_PINGREQ = 12<<4,
+        MQTT_MSG_PINGRESP = 13<<4,
+        MQTT_MSG_DISCONNECT = 14<<4
+      } MQTT_MSG_TYPE;
+      
+      
 struct TaskProfile;
 struct DnsProfile;
-
-struct Task {
+      
+      class MQTTPublishCallback {
+      public:
+        virtual void onSuccess() = 0;
+        virtual void onFalure(int errorCode) = 0;
+      };
+      
+class Task {
 public:
     //channel type
     static const int kChannelShort = 0x1;
@@ -60,6 +97,7 @@ public:
     static const uint32_t kNoopTaskID = 0xFFFFFFFF;
     static const uint32_t kLongLinkIdentifyCheckerTaskID = 0xFFFFFFFE;
     static const uint32_t kSignallingKeeperTaskID = 0xFFFFFFFD;
+    static const uint32_t kDisconnectTaskId = 0xFFFFFFFC;
     
     
     Task();
@@ -92,9 +130,24 @@ public:
     std::vector<std::string> shortlink_host_list;
 };
 
-      struct TaskEx : Task {
-        const AutoBuffer& buffer;
-        const AutoBuffer& extend;
+      class MQTTTask : public Task {
+      protected:
+        MQTTTask(MQTT_MSG_TYPE type);
+      public:
+        const MQTT_MSG_TYPE type;
+        std::string body;
+      };
+      
+      class MQTTPublishTask : public MQTTTask {
+      public:
+        MQTTPublishTask(MQTTPublishCallback *callback);
+        std::string topic;
+        MQTTPublishCallback *m_callback;
+      };
+      
+      class MQTTDisconnectTask : public MQTTTask {
+      public:
+        MQTTDisconnectTask();
       };
       
 enum TaskFailHandleType {
@@ -175,15 +228,14 @@ enum {
     kEctDnsMakeSocketPrepared = -10606,
 };
 
-enum NetStatus {
-    kNetworkUnkown = -1,
-    kNetworkUnavailable = 0,
-    kGateWayFailed = 1,
-    kServerFailed = 2,
-    kConnecting = 3,
-    kConnected = 4,
-    kServerDown = 5
-};
+
+      
+      enum ConnectionStatus {
+        kConnectionStatusLogout = -2,
+        kConnectionStatusUnconnected = -1,
+        kConnectionStatusConnectiong = 0,
+        kConnectionStatusConnected = 1
+      };
 
 enum IdentifyMode {
     kCheckNow = 0,

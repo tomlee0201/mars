@@ -69,15 +69,8 @@ void SetClientVersion(uint32_t _client_version)  {
 }
 
 
-#define NOOP_CMDID 6
-#define SIGNALKEEP_CMDID 243
-#define PUSH_DATA_TASKID 0
-#define MQTT_CONNECT_CMDID 10
-#define MQTT_SEND_OUT_CMDID 11
-#define MQTT_DISCONNECT_CMDID 12
-  
 
-#define DISCONNECT_SEQ 3
+  
   
 static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
   if (_packed_len < 2) {

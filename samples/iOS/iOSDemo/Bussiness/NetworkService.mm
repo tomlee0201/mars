@@ -126,7 +126,7 @@ static NetworkService * sharedSingleton = nil;
   if ([task isMemberOfClass:CGITask.class]) {
     ctask.need_authed = true;
   } else if ([task isMemberOfClass:DisconnectTask.class]) {
-    ctask.taskid = 3; //DISCONNECT_SEQ
+    ctask.taskid = Task::kDisconnectTaskId;
   }
   
     mars::stn::StartTask(ctask);

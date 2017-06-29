@@ -26,6 +26,7 @@
  */
 
 #include <string.h>
+#include "stn.h"
 #include "libemqtt.h"
 
 #define MQTT_DUP_FLAG     1<<3
@@ -87,8 +88,8 @@ uint8_t mqtt_parse_msg_id(const uint8_t* buf) {
 	
 	//printf("mqtt_parse_msg_id\n");
 	
-	if(type >= MQTT_MSG_PUBLISH && type <= MQTT_MSG_UNSUBACK) {
-		if(type == MQTT_MSG_PUBLISH) {
+	if(type >= mars::stn::MQTT_MSG_PUBLISH && type <= mars::stn::MQTT_MSG_UNSUBACK) {
+		if(type == mars::stn::MQTT_MSG_PUBLISH) {
 			if(qos != 0) {
 				// fixed header length + Topic (UTF encoded)
 				// = 1 for "flags" byte + rlb for length bytes + topic size
@@ -128,7 +129,7 @@ uint16_t mqtt_parse_pub_topic_ptr(const uint8_t* buf, const uint8_t **topic_ptr)
 	
 	//printf("mqtt_parse_pub_topic_ptr\n");
 
-	if(MQTTParseMessageType(buf) == MQTT_MSG_PUBLISH) {
+	if(MQTTParseMessageType(buf) == mars::stn::MQTT_MSG_PUBLISH) {
 		// fixed header length = 1 for "flags" byte + rlb for length bytes
 		uint8_t rlb = mqtt_num_rem_len_bytes(buf);
 		len = *(buf+1+rlb)<<8;	// MSB of topic UTF
@@ -160,7 +161,7 @@ uint16_t mqtt_parse_pub_msg_ptr(const uint8_t* buf, const uint8_t **msg_ptr) {
 	
 	//printf("mqtt_parse_pub_msg_ptr\n");
 	
-	if(MQTTParseMessageType(buf) == MQTT_MSG_PUBLISH) {
+	if(MQTTParseMessageType(buf) == mars::stn::MQTT_MSG_PUBLISH) {
 		// message starts at
 		// fixed header length + Topic (UTF encoded) + msg id (if QoS>0)
 		uint8_t rlb = mqtt_num_rem_len_bytes(buf);
@@ -254,7 +255,7 @@ int mqtt_connect(AutoBuffer& _packed)
     uint8_t fixed_header[fixedHeaderSize];
     
     // Message Type
-    fixed_header[0] = MQTT_MSG_CONNECT;
+    fixed_header[0] = mars::stn::MQTT_MSG_CONNECT;
 
     // Remaining Length
     if (remainLen <= 127) {
@@ -303,7 +304,7 @@ int mqtt_connect(AutoBuffer& _packed)
 
 int mqtt_disconnect(AutoBuffer& _packed) {
 	uint8_t packet[] = {
-		MQTT_MSG_DISCONNECT, // Message Type, DUP flag, QoS level, Retain
+		mars::stn::MQTT_MSG_DISCONNECT, // Message Type, DUP flag, QoS level, Retain
 		0x00 // Remaining length
 	};
 
@@ -315,7 +316,7 @@ int mqtt_disconnect(AutoBuffer& _packed) {
 
 int mqtt_ping(AutoBuffer& _packed) {
 	uint8_t packet[] = {
-		MQTT_MSG_PINGREQ, // Message Type, DUP flag, QoS level, Retain
+		mars::stn::MQTT_MSG_PINGREQ, // Message Type, DUP flag, QoS level, Retain
 		0x00 // Remaining length
 	};
 
@@ -367,7 +368,7 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
 	uint8_t fixed_header[fixedHeaderSize];
     
    // Message Type, DUP flag, QoS level, Retain
-   fixed_header[0] = MQTT_MSG_PUBLISH | qos_flag;
+   fixed_header[0] = mars::stn::MQTT_MSG_PUBLISH | qos_flag;
 	if(retain) {
 		fixed_header[0] |= MQTT_RETAIN_FLAG;
    }
@@ -396,7 +397,7 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
 
 int mqtt_pubrel(uint16_t message_id, AutoBuffer& _packed) {
 	uint8_t packet[] = {
-		MQTT_MSG_PUBREL | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
+		mars::stn::MQTT_MSG_PUBREL | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
 		0x02, // Remaining length
 		(uint8_t)(message_id>>8),
 		(uint8_t)(message_id&0xFF)
@@ -425,7 +426,7 @@ int mqtt_subscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed) 
 
 	// Fixed header
 	uint8_t fixed_header[] = {
-		MQTT_MSG_SUBSCRIBE | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
+		mars::stn::MQTT_MSG_SUBSCRIBE | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
 		(uint8_t)(sizeof(var_header)+sizeof(utf_topic))
 	};
 
@@ -459,7 +460,7 @@ int mqtt_unsubscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed
 
 	// Fixed header
 	uint8_t fixed_header[] = {
-		MQTT_MSG_UNSUBSCRIBE | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
+		mars::stn::MQTT_MSG_UNSUBSCRIBE | MQTT_QOS1_FLAG, // Message Type, DUP flag, QoS level, Retain
 		(uint8_t)(sizeof(var_header)+sizeof(utf_topic))
 	};
 

@@ -25,7 +25,7 @@
 #include "mars/comm/xlogger/xlogger.h"
 #include "mars/comm/autobuffer.h"
 #include "mars/stn/stn.h"
-#include "libemqtt.h"
+#include "mars/stn/mqtt/libemqtt.h"
 
 static uint32_t sg_client_version = 0;
 
@@ -72,8 +72,6 @@ void SetClientVersion(uint32_t _client_version)  {
 #define MQTT_SEND_OUT_CMDID 11
 #define MQTT_DISCONNECT_CMDID 12
   
-
-#define DISCONNECT_SEQ 3
   
 static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
   if (_packed_len < 2) {

@@ -22,10 +22,11 @@
 
 #include "mars/comm/thread/atomic_oper.h"
 #include "mars/stn/mqtt/libemqtt.h"
-
+#include "mars/stn/stn_logic.h"
 namespace mars{
     namespace stn{
-        
+      
+      
 static uint32_t gs_taskid = 10;
 Task::Task():Task(atomic_inc32(&gs_taskid)) {}
         
@@ -51,8 +52,23 @@ Task::Task(uint32_t _taskid) {
     user_context = NULL;
 
 }
+
+MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
+  user_context = this;
+  channel_select = ChannelType_LongConn;
+}
+      
+      MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {
+        cmdid = MQTT_SEND_OUT_CMDID;
+      }
+      
+      MQTTDisconnectTask::MQTTDisconnectTask() : MQTTTask(MQTT_MSG_DISCONNECT) {
+        
+      }
+     
       void login(std::string &userName, std::string &passwd) {
         mqtt_init_auth(userName.c_str(), passwd.c_str());
+        MakesureLonglinkConnected();
       }
     }
 }

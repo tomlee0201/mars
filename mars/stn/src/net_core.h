@@ -33,6 +33,16 @@
 namespace mars {
     namespace stn {
 
+      enum NetStatus {
+        kNetworkUnkown = -1,
+        kNetworkUnavailable = 0,
+        kGateWayFailed = 1,
+        kServerFailed = 2,
+        kConnecting = 3,
+        kConnected = 4,
+        kServerDown = 5
+      };
+      
 class NetSource;
 
     

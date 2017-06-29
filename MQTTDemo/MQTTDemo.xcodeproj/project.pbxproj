@@ -1,0 +1,396 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
+		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */; };
+		2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.mm */; };
+		2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD821F04D61A006C6E6F /* Main.storyboard */; };
+		2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD851F04D61A006C6E6F /* Assets.xcassets */; };
+		2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */; };
+		2EC3BD981F04D666006C6E6F /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BD971F04D666006C6E6F /* libmars-open-iphone.a */; };
+		2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */; };
+		2EC3BDEA1F04D8FC006C6E6F /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */; };
+		2EC3BE011F04DB1C006C6E6F /* app_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BE001F04DB1C006C6E6F /* app_callback.mm */; };
+		2EC3BE031F04DBA0006C6E6F /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE021F04DBA0006C6E6F /* mars.framework */; };
+		2EC3BE0B1F04E62A006C6E6F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0A1F04E62A006C6E6F /* CoreTelephony.framework */; };
+		2EC3BE0D1F04E62F006C6E6F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0C1F04E62F006C6E6F /* SystemConfiguration.framework */; };
+		2EC3BE0F1F04E64A006C6E6F /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0E1F04E64A006C6E6F /* libresolv.9.tbd */; };
+		2EC3BE111F04E653006C6E6F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE101F04E653006C6E6F /* libz.tbd */; };
+		2EC3BE131F04E658006C6E6F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE121F04E658006C6E6F /* UIKit.framework */; };
+		2EC3BE161F04F1BA006C6E6F /* PublishCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		2EC3BD7F1F04D61A006C6E6F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		2EC3BD801F04D61A006C6E6F /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		2EC3BD831F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2EC3BD851F04D61A006C6E6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2EC3BD881F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2EC3BD8A1F04D61A006C6E6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2EC3BD971F04D666006C6E6F /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../build/Debug-iphoneos/libmars-open-iphone.a"; sourceTree = "<group>"; };
+		2EC3BDE41F04D8FC006C6E6F /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkStatus.h; sourceTree = "<group>"; };
+		2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkStatus.m; sourceTree = "<group>"; };
+		2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkService.h; sourceTree = "<group>"; };
+		2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkService.mm; sourceTree = "<group>"; };
+		2EC3BDE81F04D8FC006C6E6F /* NetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDelegate.h; sourceTree = "<group>"; };
+		2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_callback.h; sourceTree = "<group>"; };
+		2EC3BE001F04DB1C006C6E6F /* app_callback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_callback.mm; sourceTree = "<group>"; };
+		2EC3BE021F04DBA0006C6E6F /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = MQTTDemo/mars.framework; sourceTree = "<group>"; };
+		2EC3BE0A1F04E62A006C6E6F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		2EC3BE0C1F04E62F006C6E6F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		2EC3BE0E1F04E64A006C6E6F /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
+		2EC3BE101F04E653006C6E6F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		2EC3BE121F04E658006C6E6F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PublishCallback.mm; sourceTree = "<group>"; };
+		2EC3BE151F04F1BA006C6E6F /* PublishCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishCallback.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EC3BD731F04D61A006C6E6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EC3BE131F04E658006C6E6F /* UIKit.framework in Frameworks */,
+				2EC3BE111F04E653006C6E6F /* libz.tbd in Frameworks */,
+				2EC3BE0F1F04E64A006C6E6F /* libresolv.9.tbd in Frameworks */,
+				2EC3BE0D1F04E62F006C6E6F /* SystemConfiguration.framework in Frameworks */,
+				2EC3BE0B1F04E62A006C6E6F /* CoreTelephony.framework in Frameworks */,
+				2EC3BD981F04D666006C6E6F /* libmars-open-iphone.a in Frameworks */,
+				2EC3BE031F04DBA0006C6E6F /* mars.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2EC3BD6D1F04D61A006C6E6F = {
+			isa = PBXGroup;
+			children = (
+				2EC3BD781F04D61A006C6E6F /* MQTTDemo */,
+				2EC3BD771F04D61A006C6E6F /* Products */,
+				2EC3BD961F04D666006C6E6F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2EC3BD771F04D61A006C6E6F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
+			isa = PBXGroup;
+			children = (
+				2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */,
+				2EC3BE001F04DB1C006C6E6F /* app_callback.mm */,
+				2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */,
+				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */,
+				2EC3BD7F1F04D61A006C6E6F /* ViewController.h */,
+				2EC3BD801F04D61A006C6E6F /* ViewController.mm */,
+				2EC3BDE41F04D8FC006C6E6F /* NetworkStatus.h */,
+				2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */,
+				2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */,
+				2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */,
+				2EC3BDE81F04D8FC006C6E6F /* NetworkDelegate.h */,
+				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
+				2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */,
+				2EC3BE151F04F1BA006C6E6F /* PublishCallback.h */,
+			);
+			path = MQTTDemo;
+			sourceTree = "<group>";
+		};
+		2EC3BD791F04D61A006C6E6F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2EC3BD821F04D61A006C6E6F /* Main.storyboard */,
+				2EC3BD851F04D61A006C6E6F /* Assets.xcassets */,
+				2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */,
+				2EC3BD8A1F04D61A006C6E6F /* Info.plist */,
+				2EC3BD7A1F04D61A006C6E6F /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2EC3BE021F04DBA0006C6E6F /* mars.framework */,
+				2EC3BE121F04E658006C6E6F /* UIKit.framework */,
+				2EC3BE101F04E653006C6E6F /* libz.tbd */,
+				2EC3BE0E1F04E64A006C6E6F /* libresolv.9.tbd */,
+				2EC3BE0C1F04E62F006C6E6F /* SystemConfiguration.framework */,
+				2EC3BE0A1F04E62A006C6E6F /* CoreTelephony.framework */,
+				2EC3BD971F04D666006C6E6F /* libmars-open-iphone.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2EC3BD751F04D61A006C6E6F /* MQTTDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EC3BD8D1F04D61A006C6E6F /* Build configuration list for PBXNativeTarget "MQTTDemo" */;
+			buildPhases = (
+				2EC3BD721F04D61A006C6E6F /* Sources */,
+				2EC3BD731F04D61A006C6E6F /* Frameworks */,
+				2EC3BD741F04D61A006C6E6F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MQTTDemo;
+			productName = MQTTDemo;
+			productReference = 2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2EC3BD6E1F04D61A006C6E6F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = litao;
+				TargetAttributes = {
+					2EC3BD751F04D61A006C6E6F = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = E7EASRPBGU;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2EC3BD711F04D61A006C6E6F /* Build configuration list for PBXProject "MQTTDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2EC3BD6D1F04D61A006C6E6F;
+			productRefGroup = 2EC3BD771F04D61A006C6E6F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2EC3BD751F04D61A006C6E6F /* MQTTDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2EC3BD741F04D61A006C6E6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */,
+				2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */,
+				2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2EC3BD721F04D61A006C6E6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */,
+				2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */,
+				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */,
+				2EC3BDEA1F04D8FC006C6E6F /* NetworkService.mm in Sources */,
+				2EC3BE011F04DB1C006C6E6F /* app_callback.mm in Sources */,
+				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
+				2EC3BE161F04F1BA006C6E6F /* PublishCallback.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2EC3BD821F04D61A006C6E6F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EC3BD831F04D61A006C6E6F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2EC3BD881F04D61A006C6E6F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2EC3BD8B1F04D61A006C6E6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2EC3BD8C1F04D61A006C6E6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2EC3BD8E1F04D61A006C6E6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E7EASRPBGU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MQTTDemo",
+				);
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = MQTTDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = ./mars;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		2EC3BD8F1F04D61A006C6E6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E7EASRPBGU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MQTTDemo",
+				);
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = MQTTDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = ./mars;
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2EC3BD711F04D61A006C6E6F /* Build configuration list for PBXProject "MQTTDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EC3BD8B1F04D61A006C6E6F /* Debug */,
+				2EC3BD8C1F04D61A006C6E6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2EC3BD8D1F04D61A006C6E6F /* Build configuration list for PBXNativeTarget "MQTTDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2EC3BD8E1F04D61A006C6E6F /* Debug */,
+				2EC3BD8F1F04D61A006C6E6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2EC3BD6E1F04D61A006C6E6F /* Project object */;
+}
