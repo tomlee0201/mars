@@ -126,6 +126,12 @@ int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _err
     if (_error_code > 0) {
       unsubscribeTask->m_callback->onFalure(_error_code);
     }
+  } else if (mqttTask->type == MQTT_MSG_PUBACK){
+    const MQTTPubAckTask *ackTask = (const MQTTPubAckTask *)_user_context;
+    if (_error_code > 0) {
+        //ack failure
+    }
+    
   } else {
     
   }

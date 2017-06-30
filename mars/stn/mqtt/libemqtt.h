@@ -241,7 +241,17 @@ int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer&
  * @retval  0 On connection error.
  * @retval -1 On IO error.
  */
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed);
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t dup, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed);
+
+/** Send a PUBACK message. It's used for PUBLISH message with 1 QoS level.
+ * @param broker Data structure that contains the connection information with the broker.
+ * @param message_id Message ID
+ *
+ * @retval  1 On success.
+ * @retval  0 On connection error.
+ * @retval -1 On IO error.
+ */
+int mqtt_puback(uint16_t message_id, AutoBuffer& _packed);
 
 /** Send a PUBREL message. It's used for PUBLISH message with 2 QoS level.
  * @param broker Data structure that contains the connection information with the broker.

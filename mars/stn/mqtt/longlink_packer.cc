@@ -25,6 +25,7 @@
 #include "mars/comm/xlogger/xlogger.h"
 #include "mars/comm/autobuffer.h"
 #include "mars/stn/stn.h"
+#include "mars/stn/stn_logic.h"
 #include "mars/stn/mqtt/libemqtt.h"
 
 static uint32_t sg_client_version = 0;
@@ -66,7 +67,43 @@ void SetClientVersion(uint32_t _client_version)  {
 
   
   
-static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len) {
+
+
+void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
+= [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
+  switch(_cmdid) {
+    case NOOP_CMDID:
+      mqtt_ping(_packed);
+      break;
+    case SIGNALKEEP_CMDID:
+      break;
+    case PUSH_DATA_TASKID:
+      break;
+    case MQTT_CONNECT_CMDID:
+      mqtt_connect(_packed);
+      break;
+    case MQTT_SEND_OUT_CMDID:
+      mqtt_publish_with_qos((char *)_body.Ptr(), (char *)_extension.Ptr(), 1, 1, 1, _seq, _packed);
+      break;
+    case MQTT_SUBSCRIBE_CMDID:
+      mqtt_subscribe((char *)_body.Ptr(), _seq, _packed);
+      break;
+    case MQTT_UNSUBSCRIBE_CMDID:
+      mqtt_unsubscribe((char *)_body.Ptr(), _seq, _packed);
+      break;
+    case MQTT_DISCONNECT_CMDID:
+      mqtt_disconnect(_packed);
+      break;
+    case MQTT_PUBACK_CMDID:
+      mqtt_puback(_seq, _packed);
+      break;
+  }
+  _packed.Seek(0, AutoBuffer::ESeekStart);
+};
+
+static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension) {
+
+  size_t _body_len = 0;
   
   if (_packed_len < 2) {
     return LONGLINK_UNPACK_CONTINUE;
@@ -76,14 +113,14 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
   if (packLen + 2 < _packed_len) {
     return LONGLINK_UNPACK_CONTINUE;
   }
-
+  
   _package_len = packLen + 2;
   _body_len = _packed_len;
   
-      if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
-      if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
+  if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
+  if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
   
-
+  
   switch (MQTTParseMessageType(( unsigned char *)_packed)) {
     case MQTT_MSG_CONNACK:
       _cmdid = MQTT_CONNECT_CMDID;
@@ -92,9 +129,31 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
       break;
       
     case MQTT_MSG_PUBLISH:
+    {
       _cmdid = PUSH_DATA_TASKID;
       _seq = 0;
       _body_len = _packed_len - 2;
+      uint8_t buffer[4096];
+      uint16_t length = mqtt_parse_pub_topic((const uint8_t*)_packed, buffer);
+      _body.AllocWrite(length);
+      _body.Write(buffer, length);
+      
+      length = mqtt_parse_publish_msg((const uint8_t*)_packed, buffer);
+      _extension.AllocWrite(length);
+      _extension.Write(buffer, length);
+      
+      int messageId = mqtt_parse_msg_id((const uint8_t*)_packed);
+      int qos = MQTTParseMessageQos((const uint8_t*)_packed);
+      if (qos == 0) {
+        //no need response
+      } else if (qos == 1) {
+        MQTTPubAckTask *ackTask = new MQTTPubAckTask(messageId);
+        StartTask(*ackTask);
+      } else if (qos == 2) {
+        //not support
+      }
+      return LONGLINK_UNPACK_OK;
+    }
       break;
     case MQTT_MSG_PUBACK:
       _cmdid = MQTT_SEND_OUT_CMDID;
@@ -116,7 +175,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
       _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
       _body_len = _packed_len - 4;
       break;
-
+      
     case MQTT_MSG_PINGRESP:
       _cmdid = NOOP_CMDID;
       _seq = Task::kNoopTaskID;
@@ -134,50 +193,15 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
       break;
   }
   
+  _body.Write(AutoBuffer::ESeekCur, (const unsigned *)_packed + (_package_len-_body_len), _body_len);
+  
   return LONGLINK_UNPACK_OK;
 }
-
-void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
-= [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {
-  switch(_cmdid) {
-    case NOOP_CMDID:
-      mqtt_ping(_packed);
-      break;
-    case SIGNALKEEP_CMDID:
-      break;
-    case PUSH_DATA_TASKID:
-      break;
-    case MQTT_CONNECT_CMDID:
-      mqtt_connect(_packed);
-      break;
-    case MQTT_SEND_OUT_CMDID:
-
-      mqtt_publish_with_qos((char *)_body.Ptr(), (char *)_extension.Ptr(), 1, 1, _seq, _packed);
-      break;
-    case MQTT_SUBSCRIBE_CMDID:
-      mqtt_subscribe((char *)_body.Ptr(), _seq, _packed);
-      break;
-    case MQTT_UNSUBSCRIBE_CMDID:
-      mqtt_unsubscribe((char *)_body.Ptr(), _seq, _packed);
-      break;
-    case MQTT_DISCONNECT_CMDID:
-      mqtt_disconnect(_packed);
-      break;
-  }
-  _packed.Seek(0, AutoBuffer::ESeekStart);
-};
-
-
+  
 int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker)
 = [](const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker) {
-   size_t body_len = 0;
-   int ret = __unpack_test(_packed.Ptr(), _packed.Length(), _cmdid,  _seq, _package_len, body_len);
-    
-    if (LONGLINK_UNPACK_OK != ret) return ret;
-    
-    _body.Write(AutoBuffer::ESeekCur, _packed.Ptr(_package_len-body_len), body_len);
-    
-    return ret;
+
+   return __unpack_test(_packed.Ptr(), _packed.Length(), _cmdid,  _seq, _package_len, _body, _extension);
 };
 
 

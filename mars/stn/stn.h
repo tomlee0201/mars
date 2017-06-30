@@ -40,6 +40,7 @@ namespace mars{
 #define MQTT_DISCONNECT_CMDID 12
 #define MQTT_SUBSCRIBE_CMDID 13
 #define MQTT_UNSUBSCRIBE_CMDID 14
+#define MQTT_PUBACK_CMDID 15
     
       typedef enum : int32_t {
         ChannelType_ShortConn = 1,
@@ -157,6 +158,11 @@ public:
       public:
         MQTTUnsubscribeTask(MQTTPublishCallback *callback);
         MQTTPublishCallback *m_callback;
+      };
+      
+      class MQTTPubAckTask : public MQTTTask {
+      public:
+        MQTTPubAckTask(uint16_t messageId);
       };
       
       class MQTTDisconnectTask : public MQTTTask {

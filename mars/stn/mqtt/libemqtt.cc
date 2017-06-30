@@ -327,10 +327,10 @@ int mqtt_ping(AutoBuffer& _packed) {
 }
 
 int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer& _packed) {
-	return mqtt_publish_with_qos(topic, msg, retain, 0, 0, _packed);
+	return mqtt_publish_with_qos(topic, msg, 0, retain, 0, 0, _packed);
 }
 
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed) {
+int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t dup, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
 	uint16_t msglen = strlen(msg);
 
@@ -372,6 +372,9 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
 	if(retain) {
 		fixed_header[0] |= MQTT_RETAIN_FLAG;
    }
+  if(dup) {
+    fixed_header[0] |= MQTT_DUP_FLAG;
+  }
    // Remaining Length
    if (remainLen <= 127) {
        fixed_header[1] = remainLen;
@@ -393,6 +396,20 @@ int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t retain, ui
   _packed.Write(packet, sizeof(packet));
 
 	return 1;
+}
+
+int mqtt_puback(uint16_t message_id, AutoBuffer& _packed) {
+  uint8_t packet[] = {
+    mars::stn::MQTT_MSG_PUBACK | MQTT_QOS0_FLAG, // Message Type, DUP flag, QoS level, Retain
+    0x02, // Remaining length
+    (uint8_t)(message_id>>8),
+    (uint8_t)(message_id&0xFF)
+  };
+  
+  _packed.AllocWrite(sizeof(packet));
+  _packed.Write(packet, sizeof(packet));
+  
+  return 1;
 }
 
 int mqtt_pubrel(uint16_t message_id, AutoBuffer& _packed) {

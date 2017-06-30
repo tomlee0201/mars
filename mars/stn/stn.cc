@@ -70,7 +70,12 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         cmdid = MQTT_UNSUBSCRIBE_CMDID;
       }
       
-      
+      MQTTPubAckTask::MQTTPubAckTask(uint16_t messageId) : MQTTTask(MQTT_MSG_PUBACK) {
+        cmdid = MQTT_PUBACK_CMDID;
+        taskid = messageId;
+        send_only = true;
+      }
+
       
       MQTTDisconnectTask::MQTTDisconnectTask() : MQTTTask(MQTT_MSG_DISCONNECT) {
         cmdid = MQTT_DISCONNECT_CMDID;
