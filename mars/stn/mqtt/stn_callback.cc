@@ -23,7 +23,15 @@
 
 namespace mars {
     namespace stn {
-        
+      
+      void setConnectionStatusCallback(ConnectionStatusCallback *callback) {
+        StnCallBack::Instance()->setConnectionStatusCallback(callback);
+      }
+      
+      void setReceivePublishCallback(ReceivePublishCallback *callback) {
+        StnCallBack::Instance()->setReceivePublishCallback(callback);
+      }
+      
 StnCallBack* StnCallBack::instance_ = NULL;
         
 StnCallBack* StnCallBack::Instance() {
@@ -39,8 +47,18 @@ void StnCallBack::Release() {
     instance_ = NULL;
 }
 
+      void StnCallBack::setConnectionStatusCallback(ConnectionStatusCallback *callback) {
+        m_connectionStatusCB = callback;
+      }
+      void StnCallBack::setReceivePublishCallback(ReceivePublishCallback *callback) {
+        m_receivePublishCB = callback;
+      }
+      
       void StnCallBack::updateConnectionStatus(ConnectionStatus newStatus) {
         m_connectionStatus = newStatus;
+        if(m_connectionStatusCB) {
+          m_connectionStatusCB->onConnectionStatusChanged(m_connectionStatus);
+        }
       }
       
 bool StnCallBack::MakesureAuthed() {
@@ -59,7 +77,10 @@ std::vector<std::string> StnCallBack::OnNewDns(const std::string& _host) {
 }
 
 void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend) {
-
+  if(m_receivePublishCB) {
+    std::string topic = (char *)(_body.Ptr());
+    m_receivePublishCB->onReceivePublish(topic, (const unsigned char *)_extend.Ptr(), _extend.Length());
+  }
 }
 
 bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select) {

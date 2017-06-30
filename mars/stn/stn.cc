@@ -23,6 +23,7 @@
 #include "mars/comm/thread/atomic_oper.h"
 #include "mars/stn/mqtt/libemqtt.h"
 #include "mars/stn/stn_logic.h"
+#include "mars/baseevent/base_logic.h"
 namespace mars{
     namespace stn{
       
@@ -84,6 +85,7 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
       void login(std::string &userName, std::string &passwd) {
         mqtt_init_auth(userName.c_str(), passwd.c_str());
         MakesureLonglinkConnected();
+        mars::baseevent::OnForeground(true);
       }
     }
 }

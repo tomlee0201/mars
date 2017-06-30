@@ -170,6 +170,23 @@ public:
         MQTTDisconnectTask();
       };
       
+      enum ConnectionStatus {
+        kConnectionStatusLogout = -2,
+        kConnectionStatusUnconnected = -1,
+        kConnectionStatusConnectiong = 0,
+        kConnectionStatusConnected = 1
+      };
+      
+      class ConnectionStatusCallback {
+      public:
+        virtual void onConnectionStatusChanged(ConnectionStatus connectionStatus) = 0;
+      };
+      
+      class ReceivePublishCallback {
+      public:
+        virtual void onReceivePublish(const std::string &topic, const unsigned char* data, size_t len) = 0;
+      };
+      
 enum TaskFailHandleType {
 	kTaskFailHandleNormal = 0,
 	kTaskFailHandleNoError = 0,
@@ -249,14 +266,6 @@ enum {
 };
 
 
-      
-      enum ConnectionStatus {
-        kConnectionStatusLogout = -2,
-        kConnectionStatusUnconnected = -1,
-        kConnectionStatusConnectiong = 0,
-        kConnectionStatusConnected = 1
-      };
-
 enum IdentifyMode {
     kCheckNow = 0,
     kCheckNext,
@@ -323,6 +332,8 @@ extern void (*ReportTaskProfile)(const TaskProfile& _task_profile);
 extern void (*ReportTaskLimited)(int _check_type, const Task& _task, unsigned int& _param);
 //底层上报域名dns结果
 extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
-        
+
+      extern void setConnectionStatusCallback(ConnectionStatusCallback *callback);
+      extern void setReceivePublishCallback(ReceivePublishCallback *callback);
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

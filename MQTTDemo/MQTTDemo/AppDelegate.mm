@@ -24,11 +24,7 @@
   [[NetworkService sharedInstance] createMars];
   [[NetworkService sharedInstance] setLongLinkAddress:@"localhost" port:1883];
   [[NetworkService sharedInstance] setUserName:@"testuser" password:@"passwd"];
-
-  [[NetworkService sharedInstance] reportEvent_OnForeground:YES];
-  
   [[NetworkStatus sharedInstance] Start:[NetworkService sharedInstance]];
-  
   
   return YES;
 }

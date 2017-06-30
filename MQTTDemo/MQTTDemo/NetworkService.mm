@@ -35,6 +35,9 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 
+@protocol ConnectionStatusDelegate <NSObject>
+- (void)onConnectionStatusChanged(int status);
+@end
 
 @interface NetworkService ()
 
@@ -43,6 +46,7 @@
 @implementation NetworkService
 
 static NetworkService * sharedSingleton = nil;
+
 
 
 + (NetworkService*)sharedInstance {

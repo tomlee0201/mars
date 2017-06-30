@@ -40,6 +40,7 @@ namespace mars{
 #define MQTT_DISCONNECT_CMDID 12
 #define MQTT_SUBSCRIBE_CMDID 13
 #define MQTT_UNSUBSCRIBE_CMDID 14
+#define MQTT_PUBACK_CMDID 15
     
       typedef enum : int32_t {
         ChannelType_ShortConn = 1,
@@ -159,9 +160,31 @@ public:
         MQTTPublishCallback *m_callback;
       };
       
+      class MQTTPubAckTask : public MQTTTask {
+      public:
+        MQTTPubAckTask(uint16_t messageId);
+      };
+      
       class MQTTDisconnectTask : public MQTTTask {
       public:
         MQTTDisconnectTask();
+      };
+      
+      enum ConnectionStatus {
+        kConnectionStatusLogout = -2,
+        kConnectionStatusUnconnected = -1,
+        kConnectionStatusConnectiong = 0,
+        kConnectionStatusConnected = 1
+      };
+      
+      class ConnectionStatusCallback {
+      public:
+        virtual void onConnectionStatusChanged(ConnectionStatus connectionStatus) = 0;
+      };
+      
+      class ReceivePublishCallback {
+      public:
+        virtual void onReceivePublish(const std::string &topic, const unsigned char* data, size_t len) = 0;
       };
       
 enum TaskFailHandleType {
@@ -243,14 +266,6 @@ enum {
 };
 
 
-      
-      enum ConnectionStatus {
-        kConnectionStatusLogout = -2,
-        kConnectionStatusUnconnected = -1,
-        kConnectionStatusConnectiong = 0,
-        kConnectionStatusConnected = 1
-      };
-
 enum IdentifyMode {
     kCheckNow = 0,
     kCheckNext,
@@ -317,6 +332,8 @@ extern void (*ReportTaskProfile)(const TaskProfile& _task_profile);
 extern void (*ReportTaskLimited)(int _check_type, const Task& _task, unsigned int& _param);
 //底层上报域名dns结果
 extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
-        
+
+      extern void setConnectionStatusCallback(ConnectionStatusCallback *callback);
+      extern void setReceivePublishCallback(ReceivePublishCallback *callback);
 }}
 #endif // NETWORK_SRC_NET_COMM_H_
