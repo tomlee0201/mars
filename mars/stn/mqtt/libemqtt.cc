@@ -238,8 +238,8 @@ int mqtt_connect(AutoBuffer& _packed)
 
 	// Variable header
 	uint8_t var_header[] = {
-		0x00,0x06,0x4d,0x51,0x49,0x73,0x64,0x70, // Protocol name: MQIsdp
-		0x03, // Protocol version
+		0x00,0x04,0x4d,0x51,'T','T', // Protocol name: MQTT
+		0x04, // Protocol version
 		flags, // Connect flags
 		(uint8_t)(broker->alive>>8),
     (uint8_t)(broker->alive&0xFF), // Keep alive
@@ -440,6 +440,7 @@ int mqtt_subscribe(const char* topic, uint16_t message_id, AutoBuffer& _packed) 
 	utf_topic[0] = topiclen>>8;
 	utf_topic[1] = topiclen&0xFF;
 	memcpy(utf_topic+2, topic, topiclen);
+  utf_topic[topiclen+2] = 1;
 
 	// Fixed header
 	uint8_t fixed_header[] = {
