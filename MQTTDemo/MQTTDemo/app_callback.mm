@@ -60,7 +60,7 @@ unsigned int AppCallBack::GetClientVersion() {
 DeviceInfo AppCallBack::GetDeviceInfo() {
     DeviceInfo info;
 
-    info.devicename = [[UIDevice currentDevice].identifierForVendor.UUIDString cStringUsingEncoding:kCFStringEncodingUTF8];
+    info.devicename = [[UIDevice currentDevice].identifierForVendor.UUIDString cStringUsingEncoding:NSUTF8StringEncoding];
     info.devicetype = 1;
     
     return info;

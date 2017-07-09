@@ -36,10 +36,36 @@
 #include <mars/stn/stn_logic.h>
 
 @protocol ConnectionStatusDelegate <NSObject>
-- (void)onConnectionStatusChanged(int status);
+- (void)onConnectionStatusChanged:(int)status;
+@end
+@protocol ReceivePublishDelegate <NSObject>
+- (void)onReceivePublish:(NSString *)topic message:(NSData *)data;
 @end
 
-@interface NetworkService ()
+class CSCB : public mars::stn::ConnectionStatusCallback {
+public:
+  CSCB(id<ConnectionStatusDelegate> delegate) : m_delegate(delegate) {}
+  void onConnectionStatusChanged(mars::stn::ConnectionStatus connectionStatus) {
+    if (m_delegate) {
+      [m_delegate onConnectionStatusChanged:connectionStatus];
+    }
+  }
+  id<ConnectionStatusDelegate> m_delegate;
+};
+
+class RPCB : public mars::stn::ReceivePublishCallback {
+public:
+  RPCB(id<ReceivePublishDelegate> delegate) : m_delegate(delegate) {}
+  
+  void onReceivePublish(const std::string &topic, const unsigned char* data, size_t len) {
+    if (m_delegate) {
+      [m_delegate onReceivePublish:[NSString stringWithUTF8String:topic.c_str()] message:[NSData dataWithBytes:data length:len]];
+    }
+  }
+  id<ReceivePublishDelegate> m_delegate;
+};
+
+@interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate>
 
 @end
 
@@ -47,7 +73,13 @@
 
 static NetworkService * sharedSingleton = nil;
 
+- (void)onConnectionStatusChanged:(int)status {
+  
+}
 
+- (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
+  NSLog(@"Received topic(%@), content(%@)", topic, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+}
 
 + (NetworkService*)sharedInstance {
     @synchronized (self) {
@@ -65,6 +97,8 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)setCallBack {
     mars::app::SetCallback(mars::app::AppCallBack::Instance());
+  mars::stn::setConnectionStatusCallback(new CSCB(self));
+  mars::stn::setReceivePublishCallback(new RPCB(self));
 }
 
 - (void) createMars {
@@ -72,8 +106,8 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)setUserName:(NSString *)userName password:(NSString *)password {
-  std::string name([userName cStringUsingEncoding:kCFStringEncodingUTF8]);
-  std::string pwd([password cStringUsingEncoding:kCFStringEncodingUTF8]);
+  std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
+  std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
 }
 

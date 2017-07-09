@@ -28,18 +28,18 @@
 }
 - (IBAction)onPublishButton:(id)sender {
   mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PublishCallback());
-  publishTask->topic = [self.publishTopicField.text cStringUsingEncoding:kCFStringEncodingUTF8];
-  publishTask->body = [self.pushContentField.text cStringUsingEncoding:kCFStringEncodingUTF8];
+  publishTask->topic = [self.publishTopicField.text cStringUsingEncoding:NSUTF8StringEncoding];
+  publishTask->body = [self.pushContentField.text cStringUsingEncoding:NSUTF8StringEncoding];
   mars::stn::StartTask(*publishTask);
 }
 - (IBAction)onSubscribeButton:(id)sender {
   mars::stn::MQTTSubscribeTask *subscribeTask = new mars::stn::MQTTSubscribeTask(new PublishCallback());
-  subscribeTask->topic = [self.subscribeTopicField.text cStringUsingEncoding:kCFStringEncodingUTF8];
+  subscribeTask->topic = [self.subscribeTopicField.text cStringUsingEncoding:NSUTF8StringEncoding];
   mars::stn::StartTask(*subscribeTask);
 }
 - (IBAction)onUnsubscribeButton:(id)sender {
   mars::stn::MQTTUnsubscribeTask *unsubscribeTask = new mars::stn::MQTTUnsubscribeTask(new PublishCallback());
-  unsubscribeTask->topic = [self.subscribeTopicField.text cStringUsingEncoding:kCFStringEncodingUTF8];
+  unsubscribeTask->topic = [self.subscribeTopicField.text cStringUsingEncoding:NSUTF8StringEncoding];
   mars::stn::StartTask(*unsubscribeTask);
 }
 
