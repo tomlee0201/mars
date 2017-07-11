@@ -112,16 +112,24 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
     if (_error_code == 0)
       publishTask->m_callback->onSuccess();
+    else
+      publishTask->m_callback->onFalure(_error_code);
   }  else if (mqttTask->type == MQTT_MSG_DISCONNECT) {
-    
+    const MQTTDisconnectTask *disconnectTask = (const MQTTDisconnectTask *)_user_context;
+    if(disconnectTask->m_callback)
+      disconnectTask->m_callback->onDisconnected();
   } else if (mqttTask->type == MQTT_MSG_SUBSCRIBE){
     const MQTTSubscribeTask *subscribeTask = (const MQTTSubscribeTask *)_user_context;
     if (_error_code == 0)
       subscribeTask->m_callback->onSuccess();
+    else
+      subscribeTask->m_callback->onFalure(_error_code);
   } else if (mqttTask->type == MQTT_MSG_UNSUBSCRIBE){
     const MQTTUnsubscribeTask *unsubscribeTask = (const MQTTUnsubscribeTask *)_user_context;
     if (_error_code == 0)
       unsubscribeTask->m_callback->onSuccess();
+    else
+      unsubscribeTask->m_callback->onFalure(_error_code);
   } else {
     
   }

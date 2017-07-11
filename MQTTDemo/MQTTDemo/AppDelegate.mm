@@ -19,13 +19,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
-  [[NetworkService sharedInstance] setCallBack];
-  [[NetworkService sharedInstance] createMars];
-  [[NetworkService sharedInstance] setLongLinkAddress:@"localhost" port:1883];
-  [[NetworkService sharedInstance] setUserName:@"testuser" password:@"passwd"];
-  [[NetworkStatus sharedInstance] Start:[NetworkService sharedInstance]];
-  
   return YES;
 }
 

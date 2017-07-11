@@ -38,7 +38,6 @@ namespace mars{
             mqtt_init(app::GetDeviceInfo().devicename.c_str());
             mars::stn::SetCallback(mars::stn::StnCallBack::Instance());
             GetSignalOnCreate()();
-            mars::stn::SetClientVersion(200);
         }
         
         void OnDestroy()

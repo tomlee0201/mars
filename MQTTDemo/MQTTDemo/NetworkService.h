@@ -23,23 +23,31 @@
 
 #import <Foundation/Foundation.h>
 
-#import "NetworkDelegate.h"
 #import "NetworkStatus.h"
 
 @class CGITask;
 @class ViewController;
 
+@protocol ConnectionStatusDelegate <NSObject>
+- (void)onConnectionStatusChanged:(int)status;
+@end
+
+@protocol ReceivePublishDelegate <NSObject>
+- (void)onReceivePublish:(NSString *)topic message:(NSData *)data;
+@end
+
 @interface NetworkService : NSObject<NetworkStatusDelegate>
 
-@property(nonatomic, strong) id<NetworkDelegate> delegate;
 
 + (NetworkService*)sharedInstance;
+@property(nonatomic, weak) id<ConnectionStatusDelegate> connectionStatusDelegate;
+@property(nonatomic, weak) id<ReceivePublishDelegate> receivePublishDelegate;
 
-- (void)setCallBack;
 - (void)createMars;
 
-- (void)setUserName:(NSString *)userName password:(NSString *)password;
+- (void)login:(NSString *)userName password:(NSString *)password;
 
+- (void)logout;
 - (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port;
 - (void)setShortLinkPort:(const unsigned short)port;
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port debugIP:(NSString *)IP;
@@ -47,14 +55,8 @@
 
 - (void)destroyMars;
 
-
-// event reporting
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 - (void)reportEvent_OnNetworkChange;
-
-// callbacks
-
-- (NSArray *)OnNewDns:(NSString *)address;
 @end
 
 #endif /* NetworkService_hpp */

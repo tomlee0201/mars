@@ -28,8 +28,6 @@
 #include "mars/stn/stn_logic.h"
 #include "mars/stn/mqtt/libemqtt.h"
 
-static uint32_t sg_client_version = 0;
-
 
 /*
 
@@ -60,14 +58,6 @@ longlink_tracker* (*longlink_tracker::Create)()
 = []() {
     return new longlink_tracker;
 };
-    
-void SetClientVersion(uint32_t _client_version)  {
-    sg_client_version = _client_version;
-}
-
-  
-  
-
 
 void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker)
 = [](uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _packed, longlink_tracker* _tracker) {

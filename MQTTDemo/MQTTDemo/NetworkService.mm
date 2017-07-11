@@ -22,9 +22,6 @@
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SCNetworkReachability.h>
 
-#import "NetworkDelegate.h"
-
-
 #import "app_callback.h"
 
 #include <mars/app/app_logic.h>
@@ -35,16 +32,26 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 
-@protocol ConnectionStatusDelegate <NSObject>
-- (void)onConnectionStatusChanged:(int)status;
+@protocol DisconnectDelegate  <NSObject>
+- (void)onDisconnected;
 @end
-@protocol ReceivePublishDelegate <NSObject>
-- (void)onReceivePublish:(NSString *)topic message:(NSData *)data;
-@end
+
+class DisconnectCallback : public mars::stn::MQTTDisconnectCallback {
+private:
+  id<DisconnectDelegate> m_delegate;
+public:
+  DisconnectCallback(id<DisconnectDelegate> delegate) : m_delegate(delegate) {};
+  virtual void onDisconnected() {
+    [m_delegate onDisconnected];
+    delete this;
+  }
+};
+
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
-  CSCB(id<ConnectionStatusDelegate> delegate) : m_delegate(delegate) {}
+  CSCB(id<ConnectionStatusDelegate> delegate) : m_delegate(delegate) {
+  }
   void onConnectionStatusChanged(mars::stn::ConnectionStatus connectionStatus) {
     if (m_delegate) {
       [m_delegate onConnectionStatusChanged:connectionStatus];
@@ -65,7 +72,7 @@ public:
   id<ReceivePublishDelegate> m_delegate;
 };
 
-@interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate>
+@interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate, DisconnectDelegate>
 
 @end
 
@@ -73,12 +80,22 @@ public:
 
 static NetworkService * sharedSingleton = nil;
 
+- (void)onDisconnected {
+  mars::baseevent::OnDestroy();
+}
+
 - (void)onConnectionStatusChanged:(int)status {
-  
+  NSLog(@"Connection statuc changed to (%d)", status);
+  if (_connectionStatusDelegate) {
+    [_connectionStatusDelegate onConnectionStatusChanged:status];
+  }
 }
 
 - (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
   NSLog(@"Received topic(%@), content(%@)", topic, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+  if (_receivePublishDelegate) {
+    [_receivePublishDelegate onReceivePublish:topic message:data];
+  }
 }
 
 + (NetworkService*)sharedInstance {
@@ -95,20 +112,25 @@ static NetworkService * sharedSingleton = nil;
     
 }
 
-- (void)setCallBack {
-    mars::app::SetCallback(mars::app::AppCallBack::Instance());
+- (void) createMars {
+  mars::app::SetCallback(mars::app::AppCallBack::Instance());
   mars::stn::setConnectionStatusCallback(new CSCB(self));
   mars::stn::setReceivePublishCallback(new RPCB(self));
+  mars::baseevent::OnCreate();
 }
 
-- (void) createMars {
-    mars::baseevent::OnCreate();
-}
-
-- (void)setUserName:(NSString *)userName password:(NSString *)password {
+- (void)login:(NSString *)userName password:(NSString *)password {
+  [self createMars];
+  [self setLongLinkAddress:@"localhost" port:1883];
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
+  [[NetworkStatus sharedInstance] Start:[NetworkService sharedInstance]];
+}
+
+- (void)logout {
+  mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask(new DisconnectCallback(self));
+  mars::stn::StartTask(*disconnectTask);
 }
 
 - (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port {
@@ -150,20 +172,6 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnNetworkChange();
 }
 
-
-- (NSArray *)OnNewDns:(NSString *)address {
-    return [_delegate OnNewDns:address];
-}
-
-- (void)OnPushWithCmd:(NSInteger)cid data:(NSData *)data {
-    return [_delegate OnPushWithCmd:cid data:data];
-}
-
-
-
-- (void)OnConnectionStatusChange:(int32_t)status longConnStatus:(int32_t)longConnStatus {
-    [_delegate OnConnectionStatusChange:status longConnStatus:longConnStatus];
-}
 
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {

@@ -10,7 +10,7 @@
 #import <mars/stn/stn.h>
 #import <mars/stn/stn_logic.h>
 #import "PublishCallback.h"
-
+#import "NetworkService.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *publishTopicField;
@@ -21,6 +21,10 @@
 @end
 
 @implementation ViewController
+- (IBAction)logout:(id)sender {
+  [[NetworkService sharedInstance] logout];
+  [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];

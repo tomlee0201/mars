@@ -75,6 +75,11 @@ struct DnsProfile;
         virtual void onFalure(int errorCode) = 0;
       };
       
+      class MQTTDisconnectCallback {
+      public:
+        virtual void onDisconnected() = 0;
+      };
+      
 class Task {
 public:
     //channel type
@@ -167,7 +172,8 @@ public:
       
       class MQTTDisconnectTask : public MQTTTask {
       public:
-        MQTTDisconnectTask();
+        MQTTDisconnectTask(MQTTDisconnectCallback *callback);
+        MQTTDisconnectCallback *m_callback;
       };
       
       enum ConnectionStatus {
@@ -176,6 +182,8 @@ public:
         kConnectionStatusConnectiong = 0,
         kConnectionStatusConnected = 1
       };
+      
+      
       
       class ConnectionStatusCallback {
       public:

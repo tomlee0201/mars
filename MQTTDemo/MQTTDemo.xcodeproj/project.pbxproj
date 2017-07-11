@@ -24,6 +24,7 @@
 		2EC3BE111F04E653006C6E6F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE101F04E653006C6E6F /* libz.tbd */; };
 		2EC3BE131F04E658006C6E6F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE121F04E658006C6E6F /* UIKit.framework */; };
 		2EC3BE161F04F1BA006C6E6F /* PublishCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */; };
+		2F698A0D1F12489E004B7A80 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F698A0C1F12489E004B7A80 /* LoginViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +43,6 @@
 		2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkStatus.m; sourceTree = "<group>"; };
 		2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkService.h; sourceTree = "<group>"; };
 		2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkService.mm; sourceTree = "<group>"; };
-		2EC3BDE81F04D8FC006C6E6F /* NetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkDelegate.h; sourceTree = "<group>"; };
 		2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_callback.h; sourceTree = "<group>"; };
 		2EC3BE001F04DB1C006C6E6F /* app_callback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_callback.mm; sourceTree = "<group>"; };
 		2EC3BE021F04DBA0006C6E6F /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = MQTTDemo/mars.framework; sourceTree = "<group>"; };
@@ -53,6 +53,8 @@
 		2EC3BE121F04E658006C6E6F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PublishCallback.mm; sourceTree = "<group>"; };
 		2EC3BE151F04F1BA006C6E6F /* PublishCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishCallback.h; sourceTree = "<group>"; };
+		2F698A0B1F12489E004B7A80 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		2F698A0C1F12489E004B7A80 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,10 +105,11 @@
 				2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */,
 				2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */,
 				2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */,
-				2EC3BDE81F04D8FC006C6E6F /* NetworkDelegate.h */,
 				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
 				2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */,
 				2EC3BE151F04F1BA006C6E6F /* PublishCallback.h */,
+				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
+				2F698A0C1F12489E004B7A80 /* LoginViewController.mm */,
 			);
 			path = MQTTDemo;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F698A0D1F12489E004B7A80 /* LoginViewController.mm in Sources */,
 				2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */,
