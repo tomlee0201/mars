@@ -86,6 +86,10 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)onConnectionStatusChanged:(int)status {
   NSLog(@"Connection statuc changed to (%d)", status);
+  if (!_logined) {
+    [self logout];
+    return;
+  }
   if (_connectionStatusDelegate) {
     [_connectionStatusDelegate onConnectionStatusChanged:status];
   }
@@ -120,6 +124,7 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)login:(NSString *)userName password:(NSString *)password {
+  _logined = YES;
   [self createMars];
   [self setLongLinkAddress:@"localhost" port:1883];
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -129,8 +134,13 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)logout {
-  mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask(new DisconnectCallback(self));
-  mars::stn::StartTask(*disconnectTask);
+  _logined = NO;
+  if (mars::stn::getConnectionStatus() != mars::stn::kConnectionStatusConnected) {
+    [self destroyMars];
+  } else {
+    mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask(new DisconnectCallback(self));
+    mars::stn::StartTask(*disconnectTask);
+  }
 }
 
 - (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port {
@@ -159,6 +169,7 @@ static NetworkService * sharedSingleton = nil;
 
 
 - (void)destroyMars {
+  [[NetworkStatus sharedInstance] Stop];
     mars::baseevent::OnDestroy();
 }
 

@@ -32,6 +32,10 @@ namespace mars {
         StnCallBack::Instance()->setReceivePublishCallback(callback);
       }
       
+      ConnectionStatus getConnectionStatus() {
+        return StnCallBack::Instance()->getConnectionStatus();
+      }
+      
 StnCallBack* StnCallBack::instance_ = NULL;
         
 StnCallBack* StnCallBack::Instance() {

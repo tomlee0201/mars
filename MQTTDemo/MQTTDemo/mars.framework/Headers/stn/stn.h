@@ -343,5 +343,6 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
 
       extern void setConnectionStatusCallback(ConnectionStatusCallback *callback);
       extern void setReceivePublishCallback(ReceivePublishCallback *callback);
+      extern ConnectionStatus getConnectionStatus();
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

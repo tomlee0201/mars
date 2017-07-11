@@ -44,7 +44,9 @@ public:
     static void Release();
   void setConnectionStatusCallback(ConnectionStatusCallback *callback);
   void setReceivePublishCallback(ReceivePublishCallback *callback);
-  
+  ConnectionStatus getConnectionStatus() {
+    return m_connectionStatus;
+  }
     void updateConnectionStatus(ConnectionStatus newStatus);
     virtual bool MakesureAuthed();
     

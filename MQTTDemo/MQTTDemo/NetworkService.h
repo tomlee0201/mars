@@ -42,7 +42,7 @@
 + (NetworkService*)sharedInstance;
 @property(nonatomic, weak) id<ConnectionStatusDelegate> connectionStatusDelegate;
 @property(nonatomic, weak) id<ReceivePublishDelegate> receivePublishDelegate;
-
+@property(nonatomic, assign, getter=isLogined, readonly)BOOL logined;
 - (void)createMars;
 
 - (void)login:(NSString *)userName password:(NSString *)password;
