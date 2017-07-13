@@ -78,7 +78,7 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
       }
 
       
-      MQTTDisconnectTask::MQTTDisconnectTask(MQTTDisconnectCallback *callback) : MQTTTask(MQTT_MSG_DISCONNECT), m_callback(callback) {
+      MQTTDisconnectTask::MQTTDisconnectTask() : MQTTTask(MQTT_MSG_DISCONNECT) {
         cmdid = MQTT_DISCONNECT_CMDID;
       }
      

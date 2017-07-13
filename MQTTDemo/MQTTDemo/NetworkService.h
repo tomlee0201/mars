@@ -28,8 +28,16 @@
 @class CGITask;
 @class ViewController;
 
+
+typedef NS_ENUM(NSInteger, ConnectionStatus) {
+  kConnectionStatusLogout = -2,
+  kConnectionStatusUnconnected = -1,
+  kConnectionStatusConnectiong = 0,
+  kConnectionStatusConnected = 1
+};
+
 @protocol ConnectionStatusDelegate <NSObject>
-- (void)onConnectionStatusChanged:(int)status;
+- (void)onConnectionStatusChanged:(ConnectionStatus)status;
 @end
 
 @protocol ReceivePublishDelegate <NSObject>
@@ -56,7 +64,6 @@
 - (void)destroyMars;
 
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
-- (void)reportEvent_OnNetworkChange;
 @end
 
 #endif /* NetworkService_hpp */

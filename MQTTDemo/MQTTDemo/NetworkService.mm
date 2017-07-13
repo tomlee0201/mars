@@ -32,21 +32,6 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 
-@protocol DisconnectDelegate  <NSObject>
-- (void)onDisconnected;
-@end
-
-class DisconnectCallback : public mars::stn::MQTTDisconnectCallback {
-private:
-  id<DisconnectDelegate> m_delegate;
-public:
-  DisconnectCallback(id<DisconnectDelegate> delegate) : m_delegate(delegate) {};
-  virtual void onDisconnected() {
-    [m_delegate onDisconnected];
-    delete this;
-  }
-};
-
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
@@ -54,7 +39,7 @@ public:
   }
   void onConnectionStatusChanged(mars::stn::ConnectionStatus connectionStatus) {
     if (m_delegate) {
-      [m_delegate onConnectionStatusChanged:connectionStatus];
+      [m_delegate onConnectionStatusChanged:(ConnectionStatus)connectionStatus];
     }
   }
   id<ConnectionStatusDelegate> m_delegate;
@@ -72,7 +57,7 @@ public:
   id<ReceivePublishDelegate> m_delegate;
 };
 
-@interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate, DisconnectDelegate>
+@interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate>
 
 @end
 
@@ -84,8 +69,8 @@ static NetworkService * sharedSingleton = nil;
   mars::baseevent::OnDestroy();
 }
 
-- (void)onConnectionStatusChanged:(int)status {
-  NSLog(@"Connection statuc changed to (%d)", status);
+- (void)onConnectionStatusChanged:(ConnectionStatus)status {
+  NSLog(@"Connection statuc changed to (%ld)", status);
   if (!_logined) {
     [self logout];
     return;
@@ -130,15 +115,21 @@ static NetworkService * sharedSingleton = nil;
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
+  if (_connectionStatusDelegate) {
+    [_connectionStatusDelegate onConnectionStatusChanged:kConnectionStatusUnconnected];
+  }
   [[NetworkStatus sharedInstance] Start:[NetworkService sharedInstance]];
 }
 
 - (void)logout {
   _logined = NO;
   if (mars::stn::getConnectionStatus() != mars::stn::kConnectionStatusConnected) {
+    if (_connectionStatusDelegate) {
+      [_connectionStatusDelegate onConnectionStatusChanged:kConnectionStatusLogout];
+    }
     [self destroyMars];
   } else {
-    mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask(new DisconnectCallback(self));
+    mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask();
     mars::stn::StartTask(*disconnectTask);
   }
 }
@@ -178,11 +169,6 @@ static NetworkService * sharedSingleton = nil;
 - (void)reportEvent_OnForeground:(BOOL)isForeground {
     mars::baseevent::OnForeground(isForeground);
 }
-
-- (void)reportEvent_OnNetworkChange {
-    mars::baseevent::OnNetworkChange();
-}
-
 
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {
