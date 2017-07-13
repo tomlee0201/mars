@@ -7,9 +7,10 @@
 //
 
 #import "LoginViewController.h"
+#import "ViewController.h"
 #import "NetworkService.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
@@ -19,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,9 +34,9 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-  [[NetworkService sharedInstance] login:self.userNameField.text password:self.passwordField.text];
+    ViewController *vc = (ViewController *)segue.destinationViewController;
+    vc.userName = self.userNameField.text;
+    vc.password = self.passwordField.text;
 }
 
 @end

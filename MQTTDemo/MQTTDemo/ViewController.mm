@@ -12,7 +12,7 @@
 #import "PublishCallback.h"
 #import "NetworkService.h"
 
-@interface ViewController ()
+@interface ViewController () <ConnectionStatusDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *publishTopicField;
 @property (weak, nonatomic) IBOutlet UITextField *pushContentField;
 @property (weak, nonatomic) IBOutlet UITextField *subscribeTopicField;
@@ -21,15 +21,51 @@
 @end
 
 @implementation ViewController
+- (void)onConnectionStatusChanged:(ConnectionStatus)status {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView *title;
+        if (status != kConnectionStatusConnectiong) {
+            UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+            switch (status) {
+                case kConnectionStatusLogout:
+                    navLabel.text = @"未登录";
+                    break;
+                case kConnectionStatusUnconnected:
+                    navLabel.text = @"未连接";
+                    break;
+                case kConnectionStatusConnected:
+                    navLabel.text = @"已连接";
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            navLabel.textColor = [UIColor blueColor];
+            navLabel.font = [UIFont systemFontOfSize:18];
+            navLabel.textAlignment = NSTextAlignmentCenter;
+            title = navLabel;
+        } else {
+            UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            indicatorView.center = CGPointMake(self.navigationController.navigationBar.bounds.size.width/2, self.navigationController.navigationBar.bounds.size.height/2);
+            [indicatorView startAnimating];
+            title = indicatorView;
+        }
+        self.navigationItem.titleView = title;
+    });
+}
+
 - (IBAction)logout:(id)sender {
   [[NetworkService sharedInstance] logout];
   [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
-  
+    [super viewDidLoad];
+    [NetworkService sharedInstance].connectionStatusDelegate = self;
+    [[NetworkService sharedInstance] login:self.userName password:self.password];
 }
+
 - (IBAction)onPublishButton:(id)sender {
   mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PublishCallback());
   publishTask->topic = [self.publishTopicField.text cStringUsingEncoding:NSUTF8StringEncoding];
