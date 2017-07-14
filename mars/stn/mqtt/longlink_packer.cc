@@ -100,7 +100,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
   }
   const unsigned char *data = ( unsigned char *)_packed;
   int packLen = *(data + 1);
-  if (packLen + 2 < _packed_len) {
+  if (packLen + 2 > _packed_len) {
     return LONGLINK_UNPACK_CONTINUE;
   }
   
@@ -122,7 +122,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     {
       _cmdid = PUSH_DATA_TASKID;
       _seq = 0;
-      _body_len = _packed_len - 2;
+      _body_len = _package_len - 2;
       uint8_t buffer[4096];
       uint16_t length = mqtt_parse_pub_topic((const uint8_t*)_packed, buffer);
       _body.AllocWrite(length);
