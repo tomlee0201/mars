@@ -58,7 +58,7 @@ public:
 };
 
 @interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate>
-
+@property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
 @end
 
 @implementation NetworkService
@@ -69,15 +69,19 @@ static NetworkService * sharedSingleton = nil;
   mars::baseevent::OnDestroy();
 }
 
+- (void)setCurrentConnectionStatus:(ConnectionStatus)currentConnectionStatus {
+    NSLog(@"Connection status changed to (%ld)", currentConnectionStatus);
+    _currentConnectionStatus = currentConnectionStatus;
+    if (_connectionStatusDelegate) {
+        [_connectionStatusDelegate onConnectionStatusChanged:currentConnectionStatus];
+    }
+}
 - (void)onConnectionStatusChanged:(ConnectionStatus)status {
-  NSLog(@"Connection statuc changed to (%ld)", status);
   if (!_logined) {
     [self logout];
     return;
   }
-  if (_connectionStatusDelegate) {
-    [_connectionStatusDelegate onConnectionStatusChanged:status];
-  }
+    self.currentConnectionStatus = status;
 }
 
 - (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
@@ -97,6 +101,14 @@ static NetworkService * sharedSingleton = nil;
     return sharedSingleton;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _currentConnectionStatus = kConnectionStatusLogout;;
+    }
+    return self;
+}
+
 - (void)dealloc {
     
 }
@@ -111,22 +123,18 @@ static NetworkService * sharedSingleton = nil;
 - (void)login:(NSString *)userName password:(NSString *)password {
   _logined = YES;
   [self createMars];
-  [self setLongLinkAddress:@"192.168.1.101" port:1883];
+  [self setLongLinkAddress:@"localhost" port:1883];
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
-  if (_connectionStatusDelegate) {
-    [_connectionStatusDelegate onConnectionStatusChanged:kConnectionStatusUnconnected];
-  }
+    self.currentConnectionStatus = kConnectionStatusUnconnected;
   [[NetworkStatus sharedInstance] Start:[NetworkService sharedInstance]];
 }
 
 - (void)logout {
   _logined = NO;
   if (mars::stn::getConnectionStatus() != mars::stn::kConnectionStatusConnected) {
-    if (_connectionStatusDelegate) {
-      [_connectionStatusDelegate onConnectionStatusChanged:kConnectionStatusLogout];
-    }
+      self.currentConnectionStatus = kConnectionStatusLogout;
     [self destroyMars];
   } else {
     mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask();
