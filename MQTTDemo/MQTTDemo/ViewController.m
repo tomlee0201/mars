@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "LoginViewController.h"
 #import "NetworkService.h"
 #import "PublishTask.h"
 #import "SubscribeTask.h"
@@ -25,9 +26,11 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         UIView *title;
         if (status == kConnectionStatusLogout) {
-            [self.navigationController popViewControllerAnimated:YES];
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginVC"];
+            [self.navigationController presentViewController:loginViewController animated:YES completion:nil];
         } else if (status != kConnectionStatusConnectiong) {
-            UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+            UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2 - 40, 0, 80, 44)];
             switch (status) {
                 case kConnectionStatusLogout:
                     navLabel.text = @"未登录";
@@ -78,7 +81,7 @@
     [super viewDidLoad];
     [NetworkService sharedInstance].connectionStatusDelegate = self;
     [NetworkService sharedInstance].receivePublishDelegate = self;
-    [[NetworkService sharedInstance] login:self.userName password:self.password];
+    [self onConnectionStatusChanged:[NetworkService sharedInstance].currentConnectionStatus];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resetKeyboard:)]];
 }
 - (void)resetKeyboard:(id)sender {
@@ -87,10 +90,14 @@
 
 - (IBAction)onPublishButton:(id)sender {
     PublishTask *publishTask = [[PublishTask alloc] initWithTopic:self.publishTopicField.text message:self.pushContentField.text];
+    
+    __weak typeof(self) weakSelf = self;
+    NSString *topic = publishTask.topic;
+    NSString *message = publishTask.message;
     [publishTask send:^{
-        
+        [weakSelf appendEvent:[NSString stringWithFormat:@"Publish topic(%@) message(%@) success", topic, message]];
     } error:^(int error_code) {
-        
+        [weakSelf appendEvent:[NSString stringWithFormat:@"Publish topic(%@) message(%@) failure with error code(%d)", topic, message, error_code]];
     }];
     [self resetKeyboard:nil];
 }

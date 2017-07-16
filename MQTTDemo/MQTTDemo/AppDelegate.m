@@ -7,21 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "mars/app/app.h"
-#import "NetworkStatus.h"
 #import "NetworkService.h"
-#import <mars/xlog/xloggerbase.h>
-#import <mars/xlog/xlogger.h>
-#import <mars/xlog/appender.h>
-
-@interface AppDelegate ()
-
-@end
 
 @implementation AppDelegate
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [NetworkService startLog];
   return YES;
 }
 
@@ -52,7 +42,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    appender_close();
+    [NetworkService startLog];
 }
 
 

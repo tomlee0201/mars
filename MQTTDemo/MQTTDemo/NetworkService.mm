@@ -21,6 +21,7 @@
 #include "NetworkService.h"
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SCNetworkReachability.h>
+#import <sys/xattr.h>
 
 #import "app_callback.h"
 
@@ -64,6 +65,28 @@ public:
 @implementation NetworkService
 
 static NetworkService * sharedSingleton = nil;
++ (void)startLog {
+    NSString* logPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingString:@"/log"];
+    
+    // set do not backup for logpath
+    const char* attrName = "com.apple.MobileBackup";
+    u_int8_t attrValue = 1;
+    setxattr([logPath UTF8String], attrName, &attrValue, sizeof(attrValue), 0, 0);
+    
+    // init xlog
+#if DEBUG
+    xlogger_SetLevel(kLevelDebug);
+    appender_set_console_log(true);
+#else
+    xlogger_SetLevel(kLevelInfo);
+    appender_set_console_log(false);
+#endif
+    appender_open(kAppednerAsync, [logPath UTF8String], "Test");
+}
+
++ (void)stopLog {
+    appender_close();
+}
 
 - (void)onDisconnected {
   mars::baseevent::OnDestroy();
@@ -71,9 +94,11 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)setCurrentConnectionStatus:(ConnectionStatus)currentConnectionStatus {
     NSLog(@"Connection status changed to (%ld)", (long)currentConnectionStatus);
-    _currentConnectionStatus = currentConnectionStatus;
-    if (_connectionStatusDelegate) {
-        [_connectionStatusDelegate onConnectionStatusChanged:currentConnectionStatus];
+    if (_currentConnectionStatus != currentConnectionStatus) {
+        _currentConnectionStatus = currentConnectionStatus;
+        if (_connectionStatusDelegate) {
+            [_connectionStatusDelegate onConnectionStatusChanged:currentConnectionStatus];
+        }
     }
 }
 - (void)onConnectionStatusChanged:(ConnectionStatus)status {
@@ -135,8 +160,8 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)logout {
   _logined = NO;
+    self.currentConnectionStatus = kConnectionStatusLogout;
   if (mars::stn::getConnectionStatus() != mars::stn::kConnectionStatusConnected) {
-      self.currentConnectionStatus = kConnectionStatusLogout;
     [self destroyMars];
   } else {
     mars::stn::MQTTDisconnectTask *disconnectTask = new mars::stn::MQTTDisconnectTask();

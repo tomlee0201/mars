@@ -54,6 +54,10 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 @property(nonatomic, assign, getter=isLogined, readonly)BOOL logined;
 @property(nonatomic, assign, readonly)ConnectionStatus currentConnectionStatus;
 
++ (void)startLog;
++ (void)stopLog;
+
+
 - (void)createMars;
 
 - (void)login:(NSString *)userName password:(NSString *)password;

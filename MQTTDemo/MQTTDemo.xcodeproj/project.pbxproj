@@ -10,9 +10,9 @@
 		2E4CAB4A1F1AF56A00DD3EEC /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */; };
 		2E4CAB4D1F1AF57D00DD3EEC /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */; };
 		2E4CAB501F1AF59600DD3EEC /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */; };
-		2EC3BD7B1F04D61A006C6E6F /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.mm */; };
-		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */; };
-		2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.mm */; };
+		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
+		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
+		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
 		2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD821F04D61A006C6E6F /* Main.storyboard */; };
 		2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD851F04D61A006C6E6F /* Assets.xcassets */; };
 		2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */; };
@@ -26,7 +26,7 @@
 		2EC3BE0F1F04E64A006C6E6F /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0E1F04E64A006C6E6F /* libresolv.9.tbd */; };
 		2EC3BE111F04E653006C6E6F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE101F04E653006C6E6F /* libz.tbd */; };
 		2EC3BE131F04E658006C6E6F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE121F04E658006C6E6F /* UIKit.framework */; };
-		2F698A0D1F12489E004B7A80 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F698A0C1F12489E004B7A80 /* LoginViewController.mm */; };
+		2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F698A0C1F12489E004B7A80 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,11 +37,11 @@
 		2E4CAB4E1F1AF59600DD3EEC /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
 		2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EC3BD7A1F04D61A006C6E6F /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2EC3BD7F1F04D61A006C6E6F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2EC3BD801F04D61A006C6E6F /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		2EC3BD801F04D61A006C6E6F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2EC3BD831F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2EC3BD851F04D61A006C6E6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EC3BD881F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		2EC3BE101F04E653006C6E6F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2EC3BE121F04E658006C6E6F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2F698A0B1F12489E004B7A80 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		2F698A0C1F12489E004B7A80 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
+		2F698A0C1F12489E004B7A80 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,11 +122,11 @@
 			children = (
 				2E4CAB471F1AF4FD00DD3EEC /* MQTTClient */,
 				2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */,
-				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */,
+				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */,
 				2EC3BD7F1F04D61A006C6E6F /* ViewController.h */,
-				2EC3BD801F04D61A006C6E6F /* ViewController.mm */,
+				2EC3BD801F04D61A006C6E6F /* ViewController.m */,
 				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
-				2F698A0C1F12489E004B7A80 /* LoginViewController.mm */,
+				2F698A0C1F12489E004B7A80 /* LoginViewController.m */,
 				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
 			);
 			path = MQTTDemo;
@@ -139,7 +139,7 @@
 				2EC3BD851F04D61A006C6E6F /* Assets.xcassets */,
 				2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */,
 				2EC3BD8A1F04D61A006C6E6F /* Info.plist */,
-				2EC3BD7A1F04D61A006C6E6F /* main.mm */,
+				2EC3BD7A1F04D61A006C6E6F /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -230,15 +230,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F698A0D1F12489E004B7A80 /* LoginViewController.mm in Sources */,
+				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
 				2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */,
-				2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */,
+				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2E4CAB4A1F1AF56A00DD3EEC /* PublishTask.mm in Sources */,
-				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */,
+				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
 				2EC3BDEA1F04D8FC006C6E6F /* NetworkService.mm in Sources */,
 				2E4CAB501F1AF59600DD3EEC /* UnsubscribeTask.mm in Sources */,
 				2EC3BE011F04DB1C006C6E6F /* app_callback.mm in Sources */,
-				2EC3BD7B1F04D61A006C6E6F /* main.mm in Sources */,
+				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
 				2E4CAB4D1F1AF57D00DD3EEC /* SubscribeTask.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
