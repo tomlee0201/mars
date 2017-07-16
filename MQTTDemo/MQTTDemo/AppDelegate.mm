@@ -10,6 +10,9 @@
 #import "mars/app/app.h"
 #import "NetworkStatus.h"
 #import "NetworkService.h"
+#import <mars/xlog/xloggerbase.h>
+#import <mars/xlog/xlogger.h>
+#import <mars/xlog/appender.h>
 
 @interface AppDelegate ()
 
@@ -49,6 +52,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    appender_close();
 }
 
 

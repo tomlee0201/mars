@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E4CAB4A1F1AF56A00DD3EEC /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */; };
+		2E4CAB4D1F1AF57D00DD3EEC /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */; };
+		2E4CAB501F1AF59600DD3EEC /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.mm */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.mm */; };
@@ -23,11 +26,16 @@
 		2EC3BE0F1F04E64A006C6E6F /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0E1F04E64A006C6E6F /* libresolv.9.tbd */; };
 		2EC3BE111F04E653006C6E6F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE101F04E653006C6E6F /* libz.tbd */; };
 		2EC3BE131F04E658006C6E6F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE121F04E658006C6E6F /* UIKit.framework */; };
-		2EC3BE161F04F1BA006C6E6F /* PublishCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */; };
 		2F698A0D1F12489E004B7A80 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2F698A0C1F12489E004B7A80 /* LoginViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E4CAB481F1AF56A00DD3EEC /* PublishTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTask.h; sourceTree = "<group>"; };
+		2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PublishTask.mm; sourceTree = "<group>"; };
+		2E4CAB4B1F1AF57D00DD3EEC /* SubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeTask.h; sourceTree = "<group>"; };
+		2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SubscribeTask.mm; sourceTree = "<group>"; };
+		2E4CAB4E1F1AF59600DD3EEC /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
+		2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,8 +59,6 @@
 		2EC3BE0E1F04E64A006C6E6F /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
 		2EC3BE101F04E653006C6E6F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2EC3BE121F04E658006C6E6F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PublishCallback.mm; sourceTree = "<group>"; };
-		2EC3BE151F04F1BA006C6E6F /* PublishCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishCallback.h; sourceTree = "<group>"; };
 		2F698A0B1F12489E004B7A80 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		2F698A0C1F12489E004B7A80 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +81,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E4CAB471F1AF4FD00DD3EEC /* MQTTClient */ = {
+			isa = PBXGroup;
+			children = (
+				2EC3BDE41F04D8FC006C6E6F /* NetworkStatus.h */,
+				2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */,
+				2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */,
+				2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */,
+				2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */,
+				2EC3BE001F04DB1C006C6E6F /* app_callback.mm */,
+				2E4CAB481F1AF56A00DD3EEC /* PublishTask.h */,
+				2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */,
+				2E4CAB4B1F1AF57D00DD3EEC /* SubscribeTask.h */,
+				2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */,
+				2E4CAB4E1F1AF59600DD3EEC /* UnsubscribeTask.h */,
+				2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */,
+			);
+			name = MQTTClient;
+			sourceTree = "<group>";
+		};
 		2EC3BD6D1F04D61A006C6E6F = {
 			isa = PBXGroup;
 			children = (
@@ -95,21 +120,14 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
-				2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */,
-				2EC3BE001F04DB1C006C6E6F /* app_callback.mm */,
+				2E4CAB471F1AF4FD00DD3EEC /* MQTTClient */,
 				2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */,
 				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.mm */,
 				2EC3BD7F1F04D61A006C6E6F /* ViewController.h */,
 				2EC3BD801F04D61A006C6E6F /* ViewController.mm */,
-				2EC3BDE41F04D8FC006C6E6F /* NetworkStatus.h */,
-				2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */,
-				2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */,
-				2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */,
-				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
-				2EC3BE141F04F1BA006C6E6F /* PublishCallback.mm */,
-				2EC3BE151F04F1BA006C6E6F /* PublishCallback.h */,
 				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
 				2F698A0C1F12489E004B7A80 /* LoginViewController.mm */,
+				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
 			);
 			path = MQTTDemo;
 			sourceTree = "<group>";
@@ -215,11 +233,13 @@
 				2F698A0D1F12489E004B7A80 /* LoginViewController.mm in Sources */,
 				2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.mm in Sources */,
+				2E4CAB4A1F1AF56A00DD3EEC /* PublishTask.mm in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.mm in Sources */,
 				2EC3BDEA1F04D8FC006C6E6F /* NetworkService.mm in Sources */,
+				2E4CAB501F1AF59600DD3EEC /* UnsubscribeTask.mm in Sources */,
 				2EC3BE011F04DB1C006C6E6F /* app_callback.mm in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.mm in Sources */,
-				2EC3BE161F04F1BA006C6E6F /* PublishCallback.mm in Sources */,
+				2E4CAB4D1F1AF57D00DD3EEC /* SubscribeTask.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

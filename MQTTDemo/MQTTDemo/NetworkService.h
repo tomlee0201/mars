@@ -30,6 +30,7 @@
 
 
 typedef NS_ENUM(NSInteger, ConnectionStatus) {
+  kConnectionStatusRejected = -3,
   kConnectionStatusLogout = -2,
   kConnectionStatusUnconnected = -1,
   kConnectionStatusConnectiong = 0,

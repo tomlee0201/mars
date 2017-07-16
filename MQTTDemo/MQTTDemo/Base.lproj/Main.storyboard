@@ -113,7 +113,7 @@
                                     <action selector="onUnsubscribeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="07D-sc-G43"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ea3-HL-gSJ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ea3-HL-gSJ">
                                 <rect key="frame" x="16" y="337" width="343" height="330"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

@@ -208,10 +208,19 @@ int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, A
 bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash) {
   unsigned char * _packed = ( unsigned char *)_response_buffer.Ptr();
   
-  if (*_packed == 0) {
+    /*
+     CONNECTION_ACCEPTED((byte) 0x00),
+     CONNECTION_REFUSED_UNACCEPTABLE_PROTOCOL_VERSION((byte) 0X01),
+     CONNECTION_REFUSED_IDENTIFIER_REJECTED((byte) 0x02),
+     CONNECTION_REFUSED_SERVER_UNAVAILABLE((byte) 0x03),
+     CONNECTION_REFUSED_BAD_USER_NAME_OR_PASSWORD((byte) 0x04),
+     CONNECTION_REFUSED_NOT_AUTHORIZED((byte) 0x05);
+     */
+    
+  if (*(_packed + 1) == 0) {
     updateConnectionStatus(kConnectionStatusConnected);
   } else {
-    updateConnectionStatus(kConnectionStatusConnectiong);
+    updateConnectionStatus(kConnectionStatusRejected);
     return false;
   }
     return true;

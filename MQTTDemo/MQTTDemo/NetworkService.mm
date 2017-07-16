@@ -70,14 +70,14 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)setCurrentConnectionStatus:(ConnectionStatus)currentConnectionStatus {
-    NSLog(@"Connection status changed to (%ld)", currentConnectionStatus);
+    NSLog(@"Connection status changed to (%ld)", (long)currentConnectionStatus);
     _currentConnectionStatus = currentConnectionStatus;
     if (_connectionStatusDelegate) {
         [_connectionStatusDelegate onConnectionStatusChanged:currentConnectionStatus];
     }
 }
 - (void)onConnectionStatusChanged:(ConnectionStatus)status {
-  if (!_logined) {
+  if (!_logined || kConnectionStatusRejected == status) {
     [self logout];
     return;
   }

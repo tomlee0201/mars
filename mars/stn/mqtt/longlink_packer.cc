@@ -99,12 +99,14 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     return LONGLINK_UNPACK_CONTINUE;
   }
   const unsigned char *data = ( unsigned char *)_packed;
-  int packLen = *(data + 1);
-  if (packLen + 2 > _packed_len) {
+    int packLen = mqtt_parse_rem_len(data);
+    int remainHeaderBytes = mqtt_num_rem_len_bytes(data);
+    
+  if (packLen + 1 + remainHeaderBytes > _packed_len) {
     return LONGLINK_UNPACK_CONTINUE;
   }
   
-  _package_len = packLen + 2;
+  _package_len = packLen + 1 + remainHeaderBytes;
   _body_len = _packed_len;
   
   if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
@@ -115,14 +117,14 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     case MQTT_MSG_CONNACK:
       _cmdid = MQTT_CONNECT_CMDID;
       _seq = Task::kLongLinkIdentifyCheckerTaskID;
-      _body_len = _packed_len - 2;
+      _body_len = _packed_len - 1 - remainHeaderBytes;
       break;
       
     case MQTT_MSG_PUBLISH:
     {
       _cmdid = PUSH_DATA_TASKID;
       _seq = 0;
-      _body_len = _package_len - 2;
+      _body_len = _package_len -  1 - remainHeaderBytes;
       uint8_t buffer[4096];
       uint16_t length = mqtt_parse_pub_topic((const uint8_t*)_packed, buffer);
       _body.AllocWrite(length);
@@ -148,7 +150,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     case MQTT_MSG_PUBACK:
       _cmdid = MQTT_SEND_OUT_CMDID;
       _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 4;
+      _body_len = _packed_len - 1 - remainHeaderBytes - 2;
       break;
       
     case MQTT_MSG_PUBREC:
@@ -158,12 +160,12 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     case MQTT_MSG_SUBACK:
       _cmdid = MQTT_SUBSCRIBE_CMDID;
       _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 4;
+      _body_len = _packed_len - 1 - remainHeaderBytes - 2;
       break;
     case MQTT_MSG_UNSUBACK:
       _cmdid = MQTT_UNSUBSCRIBE_CMDID;
       _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 4;
+      _body_len = _packed_len - 1 - remainHeaderBytes - 2;
       break;
       
     case MQTT_MSG_PINGRESP:
@@ -183,7 +185,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
       break;
   }
   
-  _body.Write(AutoBuffer::ESeekCur, (const unsigned *)_packed + (_package_len-_body_len), _body_len);
+  _body.Write(AutoBuffer::ESeekStart, (const unsigned char*)_packed + (_package_len-_body_len), _body_len);
   
   return LONGLINK_UNPACK_OK;
 }
