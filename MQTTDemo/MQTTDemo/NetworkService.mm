@@ -78,7 +78,9 @@ static NetworkService * sharedSingleton = nil;
 }
 - (void)onConnectionStatusChanged:(ConnectionStatus)status {
   if (!_logined || kConnectionStatusRejected == status) {
-    [self logout];
+    dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+        [self logout];
+    });
     return;
   }
     self.currentConnectionStatus = status;
