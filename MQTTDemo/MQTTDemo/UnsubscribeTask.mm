@@ -11,12 +11,12 @@
 #import <mars/stn/stn_logic.h>
 #import "NetworkService.h"
 
-class UnsubscribeCallback : public mars::stn::MQTTPublishCallback {
+class UnsubscribeCallback : public mars::stn::MQTTGeneralCallback {
 private:
     void(^m_successBlock)();
     void(^m_errorBlock)(int error_code);
 public:
-    UnsubscribeCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::MQTTPublishCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    UnsubscribeCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::MQTTGeneralCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
     virtual void onSuccess() {
         if (m_successBlock) {
             m_successBlock();

@@ -59,15 +59,15 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
   channel_select = ChannelType_LongConn;
 }
       
-      MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {
+      MQTTPublishTask::MQTTPublishTask(MQTTGeneralCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {
         cmdid = MQTT_SEND_OUT_CMDID;
       }
       
-      MQTTSubscribeTask::MQTTSubscribeTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_SUBSCRIBE) , m_callback(callback) {
+      MQTTSubscribeTask::MQTTSubscribeTask(MQTTGeneralCallback *callback) : MQTTTask(MQTT_MSG_SUBSCRIBE) , m_callback(callback) {
         cmdid = MQTT_SUBSCRIBE_CMDID;
       }
       
-      MQTTUnsubscribeTask::MQTTUnsubscribeTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_UNSUBSCRIBE) , m_callback(callback) {
+      MQTTUnsubscribeTask::MQTTUnsubscribeTask(MQTTGeneralCallback *callback) : MQTTTask(MQTT_MSG_UNSUBSCRIBE) , m_callback(callback) {
         cmdid = MQTT_UNSUBSCRIBE_CMDID;
       }
       

@@ -69,7 +69,7 @@ namespace mars{
 struct TaskProfile;
 struct DnsProfile;
       
-      class MQTTPublishCallback {
+      class MQTTGeneralCallback {
       public:
         virtual void onSuccess() = 0;
         virtual void onFalure(int errorCode) = 0;
@@ -143,21 +143,21 @@ public:
       
       class MQTTPublishTask : public MQTTTask {
       public:
-        MQTTPublishTask(MQTTPublishCallback *callback);
+        MQTTPublishTask(MQTTGeneralCallback *callback);
         std::string body;
-        MQTTPublishCallback *m_callback;
+        MQTTGeneralCallback *m_callback;
       };
       
       class MQTTSubscribeTask : public MQTTTask {
       public:
-        MQTTSubscribeTask(MQTTPublishCallback *callback);
-        MQTTPublishCallback *m_callback;
+        MQTTSubscribeTask(MQTTGeneralCallback *callback);
+        MQTTGeneralCallback *m_callback;
       };
       
       class MQTTUnsubscribeTask : public MQTTTask {
       public:
-        MQTTUnsubscribeTask(MQTTPublishCallback *callback);
-        MQTTPublishCallback *m_callback;
+        MQTTUnsubscribeTask(MQTTGeneralCallback *callback);
+        MQTTGeneralCallback *m_callback;
       };
       
       class MQTTPubAckTask : public MQTTTask {

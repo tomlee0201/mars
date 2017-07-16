@@ -11,12 +11,12 @@
 #import <mars/stn/stn_logic.h>
 #import "NetworkService.h"
 
-class SubscribeCallback : public mars::stn::MQTTPublishCallback {
+class SubscribeCallback : public mars::stn::MQTTGeneralCallback {
 private:
     void(^m_successBlock)();
     void(^m_errorBlock)(int error_code);
 public:
-    SubscribeCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::MQTTPublishCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    SubscribeCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::MQTTGeneralCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
     virtual void onSuccess() {
         if (m_successBlock) {
             m_successBlock();
