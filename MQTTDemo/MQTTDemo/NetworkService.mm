@@ -123,7 +123,7 @@ static NetworkService * sharedSingleton = nil;
 - (void)login:(NSString *)userName password:(NSString *)password {
   _logined = YES;
   [self createMars];
-  [self setLongLinkAddress:@"localhost" port:1883];
+  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
