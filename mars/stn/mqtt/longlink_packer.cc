@@ -102,7 +102,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     int packLen = mqtt_parse_rem_len(data);
     int remainHeaderBytes = mqtt_num_rem_len_bytes(data);
     
-  if (packLen + 1 + remainHeaderBytes > _packed_len) {
+  if ((size_t)(packLen + 1 + remainHeaderBytes) > _packed_len) {
     return LONGLINK_UNPACK_CONTINUE;
   }
   

@@ -58,8 +58,6 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 + (void)stopLog;
 
 
-- (void)createMars;
-
 - (void)login:(NSString *)userName password:(NSString *)password;
 
 - (void)logout;
@@ -68,7 +66,6 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port debugIP:(NSString *)IP;
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port;
 
-- (void)destroyMars;
 
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 @end

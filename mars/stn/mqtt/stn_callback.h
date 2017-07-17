@@ -21,8 +21,8 @@
 #ifndef STNCALLBACK_h
 #define STNCALLBACK_h
 
-#import <mars/stn/stn_logic.h>
-#import <mars/stn/stn.h>
+#include "mars/stn/stn_logic.h"
+#include "mars/stn/stn.h"
 
 namespace mars {
     namespace stn {
