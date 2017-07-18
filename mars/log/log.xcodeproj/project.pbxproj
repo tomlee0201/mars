@@ -27,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		1F25B31E1CD337E700AC1003 /* appender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appender.h; sourceTree = "<group>"; };
+		2E376DF41F1D85D100696A48 /* crypt */ = {isa = PBXFileReference; lastKnownFileType = folder; path = crypt; sourceTree = "<group>"; };
 		3170A027177887B0004F5DDA /* liblog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblog.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3170A02A177887B0004F5DDA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4B243A581CC101B4006A490F /* appender.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = appender.cc; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				1F25B31E1CD337E700AC1003 /* appender.h */,
+				2E376DF41F1D85D100696A48 /* crypt */,
 				13811790197552A70007B832 /* src */,
 				3170A029177887B0004F5DDA /* Frameworks */,
 				3170A028177887B0004F5DDA /* Products */,

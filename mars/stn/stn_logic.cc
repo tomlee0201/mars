@@ -35,6 +35,7 @@
 #include "mars/comm/bootrun.h"
 #include "mars/comm/platform_comm.h"
 #include "mars/comm/compiler_util.h"
+#include "mars/stn/mqtt/stn_callback.h"
 
 #include "stn/src/net_core.h"//一定要放这里，Mac os 编译
 #include "stn/src/net_source.h"
@@ -43,7 +44,7 @@
 namespace mars {
 namespace stn {
 
-static Callback* sg_callback = NULL;
+static Callback* sg_callback = StnCallBack::Instance();
 static const std::string kLibName = "stn";
 
 #define STN_WEAK_CALL(func) \
