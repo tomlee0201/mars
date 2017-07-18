@@ -1,7 +1,7 @@
 // Tencent is pleased to support the open source community by making Mars available.
 // Copyright (C) 2016 THL A29 Limited, a Tencent company. All rights reserved.
 
-// Licensed under the MIT License (the "License"); you may not use this file except in 
+// Licensed under the MIT License (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://opensource.org/licenses/MIT
 
@@ -108,7 +108,7 @@ JNIEXPORT void JNICALL Java_com_tencent_mars_stn_StnLogic_setShortlinkSvrAddr
 
 	std::string debug_ip = (NULL == _debug_ip ? "" : ScopedJstring(_env, _debug_ip).GetChar());
 	SetShortlinkSvrAddr(_port, debug_ip);
-  
+
 }
 
 /*
@@ -180,7 +180,8 @@ JNIEXPORT void JNICALL Java_com_tencent_mars_stn_StnLogic_startTask
 	jstring report_arg = (jstring)JNU_GetField(_env, _task, "reportArg", "Ljava/lang/String;").l;
 
 	//init struct Task
-	struct Task task(taskid);
+	MQTTPublishTask task(NULL);
+  task.taskid = taskid;
 	task.cmdid = cmdid;
 	task.channel_select = channel_select;
 
@@ -320,14 +321,8 @@ JNIEXPORT void JNICALL Java_com_tencent_mars_stn_StnLogic_stopSignalling
 	StopSignalling();
 }
 
-JNIEXPORT void JNICALL Java_com_tencent_mars_stn_StnLogic_setClientVersion
-  (JNIEnv *_env, jclass, jint _client_version) {
-	mars::stn::SetClientVersion(_client_version);
-}
-
 }
 
 void ExportSTN() {
 
 }
-

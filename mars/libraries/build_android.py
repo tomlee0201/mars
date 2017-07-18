@@ -21,14 +21,7 @@ COPY_XLOG_FILES = {"../log/crypt/log_crypt.h": "jni/log_crypt.h",
 
 BUILD_MARS_PATHS = ("openssl", "comm", "baseevent", "log", "app", "sdt", "stn")
 
-COPY_MARS_FILES = {"../stn/proto/longlink_packer.h": "jni/longlink_packer.h",
-               "../stn/proto/shortlink_packer.h": "jni/shortlink_packer.h",
-                "../stn/proto/longlink_packer.cc": "jni/longlink_packer.cc.rewriteme",
-                "../stn/proto/shortlink_packer.cc": "jni/shortlink_packer.cc.rewriteme",
-                "../log/crypt/log_crypt.h": "jni/log_crypt.h",
-                "../log/crypt/log_crypt.cc": "jni/log_crypt.cc.rewriteme",
-                "../log/crypt/decode_mars_log_file.py": "jni/decode_mars_log_file.py.rewriteme",
-                "../mk_template/JNI_OnLoad.cpp": "jni/JNI_OnLoad.cc"
+COPY_MARS_FILES = {"../mk_template/JNI_OnLoad.cpp": "jni/JNI_OnLoad.cc"
                 }
 
 
@@ -58,7 +51,7 @@ def build_android_xlog_static_libs(_path="mars_xlog_sdk", _arch="armeabi"):
     for i in range(len(BUILD_XLOG_PATHS)-1, -1, -1):
         if not os.path.exists("../" + BUILD_XLOG_PATHS[i] + "/jni"):
             continue
-        
+
         files = os.listdir("../" + BUILD_XLOG_PATHS[i] + "/libs")
         for f in files:
             if os.path.isfile(f):
@@ -76,7 +69,7 @@ def build_android_xlog_static_libs(_path="mars_xlog_sdk", _arch="armeabi"):
                 shutil.copy(lib, cpu_libs)
             for lib in glob.glob("../" + BUILD_XLOG_PATHS[i] + "/obj/local/" + f + "/*.a"):
                 shutil.copy(lib, cpu_libs)
-            
+
             for lib in glob.glob("../" + BUILD_XLOG_PATHS[i] + "/obj/local/" + f + "/*.so"):
                 shutil.copy(lib, cpu_symbols)
 
@@ -120,7 +113,7 @@ def build_android_xlog_shared_libs(_path="mars_xlog_sdk", _arch="armeabi"):
 def build_android_mars_static_libs(_path="mars_android_sdk", _arch="armeabi"):
     libs_save_path = _path + "/mars_libs"
     src_save_path = _path + "/"
-    
+
 
     shutil.rmtree(libs_save_path, True)
     for i in range(0, len(BUILD_MARS_PATHS)):
@@ -143,7 +136,7 @@ def build_android_mars_static_libs(_path="mars_android_sdk", _arch="armeabi"):
     for i in range(len(BUILD_MARS_PATHS)-1, -1, -1):
         if not os.path.exists("../" + BUILD_MARS_PATHS[i] + "/jni"):
             continue
-        
+
         files = os.listdir("../" + BUILD_MARS_PATHS[i] + "/libs")
         for f in files:
             if os.path.isfile(f):
@@ -162,7 +155,7 @@ def build_android_mars_static_libs(_path="mars_android_sdk", _arch="armeabi"):
             for lib in glob.glob("../" + BUILD_MARS_PATHS[i] + "/obj/local/" + f + "/*.a"):
                 if os.path.isfile(lib):
                     shutil.copy(lib, cpu_libs)
-            
+
             for lib in glob.glob("../" + BUILD_MARS_PATHS[i] + "/obj/local/" + f + "/*.so"):
                 if os.path.isfile(lib):
                     shutil.copy(lib, cpu_symbols)
@@ -208,7 +201,7 @@ def choose_android_mars_jni_arch():
     archnum = raw_input("Enter the architecture which would like to build:\n1. armeabi.\n2. x86.\n3. mips.\n4. armeabi-v7a.\n5. arm64-v8a.\n6. x86_64.\n7. mips64.\n8. exit.\n")
 
     arr = []
-    
+
     archs = archnum.split(',')
     for i in range(0, len(archs)):
         if archs[i] >= "1" and archs[i] <= str(len(platforms)):
@@ -217,7 +210,7 @@ def choose_android_mars_jni_arch():
     return arr
 
 
-    
+
 def main():
     if not check_env():
         return
@@ -237,7 +230,7 @@ def main():
             archs = choose_android_mars_jni_arch()
             if len(archs) == 0:
                 return
-                
+
         if WITH_SCRIPT == 1:
             if "1" == num:
                 return build_android_mars_shared_libs()
@@ -253,7 +246,7 @@ def main():
                 pass
         else:
 
-            
+
             if "1" == num or "2" == num:
                 sdk_path = MARS_LIBS_PATH
             elif "3" == num or "4" == num:
@@ -311,10 +304,10 @@ def main():
                 if "2" == num or "3" == num:
                     sta_cache_dir = STATIC_CACHE_DIR + arch
                     sta_des_dir = STATIC_DES_DIR + arch
-                        
+
                     if not os.path.exists(sta_cache_dir):
                         os.makedirs(sta_cache_dir)
-                    
+
                     for lib in glob.glob(sta_des_dir + "/*"):
                         if  os.path.isfile(lib):
                             shutil.copy(lib, sta_cache_dir)

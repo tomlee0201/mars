@@ -12,6 +12,10 @@ SRC := $(wildcard $(TEMP_LOCAL_PATH)/../src/*.cc)
 SRC := $(SRC:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES += $(SRC)
 
+SRC := $(wildcard $(TEMP_LOCAL_PATH)/../crypt/*.cc)
+SRC := $(SRC:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES += $(SRC)
+
 SRC := $(wildcard $(TEMP_LOCAL_PATH)/../interface/*.cc)
 SRC := $(SRC:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES += $(SRC)
