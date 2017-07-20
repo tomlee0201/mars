@@ -1,0 +1,22 @@
+syntax = "proto3";
+package proto;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "ConversationOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+
+enum ConversationType {
+    Private = 0;
+    Group = 1;
+    System = 2;
+    ChatRoom = 3;
+    Command = 4;
+}
+
+message Conversation {
+  ConversationType type = 1;
+  string target = 2;
+}

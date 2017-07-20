@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E4CAB4A1F1AF56A00DD3EEC /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */; };
-		2E4CAB4D1F1AF57D00DD3EEC /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */; };
-		2E4CAB501F1AF59600DD3EEC /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */; };
+		2E41DB531F20338300491073 /* app_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB481F20338300491073 /* app_callback.mm */; };
+		2E41DB541F20338300491073 /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4A1F20338300491073 /* NetworkService.mm */; };
+		2E41DB551F20338300491073 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4C1F20338300491073 /* NetworkStatus.m */; };
+		2E41DB561F20338300491073 /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4E1F20338300491073 /* PublishTask.mm */; };
+		2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB501F20338300491073 /* SubscribeTask.mm */; };
+		2E41DB581F20338300491073 /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB521F20338300491073 /* UnsubscribeTask.mm */; };
+		2E41DB671F203E0700491073 /* Conversation.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */; };
+		2E41DB681F203E0700491073 /* conversation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB601F203E0700491073 /* conversation.proto */; };
+		2E41DB691F203E0700491073 /* Message.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB621F203E0700491073 /* Message.pbobjc.m */; };
+		2E41DB6A1F203E0700491073 /* message.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB631F203E0700491073 /* message.proto */; };
+		2E41DB6B1F203E0700491073 /* Messagecontent.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */; };
+		2E41DB6C1F203E0700491073 /* messagecontent.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB661F203E0700491073 /* messagecontent.proto */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
@@ -17,9 +26,6 @@
 		2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD851F04D61A006C6E6F /* Assets.xcassets */; };
 		2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */; };
 		2EC3BD981F04D666006C6E6F /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BD971F04D666006C6E6F /* libmars-open-iphone.a */; };
-		2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */; };
-		2EC3BDEA1F04D8FC006C6E6F /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */; };
-		2EC3BE011F04DB1C006C6E6F /* app_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BE001F04DB1C006C6E6F /* app_callback.mm */; };
 		2EC3BE031F04DBA0006C6E6F /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE021F04DBA0006C6E6F /* mars.framework */; };
 		2EC3BE0B1F04E62A006C6E6F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0A1F04E62A006C6E6F /* CoreTelephony.framework */; };
 		2EC3BE0D1F04E62F006C6E6F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0C1F04E62F006C6E6F /* SystemConfiguration.framework */; };
@@ -30,12 +36,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2E4CAB481F1AF56A00DD3EEC /* PublishTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTask.h; sourceTree = "<group>"; };
-		2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PublishTask.mm; sourceTree = "<group>"; };
-		2E4CAB4B1F1AF57D00DD3EEC /* SubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeTask.h; sourceTree = "<group>"; };
-		2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SubscribeTask.mm; sourceTree = "<group>"; };
-		2E4CAB4E1F1AF59600DD3EEC /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
-		2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
+		2E41DB471F20338300491073 /* app_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = app_callback.h; path = MQTTClient/app_callback.h; sourceTree = "<group>"; };
+		2E41DB481F20338300491073 /* app_callback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = app_callback.mm; path = MQTTClient/app_callback.mm; sourceTree = "<group>"; };
+		2E41DB491F20338300491073 /* NetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkService.h; path = MQTTClient/NetworkService.h; sourceTree = "<group>"; };
+		2E41DB4A1F20338300491073 /* NetworkService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NetworkService.mm; path = MQTTClient/NetworkService.mm; sourceTree = "<group>"; };
+		2E41DB4B1F20338300491073 /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkStatus.h; path = MQTTClient/NetworkStatus.h; sourceTree = "<group>"; };
+		2E41DB4C1F20338300491073 /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkStatus.m; path = MQTTClient/NetworkStatus.m; sourceTree = "<group>"; };
+		2E41DB4D1F20338300491073 /* PublishTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PublishTask.h; path = MQTTClient/PublishTask.h; sourceTree = "<group>"; };
+		2E41DB4E1F20338300491073 /* PublishTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PublishTask.mm; path = MQTTClient/PublishTask.mm; sourceTree = "<group>"; };
+		2E41DB4F1F20338300491073 /* SubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubscribeTask.h; path = MQTTClient/SubscribeTask.h; sourceTree = "<group>"; };
+		2E41DB501F20338300491073 /* SubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SubscribeTask.mm; path = MQTTClient/SubscribeTask.mm; sourceTree = "<group>"; };
+		2E41DB511F20338300491073 /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnsubscribeTask.h; path = MQTTClient/UnsubscribeTask.h; sourceTree = "<group>"; };
+		2E41DB521F20338300491073 /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UnsubscribeTask.mm; path = MQTTClient/UnsubscribeTask.mm; sourceTree = "<group>"; };
+		2E41DB5E1F203E0700491073 /* Conversation.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conversation.pbobjc.h; sourceTree = "<group>"; };
+		2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.pbobjc.m; sourceTree = "<group>"; };
+		2E41DB601F203E0700491073 /* conversation.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conversation.proto; sourceTree = "<group>"; };
+		2E41DB611F203E0700491073 /* Message.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.pbobjc.h; sourceTree = "<group>"; };
+		2E41DB621F203E0700491073 /* Message.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.pbobjc.m; sourceTree = "<group>"; };
+		2E41DB631F203E0700491073 /* message.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = message.proto; sourceTree = "<group>"; };
+		2E41DB641F203E0700491073 /* Messagecontent.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Messagecontent.pbobjc.h; sourceTree = "<group>"; };
+		2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messagecontent.pbobjc.m; sourceTree = "<group>"; };
+		2E41DB661F203E0700491073 /* messagecontent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = messagecontent.proto; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -47,12 +68,6 @@
 		2EC3BD881F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EC3BD8A1F04D61A006C6E6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EC3BD971F04D666006C6E6F /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../build/Debug-iphoneos/libmars-open-iphone.a"; sourceTree = "<group>"; };
-		2EC3BDE41F04D8FC006C6E6F /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkStatus.h; sourceTree = "<group>"; };
-		2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkStatus.m; sourceTree = "<group>"; };
-		2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkService.h; sourceTree = "<group>"; };
-		2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkService.mm; sourceTree = "<group>"; };
-		2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_callback.h; sourceTree = "<group>"; };
-		2EC3BE001F04DB1C006C6E6F /* app_callback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_callback.mm; sourceTree = "<group>"; };
 		2EC3BE021F04DBA0006C6E6F /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = MQTTDemo/mars.framework; sourceTree = "<group>"; };
 		2EC3BE0A1F04E62A006C6E6F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		2EC3BE0C1F04E62F006C6E6F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -81,21 +96,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E41DB5C1F203E0700491073 /* IMClient */ = {
+			isa = PBXGroup;
+			children = (
+				2E41DB5D1F203E0700491073 /* Proto */,
+			);
+			path = IMClient;
+			sourceTree = "<group>";
+		};
+		2E41DB5D1F203E0700491073 /* Proto */ = {
+			isa = PBXGroup;
+			children = (
+				2E41DB5E1F203E0700491073 /* Conversation.pbobjc.h */,
+				2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */,
+				2E41DB601F203E0700491073 /* conversation.proto */,
+				2E41DB611F203E0700491073 /* Message.pbobjc.h */,
+				2E41DB621F203E0700491073 /* Message.pbobjc.m */,
+				2E41DB631F203E0700491073 /* message.proto */,
+				2E41DB641F203E0700491073 /* Messagecontent.pbobjc.h */,
+				2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */,
+				2E41DB661F203E0700491073 /* messagecontent.proto */,
+			);
+			path = Proto;
+			sourceTree = "<group>";
+		};
 		2E4CAB471F1AF4FD00DD3EEC /* MQTTClient */ = {
 			isa = PBXGroup;
 			children = (
-				2EC3BDE41F04D8FC006C6E6F /* NetworkStatus.h */,
-				2EC3BDE51F04D8FC006C6E6F /* NetworkStatus.m */,
-				2EC3BDE61F04D8FC006C6E6F /* NetworkService.h */,
-				2EC3BDE71F04D8FC006C6E6F /* NetworkService.mm */,
-				2EC3BDFF1F04DB1C006C6E6F /* app_callback.h */,
-				2EC3BE001F04DB1C006C6E6F /* app_callback.mm */,
-				2E4CAB481F1AF56A00DD3EEC /* PublishTask.h */,
-				2E4CAB491F1AF56A00DD3EEC /* PublishTask.mm */,
-				2E4CAB4B1F1AF57D00DD3EEC /* SubscribeTask.h */,
-				2E4CAB4C1F1AF57D00DD3EEC /* SubscribeTask.mm */,
-				2E4CAB4E1F1AF59600DD3EEC /* UnsubscribeTask.h */,
-				2E4CAB4F1F1AF59600DD3EEC /* UnsubscribeTask.mm */,
+				2E41DB471F20338300491073 /* app_callback.h */,
+				2E41DB481F20338300491073 /* app_callback.mm */,
+				2E41DB491F20338300491073 /* NetworkService.h */,
+				2E41DB4A1F20338300491073 /* NetworkService.mm */,
+				2E41DB4B1F20338300491073 /* NetworkStatus.h */,
+				2E41DB4C1F20338300491073 /* NetworkStatus.m */,
+				2E41DB4D1F20338300491073 /* PublishTask.h */,
+				2E41DB4E1F20338300491073 /* PublishTask.mm */,
+				2E41DB4F1F20338300491073 /* SubscribeTask.h */,
+				2E41DB501F20338300491073 /* SubscribeTask.mm */,
+				2E41DB511F20338300491073 /* UnsubscribeTask.h */,
+				2E41DB521F20338300491073 /* UnsubscribeTask.mm */,
 			);
 			name = MQTTClient;
 			sourceTree = "<group>";
@@ -120,6 +159,7 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2E41DB5C1F203E0700491073 /* IMClient */,
 				2E4CAB471F1AF4FD00DD3EEC /* MQTTClient */,
 				2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */,
 				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */,
@@ -165,6 +205,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2EC3BD8D1F04D61A006C6E6F /* Build configuration list for PBXNativeTarget "MQTTDemo" */;
 			buildPhases = (
+				2E41DB5B1F203D4700491073 /* ShellScript */,
 				2EC3BD721F04D61A006C6E6F /* Sources */,
 				2EC3BD731F04D61A006C6E6F /* Frameworks */,
 				2EC3BD741F04D61A006C6E6F /* Resources */,
@@ -218,28 +259,50 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */,
+				2E41DB6A1F203E0700491073 /* message.proto in Resources */,
 				2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */,
 				2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */,
+				2E41DB6C1F203E0700491073 /* messagecontent.proto in Resources */,
+				2E41DB681F203E0700491073 /* conversation.proto in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2E41DB5B1F203D4700491073 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd ./MQTTDemo/IMClient/Proto\nprotoc --objc_out=./ *.proto";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2EC3BD721F04D61A006C6E6F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E41DB581F20338300491073 /* UnsubscribeTask.mm in Sources */,
+				2E41DB561F20338300491073 /* PublishTask.mm in Sources */,
+				2E41DB551F20338300491073 /* NetworkStatus.m in Sources */,
+				2E41DB6B1F203E0700491073 /* Messagecontent.pbobjc.m in Sources */,
+				2E41DB671F203E0700491073 /* Conversation.pbobjc.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
-				2EC3BDE91F04D8FC006C6E6F /* NetworkStatus.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
-				2E4CAB4A1F1AF56A00DD3EEC /* PublishTask.mm in Sources */,
+				2E41DB691F203E0700491073 /* Message.pbobjc.m in Sources */,
+				2E41DB541F20338300491073 /* NetworkService.mm in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
-				2EC3BDEA1F04D8FC006C6E6F /* NetworkService.mm in Sources */,
-				2E4CAB501F1AF59600DD3EEC /* UnsubscribeTask.mm in Sources */,
-				2EC3BE011F04DB1C006C6E6F /* app_callback.mm in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
-				2E4CAB4D1F1AF57D00DD3EEC /* SubscribeTask.mm in Sources */,
+				2E41DB531F20338300491073 /* app_callback.mm in Sources */,
+				2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

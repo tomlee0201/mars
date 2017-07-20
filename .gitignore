@@ -90,3 +90,9 @@ xcshareddata
 .cproject
 .project
 mars/MQTTDemo/MQTTDemo/mars.framework
+MQTTDemo/MQTTDemo/IMClient/Proto/Conversation.pbobjc.h
+MQTTDemo/MQTTDemo/IMClient/Proto/Conversation.pbobjc.m
+MQTTDemo/MQTTDemo/IMClient/Proto/Message.pbobjc.h
+MQTTDemo/MQTTDemo/IMClient/Proto/Message.pbobjc.m
+MQTTDemo/MQTTDemo/IMClient/Proto/Messagecontent.pbobjc.h
+MQTTDemo/MQTTDemo/IMClient/Proto/Messagecontent.pbobjc.m

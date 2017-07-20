@@ -1,0 +1,17 @@
+syntax = "proto3";
+package proto;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "MessageOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+import "conversation.proto";
+import "messagecontent.proto";
+
+message Message {
+  Conversation conversation = 1;
+  MessageContent content = 2;
+  string message_uid = 3;
+}
