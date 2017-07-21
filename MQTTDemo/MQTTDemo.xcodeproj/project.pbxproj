@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E28AF751F217346008A8AB6 /* GPBProtocolBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E28AF671F217346008A8AB6 /* GPBProtocolBuffers.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E28AF761F217346008A8AB6 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2E28AF741F217346008A8AB6 /* README.md */; };
 		2E41DB531F20338300491073 /* app_callback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB481F20338300491073 /* app_callback.mm */; };
 		2E41DB541F20338300491073 /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4A1F20338300491073 /* NetworkService.mm */; };
 		2E41DB551F20338300491073 /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4C1F20338300491073 /* NetworkStatus.m */; };
 		2E41DB561F20338300491073 /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4E1F20338300491073 /* PublishTask.mm */; };
 		2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB501F20338300491073 /* SubscribeTask.mm */; };
 		2E41DB581F20338300491073 /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB521F20338300491073 /* UnsubscribeTask.mm */; };
-		2E41DB671F203E0700491073 /* Conversation.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */; };
+		2E41DB671F203E0700491073 /* Conversation.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E41DB681F203E0700491073 /* conversation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB601F203E0700491073 /* conversation.proto */; };
-		2E41DB691F203E0700491073 /* Message.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB621F203E0700491073 /* Message.pbobjc.m */; };
+		2E41DB691F203E0700491073 /* Message.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB621F203E0700491073 /* Message.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E41DB6A1F203E0700491073 /* message.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB631F203E0700491073 /* message.proto */; };
-		2E41DB6B1F203E0700491073 /* Messagecontent.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */; };
+		2E41DB6B1F203E0700491073 /* Messagecontent.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E41DB6C1F203E0700491073 /* messagecontent.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB661F203E0700491073 /* messagecontent.proto */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
@@ -36,6 +38,46 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E28AF571F217346008A8AB6 /* GPBArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBArray.h; sourceTree = "<group>"; };
+		2E28AF581F217346008A8AB6 /* GPBArray_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBArray_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF591F217346008A8AB6 /* GPBBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBBootstrap.h; sourceTree = "<group>"; };
+		2E28AF5A1F217346008A8AB6 /* GPBCodedInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBCodedInputStream.h; sourceTree = "<group>"; };
+		2E28AF5B1F217346008A8AB6 /* GPBCodedInputStream_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBCodedInputStream_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF5C1F217346008A8AB6 /* GPBCodedOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBCodedOutputStream.h; sourceTree = "<group>"; };
+		2E28AF5D1F217346008A8AB6 /* GPBCodedOutputStream_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBCodedOutputStream_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF5E1F217346008A8AB6 /* GPBDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBDescriptor.h; sourceTree = "<group>"; };
+		2E28AF5F1F217346008A8AB6 /* GPBDescriptor_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBDescriptor_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF601F217346008A8AB6 /* GPBDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBDictionary.h; sourceTree = "<group>"; };
+		2E28AF611F217346008A8AB6 /* GPBDictionary_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBDictionary_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF621F217346008A8AB6 /* GPBExtensionInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBExtensionInternals.h; sourceTree = "<group>"; };
+		2E28AF631F217346008A8AB6 /* GPBExtensionRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBExtensionRegistry.h; sourceTree = "<group>"; };
+		2E28AF641F217346008A8AB6 /* GPBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBMessage.h; sourceTree = "<group>"; };
+		2E28AF651F217346008A8AB6 /* GPBMessage_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBMessage_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF661F217346008A8AB6 /* GPBProtocolBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBProtocolBuffers.h; sourceTree = "<group>"; };
+		2E28AF671F217346008A8AB6 /* GPBProtocolBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPBProtocolBuffers.m; sourceTree = "<group>"; };
+		2E28AF681F217346008A8AB6 /* GPBProtocolBuffers_RuntimeSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBProtocolBuffers_RuntimeSupport.h; sourceTree = "<group>"; };
+		2E28AF691F217346008A8AB6 /* GPBRootObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBRootObject.h; sourceTree = "<group>"; };
+		2E28AF6A1F217346008A8AB6 /* GPBRootObject_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBRootObject_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF6B1F217346008A8AB6 /* GPBRuntimeTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBRuntimeTypes.h; sourceTree = "<group>"; };
+		2E28AF6C1F217346008A8AB6 /* GPBUnknownField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBUnknownField.h; sourceTree = "<group>"; };
+		2E28AF6D1F217346008A8AB6 /* GPBUnknownField_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBUnknownField_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF6E1F217346008A8AB6 /* GPBUnknownFieldSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBUnknownFieldSet.h; sourceTree = "<group>"; };
+		2E28AF6F1F217346008A8AB6 /* GPBUnknownFieldSet_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBUnknownFieldSet_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF701F217346008A8AB6 /* GPBUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBUtilities.h; sourceTree = "<group>"; };
+		2E28AF711F217346008A8AB6 /* GPBUtilities_PackagePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBUtilities_PackagePrivate.h; sourceTree = "<group>"; };
+		2E28AF721F217346008A8AB6 /* GPBWellKnownTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBWellKnownTypes.h; sourceTree = "<group>"; };
+		2E28AF731F217346008A8AB6 /* GPBWireFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPBWireFormat.h; sourceTree = "<group>"; };
+		2E28AF741F217346008A8AB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2E28AF9E1F217EEF008A8AB6 /* Any.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Any.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFA01F217EEF008A8AB6 /* Api.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Api.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFA21F217EEF008A8AB6 /* Duration.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Duration.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFA41F217EEF008A8AB6 /* Empty.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Empty.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFA61F217EEF008A8AB6 /* FieldMask.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldMask.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFAD1F217F14008A8AB6 /* SourceContext.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceContext.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFAF1F217F14008A8AB6 /* Struct.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Struct.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFB11F217F14008A8AB6 /* Timestamp.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timestamp.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFB31F217F14008A8AB6 /* Type.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Type.pbobjc.h; sourceTree = "<group>"; };
+		2E28AFB51F217F14008A8AB6 /* Wrappers.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrappers.pbobjc.h; sourceTree = "<group>"; };
 		2E41DB471F20338300491073 /* app_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = app_callback.h; path = MQTTClient/app_callback.h; sourceTree = "<group>"; };
 		2E41DB481F20338300491073 /* app_callback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = app_callback.mm; path = MQTTClient/app_callback.mm; sourceTree = "<group>"; };
 		2E41DB491F20338300491073 /* NetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkService.h; path = MQTTClient/NetworkService.h; sourceTree = "<group>"; };
@@ -96,6 +138,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E28AF561F217346008A8AB6 /* protobuf */ = {
+			isa = PBXGroup;
+			children = (
+				2E28AF9E1F217EEF008A8AB6 /* Any.pbobjc.h */,
+				2E28AFA01F217EEF008A8AB6 /* Api.pbobjc.h */,
+				2E28AFA21F217EEF008A8AB6 /* Duration.pbobjc.h */,
+				2E28AFA41F217EEF008A8AB6 /* Empty.pbobjc.h */,
+				2E28AFA61F217EEF008A8AB6 /* FieldMask.pbobjc.h */,
+				2E28AF571F217346008A8AB6 /* GPBArray.h */,
+				2E28AF581F217346008A8AB6 /* GPBArray_PackagePrivate.h */,
+				2E28AF591F217346008A8AB6 /* GPBBootstrap.h */,
+				2E28AF5A1F217346008A8AB6 /* GPBCodedInputStream.h */,
+				2E28AF5B1F217346008A8AB6 /* GPBCodedInputStream_PackagePrivate.h */,
+				2E28AF5C1F217346008A8AB6 /* GPBCodedOutputStream.h */,
+				2E28AF5D1F217346008A8AB6 /* GPBCodedOutputStream_PackagePrivate.h */,
+				2E28AF5E1F217346008A8AB6 /* GPBDescriptor.h */,
+				2E28AF5F1F217346008A8AB6 /* GPBDescriptor_PackagePrivate.h */,
+				2E28AF601F217346008A8AB6 /* GPBDictionary.h */,
+				2E28AF611F217346008A8AB6 /* GPBDictionary_PackagePrivate.h */,
+				2E28AF621F217346008A8AB6 /* GPBExtensionInternals.h */,
+				2E28AF631F217346008A8AB6 /* GPBExtensionRegistry.h */,
+				2E28AF641F217346008A8AB6 /* GPBMessage.h */,
+				2E28AF651F217346008A8AB6 /* GPBMessage_PackagePrivate.h */,
+				2E28AF661F217346008A8AB6 /* GPBProtocolBuffers.h */,
+				2E28AF671F217346008A8AB6 /* GPBProtocolBuffers.m */,
+				2E28AF681F217346008A8AB6 /* GPBProtocolBuffers_RuntimeSupport.h */,
+				2E28AF691F217346008A8AB6 /* GPBRootObject.h */,
+				2E28AF6A1F217346008A8AB6 /* GPBRootObject_PackagePrivate.h */,
+				2E28AF6B1F217346008A8AB6 /* GPBRuntimeTypes.h */,
+				2E28AF6C1F217346008A8AB6 /* GPBUnknownField.h */,
+				2E28AF6D1F217346008A8AB6 /* GPBUnknownField_PackagePrivate.h */,
+				2E28AF6E1F217346008A8AB6 /* GPBUnknownFieldSet.h */,
+				2E28AF6F1F217346008A8AB6 /* GPBUnknownFieldSet_PackagePrivate.h */,
+				2E28AF701F217346008A8AB6 /* GPBUtilities.h */,
+				2E28AF711F217346008A8AB6 /* GPBUtilities_PackagePrivate.h */,
+				2E28AF721F217346008A8AB6 /* GPBWellKnownTypes.h */,
+				2E28AF731F217346008A8AB6 /* GPBWireFormat.h */,
+				2E28AF741F217346008A8AB6 /* README.md */,
+				2E28AFAD1F217F14008A8AB6 /* SourceContext.pbobjc.h */,
+				2E28AFAF1F217F14008A8AB6 /* Struct.pbobjc.h */,
+				2E28AFB11F217F14008A8AB6 /* Timestamp.pbobjc.h */,
+				2E28AFB31F217F14008A8AB6 /* Type.pbobjc.h */,
+				2E28AFB51F217F14008A8AB6 /* Wrappers.pbobjc.h */,
+			);
+			path = protobuf;
+			sourceTree = "<group>";
+		};
 		2E41DB5C1F203E0700491073 /* IMClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +196,7 @@
 		2E41DB5D1F203E0700491073 /* Proto */ = {
 			isa = PBXGroup;
 			children = (
+				2E28AF561F217346008A8AB6 /* protobuf */,
 				2E41DB5E1F203E0700491073 /* Conversation.pbobjc.h */,
 				2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */,
 				2E41DB601F203E0700491073 /* conversation.proto */,
@@ -301,6 +391,8 @@
 				2E41DB541F20338300491073 /* NetworkService.mm in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
+				2E28AF751F217346008A8AB6 /* GPBProtocolBuffers.m in Sources */,
+				2E28AF761F217346008A8AB6 /* README.md in Sources */,
 				2E41DB531F20338300491073 /* app_callback.mm in Sources */,
 				2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */,
 			);
