@@ -10,7 +10,7 @@
 
 @interface PublishTask : NSObject
 @property(nonatomic, strong)NSString *topic;
-@property(nonatomic, strong)NSString *message;
-- (instancetype)initWithTopic:(NSString *)topic message:(NSString *)message;
+@property(nonatomic, strong)NSData *message;
+- (instancetype)initWithTopic:(NSString *)topic message:(NSData *)message;
 - (void)send:(void(^)())successBlock error:(void(^)(int error_code))errorBlock;
 @end

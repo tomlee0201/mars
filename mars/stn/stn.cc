@@ -63,6 +63,8 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         cmdid = MQTT_SEND_OUT_CMDID;
       }
       
+        MQTTPublishTask::~MQTTPublishTask() {delete [] body; body = NULL, length = 0;}
+        
       MQTTSubscribeTask::MQTTSubscribeTask(MQTTGeneralCallback *callback) : MQTTTask(MQTT_MSG_SUBSCRIBE) , m_callback(callback) {
         cmdid = MQTT_SUBSCRIBE_CMDID;
       }

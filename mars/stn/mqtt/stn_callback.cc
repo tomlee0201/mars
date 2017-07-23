@@ -91,8 +91,8 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
-    _extend.AllocWrite(publishTask->body.length());
-    _extend.Write(publishTask->body.c_str(), publishTask->body.length());
+    _extend.AllocWrite(publishTask->length);
+    _extend.Write(publishTask->body, publishTask->length);
     
     _outbuffer.AllocWrite(publishTask->topic.length());
     _outbuffer.Write(publishTask->topic.c_str(), publishTask->topic.length());

@@ -36,7 +36,7 @@ public:
 };
 
 @implementation PublishTask
-- (instancetype)initWithTopic:(NSString *)topic message:(NSString *)message {
+- (instancetype)initWithTopic:(NSString *)topic message:(NSData *)message {
     self = [super init];
     if (self) {
         _topic = topic;
@@ -48,7 +48,9 @@ public:
 - (void)send:(void(^)())successBlock error:(void(^)(int error_code))errorBlock {
     mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PublishCallback(successBlock, errorBlock));
     publishTask->topic = [self.topic cStringUsingEncoding:NSUTF8StringEncoding];
-    publishTask->body = [self.message cStringUsingEncoding:NSUTF8StringEncoding];
+    publishTask->length = self.message.length;
+    publishTask->body = new char[publishTask->length];
+    memcpy(publishTask->body, self.message.bytes, publishTask->length);
     mars::stn::StartTask(*publishTask);
 }
 @end

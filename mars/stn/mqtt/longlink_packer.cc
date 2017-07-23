@@ -73,7 +73,7 @@ void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, c
       mqtt_connect(_packed);
       break;
     case MQTT_SEND_OUT_CMDID:
-      mqtt_publish_with_qos((char *)_body.Ptr(), (char *)_extension.Ptr(), 1, 1, 1, _seq, _packed);
+      mqtt_publish_with_qos((char *)_body.Ptr(), (unsigned char *)_extension.Ptr(), _extension.Length(), 1, 1, 1, _seq, _packed);
       break;
     case MQTT_SUBSCRIBE_CMDID:
       mqtt_subscribe((char *)_body.Ptr(), _seq, _packed);

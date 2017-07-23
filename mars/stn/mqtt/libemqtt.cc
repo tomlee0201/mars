@@ -326,13 +326,12 @@ int mqtt_ping(AutoBuffer& _packed) {
 	return 1;
 }
 
-int mqtt_publish(const char* topic, const char* msg, uint8_t retain, AutoBuffer& _packed) {
-	return mqtt_publish_with_qos(topic, msg, 0, retain, 0, 0, _packed);
+int mqtt_publish(const char* topic, const unsigned char* msg, size_t msglen, uint8_t retain, AutoBuffer& _packed) {
+	return mqtt_publish_with_qos(topic, msg, msglen, 0, retain, 0, 0, _packed);
 }
 
-int mqtt_publish_with_qos(const char* topic, const char* msg, uint8_t dup, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed) {
+int mqtt_publish_with_qos(const char* topic, const unsigned char* msg, size_t msglen, uint8_t dup, uint8_t retain, uint8_t qos, uint16_t message_id, AutoBuffer& _packed) {
 	uint16_t topiclen = strlen(topic);
-	uint16_t msglen = strlen(msg);
 
 	uint8_t qos_flag = MQTT_QOS0_FLAG;
 	uint8_t qos_size = 0; // No QoS included

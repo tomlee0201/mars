@@ -144,7 +144,8 @@ public:
       class MQTTPublishTask : public MQTTTask {
       public:
         MQTTPublishTask(MQTTGeneralCallback *callback);
-        std::string body;
+        void* body;
+        size_t length;
         MQTTGeneralCallback *m_callback;
       };
       
@@ -171,6 +172,7 @@ public:
       };
       
       enum ConnectionStatus {
+        kConnectionStatusRejected = -3,
         kConnectionStatusLogout = -2,
         kConnectionStatusUnconnected = -1,
         kConnectionStatusConnectiong = 0,
