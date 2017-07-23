@@ -131,6 +131,7 @@ public:
     std::string report_arg;  // user for cgi report
     
     std::vector<std::string> shortlink_host_list;
+    virtual ~Task() {}
 };
 
       class MQTTTask : public Task {
@@ -139,6 +140,7 @@ public:
       public:
         const MQTT_MSG_TYPE type;
         std::string topic;
+        virtual ~MQTTTask() {}
       };
       
       class MQTTPublishTask : public MQTTTask {
@@ -147,29 +149,33 @@ public:
         unsigned char* body;
         size_t length;
         MQTTGeneralCallback *m_callback;
-          virtual ~MQTTPublishTask() ;
+        virtual ~MQTTPublishTask() ;
       };
       
       class MQTTSubscribeTask : public MQTTTask {
       public:
         MQTTSubscribeTask(MQTTGeneralCallback *callback);
         MQTTGeneralCallback *m_callback;
+        virtual ~MQTTSubscribeTask() {}
       };
       
       class MQTTUnsubscribeTask : public MQTTTask {
       public:
         MQTTUnsubscribeTask(MQTTGeneralCallback *callback);
         MQTTGeneralCallback *m_callback;
+        virtual ~MQTTUnsubscribeTask() {}
       };
       
       class MQTTPubAckTask : public MQTTTask {
       public:
         MQTTPubAckTask(uint16_t messageId);
+        virtual ~MQTTPubAckTask() {}
       };
       
       class MQTTDisconnectTask : public MQTTTask {
       public:
         MQTTDisconnectTask();
+        virtual ~MQTTDisconnectTask() {}
       };
       
       enum ConnectionStatus {

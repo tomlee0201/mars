@@ -49,7 +49,7 @@ public:
     mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PublishCallback(successBlock, errorBlock));
     publishTask->topic = [self.topic cStringUsingEncoding:NSUTF8StringEncoding];
     publishTask->length = self.message.length;
-    publishTask->body = new char[publishTask->length];
+    publishTask->body = new unsigned char[publishTask->length];
     memcpy(publishTask->body, self.message.bytes, publishTask->length);
     mars::stn::StartTask(*publishTask);
 }
