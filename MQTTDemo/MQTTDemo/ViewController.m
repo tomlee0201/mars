@@ -89,11 +89,12 @@
 }
 
 - (IBAction)onPublishButton:(id)sender {
-    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:self.publishTopicField.text message:self.pushContentField.text];
+    NSData *data = [self.pushContentField.text dataUsingEncoding:NSUTF8StringEncoding];
+    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:self.publishTopicField.text message:data];
     
     __weak typeof(self) weakSelf = self;
     NSString *topic = publishTask.topic;
-    NSString *message = publishTask.message;
+    NSString *message = self.pushContentField.text;
     [publishTask send:^{
         [weakSelf appendEvent:[NSString stringWithFormat:@"Publish topic(%@) message(%@) success", topic, message]];
     } error:^(int error_code) {
