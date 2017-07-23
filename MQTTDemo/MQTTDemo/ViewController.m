@@ -12,6 +12,9 @@
 #import "PublishTask.h"
 #import "SubscribeTask.h"
 #import "UnsubscribeTask.h"
+#import "Message.pbobjc.h"
+#import "Conversation.pbobjc.h"
+#import "Messagecontent.pbobjc.h"
 
 @interface ViewController () <ConnectionStatusDelegate, ReceivePublishDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *publishTopicField;
@@ -61,8 +64,14 @@
 }
 
 - (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
-    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    [self appendEvent:[NSString stringWithFormat:@"Receive Topic(%@) Message(%@)",topic, message]];
+//    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    Message *msg = [Message parseFromData:data error:&error];
+    if (error == nil) {
+        
+    }
+    
+    [self appendEvent:[NSString stringWithFormat:@"Receive Topic(%@) Message(%@)",topic, msg.content.searchableContent]];
 }
 
 - (void)appendEvent:(NSString *)event {
@@ -89,8 +98,20 @@
 }
 
 - (IBAction)onPublishButton:(id)sender {
-    NSData *data = [self.pushContentField.text dataUsingEncoding:NSUTF8StringEncoding];
+    //NSData *data = [self.pushContentField.text dataUsingEncoding:NSUTF8StringEncoding];
+    
+    Message *msg = [Message message];
+    msg.conversation.type = ConversationType_Private;
+    msg.conversation.target = @"testuser";
+    msg.content.type = ContentType_Text;
+    msg.content.searchableContent = @"hello IM";
+    msg.content.data_p = [@"hello extra" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSData *data = [msg data];
     PublishTask *publishTask = [[PublishTask alloc] initWithTopic:self.publishTopicField.text message:data];
+    
+
+    
     
     __weak typeof(self) weakSelf = self;
     NSString *topic = publishTask.topic;
