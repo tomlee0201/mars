@@ -144,9 +144,10 @@ public:
       class MQTTPublishTask : public MQTTTask {
       public:
         MQTTPublishTask(MQTTGeneralCallback *callback);
-        void* body;
+        unsigned char* body;
         size_t length;
         MQTTGeneralCallback *m_callback;
+          virtual ~MQTTPublishTask() ;
       };
       
       class MQTTSubscribeTask : public MQTTTask {
