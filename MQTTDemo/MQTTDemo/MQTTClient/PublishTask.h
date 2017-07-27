@@ -12,5 +12,5 @@
 @property(nonatomic, strong)NSString *topic;
 @property(nonatomic, strong)NSData *message;
 - (instancetype)initWithTopic:(NSString *)topic message:(NSData *)message;
-- (void)send:(void(^)())successBlock error:(void(^)(int error_code))errorBlock;
+- (void)send:(void(^)(NSData *data))successBlock error:(void(^)(int error_code))errorBlock;
 @end

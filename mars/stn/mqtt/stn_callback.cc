@@ -115,7 +115,7 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
     if (_error_code == 0)
-      publishTask->m_callback->onSuccess();
+      publishTask->m_callback->onSuccess((const unsigned char *)(_inbuffer.Ptr()), _inbuffer.Length());
     else
       publishTask->m_callback->onFalure(_error_code);
   }  else if (mqttTask->type == MQTT_MSG_DISCONNECT) {

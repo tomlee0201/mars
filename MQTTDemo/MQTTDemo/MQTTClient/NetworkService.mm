@@ -32,7 +32,12 @@
 #include <mars/xlog/appender.h>
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
+#import "PublishTask.h"
 
+
+const NSString *sendMessageTopic = @"pM";
+const NSString *pullMessageTopic = @"plM";
+const NSString *notifyMessageTopic = @"ntfM";
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
@@ -86,6 +91,18 @@ static NetworkService * sharedSingleton = nil;
 
 + (void)stopLog {
     appender_close();
+}
+
+- (void)pullMsg:(long)messageId {
+  NSData *data = [[NSData alloc] initWithBytes:&messageId length:8];
+  PublishTask *publishTask = [[PublishTask alloc] initWithTopic:pullMessageTopic message:data];
+  
+  [publishTask send:^(NSData *data){
+    
+  } error:^(int error_code) {
+
+  }];
+
 }
 
 - (void)onDisconnected {
@@ -151,7 +168,7 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
-    [self setLongLinkAddress:@"localhost" port:1883];
+    [self setLongLinkAddress:@"127.0.0.1" port:1883];
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);

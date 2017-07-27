@@ -13,5 +13,6 @@ import "messagecontent.proto";
 message Message {
   Conversation conversation = 1;
   MessageContent content = 2;
-  string message_uid = 3;
+  int64 message_id = 3;
+  int64 server_timestamp = 4;
 }

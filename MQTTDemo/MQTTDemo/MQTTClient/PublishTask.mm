@@ -11,15 +11,16 @@
 #import <mars/stn/stn_logic.h>
 #import "NetworkService.h"
 
-class PublishCallback : public mars::stn::MQTTGeneralCallback {
+class PublishCallback : public mars::stn::MQTTPublishCallback {
 private:
-    void(^m_successBlock)();
+    void(^m_successBlock)(NSData *data);
     void(^m_errorBlock)(int error_code);
 public:
-    PublishCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::MQTTGeneralCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
-    virtual void onSuccess() {
+    PublishCallback(void(^successBlock)(NSData *data), void(^errorBlock)(int error_code)) : mars::stn::MQTTPublishCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    virtual void onSuccess(const unsigned char* data, size_t len) {
         if (m_successBlock) {
-            m_successBlock();
+            NSData *nsdata = [NSData dataWithBytes:data length:len];
+            m_successBlock(nsdata);
         }
         delete this;
     }
@@ -45,7 +46,7 @@ public:
     return self;
 }
 
-- (void)send:(void(^)())successBlock error:(void(^)(int error_code))errorBlock {
+- (void)send:(void(^)(NSData *data))successBlock error:(void(^)(int error_code))errorBlock {
     mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PublishCallback(successBlock, errorBlock));
     publishTask->topic = [self.topic cStringUsingEncoding:NSUTF8StringEncoding];
     publishTask->length = self.message.length;

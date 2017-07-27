@@ -15,6 +15,7 @@
 #import "Message.pbobjc.h"
 #import "Conversation.pbobjc.h"
 #import "Messagecontent.pbobjc.h"
+#import "Message+Send.h"
 
 @interface ViewController () <ConnectionStatusDelegate, ReceivePublishDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *publishTopicField;
@@ -66,6 +67,15 @@
 - (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
 //    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSError *error = nil;
+  if ([topic isEqualToString:@"NTF"]) {
+    long long ts = 0;
+    
+    unsigned char* p = (unsigned char*)data.bytes;
+    for (int i = 0; i < 8; i++) {
+      ts = (ts << 8) + *(p+i);
+    }
+    NSLog(@"the ts is %lld", ts);
+  }
     Message *msg = [Message parseFromData:data error:&error];
     if (error == nil) {
         
@@ -106,21 +116,14 @@
     msg.content.type = ContentType_Text;
     msg.content.searchableContent = @"hello IM";
     msg.content.data_p = [@"hello extra" dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSData *data = [msg data];
-    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:self.publishTopicField.text message:data];
-    
-
-    
-    
-    __weak typeof(self) weakSelf = self;
-    NSString *topic = publishTask.topic;
-    NSString *message = self.pushContentField.text;
-    [publishTask send:^{
-        [weakSelf appendEvent:[NSString stringWithFormat:@"Publish topic(%@) message(%@) success", topic, message]];
-    } error:^(int error_code) {
-        [weakSelf appendEvent:[NSString stringWithFormat:@"Publish topic(%@) message(%@) failure with error code(%d)", topic, message, error_code]];
-    }];
+  
+  __weak typeof(self) weakSelf = self;
+  [msg send:^(long messageId, long timestamp) {
+    [weakSelf appendEvent:[NSString stringWithFormat:@"Send message success, ret messageId:%ld, timestamp:%ld", messageId, timestamp]];
+  } error:^(int error_code) {
+    [weakSelf appendEvent:[NSString stringWithFormat:@"Send message failure with errorCode %d", error_code]];
+  }];
+  
     [self resetKeyboard:nil];
 }
 - (IBAction)onSubscribeButton:(id)sender {

@@ -59,7 +59,7 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
   channel_select = ChannelType_LongConn;
 }
       
-      MQTTPublishTask::MQTTPublishTask(MQTTGeneralCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {
+      MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {
         cmdid = MQTT_SEND_OUT_CMDID;
       }
       

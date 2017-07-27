@@ -75,6 +75,13 @@ struct DnsProfile;
         virtual void onFalure(int errorCode) = 0;
       };
       
+      class MQTTPublishCallback {
+      public:
+        virtual void onSuccess(const unsigned char* data, size_t len) = 0;
+        virtual void onFalure(int errorCode) = 0;
+      };
+      
+      
 class Task {
 public:
     //channel type
@@ -145,10 +152,10 @@ public:
       
       class MQTTPublishTask : public MQTTTask {
       public:
-        MQTTPublishTask(MQTTGeneralCallback *callback);
+        MQTTPublishTask(MQTTPublishCallback *callback);
         unsigned char* body;
         size_t length;
-        MQTTGeneralCallback *m_callback;
+        MQTTPublishCallback *m_callback;
         virtual ~MQTTPublishTask() ;
       };
       
