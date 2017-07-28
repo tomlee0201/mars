@@ -50,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef GPB_ENUM(PullMessageResult_FieldNumber) {
   PullMessageResult_FieldNumber_MessageArray = 1,
-  PullMessageResult_FieldNumber_Head = 2,
+  PullMessageResult_FieldNumber_Current = 2,
+  PullMessageResult_FieldNumber_Head = 3,
 };
 
 @interface PullMessageResult : GPBMessage
@@ -58,6 +59,8 @@ typedef GPB_ENUM(PullMessageResult_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<Message*> *messageArray;
 /** The number of items in @c messageArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger messageArray_Count;
+
+@property(nonatomic, readwrite) int64_t current;
 
 @property(nonatomic, readwrite) int64_t head;
 

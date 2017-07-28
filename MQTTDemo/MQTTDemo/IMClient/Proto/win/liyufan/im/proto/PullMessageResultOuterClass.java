@@ -43,7 +43,12 @@ public final class PullMessageResultOuterClass {
         int index);
 
     /**
-     * <code>int64 head = 2;</code>
+     * <code>int64 current = 2;</code>
+     */
+    long getCurrent();
+
+    /**
+     * <code>int64 head = 3;</code>
      */
     long getHead();
   }
@@ -60,6 +65,7 @@ public final class PullMessageResultOuterClass {
     }
     private PullMessageResult() {
       message_ = java.util.Collections.emptyList();
+      current_ = 0L;
       head_ = 0L;
     }
 
@@ -98,6 +104,11 @@ public final class PullMessageResultOuterClass {
               break;
             }
             case 16: {
+
+              current_ = input.readInt64();
+              break;
+            }
+            case 24: {
 
               head_ = input.readInt64();
               break;
@@ -164,10 +175,19 @@ public final class PullMessageResultOuterClass {
       return message_.get(index);
     }
 
-    public static final int HEAD_FIELD_NUMBER = 2;
+    public static final int CURRENT_FIELD_NUMBER = 2;
+    private long current_;
+    /**
+     * <code>int64 current = 2;</code>
+     */
+    public long getCurrent() {
+      return current_;
+    }
+
+    public static final int HEAD_FIELD_NUMBER = 3;
     private long head_;
     /**
-     * <code>int64 head = 2;</code>
+     * <code>int64 head = 3;</code>
      */
     public long getHead() {
       return head_;
@@ -188,8 +208,11 @@ public final class PullMessageResultOuterClass {
       for (int i = 0; i < message_.size(); i++) {
         output.writeMessage(1, message_.get(i));
       }
+      if (current_ != 0L) {
+        output.writeInt64(2, current_);
+      }
       if (head_ != 0L) {
-        output.writeInt64(2, head_);
+        output.writeInt64(3, head_);
       }
     }
 
@@ -202,9 +225,13 @@ public final class PullMessageResultOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, message_.get(i));
       }
+      if (current_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, current_);
+      }
       if (head_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, head_);
+          .computeInt64Size(3, head_);
       }
       memoizedSize = size;
       return size;
@@ -224,6 +251,8 @@ public final class PullMessageResultOuterClass {
       boolean result = true;
       result = result && getMessageList()
           .equals(other.getMessageList());
+      result = result && (getCurrent()
+          == other.getCurrent());
       result = result && (getHead()
           == other.getHead());
       return result;
@@ -240,6 +269,9 @@ public final class PullMessageResultOuterClass {
         hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
         hash = (53 * hash) + getMessageList().hashCode();
       }
+      hash = (37 * hash) + CURRENT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCurrent());
       hash = (37 * hash) + HEAD_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getHead());
@@ -379,6 +411,8 @@ public final class PullMessageResultOuterClass {
         } else {
           messageBuilder_.clear();
         }
+        current_ = 0L;
+
         head_ = 0L;
 
         return this;
@@ -414,6 +448,7 @@ public final class PullMessageResultOuterClass {
         } else {
           result.message_ = messageBuilder_.build();
         }
+        result.current_ = current_;
         result.head_ = head_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -482,6 +517,9 @@ public final class PullMessageResultOuterClass {
               messageBuilder_.addAllMessages(other.message_);
             }
           }
+        }
+        if (other.getCurrent() != 0L) {
+          setCurrent(other.getCurrent());
         }
         if (other.getHead() != 0L) {
           setHead(other.getHead());
@@ -753,15 +791,41 @@ public final class PullMessageResultOuterClass {
         return messageBuilder_;
       }
 
+      private long current_ ;
+      /**
+       * <code>int64 current = 2;</code>
+       */
+      public long getCurrent() {
+        return current_;
+      }
+      /**
+       * <code>int64 current = 2;</code>
+       */
+      public Builder setCurrent(long value) {
+        
+        current_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 current = 2;</code>
+       */
+      public Builder clearCurrent() {
+        
+        current_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private long head_ ;
       /**
-       * <code>int64 head = 2;</code>
+       * <code>int64 head = 3;</code>
        */
       public long getHead() {
         return head_;
       }
       /**
-       * <code>int64 head = 2;</code>
+       * <code>int64 head = 3;</code>
        */
       public Builder setHead(long value) {
         
@@ -770,7 +834,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>int64 head = 2;</code>
+       * <code>int64 head = 3;</code>
        */
       public Builder clearHead() {
         
@@ -842,10 +906,10 @@ public final class PullMessageResultOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\031pull_message_result.proto\022\005proto\032\rmess" +
-      "age.proto\"B\n\021PullMessageResult\022\037\n\007messag" +
-      "e\030\001 \003(\0132\016.proto.Message\022\014\n\004head\030\002 \001(\003B3\n" +
-      "\024win.liyufan.im.protoB\033PullMessageResult" +
-      "OuterClassb\006proto3"
+      "age.proto\"S\n\021PullMessageResult\022\037\n\007messag" +
+      "e\030\001 \003(\0132\016.proto.Message\022\017\n\007current\030\002 \001(\003" +
+      "\022\014\n\004head\030\003 \001(\003B3\n\024win.liyufan.im.protoB\033" +
+      "PullMessageResultOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -865,7 +929,7 @@ public final class PullMessageResultOuterClass {
     internal_static_proto_PullMessageResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_PullMessageResult_descriptor,
-        new java.lang.String[] { "Message", "Head", });
+        new java.lang.String[] { "Message", "Current", "Head", });
     win.liyufan.im.proto.MessageOuterClass.getDescriptor();
   }
 

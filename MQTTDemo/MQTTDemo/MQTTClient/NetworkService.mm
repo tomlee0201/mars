@@ -43,6 +43,12 @@ NSString *sendMessageTopic = @"pM";
 NSString *pullMessageTopic = @"plM";
 NSString *notifyMessageTopic = @"ntfM";
 
+
+@protocol ReceivePublishDelegate <NSObject>
+- (void)onReceivePublish:(NSString *)topic message:(NSData *)data;
+@end
+
+
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
   CSCB(id<ConnectionStatusDelegate> delegate) : m_delegate(delegate) {
@@ -97,8 +103,8 @@ static NetworkService * sharedSingleton = nil;
     appender_close();
 }
 
-- (void)pullMsg:(long)messageId {
-  static long currentMessageId = 0;
+- (void)pullMsg:(long long)messageId {
+  static long long currentMessageId = 0;
   if (currentMessageId >= messageId) {
     return;
   }
@@ -110,14 +116,13 @@ static NetworkService * sharedSingleton = nil;
   PublishTask *publishTask = [[PublishTask alloc] initWithTopic:pullMessageTopic message:data];
   
   __weak typeof(self)weakSelf = self;
-  
   [publishTask send:^(NSData *data){
     if (data) {
       PullMessageResult *result = [PullMessageResult parseFromData:data error:nil];
       if (result) {
-        Message *lastMsg = [result.messageArray objectAtIndex:result.messageArray.count - 1];;
-        currentMessageId = lastMsg.messageId;
+        currentMessageId = result.current;
         [weakSelf pullMsg:result.head];
+        [weakSelf.receiveMessageDelegate onReceiveMessage:result.messageArray hasMore:currentMessageId < result.head];
       }
     }
   } error:^(int error_code) {
@@ -160,9 +165,6 @@ static NetworkService * sharedSingleton = nil;
       [self pullMsg:notifyMsg.head];
     }
     return;
-  }
-  if (_receivePublishDelegate) {
-    [_receivePublishDelegate onReceivePublish:topic message:data];
   }
 }
 
@@ -258,7 +260,6 @@ static NetworkService * sharedSingleton = nil;
 
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {
-    
     if ((uiFlags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {
         mars::baseevent::OnNetworkChange();
     }

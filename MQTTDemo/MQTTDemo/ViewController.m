@@ -17,11 +17,10 @@
 #import "Messagecontent.pbobjc.h"
 #import "Message+Send.h"
 
-@interface ViewController () <ConnectionStatusDelegate, ReceivePublishDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *publishTopicField;
-@property (weak, nonatomic) IBOutlet UITextField *pushContentField;
-@property (weak, nonatomic) IBOutlet UITextField *subscribeTopicField;
-@property (weak, nonatomic) IBOutlet UITextView *mqttEventArea;
+@interface ViewController () <ConnectionStatusDelegate, ReceiveMessageDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *targetIdField;
+@property (weak, nonatomic) IBOutlet UITextField *contentField;
+@property (weak, nonatomic) IBOutlet UITextView *eventArea;
 
 @end
 
@@ -64,30 +63,16 @@
     });
 }
 
-- (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
-//    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSError *error = nil;
-  if ([topic isEqualToString:@"NTF"]) {
-    long long ts = 0;
-    
-    unsigned char* p = (unsigned char*)data.bytes;
-    for (int i = 0; i < 8; i++) {
-      ts = (ts << 8) + *(p+i);
-    }
-    NSLog(@"the ts is %lld", ts);
+- (void)onReceiveMessage:(NSArray<Message *> *)messages hasMore:(BOOL)hasMore {
+  for (Message *message in messages) {
+    [self appendEvent:[NSString stringWithFormat:@"Receive Message from %@ and Message(%@)",message.fromUser, message]];
   }
-    Message *msg = [Message parseFromData:data error:&error];
-    if (error == nil) {
-        
-    }
-    
-    [self appendEvent:[NSString stringWithFormat:@"Receive Topic(%@) Message(%@)",topic, msg.content.searchableContent]];
 }
 
 - (void)appendEvent:(NSString *)event {
     dispatch_async(dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.2 animations:^{
-            self.mqttEventArea.text = [NSString stringWithFormat:@"%@\n%@",event, self.mqttEventArea.text];
+            self.eventArea.text = [NSString stringWithFormat:@"%@\n%@",event, self.eventArea.text];
         }];
     });
 }
@@ -99,56 +84,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [NetworkService sharedInstance].connectionStatusDelegate = self;
-    [NetworkService sharedInstance].receivePublishDelegate = self;
+    [NetworkService sharedInstance].receiveMessageDelegate = self;
     [self onConnectionStatusChanged:[NetworkService sharedInstance].currentConnectionStatus];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resetKeyboard:)]];
 }
+
 - (void)resetKeyboard:(id)sender {
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
 
-- (IBAction)onPublishButton:(id)sender {
+- (IBAction)onSendButton:(id)sender {
     //NSData *data = [self.pushContentField.text dataUsingEncoding:NSUTF8StringEncoding];
     
     Message *msg = [Message message];
     msg.conversation.type = ConversationType_Private;
-    msg.conversation.target = @"testuser";
+    msg.conversation.target = self.targetIdField.text;
     msg.content.type = ContentType_Text;
-    msg.content.searchableContent = @"hello IM";
+    msg.content.searchableContent = self.contentField.text;
     msg.content.data_p = [@"hello extra" dataUsingEncoding:NSUTF8StringEncoding];
   
-  __weak typeof(self) weakSelf = self;
-  [msg send:^(long messageId, long timestamp) {
-    [weakSelf appendEvent:[NSString stringWithFormat:@"Send message success, ret messageId:%ld, timestamp:%ld", messageId, timestamp]];
-  } error:^(int error_code) {
-    [weakSelf appendEvent:[NSString stringWithFormat:@"Send message failure with errorCode %d", error_code]];
-  }];
+    __weak typeof(self) weakSelf = self;
+    [msg send:^(long messageId, long timestamp) {
+      [weakSelf appendEvent:[NSString stringWithFormat:@"Send message success, ret messageId:%ld, timestamp:%ld", messageId, timestamp]];
+    } error:^(int error_code) {
+      [weakSelf appendEvent:[NSString stringWithFormat:@"Send message failure with errorCode %d", error_code]];
+    }];
   
     [self resetKeyboard:nil];
 }
-- (IBAction)onSubscribeButton:(id)sender {
-    __weak typeof(self) weakSelf = self;
-    SubscribeTask *subscribeTask = [[SubscribeTask alloc] initWithTopic:self.subscribeTopicField.text];
-    NSString *topic = subscribeTask.topic;
-    [subscribeTask send:^{
-        [weakSelf appendEvent:[NSString stringWithFormat:@"Subcribe topic(%@) success", topic]];
-    } error:^(int error_code) {
-        [weakSelf appendEvent:[NSString stringWithFormat:@"Subcribe topic(%@) failure with error code(%d)", topic, error_code]];
-    }];
-    [self resetKeyboard:nil];
-}
-- (IBAction)onUnsubscribeButton:(id)sender {
-    __weak typeof(self) weakSelf = self;
-    UnsubscribeTask *unsubscribeTask = [[UnsubscribeTask alloc] initWithTopic:self.subscribeTopicField.text];
-    NSString *topic = unsubscribeTask.topic;
-    [unsubscribeTask send:^{
-        [weakSelf appendEvent:[NSString stringWithFormat:@"Unsubcribe topic(%@) success", topic]];
-    } error:^(int error_code) {
-        [weakSelf appendEvent:[NSString stringWithFormat:@"Unsubcribe topic(%@) failure with error code(%d)", topic, error_code]];
-    }];
-    [self resetKeyboard:nil];
-}
-
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];

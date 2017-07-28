@@ -48,11 +48,13 @@ static GPBFileDescriptor *PullMessageResultRoot_FileDescriptor(void) {
 @implementation PullMessageResult
 
 @dynamic messageArray, messageArray_Count;
+@dynamic current;
 @dynamic head;
 
 typedef struct PullMessageResult__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *messageArray;
+  int64_t current;
   int64_t head;
 } PullMessageResult__storage_;
 
@@ -72,10 +74,19 @@ typedef struct PullMessageResult__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
+        .name = "current",
+        .dataTypeSpecific.className = NULL,
+        .number = PullMessageResult_FieldNumber_Current,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(PullMessageResult__storage_, current),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
         .name = "head",
         .dataTypeSpecific.className = NULL,
         .number = PullMessageResult_FieldNumber_Head,
-        .hasIndex = 0,
+        .hasIndex = 1,
         .offset = (uint32_t)offsetof(PullMessageResult__storage_, head),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,

@@ -22,8 +22,8 @@
 #define NetworkService_h
 
 #import <Foundation/Foundation.h>
-
 #import "NetworkStatus.h"
+#import "Message.pbobjc.h"
 
 @class CGITask;
 @class ViewController;
@@ -41,8 +41,8 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)onConnectionStatusChanged:(ConnectionStatus)status;
 @end
 
-@protocol ReceivePublishDelegate <NSObject>
-- (void)onReceivePublish:(NSString *)topic message:(NSData *)data;
+@protocol ReceiveMessageDelegate <NSObject>
+- (void)onReceiveMessage:(NSArray<Message *> *)messages hasMore:(BOOL)hasMore;
 @end
 
 @interface NetworkService : NSObject<NetworkStatusDelegate>
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 
 + (NetworkService*)sharedInstance;
 @property(nonatomic, weak) id<ConnectionStatusDelegate> connectionStatusDelegate;
-@property(nonatomic, weak) id<ReceivePublishDelegate> receivePublishDelegate;
+@property(nonatomic, weak) id<ReceiveMessageDelegate> receiveMessageDelegate;
 @property(nonatomic, assign, getter=isLogined, readonly)BOOL logined;
 @property(nonatomic, assign, readonly)ConnectionStatus currentConnectionStatus;
 
