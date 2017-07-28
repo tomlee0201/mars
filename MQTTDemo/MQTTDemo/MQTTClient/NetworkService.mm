@@ -36,6 +36,8 @@
 #import "NotifyMessage.pbobjc.h"
 #import "PullMessageResult.pbobjc.h"
 #import "PullMessageRequest.pbobjc.h"
+#import "Message.pbobjc.h"
+
 
 NSString *sendMessageTopic = @"pM";
 NSString *pullMessageTopic = @"plM";
@@ -96,7 +98,7 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)pullMsg:(long)messageId {
-  long currentMessageId = 0;
+  static long currentMessageId = 0;
   if (currentMessageId >= messageId) {
     return;
   }
@@ -107,12 +109,15 @@ static NetworkService * sharedSingleton = nil;
   NSData *data = request.data;
   PublishTask *publishTask = [[PublishTask alloc] initWithTopic:pullMessageTopic message:data];
   
+  __weak typeof(self)weakSelf = self;
+  
   [publishTask send:^(NSData *data){
     if (data) {
       PullMessageResult *result = [PullMessageResult parseFromData:data error:nil];
       if (result) {
-        NSLog(@"receive %d messages", result.messageArray.count);
-        NSLog(@"current message head is %d", result.head);
+        Message *lastMsg = [result.messageArray objectAtIndex:result.messageArray.count - 1];;
+        currentMessageId = lastMsg.messageId;
+        [weakSelf pullMsg:result.head];
       }
     }
   } error:^(int error_code) {
