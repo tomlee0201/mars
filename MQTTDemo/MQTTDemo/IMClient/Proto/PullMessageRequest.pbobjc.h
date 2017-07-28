@@ -46,14 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PullMessageRequestRoot : GPBRootObject
 @end
 
-#pragma mark - PullMessageResult
+#pragma mark - PullMessageRequest
 
-typedef GPB_ENUM(PullMessageResult_FieldNumber) {
-  PullMessageResult_FieldNumber_Id_p = 1,
-  PullMessageResult_FieldNumber_Type = 2,
+typedef GPB_ENUM(PullMessageRequest_FieldNumber) {
+  PullMessageRequest_FieldNumber_Id_p = 1,
+  PullMessageRequest_FieldNumber_Type = 2,
 };
 
-@interface PullMessageResult : GPBMessage
+@interface PullMessageRequest : GPBMessage
 
 @property(nonatomic, readwrite) int64_t id_p;
 
@@ -62,16 +62,16 @@ typedef GPB_ENUM(PullMessageResult_FieldNumber) {
 @end
 
 /**
- * Fetches the raw value of a @c PullMessageResult's @c type property, even
+ * Fetches the raw value of a @c PullMessageRequest's @c type property, even
  * if the value was not defined by the enum at the time the code was generated.
  **/
-int32_t PullMessageResult_Type_RawValue(PullMessageResult *message);
+int32_t PullMessageRequest_Type_RawValue(PullMessageRequest *message);
 /**
- * Sets the raw value of an @c PullMessageResult's @c type property, allowing
+ * Sets the raw value of an @c PullMessageRequest's @c type property, allowing
  * it to be set to a value that was not defined by the enum at the time the code
  * was generated.
  **/
-void SetPullMessageResult_Type_RawValue(PullMessageResult *message, int32_t value);
+void SetPullMessageRequest_Type_RawValue(PullMessageRequest *message, int32_t value);
 
 NS_ASSUME_NONNULL_END
 

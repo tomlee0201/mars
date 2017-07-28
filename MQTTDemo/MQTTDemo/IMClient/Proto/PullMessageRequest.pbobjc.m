@@ -43,18 +43,18 @@ static GPBFileDescriptor *PullMessageRequestRoot_FileDescriptor(void) {
   return descriptor;
 }
 
-#pragma mark - PullMessageResult
+#pragma mark - PullMessageRequest
 
-@implementation PullMessageResult
+@implementation PullMessageRequest
 
 @dynamic id_p;
 @dynamic type;
 
-typedef struct PullMessageResult__storage_ {
+typedef struct PullMessageRequest__storage_ {
   uint32_t _has_storage_[1];
   PullType type;
   int64_t id_p;
-} PullMessageResult__storage_;
+} PullMessageRequest__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -65,29 +65,29 @@ typedef struct PullMessageResult__storage_ {
       {
         .name = "id_p",
         .dataTypeSpecific.className = NULL,
-        .number = PullMessageResult_FieldNumber_Id_p,
+        .number = PullMessageRequest_FieldNumber_Id_p,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PullMessageResult__storage_, id_p),
+        .offset = (uint32_t)offsetof(PullMessageRequest__storage_, id_p),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
       {
         .name = "type",
         .dataTypeSpecific.enumDescFunc = PullType_EnumDescriptor,
-        .number = PullMessageResult_FieldNumber_Type,
+        .number = PullMessageRequest_FieldNumber_Type,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(PullMessageResult__storage_, type),
+        .offset = (uint32_t)offsetof(PullMessageRequest__storage_, type),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
         .dataType = GPBDataTypeEnum,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PullMessageResult class]
+        [GPBDescriptor allocDescriptorForClass:[PullMessageRequest class]
                                      rootClass:[PullMessageRequestRoot class]
                                           file:PullMessageRequestRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PullMessageResult__storage_)
+                                   storageSize:sizeof(PullMessageRequest__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
@@ -97,15 +97,15 @@ typedef struct PullMessageResult__storage_ {
 
 @end
 
-int32_t PullMessageResult_Type_RawValue(PullMessageResult *message) {
-  GPBDescriptor *descriptor = [PullMessageResult descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PullMessageResult_FieldNumber_Type];
+int32_t PullMessageRequest_Type_RawValue(PullMessageRequest *message) {
+  GPBDescriptor *descriptor = [PullMessageRequest descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PullMessageRequest_FieldNumber_Type];
   return GPBGetMessageInt32Field(message, field);
 }
 
-void SetPullMessageResult_Type_RawValue(PullMessageResult *message, int32_t value) {
-  GPBDescriptor *descriptor = [PullMessageResult descriptor];
-  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PullMessageResult_FieldNumber_Type];
+void SetPullMessageRequest_Type_RawValue(PullMessageRequest *message, int32_t value) {
+  GPBDescriptor *descriptor = [PullMessageRequest descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:PullMessageRequest_FieldNumber_Type];
   GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
 }
 

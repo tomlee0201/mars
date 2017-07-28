@@ -46,14 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PullMessageResultRoot : GPBRootObject
 @end
 
-#pragma mark - PullMessageRequest
+#pragma mark - PullMessageResult
 
-typedef GPB_ENUM(PullMessageRequest_FieldNumber) {
-  PullMessageRequest_FieldNumber_MessageArray = 1,
-  PullMessageRequest_FieldNumber_Head = 2,
+typedef GPB_ENUM(PullMessageResult_FieldNumber) {
+  PullMessageResult_FieldNumber_MessageArray = 1,
+  PullMessageResult_FieldNumber_Head = 2,
 };
 
-@interface PullMessageRequest : GPBMessage
+@interface PullMessageResult : GPBMessage
 
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<Message*> *messageArray;
 /** The number of items in @c messageArray without causing the array to be created. */

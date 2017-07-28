@@ -43,18 +43,18 @@ static GPBFileDescriptor *PullMessageResultRoot_FileDescriptor(void) {
   return descriptor;
 }
 
-#pragma mark - PullMessageRequest
+#pragma mark - PullMessageResult
 
-@implementation PullMessageRequest
+@implementation PullMessageResult
 
 @dynamic messageArray, messageArray_Count;
 @dynamic head;
 
-typedef struct PullMessageRequest__storage_ {
+typedef struct PullMessageResult__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *messageArray;
   int64_t head;
-} PullMessageRequest__storage_;
+} PullMessageResult__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -65,29 +65,29 @@ typedef struct PullMessageRequest__storage_ {
       {
         .name = "messageArray",
         .dataTypeSpecific.className = GPBStringifySymbol(Message),
-        .number = PullMessageRequest_FieldNumber_MessageArray,
+        .number = PullMessageResult_FieldNumber_MessageArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(PullMessageRequest__storage_, messageArray),
+        .offset = (uint32_t)offsetof(PullMessageResult__storage_, messageArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
       {
         .name = "head",
         .dataTypeSpecific.className = NULL,
-        .number = PullMessageRequest_FieldNumber_Head,
+        .number = PullMessageResult_FieldNumber_Head,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(PullMessageRequest__storage_, head),
+        .offset = (uint32_t)offsetof(PullMessageResult__storage_, head),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[PullMessageRequest class]
+        [GPBDescriptor allocDescriptorForClass:[PullMessageResult class]
                                      rootClass:[PullMessageResultRoot class]
                                           file:PullMessageResultRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(PullMessageRequest__storage_)
+                                   storageSize:sizeof(PullMessageResult__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;

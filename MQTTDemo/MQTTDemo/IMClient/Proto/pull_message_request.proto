@@ -3,13 +3,13 @@ package proto;
 
 
 option java_package = "win.liyufan.im.proto";
-option java_outer_classname = "PullMessageResultOuterClass";
+option java_outer_classname = "PullMessageRequestOuterClass";
 
 //option objc_class_prefix = "LYF";
 
 import "notify_message.proto";
 
-message PullMessageResult {
+message PullMessageRequest {
   int64 id = 1;
   PullType type = 2;
 }

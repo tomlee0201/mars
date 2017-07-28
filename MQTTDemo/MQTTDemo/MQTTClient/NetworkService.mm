@@ -34,6 +34,8 @@
 #include <mars/stn/stn_logic.h>
 #import "PublishTask.h"
 #import "NotifyMessage.pbobjc.h"
+#import "PullMessageResult.pbobjc.h"
+#import "PullMessageRequest.pbobjc.h"
 
 NSString *sendMessageTopic = @"pM";
 NSString *pullMessageTopic = @"plM";
@@ -94,11 +96,25 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)pullMsg:(long)messageId {
-  NSData *data = [[NSData alloc] initWithBytes:&messageId length:8];
+  long currentMessageId = 0;
+  if (currentMessageId >= messageId) {
+    return;
+  }
+  PullMessageRequest *request = [[PullMessageRequest alloc] init];
+  request.id_p = currentMessageId;
+  request.type = PullType_PullNormal;
+  
+  NSData *data = request.data;
   PublishTask *publishTask = [[PublishTask alloc] initWithTopic:pullMessageTopic message:data];
   
   [publishTask send:^(NSData *data){
-    
+    if (data) {
+      PullMessageResult *result = [PullMessageResult parseFromData:data error:nil];
+      if (result) {
+        NSLog(@"receive %d messages", result.messageArray.count);
+        NSLog(@"current message head is %d", result.head);
+      }
+    }
   } error:^(int error_code) {
 
   }];
@@ -126,6 +142,9 @@ static NetworkService * sharedSingleton = nil;
     return;
   }
     self.currentConnectionStatus = status;
+  if (status == kConnectionStatusConnected) {
+    [self pullMsg:1000000L];
+  }
 }
 
 - (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
@@ -175,7 +194,9 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
-    [self setLongLinkAddress:@"192.168.1.107" port:1883];
+    //[self setLongLinkAddress:@"192.168.1.107" port:1883];
+  [self setLongLinkAddress:@"172.16.11.239" port:1883];
+  
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
