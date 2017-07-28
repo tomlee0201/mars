@@ -10,7 +10,7 @@
 #define IMTopic_h
 #import <Foundation/Foundation.h>
 
-extern const NSString *sendMessageTopic;
-extern const NSString *pullMessageTopic;
-extern const NSString *notifyMessageTopic;
+extern NSString *sendMessageTopic;
+extern NSString *pullMessageTopic;
+extern NSString *notifyMessageTopic;
 #endif /* IMTopic_h */

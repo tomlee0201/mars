@@ -8,11 +8,12 @@ option java_outer_classname = "MessageOuterClass";
 //option objc_class_prefix = "LYF";
 
 import "conversation.proto";
-import "messagecontent.proto";
+import "message_content.proto";
 
 message Message {
   Conversation conversation = 1;
-  MessageContent content = 2;
-  int64 message_id = 3;
-  int64 server_timestamp = 4;
+  string from_user = 2;
+  MessageContent content = 3;
+  int64 message_id = 4;
+  int64 server_timestamp = 5;
 }

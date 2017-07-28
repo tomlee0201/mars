@@ -15,15 +15,19 @@
 		2E41DB561F20338300491073 /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB4E1F20338300491073 /* PublishTask.mm */; };
 		2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB501F20338300491073 /* SubscribeTask.mm */; };
 		2E41DB581F20338300491073 /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB521F20338300491073 /* UnsubscribeTask.mm */; };
-		2E41DB671F203E0700491073 /* Conversation.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E41DB681F203E0700491073 /* conversation.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB601F203E0700491073 /* conversation.proto */; };
-		2E41DB691F203E0700491073 /* Message.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB621F203E0700491073 /* Message.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E41DB6A1F203E0700491073 /* message.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB631F203E0700491073 /* message.proto */; };
-		2E41DB6B1F203E0700491073 /* Messagecontent.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2E41DB6C1F203E0700491073 /* messagecontent.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB661F203E0700491073 /* messagecontent.proto */; };
+		2E41DB6C1F203E0700491073 /* message_content.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E41DB661F203E0700491073 /* message_content.proto */; };
+		2E6840C21F29FCD800E2A6E5 /* pull_message_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E6840C11F29FCD800E2A6E5 /* pull_message_request.proto */; };
+		2E6840C51F29FCEE00E2A6E5 /* Conversation.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840C41F29FCEE00E2A6E5 /* Conversation.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E6840C81F29FD0400E2A6E5 /* Message.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840C71F29FD0400E2A6E5 /* Message.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E6840CB1F29FD0F00E2A6E5 /* MessageContent.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840CA1F29FD0F00E2A6E5 /* MessageContent.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E6840CE1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840CD1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E6840D11F29FD2600E2A6E5 /* PullMessageResult.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840D01F29FD2600E2A6E5 /* PullMessageResult.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E6840D31F29FF9200E2A6E5 /* notify_message.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E6840D21F29FF9200E2A6E5 /* notify_message.proto */; };
+		2E6840D61F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840D51F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E8C3E961F29B4A00070C394 /* Message+Send.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C3E951F29B4A00070C394 /* Message+Send.m */; };
-		2E8C3E981F29C3B50070C394 /* pullmessageresult.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C3E971F29C3B50070C394 /* pullmessageresult.proto */; };
-		2E8C3E9E1F29C4EE0070C394 /* Pullmessageresult.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C3E9D1F29C4EE0070C394 /* Pullmessageresult.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2E8C3E981F29C3B50070C394 /* pull_message_result.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C3E971F29C3B50070C394 /* pull_message_result.proto */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
@@ -93,20 +97,26 @@
 		2E41DB501F20338300491073 /* SubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SubscribeTask.mm; path = MQTTClient/SubscribeTask.mm; sourceTree = "<group>"; };
 		2E41DB511F20338300491073 /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnsubscribeTask.h; path = MQTTClient/UnsubscribeTask.h; sourceTree = "<group>"; };
 		2E41DB521F20338300491073 /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UnsubscribeTask.mm; path = MQTTClient/UnsubscribeTask.mm; sourceTree = "<group>"; };
-		2E41DB5E1F203E0700491073 /* Conversation.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conversation.pbobjc.h; sourceTree = "<group>"; };
-		2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.pbobjc.m; sourceTree = "<group>"; };
 		2E41DB601F203E0700491073 /* conversation.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conversation.proto; sourceTree = "<group>"; };
-		2E41DB611F203E0700491073 /* Message.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.pbobjc.h; sourceTree = "<group>"; };
-		2E41DB621F203E0700491073 /* Message.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.pbobjc.m; sourceTree = "<group>"; };
 		2E41DB631F203E0700491073 /* message.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = message.proto; sourceTree = "<group>"; };
-		2E41DB641F203E0700491073 /* Messagecontent.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Messagecontent.pbobjc.h; sourceTree = "<group>"; };
-		2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messagecontent.pbobjc.m; sourceTree = "<group>"; };
-		2E41DB661F203E0700491073 /* messagecontent.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = messagecontent.proto; sourceTree = "<group>"; };
+		2E41DB661F203E0700491073 /* message_content.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = message_content.proto; sourceTree = "<group>"; };
+		2E6840C11F29FCD800E2A6E5 /* pull_message_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pull_message_request.proto; sourceTree = "<group>"; };
+		2E6840C31F29FCEE00E2A6E5 /* Conversation.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Conversation.pbobjc.h; path = protobuf/Conversation.pbobjc.h; sourceTree = "<group>"; };
+		2E6840C41F29FCEE00E2A6E5 /* Conversation.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Conversation.pbobjc.m; path = protobuf/Conversation.pbobjc.m; sourceTree = "<group>"; };
+		2E6840C61F29FD0400E2A6E5 /* Message.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.pbobjc.h; sourceTree = "<group>"; };
+		2E6840C71F29FD0400E2A6E5 /* Message.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.pbobjc.m; sourceTree = "<group>"; };
+		2E6840C91F29FD0F00E2A6E5 /* MessageContent.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageContent.pbobjc.h; sourceTree = "<group>"; };
+		2E6840CA1F29FD0F00E2A6E5 /* MessageContent.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.pbobjc.m; sourceTree = "<group>"; };
+		2E6840CC1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullMessageRequest.pbobjc.h; sourceTree = "<group>"; };
+		2E6840CD1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullMessageRequest.pbobjc.m; sourceTree = "<group>"; };
+		2E6840CF1F29FD2600E2A6E5 /* PullMessageResult.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullMessageResult.pbobjc.h; sourceTree = "<group>"; };
+		2E6840D01F29FD2600E2A6E5 /* PullMessageResult.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullMessageResult.pbobjc.m; sourceTree = "<group>"; };
+		2E6840D21F29FF9200E2A6E5 /* notify_message.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notify_message.proto; sourceTree = "<group>"; };
+		2E6840D41F2A01C800E2A6E5 /* NotifyMessage.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyMessage.pbobjc.h; sourceTree = "<group>"; };
+		2E6840D51F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyMessage.pbobjc.m; sourceTree = "<group>"; };
 		2E8C3E941F29B4A00070C394 /* Message+Send.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+Send.h"; sourceTree = "<group>"; };
 		2E8C3E951F29B4A00070C394 /* Message+Send.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+Send.m"; sourceTree = "<group>"; };
-		2E8C3E971F29C3B50070C394 /* pullmessageresult.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pullmessageresult.proto; sourceTree = "<group>"; };
-		2E8C3E9C1F29C4EE0070C394 /* Pullmessageresult.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pullmessageresult.pbobjc.h; sourceTree = "<group>"; };
-		2E8C3E9D1F29C4EE0070C394 /* Pullmessageresult.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pullmessageresult.pbobjc.m; sourceTree = "<group>"; };
+		2E8C3E971F29C3B50070C394 /* pull_message_result.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pull_message_result.proto; sourceTree = "<group>"; };
 		2E8C3E9F1F29D9180070C394 /* IMTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMTopic.h; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -209,18 +219,24 @@
 			isa = PBXGroup;
 			children = (
 				2E28AF561F217346008A8AB6 /* protobuf */,
-				2E41DB5E1F203E0700491073 /* Conversation.pbobjc.h */,
-				2E41DB5F1F203E0700491073 /* Conversation.pbobjc.m */,
+				2E6840C31F29FCEE00E2A6E5 /* Conversation.pbobjc.h */,
+				2E6840C41F29FCEE00E2A6E5 /* Conversation.pbobjc.m */,
 				2E41DB601F203E0700491073 /* conversation.proto */,
-				2E41DB611F203E0700491073 /* Message.pbobjc.h */,
-				2E41DB621F203E0700491073 /* Message.pbobjc.m */,
+				2E6840C61F29FD0400E2A6E5 /* Message.pbobjc.h */,
+				2E6840C71F29FD0400E2A6E5 /* Message.pbobjc.m */,
 				2E41DB631F203E0700491073 /* message.proto */,
-				2E41DB641F203E0700491073 /* Messagecontent.pbobjc.h */,
-				2E41DB651F203E0700491073 /* Messagecontent.pbobjc.m */,
-				2E41DB661F203E0700491073 /* messagecontent.proto */,
-				2E8C3E9C1F29C4EE0070C394 /* Pullmessageresult.pbobjc.h */,
-				2E8C3E9D1F29C4EE0070C394 /* Pullmessageresult.pbobjc.m */,
-				2E8C3E971F29C3B50070C394 /* pullmessageresult.proto */,
+				2E6840C91F29FD0F00E2A6E5 /* MessageContent.pbobjc.h */,
+				2E6840CA1F29FD0F00E2A6E5 /* MessageContent.pbobjc.m */,
+				2E41DB661F203E0700491073 /* message_content.proto */,
+				2E6840CC1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.h */,
+				2E6840CD1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m */,
+				2E8C3E971F29C3B50070C394 /* pull_message_result.proto */,
+				2E6840CF1F29FD2600E2A6E5 /* PullMessageResult.pbobjc.h */,
+				2E6840D01F29FD2600E2A6E5 /* PullMessageResult.pbobjc.m */,
+				2E6840C11F29FCD800E2A6E5 /* pull_message_request.proto */,
+				2E6840D41F2A01C800E2A6E5 /* NotifyMessage.pbobjc.h */,
+				2E6840D51F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m */,
+				2E6840D21F29FF9200E2A6E5 /* notify_message.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -367,9 +383,11 @@
 				2E41DB6A1F203E0700491073 /* message.proto in Resources */,
 				2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */,
 				2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */,
-				2E41DB6C1F203E0700491073 /* messagecontent.proto in Resources */,
+				2E6840D31F29FF9200E2A6E5 /* notify_message.proto in Resources */,
+				2E41DB6C1F203E0700491073 /* message_content.proto in Resources */,
+				2E6840C21F29FCD800E2A6E5 /* pull_message_request.proto in Resources */,
 				2E41DB681F203E0700491073 /* conversation.proto in Resources */,
-				2E8C3E981F29C3B50070C394 /* pullmessageresult.proto in Resources */,
+				2E8C3E981F29C3B50070C394 /* pull_message_result.proto in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,23 +414,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E6840CB1F29FD0F00E2A6E5 /* MessageContent.pbobjc.m in Sources */,
 				2E41DB581F20338300491073 /* UnsubscribeTask.mm in Sources */,
 				2E41DB561F20338300491073 /* PublishTask.mm in Sources */,
 				2E41DB551F20338300491073 /* NetworkStatus.m in Sources */,
+				2E6840C51F29FCEE00E2A6E5 /* Conversation.pbobjc.m in Sources */,
 				2E8C3E961F29B4A00070C394 /* Message+Send.m in Sources */,
-				2E41DB6B1F203E0700491073 /* Messagecontent.pbobjc.m in Sources */,
-				2E8C3E9E1F29C4EE0070C394 /* Pullmessageresult.pbobjc.m in Sources */,
-				2E41DB671F203E0700491073 /* Conversation.pbobjc.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
-				2E41DB691F203E0700491073 /* Message.pbobjc.m in Sources */,
+				2E6840D11F29FD2600E2A6E5 /* PullMessageResult.pbobjc.m in Sources */,
 				2E41DB541F20338300491073 /* NetworkService.mm in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
+				2E6840C81F29FD0400E2A6E5 /* Message.pbobjc.m in Sources */,
+				2E6840D61F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
 				2E28AF751F217346008A8AB6 /* GPBProtocolBuffers.m in Sources */,
 				2E28AF761F217346008A8AB6 /* README.md in Sources */,
 				2E41DB531F20338300491073 /* app_callback.mm in Sources */,
 				2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */,
+				2E6840CE1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

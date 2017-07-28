@@ -33,11 +33,11 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 #import "PublishTask.h"
+#import "NotifyMessage.pbobjc.h"
 
-
-const NSString *sendMessageTopic = @"pM";
-const NSString *pullMessageTopic = @"plM";
-const NSString *notifyMessageTopic = @"ntfM";
+NSString *sendMessageTopic = @"pM";
+NSString *pullMessageTopic = @"plM";
+NSString *notifyMessageTopic = @"ntfM";
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
@@ -130,6 +130,13 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
   NSLog(@"Received topic(%@), content(%@)", topic, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+  if ([topic isEqualToString:notifyMessageTopic]) {
+    NotifyMessage *notifyMsg = [NotifyMessage parseFromData:data error:nil];
+    if (notifyMsg != nil) {
+      [self pullMsg:notifyMsg.head];
+    }
+    return;
+  }
   if (_receivePublishDelegate) {
     [_receivePublishDelegate onReceivePublish:topic message:data];
   }
@@ -168,7 +175,7 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
-    [self setLongLinkAddress:@"127.0.0.1" port:1883];
+    [self setLongLinkAddress:@"192.168.1.107" port:1883];
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);

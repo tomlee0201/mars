@@ -32,25 +32,35 @@ public final class MessageOuterClass {
     win.liyufan.im.proto.ConversationOuterClass.ConversationOrBuilder getConversationOrBuilder();
 
     /**
-     * <code>.proto.MessageContent content = 2;</code>
+     * <code>string from_user = 2;</code>
+     */
+    java.lang.String getFromUser();
+    /**
+     * <code>string from_user = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getFromUserBytes();
+
+    /**
+     * <code>.proto.MessageContent content = 3;</code>
      */
     boolean hasContent();
     /**
-     * <code>.proto.MessageContent content = 2;</code>
+     * <code>.proto.MessageContent content = 3;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getContent();
     /**
-     * <code>.proto.MessageContent content = 2;</code>
+     * <code>.proto.MessageContent content = 3;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getContentOrBuilder();
 
     /**
-     * <code>int64 message_id = 3;</code>
+     * <code>int64 message_id = 4;</code>
      */
     long getMessageId();
 
     /**
-     * <code>int64 server_timestamp = 4;</code>
+     * <code>int64 server_timestamp = 5;</code>
      */
     long getServerTimestamp();
   }
@@ -66,6 +76,7 @@ public final class MessageOuterClass {
       super(builder);
     }
     private Message() {
+      fromUser_ = "";
       messageId_ = 0L;
       serverTimestamp_ = 0L;
     }
@@ -109,6 +120,12 @@ public final class MessageOuterClass {
               break;
             }
             case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              fromUser_ = s;
+              break;
+            }
+            case 26: {
               win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder subBuilder = null;
               if (content_ != null) {
                 subBuilder = content_.toBuilder();
@@ -121,12 +138,12 @@ public final class MessageOuterClass {
 
               break;
             }
-            case 24: {
+            case 32: {
 
               messageId_ = input.readInt64();
               break;
             }
-            case 32: {
+            case 40: {
 
               serverTimestamp_ = input.readInt64();
               break;
@@ -175,40 +192,74 @@ public final class MessageOuterClass {
       return getConversation();
     }
 
-    public static final int CONTENT_FIELD_NUMBER = 2;
+    public static final int FROM_USER_FIELD_NUMBER = 2;
+    private volatile java.lang.Object fromUser_;
+    /**
+     * <code>string from_user = 2;</code>
+     */
+    public java.lang.String getFromUser() {
+      java.lang.Object ref = fromUser_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        fromUser_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string from_user = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFromUserBytes() {
+      java.lang.Object ref = fromUser_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        fromUser_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONTENT_FIELD_NUMBER = 3;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent content_;
     /**
-     * <code>.proto.MessageContent content = 2;</code>
+     * <code>.proto.MessageContent content = 3;</code>
      */
     public boolean hasContent() {
       return content_ != null;
     }
     /**
-     * <code>.proto.MessageContent content = 2;</code>
+     * <code>.proto.MessageContent content = 3;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getContent() {
       return content_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : content_;
     }
     /**
-     * <code>.proto.MessageContent content = 2;</code>
+     * <code>.proto.MessageContent content = 3;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getContentOrBuilder() {
       return getContent();
     }
 
-    public static final int MESSAGE_ID_FIELD_NUMBER = 3;
+    public static final int MESSAGE_ID_FIELD_NUMBER = 4;
     private long messageId_;
     /**
-     * <code>int64 message_id = 3;</code>
+     * <code>int64 message_id = 4;</code>
      */
     public long getMessageId() {
       return messageId_;
     }
 
-    public static final int SERVER_TIMESTAMP_FIELD_NUMBER = 4;
+    public static final int SERVER_TIMESTAMP_FIELD_NUMBER = 5;
     private long serverTimestamp_;
     /**
-     * <code>int64 server_timestamp = 4;</code>
+     * <code>int64 server_timestamp = 5;</code>
      */
     public long getServerTimestamp() {
       return serverTimestamp_;
@@ -229,14 +280,17 @@ public final class MessageOuterClass {
       if (conversation_ != null) {
         output.writeMessage(1, getConversation());
       }
+      if (!getFromUserBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, fromUser_);
+      }
       if (content_ != null) {
-        output.writeMessage(2, getContent());
+        output.writeMessage(3, getContent());
       }
       if (messageId_ != 0L) {
-        output.writeInt64(3, messageId_);
+        output.writeInt64(4, messageId_);
       }
       if (serverTimestamp_ != 0L) {
-        output.writeInt64(4, serverTimestamp_);
+        output.writeInt64(5, serverTimestamp_);
       }
     }
 
@@ -249,17 +303,20 @@ public final class MessageOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getConversation());
       }
+      if (!getFromUserBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, fromUser_);
+      }
       if (content_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getContent());
+          .computeMessageSize(3, getContent());
       }
       if (messageId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, messageId_);
+          .computeInt64Size(4, messageId_);
       }
       if (serverTimestamp_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, serverTimestamp_);
+          .computeInt64Size(5, serverTimestamp_);
       }
       memoizedSize = size;
       return size;
@@ -282,6 +339,8 @@ public final class MessageOuterClass {
         result = result && getConversation()
             .equals(other.getConversation());
       }
+      result = result && getFromUser()
+          .equals(other.getFromUser());
       result = result && (hasContent() == other.hasContent());
       if (hasContent()) {
         result = result && getContent()
@@ -305,6 +364,8 @@ public final class MessageOuterClass {
         hash = (37 * hash) + CONVERSATION_FIELD_NUMBER;
         hash = (53 * hash) + getConversation().hashCode();
       }
+      hash = (37 * hash) + FROM_USER_FIELD_NUMBER;
+      hash = (53 * hash) + getFromUser().hashCode();
       if (hasContent()) {
         hash = (37 * hash) + CONTENT_FIELD_NUMBER;
         hash = (53 * hash) + getContent().hashCode();
@@ -450,6 +511,8 @@ public final class MessageOuterClass {
           conversation_ = null;
           conversationBuilder_ = null;
         }
+        fromUser_ = "";
+
         if (contentBuilder_ == null) {
           content_ = null;
         } else {
@@ -487,6 +550,7 @@ public final class MessageOuterClass {
         } else {
           result.conversation_ = conversationBuilder_.build();
         }
+        result.fromUser_ = fromUser_;
         if (contentBuilder_ == null) {
           result.content_ = content_;
         } else {
@@ -537,6 +601,10 @@ public final class MessageOuterClass {
         if (other == win.liyufan.im.proto.MessageOuterClass.Message.getDefaultInstance()) return this;
         if (other.hasConversation()) {
           mergeConversation(other.getConversation());
+        }
+        if (!other.getFromUser().isEmpty()) {
+          fromUser_ = other.fromUser_;
+          onChanged();
         }
         if (other.hasContent()) {
           mergeContent(other.getContent());
@@ -690,17 +758,86 @@ public final class MessageOuterClass {
         return conversationBuilder_;
       }
 
+      private java.lang.Object fromUser_ = "";
+      /**
+       * <code>string from_user = 2;</code>
+       */
+      public java.lang.String getFromUser() {
+        java.lang.Object ref = fromUser_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          fromUser_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string from_user = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFromUserBytes() {
+        java.lang.Object ref = fromUser_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          fromUser_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string from_user = 2;</code>
+       */
+      public Builder setFromUser(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        fromUser_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string from_user = 2;</code>
+       */
+      public Builder clearFromUser() {
+        
+        fromUser_ = getDefaultInstance().getFromUser();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string from_user = 2;</code>
+       */
+      public Builder setFromUserBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        fromUser_ = value;
+        onChanged();
+        return this;
+      }
+
       private win.liyufan.im.proto.MessageContentOuterClass.MessageContent content_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> contentBuilder_;
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public boolean hasContent() {
         return contentBuilder_ != null || content_ != null;
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getContent() {
         if (contentBuilder_ == null) {
@@ -710,7 +847,7 @@ public final class MessageOuterClass {
         }
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public Builder setContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (contentBuilder_ == null) {
@@ -726,7 +863,7 @@ public final class MessageOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public Builder setContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -740,7 +877,7 @@ public final class MessageOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public Builder mergeContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (contentBuilder_ == null) {
@@ -758,7 +895,7 @@ public final class MessageOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public Builder clearContent() {
         if (contentBuilder_ == null) {
@@ -772,7 +909,7 @@ public final class MessageOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getContentBuilder() {
         
@@ -780,7 +917,7 @@ public final class MessageOuterClass {
         return getContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getContentOrBuilder() {
         if (contentBuilder_ != null) {
@@ -791,7 +928,7 @@ public final class MessageOuterClass {
         }
       }
       /**
-       * <code>.proto.MessageContent content = 2;</code>
+       * <code>.proto.MessageContent content = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -809,13 +946,13 @@ public final class MessageOuterClass {
 
       private long messageId_ ;
       /**
-       * <code>int64 message_id = 3;</code>
+       * <code>int64 message_id = 4;</code>
        */
       public long getMessageId() {
         return messageId_;
       }
       /**
-       * <code>int64 message_id = 3;</code>
+       * <code>int64 message_id = 4;</code>
        */
       public Builder setMessageId(long value) {
         
@@ -824,7 +961,7 @@ public final class MessageOuterClass {
         return this;
       }
       /**
-       * <code>int64 message_id = 3;</code>
+       * <code>int64 message_id = 4;</code>
        */
       public Builder clearMessageId() {
         
@@ -835,13 +972,13 @@ public final class MessageOuterClass {
 
       private long serverTimestamp_ ;
       /**
-       * <code>int64 server_timestamp = 4;</code>
+       * <code>int64 server_timestamp = 5;</code>
        */
       public long getServerTimestamp() {
         return serverTimestamp_;
       }
       /**
-       * <code>int64 server_timestamp = 4;</code>
+       * <code>int64 server_timestamp = 5;</code>
        */
       public Builder setServerTimestamp(long value) {
         
@@ -850,7 +987,7 @@ public final class MessageOuterClass {
         return this;
       }
       /**
-       * <code>int64 server_timestamp = 4;</code>
+       * <code>int64 server_timestamp = 5;</code>
        */
       public Builder clearServerTimestamp() {
         
@@ -922,12 +1059,12 @@ public final class MessageOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\rmessage.proto\022\005proto\032\022conversation.pro" +
-      "to\032\024messagecontent.proto\"\212\001\n\007Message\022)\n\014" +
-      "conversation\030\001 \001(\0132\023.proto.Conversation\022" +
-      "&\n\007content\030\002 \001(\0132\025.proto.MessageContent\022" +
-      "\022\n\nmessage_id\030\003 \001(\003\022\030\n\020server_timestamp\030" +
-      "\004 \001(\003B)\n\024win.liyufan.im.protoB\021MessageOu" +
-      "terClassb\006proto3"
+      "to\032\025message_content.proto\"\235\001\n\007Message\022)\n" +
+      "\014conversation\030\001 \001(\0132\023.proto.Conversation" +
+      "\022\021\n\tfrom_user\030\002 \001(\t\022&\n\007content\030\003 \001(\0132\025.p" +
+      "roto.MessageContent\022\022\n\nmessage_id\030\004 \001(\003\022" +
+      "\030\n\020server_timestamp\030\005 \001(\003B)\n\024win.liyufan" +
+      ".im.protoB\021MessageOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -948,7 +1085,7 @@ public final class MessageOuterClass {
     internal_static_proto_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_Message_descriptor,
-        new java.lang.String[] { "Conversation", "Content", "MessageId", "ServerTimestamp", });
+        new java.lang.String[] { "Conversation", "FromUser", "Content", "MessageId", "ServerTimestamp", });
     win.liyufan.im.proto.ConversationOuterClass.getDescriptor();
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }
