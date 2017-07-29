@@ -31,6 +31,33 @@ CF_EXTERN_C_BEGIN
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - Enum GroupType
+
+typedef GPB_ENUM(GroupType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  GroupType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** member can add quit change group name and portrait, owner can do all the operations */
+  GroupType_GroupTypeNormal = 0,
+
+  /** every member can add quit change group name and portrait, no one can kickoff others */
+  GroupType_GroupTypeFree = 1,
+
+  /** member can only quit, owner can do all the operations */
+  GroupType_GroupTypeRestricted = 2,
+};
+
+GPBEnumDescriptor *GroupType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL GroupType_IsValidValue(int32_t value);
+
 #pragma mark - GroupRoot
 
 /**
@@ -51,8 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
 typedef GPB_ENUM(GroupInfo_FieldNumber) {
   GroupInfo_FieldNumber_TargetId = 1,
   GroupInfo_FieldNumber_Name = 2,
-  GroupInfo_FieldNumber_Protrait = 3,
-  GroupInfo_FieldNumber_Extra = 4,
+  GroupInfo_FieldNumber_Portrait = 3,
+  GroupInfo_FieldNumber_Owner = 4,
+  GroupInfo_FieldNumber_Extra = 5,
 };
 
 @interface GroupInfo : GPBMessage
@@ -61,7 +89,9 @@ typedef GPB_ENUM(GroupInfo_FieldNumber) {
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *protrait;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *portrait;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *owner;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSData *extra;
 

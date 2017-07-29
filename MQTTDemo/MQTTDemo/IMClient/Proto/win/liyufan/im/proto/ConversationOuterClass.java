@@ -20,48 +20,48 @@ public final class ConversationOuterClass {
   public enum ConversationType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>Private = 0;</code>
+     * <code>ConversationType_Private = 0;</code>
      */
-    Private(0),
+    ConversationType_Private(0),
     /**
-     * <code>Group = 1;</code>
+     * <code>ConversationType_Group = 1;</code>
      */
-    Group(1),
+    ConversationType_Group(1),
     /**
-     * <code>System = 2;</code>
+     * <code>ConversationType_System = 2;</code>
      */
-    System(2),
+    ConversationType_System(2),
     /**
-     * <code>ChatRoom = 3;</code>
+     * <code>ConversationType_ChatRoom = 3;</code>
      */
-    ChatRoom(3),
+    ConversationType_ChatRoom(3),
     /**
-     * <code>Command = 4;</code>
+     * <code>ConversationType_Command = 4;</code>
      */
-    Command(4),
+    ConversationType_Command(4),
     UNRECOGNIZED(-1),
     ;
 
     /**
-     * <code>Private = 0;</code>
+     * <code>ConversationType_Private = 0;</code>
      */
-    public static final int Private_VALUE = 0;
+    public static final int ConversationType_Private_VALUE = 0;
     /**
-     * <code>Group = 1;</code>
+     * <code>ConversationType_Group = 1;</code>
      */
-    public static final int Group_VALUE = 1;
+    public static final int ConversationType_Group_VALUE = 1;
     /**
-     * <code>System = 2;</code>
+     * <code>ConversationType_System = 2;</code>
      */
-    public static final int System_VALUE = 2;
+    public static final int ConversationType_System_VALUE = 2;
     /**
-     * <code>ChatRoom = 3;</code>
+     * <code>ConversationType_ChatRoom = 3;</code>
      */
-    public static final int ChatRoom_VALUE = 3;
+    public static final int ConversationType_ChatRoom_VALUE = 3;
     /**
-     * <code>Command = 4;</code>
+     * <code>ConversationType_Command = 4;</code>
      */
-    public static final int Command_VALUE = 4;
+    public static final int ConversationType_Command_VALUE = 4;
 
 
     public final int getNumber() {
@@ -82,11 +82,11 @@ public final class ConversationOuterClass {
 
     public static ConversationType forNumber(int value) {
       switch (value) {
-        case 0: return Private;
-        case 1: return Group;
-        case 2: return System;
-        case 3: return ChatRoom;
-        case 4: return Command;
+        case 0: return ConversationType_Private;
+        case 1: return ConversationType_Group;
+        case 2: return ConversationType_System;
+        case 3: return ConversationType_ChatRoom;
+        case 4: return ConversationType_Command;
         default: return null;
       }
     }
@@ -300,7 +300,7 @@ public final class ConversationOuterClass {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (type_ != win.liyufan.im.proto.ConversationOuterClass.ConversationType.Private.getNumber()) {
+      if (type_ != win.liyufan.im.proto.ConversationOuterClass.ConversationType.ConversationType_Private.getNumber()) {
         output.writeEnum(1, type_);
       }
       if (!getTargetBytes().isEmpty()) {
@@ -313,7 +313,7 @@ public final class ConversationOuterClass {
       if (size != -1) return size;
 
       size = 0;
-      if (type_ != win.liyufan.im.proto.ConversationOuterClass.ConversationType.Private.getNumber()) {
+      if (type_ != win.liyufan.im.proto.ConversationOuterClass.ConversationType.ConversationType_Private.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, type_);
       }
@@ -761,10 +761,13 @@ public final class ConversationOuterClass {
     java.lang.String[] descriptorData = {
       "\n\022conversation.proto\022\005proto\"E\n\014Conversat" +
       "ion\022%\n\004type\030\001 \001(\0162\027.proto.ConversationTy" +
-      "pe\022\016\n\006target\030\002 \001(\t*Q\n\020ConversationType\022\013" +
-      "\n\007Private\020\000\022\t\n\005Group\020\001\022\n\n\006System\020\002\022\014\n\010Ch" +
-      "atRoom\020\003\022\013\n\007Command\020\004B.\n\024win.liyufan.im." +
-      "protoB\026ConversationOuterClassb\006proto3"
+      "pe\022\016\n\006target\030\002 \001(\t*\246\001\n\020ConversationType\022" +
+      "\034\n\030ConversationType_Private\020\000\022\032\n\026Convers" +
+      "ationType_Group\020\001\022\033\n\027ConversationType_Sy" +
+      "stem\020\002\022\035\n\031ConversationType_ChatRoom\020\003\022\034\n" +
+      "\030ConversationType_Command\020\004B.\n\024win.liyuf" +
+      "an.im.protoB\026ConversationOuterClassb\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

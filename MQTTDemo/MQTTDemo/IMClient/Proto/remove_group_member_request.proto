@@ -1,0 +1,16 @@
+syntax = "proto3";
+package proto;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "RemoveGroupMemberRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+import "message_content.proto";
+
+message RemoveGroupMemberRequest {
+  string group_id = 1;
+  repeated string removed_member = 2;
+  MessageContent notify_content = 3;
+}

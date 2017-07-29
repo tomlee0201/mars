@@ -13,4 +13,11 @@
 extern NSString *sendMessageTopic;
 extern NSString *pullMessageTopic;
 extern NSString *notifyMessageTopic;
+
+extern NSString *createGroupTopic;
+extern NSString *addGroupMemberTopic;
+extern NSString *kickoffGroupMemberTopic;
+extern NSString *quitGroupTopic;
+extern NSString *dismissGroupTopic;
+extern NSString *modifyGroupInfoTopic;
 #endif /* IMTopic_h */

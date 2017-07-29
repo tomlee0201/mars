@@ -30,6 +30,20 @@
 		2E8C3E981F29C3B50070C394 /* pull_message_result.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C3E971F29C3B50070C394 /* pull_message_result.proto */; };
 		2EA51BF91F2C1E030041FDD8 /* group.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51BF81F2C1E030041FDD8 /* group.proto */; };
 		2EA51BFC1F2C1F630041FDD8 /* Group.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51BFB1F2C1F630041FDD8 /* Group.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C051F2CD7420041FDD8 /* create_group_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C041F2CD7420041FDD8 /* create_group_request.proto */; };
+		2EA51C081F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C071F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C0A1F2CD91B0041FDD8 /* add_group_member_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C091F2CD91B0041FDD8 /* add_group_member_request.proto */; };
+		2EA51C0D1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C0C1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C0F1F2CD9C90041FDD8 /* remove_group_member_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C0E1F2CD9C90041FDD8 /* remove_group_member_request.proto */; };
+		2EA51C111F2CDA1B0041FDD8 /* modify_group_info_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C101F2CDA1B0041FDD8 /* modify_group_info_request.proto */; };
+		2EA51C141F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C131F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C171F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C161F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C191F2CDB250041FDD8 /* general_result.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C181F2CDB250041FDD8 /* general_result.proto */; };
+		2EA51C1C1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C1B1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C1E1F2CDCBF0041FDD8 /* dismiss_group_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C1D1F2CDCBF0041FDD8 /* dismiss_group_request.proto */; };
+		2EA51C211F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C201F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2EA51C231F2CDEA10041FDD8 /* quit_group_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51C221F2CDEA10041FDD8 /* quit_group_request.proto */; };
+		2EA51C261F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51C251F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
@@ -123,6 +137,27 @@
 		2EA51BF81F2C1E030041FDD8 /* group.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = group.proto; sourceTree = "<group>"; };
 		2EA51BFA1F2C1F630041FDD8 /* Group.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.pbobjc.h; sourceTree = "<group>"; };
 		2EA51BFB1F2C1F630041FDD8 /* Group.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C041F2CD7420041FDD8 /* create_group_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = create_group_request.proto; sourceTree = "<group>"; };
+		2EA51C061F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupRequest.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C071F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupRequest.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C091F2CD91B0041FDD8 /* add_group_member_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = add_group_member_request.proto; sourceTree = "<group>"; };
+		2EA51C0B1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddGroupMemberRequest.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C0C1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddGroupMemberRequest.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C0E1F2CD9C90041FDD8 /* remove_group_member_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = remove_group_member_request.proto; sourceTree = "<group>"; };
+		2EA51C101F2CDA1B0041FDD8 /* modify_group_info_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = modify_group_info_request.proto; sourceTree = "<group>"; };
+		2EA51C121F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyGroupInfoRequest.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C131F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyGroupInfoRequest.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C151F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveGroupMemberRequest.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C161F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveGroupMemberRequest.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C181F2CDB250041FDD8 /* general_result.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = general_result.proto; sourceTree = "<group>"; };
+		2EA51C1A1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneralResult.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C1B1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralResult.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C1D1F2CDCBF0041FDD8 /* dismiss_group_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dismiss_group_request.proto; sourceTree = "<group>"; };
+		2EA51C1F1F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissGroupRequest.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C201F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissGroupRequest.pbobjc.m; sourceTree = "<group>"; };
+		2EA51C221F2CDEA10041FDD8 /* quit_group_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = quit_group_request.proto; sourceTree = "<group>"; };
+		2EA51C241F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuitGroupRequest.pbobjc.h; sourceTree = "<group>"; };
+		2EA51C251F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuitGroupRequest.pbobjc.m; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -245,6 +280,27 @@
 				2EA51BFA1F2C1F630041FDD8 /* Group.pbobjc.h */,
 				2EA51BFB1F2C1F630041FDD8 /* Group.pbobjc.m */,
 				2EA51BF81F2C1E030041FDD8 /* group.proto */,
+				2EA51C061F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.h */,
+				2EA51C071F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.m */,
+				2EA51C041F2CD7420041FDD8 /* create_group_request.proto */,
+				2EA51C0B1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.h */,
+				2EA51C0C1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.m */,
+				2EA51C091F2CD91B0041FDD8 /* add_group_member_request.proto */,
+				2EA51C151F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.h */,
+				2EA51C161F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.m */,
+				2EA51C0E1F2CD9C90041FDD8 /* remove_group_member_request.proto */,
+				2EA51C121F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.h */,
+				2EA51C131F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.m */,
+				2EA51C101F2CDA1B0041FDD8 /* modify_group_info_request.proto */,
+				2EA51C1A1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.h */,
+				2EA51C1B1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.m */,
+				2EA51C181F2CDB250041FDD8 /* general_result.proto */,
+				2EA51C1F1F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.h */,
+				2EA51C201F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.m */,
+				2EA51C1D1F2CDCBF0041FDD8 /* dismiss_group_request.proto */,
+				2EA51C241F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.h */,
+				2EA51C251F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.m */,
+				2EA51C221F2CDEA10041FDD8 /* quit_group_request.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -387,14 +443,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EA51C231F2CDEA10041FDD8 /* quit_group_request.proto in Resources */,
 				2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */,
 				2E41DB6A1F203E0700491073 /* message.proto in Resources */,
+				2EA51C111F2CDA1B0041FDD8 /* modify_group_info_request.proto in Resources */,
+				2EA51C0F1F2CD9C90041FDD8 /* remove_group_member_request.proto in Resources */,
+				2EA51C051F2CD7420041FDD8 /* create_group_request.proto in Resources */,
 				2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */,
+				2EA51C0A1F2CD91B0041FDD8 /* add_group_member_request.proto in Resources */,
 				2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */,
+				2EA51C191F2CDB250041FDD8 /* general_result.proto in Resources */,
 				2EA51BF91F2C1E030041FDD8 /* group.proto in Resources */,
 				2E6840D31F29FF9200E2A6E5 /* notify_message.proto in Resources */,
 				2E41DB6C1F203E0700491073 /* message_content.proto in Resources */,
 				2E6840C21F29FCD800E2A6E5 /* pull_message_request.proto in Resources */,
+				2EA51C1E1F2CDCBF0041FDD8 /* dismiss_group_request.proto in Resources */,
 				2E41DB681F203E0700491073 /* conversation.proto in Resources */,
 				2E8C3E981F29C3B50070C394 /* pull_message_result.proto in Resources */,
 			);
@@ -424,24 +487,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E6840CB1F29FD0F00E2A6E5 /* MessageContent.pbobjc.m in Sources */,
+				2EA51C141F2CDAA80041FDD8 /* ModifyGroupInfoRequest.pbobjc.m in Sources */,
 				2E41DB581F20338300491073 /* UnsubscribeTask.mm in Sources */,
 				2E41DB561F20338300491073 /* PublishTask.mm in Sources */,
 				2E41DB551F20338300491073 /* NetworkStatus.m in Sources */,
+				2EA51C081F2CD8420041FDD8 /* CreateGroupRequest.pbobjc.m in Sources */,
 				2E6840C51F29FCEE00E2A6E5 /* Conversation.pbobjc.m in Sources */,
 				2E8C3E961F29B4A00070C394 /* Message+Send.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
+				2EA51C261F2CDEC90041FDD8 /* QuitGroupRequest.pbobjc.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2E6840D11F29FD2600E2A6E5 /* PullMessageResult.pbobjc.m in Sources */,
 				2E41DB541F20338300491073 /* NetworkService.mm in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
 				2E6840C81F29FD0400E2A6E5 /* Message.pbobjc.m in Sources */,
+				2EA51C1C1F2CDB6F0041FDD8 /* GeneralResult.pbobjc.m in Sources */,
 				2E6840D61F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
 				2E28AF751F217346008A8AB6 /* GPBProtocolBuffers.m in Sources */,
 				2E28AF761F217346008A8AB6 /* README.md in Sources */,
+				2EA51C171F2CDAB30041FDD8 /* RemoveGroupMemberRequest.pbobjc.m in Sources */,
 				2EA51BFC1F2C1F630041FDD8 /* Group.pbobjc.m in Sources */,
 				2E41DB531F20338300491073 /* app_callback.mm in Sources */,
 				2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */,
+				2EA51C211F2CDCF60041FDD8 /* DismissGroupRequest.pbobjc.m in Sources */,
+				2EA51C0D1F2CD9900041FDD8 /* AddGroupMemberRequest.pbobjc.m in Sources */,
 				2E6840CE1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

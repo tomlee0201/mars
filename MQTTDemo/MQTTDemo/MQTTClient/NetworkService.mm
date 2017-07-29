@@ -39,9 +39,16 @@
 #import "Message.pbobjc.h"
 
 
-NSString *sendMessageTopic = @"pM";
-NSString *pullMessageTopic = @"plM";
-NSString *notifyMessageTopic = @"ntfM";
+NSString *sendMessageTopic = @"MS";
+NSString *pullMessageTopic = @"MP";
+NSString *notifyMessageTopic = @"MN";
+
+NSString *createGroupTopic = @"GC";
+NSString *addGroupMemberTopic = @"GAM";
+NSString *kickoffGroupMemberTopic = @"GKM";
+NSString *quitGroupTopic = @"GQ";
+NSString *dismissGroupTopic = @"GD";
+NSString *modifyGroupInfoTopic = @"GMI";
 
 
 @protocol ReceivePublishDelegate <NSObject>

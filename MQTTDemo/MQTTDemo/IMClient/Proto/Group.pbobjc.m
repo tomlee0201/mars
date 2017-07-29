@@ -42,20 +42,61 @@ static GPBFileDescriptor *GroupRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - Enum GroupType
+
+GPBEnumDescriptor *GroupType_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "GroupTypeNormal\000GroupTypeFree\000GroupTypeR"
+        "estricted\000";
+    static const int32_t values[] = {
+        GroupType_GroupTypeNormal,
+        GroupType_GroupTypeFree,
+        GroupType_GroupTypeRestricted,
+    };
+    static const char *extraTextFormatInfo = "\003\000\t\206\000\001\t\204\000\002\t\212\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(GroupType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:GroupType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL GroupType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case GroupType_GroupTypeNormal:
+    case GroupType_GroupTypeFree:
+    case GroupType_GroupTypeRestricted:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - GroupInfo
 
 @implementation GroupInfo
 
 @dynamic targetId;
 @dynamic name;
-@dynamic protrait;
+@dynamic portrait;
+@dynamic owner;
 @dynamic extra;
 
 typedef struct GroupInfo__storage_ {
   uint32_t _has_storage_[1];
   NSString *targetId;
   NSString *name;
-  NSString *protrait;
+  NSString *portrait;
+  NSString *owner;
   NSData *extra;
 } GroupInfo__storage_;
 
@@ -84,11 +125,20 @@ typedef struct GroupInfo__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "protrait",
+        .name = "portrait",
         .dataTypeSpecific.className = NULL,
-        .number = GroupInfo_FieldNumber_Protrait,
+        .number = GroupInfo_FieldNumber_Portrait,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(GroupInfo__storage_, protrait),
+        .offset = (uint32_t)offsetof(GroupInfo__storage_, portrait),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "owner",
+        .dataTypeSpecific.className = NULL,
+        .number = GroupInfo_FieldNumber_Owner,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(GroupInfo__storage_, owner),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
@@ -96,7 +146,7 @@ typedef struct GroupInfo__storage_ {
         .name = "extra",
         .dataTypeSpecific.className = NULL,
         .number = GroupInfo_FieldNumber_Extra,
-        .hasIndex = 3,
+        .hasIndex = 4,
         .offset = (uint32_t)offsetof(GroupInfo__storage_, extra),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBytes,

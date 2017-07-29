@@ -7,12 +7,23 @@ option java_outer_classname = "GroupOuterClass";
 
 //option objc_class_prefix = "LYF";
 
+enum GroupType {
+  //member can add quit change group name and portrait, owner can do all the operations
+  GroupType_Normal = 0;
+  //every member can add quit change group name and portrait, no one can kickoff others
+  GroupType_Free = 1;
+  //member can only quit, owner can do all the operations
+  GroupType_Restricted = 2;
+}
+
 message GroupInfo {
   string target_id = 1;
   string name = 2;
-  string protrait = 3;
-  bytes extra = 4;
+  string portrait = 3;
+  string owner = 4;
+  bytes extra = 5;
 }
+
 message Group {
   GroupInfo group_info = 1;
   repeated string members = 2;
