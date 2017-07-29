@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *targetIdField;
 @property (weak, nonatomic) IBOutlet UITextField *contentField;
 @property (weak, nonatomic) IBOutlet UITextView *eventArea;
-
 @end
 
 @implementation ViewController

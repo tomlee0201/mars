@@ -9,11 +9,11 @@ option java_outer_classname = "ConversationOuterClass";
 
 
 enum ConversationType {
-    Private = 0;
-    Group = 1;
-    System = 2;
-    ChatRoom = 3;
-    Command = 4;
+    ConversationType_Private = 0;
+    ConversationType_Group = 1;
+    ConversationType_System = 2;
+    ConversationType_ChatRoom = 3;
+    ConversationType_Command = 4;
 }
 
 message Conversation {

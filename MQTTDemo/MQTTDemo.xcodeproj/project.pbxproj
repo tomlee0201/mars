@@ -28,6 +28,8 @@
 		2E6840D61F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6840D51F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2E8C3E961F29B4A00070C394 /* Message+Send.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C3E951F29B4A00070C394 /* Message+Send.m */; };
 		2E8C3E981F29C3B50070C394 /* pull_message_result.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C3E971F29C3B50070C394 /* pull_message_result.proto */; };
+		2EA51BF91F2C1E030041FDD8 /* group.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EA51BF81F2C1E030041FDD8 /* group.proto */; };
+		2EA51BFC1F2C1F630041FDD8 /* Group.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA51BFB1F2C1F630041FDD8 /* Group.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
@@ -118,6 +120,9 @@
 		2E8C3E951F29B4A00070C394 /* Message+Send.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+Send.m"; sourceTree = "<group>"; };
 		2E8C3E971F29C3B50070C394 /* pull_message_result.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pull_message_result.proto; sourceTree = "<group>"; };
 		2E8C3E9F1F29D9180070C394 /* IMTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMTopic.h; sourceTree = "<group>"; };
+		2EA51BF81F2C1E030041FDD8 /* group.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = group.proto; sourceTree = "<group>"; };
+		2EA51BFA1F2C1F630041FDD8 /* Group.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.pbobjc.h; sourceTree = "<group>"; };
+		2EA51BFB1F2C1F630041FDD8 /* Group.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.pbobjc.m; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -237,6 +242,9 @@
 				2E6840D41F2A01C800E2A6E5 /* NotifyMessage.pbobjc.h */,
 				2E6840D51F2A01C800E2A6E5 /* NotifyMessage.pbobjc.m */,
 				2E6840D21F29FF9200E2A6E5 /* notify_message.proto */,
+				2EA51BFA1F2C1F630041FDD8 /* Group.pbobjc.h */,
+				2EA51BFB1F2C1F630041FDD8 /* Group.pbobjc.m */,
+				2EA51BF81F2C1E030041FDD8 /* group.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -383,6 +391,7 @@
 				2E41DB6A1F203E0700491073 /* message.proto in Resources */,
 				2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */,
 				2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */,
+				2EA51BF91F2C1E030041FDD8 /* group.proto in Resources */,
 				2E6840D31F29FF9200E2A6E5 /* notify_message.proto in Resources */,
 				2E41DB6C1F203E0700491073 /* message_content.proto in Resources */,
 				2E6840C21F29FCD800E2A6E5 /* pull_message_request.proto in Resources */,
@@ -430,6 +439,7 @@
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
 				2E28AF751F217346008A8AB6 /* GPBProtocolBuffers.m in Sources */,
 				2E28AF761F217346008A8AB6 /* README.md in Sources */,
+				2EA51BFC1F2C1F630041FDD8 /* Group.pbobjc.m in Sources */,
 				2E41DB531F20338300491073 /* app_callback.mm in Sources */,
 				2E41DB571F20338300491073 /* SubscribeTask.mm in Sources */,
 				2E6840CE1F29FD1B00E2A6E5 /* PullMessageRequest.pbobjc.m in Sources */,

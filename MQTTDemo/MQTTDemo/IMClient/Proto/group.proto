@@ -1,0 +1,19 @@
+syntax = "proto3";
+package proto;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "GroupOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+message GroupInfo {
+  string target_id = 1;
+  string name = 2;
+  string protrait = 3;
+  bytes extra = 4;
+}
+message Group {
+  GroupInfo group_info = 1;
+  repeated string members = 2;
+}
