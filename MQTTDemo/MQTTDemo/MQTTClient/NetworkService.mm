@@ -37,6 +37,10 @@
 #import "PullMessageResult.pbobjc.h"
 #import "PullMessageRequest.pbobjc.h"
 #import "Message.pbobjc.h"
+#import "CreateGroupRequest.pbobjc.h"
+#import "Group.pbobjc.h"
+#import "MessageContent.pbobjc.h"
+
 
 
 NSString *sendMessageTopic = @"MS";
@@ -208,8 +212,8 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
-    //[self setLongLinkAddress:@"192.168.1.107" port:1883];
-  [self setLongLinkAddress:@"172.16.11.239" port:1883];
+    [self setLongLinkAddress:@"192.168.1.109" port:1883];
+  //[self setLongLinkAddress:@"172.16.11.120" port:1883];
   
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -265,6 +269,30 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnForeground(isForeground);
 }
 
+- (void)createGroup:(NSString *)groupId name:(NSString *)groupName portrait:(NSString *)groupPortrait members:(NSArray *)groupMembers {
+  
+  CreateGroupRequest *request = [[CreateGroupRequest alloc] init];
+  request.group.groupInfo.targetId = groupId;
+  request.group.groupInfo.name = groupName;
+  request.group.groupInfo.portrait = groupPortrait;
+  [request.group.membersArray addObjectsFromArray:groupMembers];
+  request.notifyContent = [[MessageContent alloc] init];
+  request.notifyContent.type = ContentType_Text;
+  request.notifyContent.searchableContent = @"hello group";
+  
+  
+  NSData *data = request.data;
+  PublishTask *publishTask = [[PublishTask alloc] initWithTopic:createGroupTopic message:data];
+  
+  __weak typeof(self)weakSelf = self;
+  [publishTask send:^(NSData *data){
+    if (data) {
+      
+    }
+  } error:^(int error_code) {
+    
+  }];
+}
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {
     if ((uiFlags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {

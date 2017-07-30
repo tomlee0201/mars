@@ -65,9 +65,9 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)setShortLinkPort:(const unsigned short)port;
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port debugIP:(NSString *)IP;
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port;
-
-
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
+
+- (void)createGroup:(NSString *)groupId name:(NSString *)groupName portrait:(NSString *)groupPortrait members:(NSArray *)groupMembers;
 @end
 
 #endif /* NetworkService_hpp */
