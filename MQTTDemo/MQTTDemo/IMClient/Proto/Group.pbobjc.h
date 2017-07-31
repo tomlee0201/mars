@@ -80,7 +80,8 @@ typedef GPB_ENUM(GroupInfo_FieldNumber) {
   GroupInfo_FieldNumber_Name = 2,
   GroupInfo_FieldNumber_Portrait = 3,
   GroupInfo_FieldNumber_Owner = 4,
-  GroupInfo_FieldNumber_Extra = 5,
+  GroupInfo_FieldNumber_Type = 5,
+  GroupInfo_FieldNumber_Extra = 6,
 };
 
 @interface GroupInfo : GPBMessage
@@ -93,9 +94,23 @@ typedef GPB_ENUM(GroupInfo_FieldNumber) {
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *owner;
 
+@property(nonatomic, readwrite) GroupType type;
+
 @property(nonatomic, readwrite, copy, null_resettable) NSData *extra;
 
 @end
+
+/**
+ * Fetches the raw value of a @c GroupInfo's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t GroupInfo_Type_RawValue(GroupInfo *message);
+/**
+ * Sets the raw value of an @c GroupInfo's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetGroupInfo_Type_RawValue(GroupInfo *message, int32_t value);
 
 #pragma mark - Group
 

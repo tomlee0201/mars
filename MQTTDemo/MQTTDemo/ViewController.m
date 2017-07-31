@@ -94,7 +94,17 @@
 
 - (IBAction)onSendButton:(id)sender {
     //NSData *data = [self.pushContentField.text dataUsingEncoding:NSUTF8StringEncoding];
+  
+  MessageContent *notifyContent = [[MessageContent alloc] init];
+  notifyContent.type = ContentType_Text;
+  notifyContent.searchableContent = @"hello group";
+  
+  [[NetworkService sharedInstance] createGroup:@"2" name:@"2" portrait:@"3" members:@[@"testuser", @"111"] notifyContent:notifyContent success:^(NSString *groupId) {
     
+  } error:^(int error_code) {
+    
+  }];
+  
     Message *msg = [Message message];
     msg.conversation.type = ConversationType_Private;
     msg.conversation.target = self.targetIdField.text;

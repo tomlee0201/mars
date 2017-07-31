@@ -21,7 +21,8 @@ message GroupInfo {
   string name = 2;
   string portrait = 3;
   string owner = 4;
-  bytes extra = 5;
+  GroupType type = 5;
+  bytes extra = 6;
 }
 
 message Group {

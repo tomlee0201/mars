@@ -1,0 +1,13 @@
+syntax = "proto3";
+package proto;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "IDListBufOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+
+message IDListBuf {
+repeated string id = 1;
+}

@@ -24,6 +24,7 @@
 #import <Foundation/Foundation.h>
 #import "NetworkStatus.h"
 #import "Message.pbobjc.h"
+#import "Group.pbobjc.h"
 
 @class CGITask;
 @class ViewController;
@@ -67,7 +68,50 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port;
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 
-- (void)createGroup:(NSString *)groupId name:(NSString *)groupName portrait:(NSString *)groupPortrait members:(NSArray *)groupMembers;
+
+
+- (void)createGroup:(NSString *)groupId
+               name:(NSString *)groupName
+           portrait:(NSString *)groupPortrait
+            members:(NSArray *)groupMembers
+      notifyContent:(MessageContent *)notifyContent
+            success:(void(^)(NSString *groupId))successBlock
+              error:(void(^)(int error_code))errorBlock;
+
+- (void)addMembers:(NSArray *)members
+           toGroup:(NSString *)groupId
+     notifyContent:(MessageContent *)notifyContent
+           success:(void(^)())successBlock
+             error:(void(^)(int error_code))errorBlock;
+  
+- (void)kickoffMembers:(NSArray *)members
+             fromGroup:(NSString *)groupId
+         notifyContent:(MessageContent *)notifyContent
+               success:(void(^)())successBlock
+                 error:(void(^)(int error_code))errorBlock;
+  
+- (void)quitGroup:(NSString *)groupId
+    notifyContent:(MessageContent *)notifyContent
+          success:(void(^)())successBlock
+            error:(void(^)(int error_code))errorBlock;
+  
+- (void)dismissGroup:(NSString *)groupId
+       notifyContent:(MessageContent *)notifyContent
+             success:(void(^)())successBlock
+               error:(void(^)(int error_code))errorBlock;
+  
+- (void)modifyGroupInfo:(GroupInfo *)groupInfo
+          notifyContent:(MessageContent *)notifyContent
+                success:(void(^)())successBlock
+                  error:(void(^)(int error_code))errorBlock;
+  
+- (void)getGroupInfo:(NSArray<NSString *> *)groupIds
+             success:(void(^)(NSArray<GroupInfo *> *))successBlock
+               error:(void(^)(int error_code))errorBlock;
+
+- (void)getGroupMembers:(NSString *)groupId
+                success:(void(^)(NSArray<NSString *> *))successBlock
+                  error:(void(^)(int error_code))errorBlock;
 @end
 
 #endif /* NetworkService_hpp */

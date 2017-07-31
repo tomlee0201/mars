@@ -89,10 +89,12 @@ BOOL GroupType_IsValidValue(int32_t value__) {
 @dynamic name;
 @dynamic portrait;
 @dynamic owner;
+@dynamic type;
 @dynamic extra;
 
 typedef struct GroupInfo__storage_ {
   uint32_t _has_storage_[1];
+  GroupType type;
   NSString *targetId;
   NSString *name;
   NSString *portrait;
@@ -143,10 +145,19 @@ typedef struct GroupInfo__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
+        .name = "type",
+        .dataTypeSpecific.enumDescFunc = GroupType_EnumDescriptor,
+        .number = GroupInfo_FieldNumber_Type,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(GroupInfo__storage_, type),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
+      },
+      {
         .name = "extra",
         .dataTypeSpecific.className = NULL,
         .number = GroupInfo_FieldNumber_Extra,
-        .hasIndex = 4,
+        .hasIndex = 5,
         .offset = (uint32_t)offsetof(GroupInfo__storage_, extra),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBytes,
@@ -167,6 +178,18 @@ typedef struct GroupInfo__storage_ {
 }
 
 @end
+
+int32_t GroupInfo_Type_RawValue(GroupInfo *message) {
+  GPBDescriptor *descriptor = [GroupInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:GroupInfo_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetGroupInfo_Type_RawValue(GroupInfo *message, int32_t value) {
+  GPBDescriptor *descriptor = [GroupInfo descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:GroupInfo_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - Group
 

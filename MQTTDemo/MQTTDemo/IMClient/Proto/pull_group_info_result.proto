@@ -1,0 +1,14 @@
+syntax = "proto3";
+package proto;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "PullGroupInfoResultOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+import "group.proto";
+
+message PullGroupInfoResult {
+  repeated GroupInfo info = 1;
+}

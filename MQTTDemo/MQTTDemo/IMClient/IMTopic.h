@@ -20,4 +20,6 @@ extern NSString *kickoffGroupMemberTopic;
 extern NSString *quitGroupTopic;
 extern NSString *dismissGroupTopic;
 extern NSString *modifyGroupInfoTopic;
+extern NSString *getGroupInfoTopic;
+extern NSString *getGroupMemberTopic;
 #endif /* IMTopic_h */
