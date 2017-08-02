@@ -14,7 +14,6 @@
 #endif
 
  #import "PullGroupMemberResult.pbobjc.h"
- #import "Group.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -24,8 +23,8 @@
 
 @implementation PullGroupMemberResultRoot
 
-// No extensions in the file and none of the imports (direct or indirect)
-// defined extensions, so no need to generate +extensionRegistry.
+// No extensions in the file and no imports, so no need to generate
+// +extensionRegistry.
 
 @end
 
