@@ -15,7 +15,7 @@
 #import "Message.pbobjc.h"
 #import "Conversation.pbobjc.h"
 #import "Messagecontent.pbobjc.h"
-#import "Message+Send.h"
+#import "IMService.h"
 
 @interface ViewController () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *targetIdField;
@@ -99,7 +99,7 @@
   notifyContent.type = ContentType_Text;
   notifyContent.searchableContent = @"hello group";
   
-  [[NetworkService sharedInstance] createGroup:@"2" name:@"2" portrait:@"3" members:@[@"testuser", @"111"] notifyContent:notifyContent success:^(NSString *groupId) {
+  [[IMService sharedIMService] createGroup:@"2" name:@"2" portrait:@"3" members:@[@"testuser", @"111"] notifyContent:notifyContent success:^(NSString *groupId) {
     
   } error:^(int error_code) {
     
@@ -113,7 +113,7 @@
     msg.content.data_p = [@"hello extra" dataUsingEncoding:NSUTF8StringEncoding];
   
     __weak typeof(self) weakSelf = self;
-    [msg send:^(long messageId, long timestamp) {
+    [[IMService sharedIMService] send:msg success:^(long messageId, long timestamp) {
       [weakSelf appendEvent:[NSString stringWithFormat:@"Send message success, ret messageId:%ld, timestamp:%ld", messageId, timestamp]];
     } error:^(int error_code) {
       [weakSelf appendEvent:[NSString stringWithFormat:@"Send message failure with errorCode %d", error_code]];
