@@ -211,7 +211,7 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
-    [self setLongLinkAddress:@"192.168.1.101" port:1883];
+    [self setLongLinkAddress:@"192.168.1.106" port:1883];
   //[self setLongLinkAddress:@"172.16.11.120" port:1883];
   
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);

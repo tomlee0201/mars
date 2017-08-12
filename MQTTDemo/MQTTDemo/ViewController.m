@@ -106,7 +106,7 @@
 //  }];
   
     Message *msg = [Message message];
-    msg.conversation.type = ConversationType_Private;
+    msg.conversation.type = ConversationType_ConversationTypePrivate;
     msg.conversation.target = self.targetIdField.text;
     msg.content.type = ContentType_Text;
     msg.content.searchableContent = self.contentField.text;
