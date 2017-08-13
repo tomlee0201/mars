@@ -81,7 +81,15 @@ struct DnsProfile;
         virtual void onFalure(int errorCode) = 0;
       };
       
+    class SendMessageCallback {
+    public:
+        virtual void onPrepared(long messageId) = 0;
+        virtual void onSuccess(long messageUid, long long timestamp) = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
+
       
+
 class Task {
 public:
     //channel type
@@ -354,5 +362,7 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern void setConnectionStatusCallback(ConnectionStatusCallback *callback);
       extern void setReceivePublishCallback(ReceivePublishCallback *callback);
       extern ConnectionStatus getConnectionStatus();
+        
+extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback);
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

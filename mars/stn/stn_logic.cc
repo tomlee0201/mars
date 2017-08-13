@@ -40,6 +40,10 @@
 #include "stn/src/net_core.h"//一定要放这里，Mac os 编译
 #include "stn/src/net_source.h"
 #include "stn/src/signalling_keeper.h"
+#include "mars/stn/mqtt/Proto/group.pb.h"
+#include "mars/stn/mqtt/Proto/conversation.pb.h"
+#include "mars/stn/mqtt/Proto/message.pb.h"
+#include "mars/stn/mqtt/Proto/message_content.pb.h"
 
 namespace mars {
 namespace stn {
@@ -47,6 +51,20 @@ namespace stn {
 static Callback* sg_callback = StnCallBack::Instance();
 static const std::string kLibName = "stn";
 
+static const std::string sendMessageTopic = "MS";
+static const std::string pullMessageTopic = "MP";
+static const std::string notifyMessageTopic = "MN";
+    
+static const std::string createGroupTopic = "GC";
+static const std::string addGroupMemberTopic = "GAM";
+static const std::string kickoffGroupMemberTopic = "GKM";
+static const std::string quitGroupTopic = "GQ";
+static const std::string dismissGroupTopic = "GD";
+static const std::string modifyGroupInfoTopic = "GMI";
+static const std::string getGroupInfoTopic = "GPGI";
+static const std::string getGroupMemberTopic = "GPGM";
+
+    
 #define STN_WEAK_CALL(func) \
     boost::shared_ptr<NetCore> stn_ptr = NetCore::Singleton::Instance_Weak().lock();\
     if (!stn_ptr) {\
@@ -328,6 +346,59 @@ void (*ReportTaskLimited)(int _check_type, const Task& _task, unsigned int& _par
 
 void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
 = [](const DnsProfile& _dns_profile) {
+};
+    
+    class MessagePublishCallback : public MQTTPublishCallback {
+    public:
+        MessagePublishCallback(SendMessageCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        SendMessageCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            long long messageId = 0;
+            long long timestamp = 0;
+            if (len == 16) {
+                const unsigned char* p = data;
+                for (int i = 0; i < 8; i++) {
+                    messageId = (messageId << 8) + *(p + i);
+                    timestamp = (timestamp << 8) + *(p + 8 + i);
+                }
+                callback->onSuccess(messageId, timestamp);
+            } else {
+                callback->onFalure(-1);
+            }
+
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~MessagePublishCallback() {
+            
+        }
+    };
+int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback)
+= [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback) {
+    
+    Message message;
+    message.mutable_conversation()->set_type((ConversationType)conversationType);
+    message.mutable_conversation()->set_target(target);
+    message.set_from_user("");
+    message.mutable_content()->set_type((::mars::stn::ContentType)contentType);
+    message.mutable_content()->set_searchable_content(searchableContent);
+    message.mutable_content()->set_push_content(pushContent);
+    message.mutable_content()->set_data(data, dataLen);
+    
+    std::string output;
+    message.SerializeToString(&output);
+    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new MessagePublishCallback(callback));
+    publishTask->topic = sendMessageTopic;
+    publishTask->length = output.length();
+    publishTask->body = new unsigned char[publishTask->length];
+    memcpy(publishTask->body, output.c_str(), publishTask->length);
+    mars::stn::StartTask(*publishTask);
+
+    
+    return 0;
 };
 #endif
 

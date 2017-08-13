@@ -28,7 +28,7 @@
 		2EC519EB1F3EBAB6009D60AE /* IMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC519E41F3EBAB6009D60AE /* IMLib.framework */; };
 		2EC519EC1F3EBAB6009D60AE /* IMLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC519E41F3EBAB6009D60AE /* IMLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2EC51A861F3EBB3D009D60AE /* IMService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC519F21F3EBB3C009D60AE /* IMService.h */; };
-		2EC51A881F3EBB3D009D60AE /* IMService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC519F31F3EBB3C009D60AE /* IMService.m */; };
+		2EC51A881F3EBB3D009D60AE /* IMService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC519F31F3EBB3C009D60AE /* IMService.mm */; };
 		2EC51A891F3EBB3D009D60AE /* IMTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC519F41F3EBB3C009D60AE /* IMTopic.h */; };
 		2EC51A8A1F3EBB3D009D60AE /* add_group_member_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EC519F61F3EBB3C009D60AE /* add_group_member_request.proto */; };
 		2EC51A8B1F3EBB3D009D60AE /* add_group_member_request.proto in Resources */ = {isa = PBXBuildFile; fileRef = 2EC519F61F3EBB3C009D60AE /* add_group_member_request.proto */; };
@@ -186,6 +186,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libprotobuf.tbd; path = usr/lib/libprotobuf.tbd; sourceTree = SDKROOT; };
 		2E30C9801F3EBF8C00DB259A /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../../DerivedData/Build/Products/Debug-iphonesimulator/libmars-open-iphone.a"; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,7 +208,7 @@
 		2EC519E61F3EBAB6009D60AE /* IMLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMLib.h; sourceTree = "<group>"; };
 		2EC519E71F3EBAB6009D60AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EC519F21F3EBB3C009D60AE /* IMService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMService.h; sourceTree = "<group>"; };
-		2EC519F31F3EBB3C009D60AE /* IMService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMService.m; sourceTree = "<group>"; };
+		2EC519F31F3EBB3C009D60AE /* IMService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IMService.mm; sourceTree = "<group>"; };
 		2EC519F41F3EBB3C009D60AE /* IMTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMTopic.h; sourceTree = "<group>"; };
 		2EC519F61F3EBB3C009D60AE /* add_group_member_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = add_group_member_request.proto; sourceTree = "<group>"; };
 		2EC519F71F3EBB3C009D60AE /* AddGroupMemberRequest.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddGroupMemberRequest.pbobjc.h; sourceTree = "<group>"; };
@@ -402,6 +403,7 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */,
 				2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */,
 				2E30C9801F3EBF8C00DB259A /* libresolv.tbd */,
 				2EC51B841F3EBB98009D60AE /* mars.framework */,
@@ -429,7 +431,7 @@
 			isa = PBXGroup;
 			children = (
 				2EC519F21F3EBB3C009D60AE /* IMService.h */,
-				2EC519F31F3EBB3C009D60AE /* IMService.m */,
+				2EC519F31F3EBB3C009D60AE /* IMService.mm */,
 				2EC519F41F3EBB3C009D60AE /* IMTopic.h */,
 				2EC519F51F3EBB3C009D60AE /* Proto */,
 			);
@@ -836,7 +838,7 @@
 				2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */,
 				2EC51B771F3EBB49009D60AE /* NetworkService.mm in Sources */,
 				2EC51A981F3EBB3D009D60AE /* CreateGroupRequest.pbobjc.m in Sources */,
-				2EC51A881F3EBB3D009D60AE /* IMService.m in Sources */,
+				2EC51A881F3EBB3D009D60AE /* IMService.mm in Sources */,
 				2EC51ABB1F3EBB3D009D60AE /* Messagecontent.pbobjc.m in Sources */,
 				2EC51B401F3EBB3D009D60AE /* RemoveGroupMemberRequest.pbobjc.m in Sources */,
 			);

@@ -38,7 +38,7 @@ static GPBFileDescriptor *ModifyGroupInfoRequestRoot_FileDescriptor(void) {
   static GPBFileDescriptor *descriptor = NULL;
   if (!descriptor) {
     GPB_DEBUG_CHECK_RUNTIME_VERSIONS();
-    descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"proto"
+    descriptor = [[GPBFileDescriptor alloc] initWithPackage:@"mars.stn"
                                                      syntax:GPBFileSyntaxProto3];
   }
   return descriptor;

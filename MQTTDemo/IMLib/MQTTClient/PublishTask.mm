@@ -47,6 +47,7 @@ public:
 }
 
 - (void)send:(void(^)(NSData *data))successBlock error:(void(^)(int error_code))errorBlock {
+    
     mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PublishCallback(successBlock, errorBlock));
     publishTask->topic = [self.topic cStringUsingEncoding:NSUTF8StringEncoding];
     publishTask->length = self.message.length;

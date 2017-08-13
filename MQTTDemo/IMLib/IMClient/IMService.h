@@ -14,7 +14,7 @@
 @interface IMService : NSObject
 + (IMService*)sharedIMService;
 
-- (void)send:(Message *)message success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock;
+- (int)send:(Message *)message success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock;
 
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName

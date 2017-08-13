@@ -21,6 +21,40 @@
 #import "IdBuf.pbobjc.h"
 #import "PullGroupInfoResult.pbobjc.h"
 #import "PullGroupMemberResult.pbobjc.h"
+#import "Conversation.pbobjc.h"
+
+#import <mars/stn/stn.h>
+
+
+class IMSendMessageCallback : public mars::stn::SendMessageCallback {
+private:
+    void(^m_successBlock)(long messageId, long timestamp);
+    void(^m_errorBlock)(int error_code);
+    Message *m_message;
+public:
+    IMSendMessageCallback(Message *message, void(^successBlock)(long messageId, long timestamp), void(^errorBlock)(int error_code)) : mars::stn::SendMessageCallback(), m_message(message), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+     void onSuccess(long messageUid, long long timestamp) {
+         
+        if (m_successBlock) {
+            m_successBlock(messageUid, timestamp);
+        }
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        if (m_errorBlock) {
+            m_errorBlock(errorCode);
+        }
+        delete this;
+    }
+    void onPrepared(long messageId) {
+        
+    }
+    virtual ~IMSendMessageCallback() {
+        m_successBlock = nil;
+        m_errorBlock = nil;
+        m_message = nil;
+    }
+};
 
 static IMService * sharedSingleton = nil;
 @implementation IMService
@@ -36,26 +70,8 @@ static IMService * sharedSingleton = nil;
     return sharedSingleton;
 }
 
-- (void)send:(Message *)message success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock {
-    NSData *data = [message data];
-    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:sendMessageTopic message:data];
-    
-    [publishTask send:^(NSData *data){
-        long long messageId = 0;
-        long long timestamp = 0;
-        if (data.length == 16) {
-            const unsigned char* p = data.bytes;
-            for (int i = 0; i < 8; i++) {
-                messageId = (messageId << 8) + *(p + i);
-                timestamp = (timestamp << 8) + *(p + 8 + i);
-            }
-        }
-        message.messageId = messageId;
-        message.serverTimestamp = timestamp;
-        successBlock(messageId, timestamp);
-    } error:^(int error_code) {
-        errorBlock(error_code);
-    }];
+- (int)send:(Message *)message success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock {
+    return mars::stn::sendMessage(message.conversation.type, [message.conversation.target UTF8String], message.content.type, [message.content.searchableContent UTF8String], [message.content.pushContent UTF8String], (const unsigned char *)message.content.data_p.bytes, message.content.data_p.length, new IMSendMessageCallback(message, successBlock, errorBlock));
 }
 
 - (void)createGroup:(NSString *)groupId
