@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string>
 #include <map>
+#include <iterator>
 
 #include "mars/log/appender.h"
 
@@ -44,6 +45,18 @@
 #include "mars/stn/mqtt/Proto/conversation.pb.h"
 #include "mars/stn/mqtt/Proto/message.pb.h"
 #include "mars/stn/mqtt/Proto/message_content.pb.h"
+#include "mars/stn/mqtt/Proto/create_group_request.pb.h"
+#include "mars/stn/mqtt/Proto/add_group_member_request.pb.h"
+#include "mars/stn/mqtt/Proto/remove_group_member_request.pb.h"
+#include "mars/stn/mqtt/Proto/quit_group_request.pb.h"
+
+#include "mars/stn/mqtt/Proto/dismiss_group_request.pb.h"
+#include "mars/stn/mqtt/Proto/modify_group_info_request.pb.h"
+#include "mars/stn/mqtt/Proto/id_buf.pb.h"
+#include "mars/stn/mqtt/Proto/id_list_buf.pb.h"
+#include "mars/stn/mqtt/Proto/pull_group_info_result.pb.h"
+#include "mars/stn/mqtt/Proto/pull_group_member_result.pb.h"
+
 
 namespace mars {
 namespace stn {
@@ -376,6 +389,19 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
             
         }
     };
+
+    void publishTask(const ::google::protobuf::Message &message, MQTTPublishCallback *callback, const std::string &topic) {
+        std::string output;
+        message.SerializeToString(&output);
+        mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(callback);
+        publishTask->topic = topic;
+        publishTask->length = output.length();
+        publishTask->body = new unsigned char[publishTask->length];
+        memcpy(publishTask->body, output.c_str(), publishTask->length);
+        mars::stn::StartTask(*publishTask);
+    }
+    
+    
 int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback)
 = [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback) {
     
@@ -388,18 +414,262 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
     message.mutable_content()->set_push_content(pushContent);
     message.mutable_content()->set_data(data, dataLen);
     
-    std::string output;
-    message.SerializeToString(&output);
-    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new MessagePublishCallback(callback));
-    publishTask->topic = sendMessageTopic;
-    publishTask->length = output.length();
-    publishTask->body = new unsigned char[publishTask->length];
-    memcpy(publishTask->body, output.c_str(), publishTask->length);
-    mars::stn::StartTask(*publishTask);
-
-    
+    publishTask(message, new MessagePublishCallback(callback), sendMessageTopic);
     return 0;
 };
+    class CreateGroupPublishCallback : public MQTTPublishCallback {
+    public:
+        CreateGroupPublishCallback(CreateGroupCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        CreateGroupCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            int errorCode = 0;
+            if (len == 4) {
+                const unsigned char* p = data;
+                for (int i = 0; i < 4; i++) {
+                    errorCode = (errorCode << 8) + *(p + i);
+                }
+                if (errorCode == 0) {
+                    callback->onSuccess(0);
+                } else {
+                    callback->onFalure(errorCode);
+                }
+            } else {
+                callback->onFalure(-1);
+            }
+            
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~CreateGroupPublishCallback() {
+            
+        }
+    };
+   
+void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback)
+= [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback) {
+    CreateGroupRequest request;
+    request.mutable_group()->mutable_group_info()->set_target_id(groupId);
+    request.mutable_group()->mutable_group_info()->set_portrait(groupPortrait);
+    request.mutable_group()->mutable_group_info()->set_name(groupName);
+    request.mutable_group()->mutable_members()->Reserve((int)groupMembers.size());
+    
+    for (std::list<std::string>::const_iterator it = groupMembers.begin(); it != groupMembers.end(); it++) {
+        request.mutable_group()->mutable_members()->AddAllocated(new std::string(*it));
+    }
+    
+    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
+    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
+    request.mutable_notify_content()->set_push_content(notifyPushContent);
+    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    
+    publishTask(request, new CreateGroupPublishCallback(callback), createGroupTopic);
+};
+    
+    class GeneralGroupOperationPublishCallback : public MQTTPublishCallback {
+    public:
+        GeneralGroupOperationPublishCallback(GeneralGroupOperationCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        GeneralGroupOperationCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            int errorCode = 0;
+            if (len == 4) {
+                const unsigned char* p = data;
+                for (int i = 0; i < 4; i++) {
+                    errorCode = (errorCode << 8) + *(p + i);
+                }
+                if (errorCode == 0) {
+                    callback->onSuccess();
+                } else {
+                    callback->onFalure(errorCode);
+                }
+            } else {
+                callback->onFalure(-1);
+            }
+            
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~GeneralGroupOperationPublishCallback() {
+            
+        }
+    };
+    
+void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+    AddGroupMemberRequest request;
+    request.set_group_id(groupId);
+    request.mutable_added_member()->Reserve((int)members.size());
+    
+    for (std::list<std::string>::const_iterator it = members.begin(); it != members.end(); it++) {
+        request.mutable_added_member()->AddAllocated(new std::string(*it));
+    }
+    
+    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
+    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
+    request.mutable_notify_content()->set_push_content(notifyPushContent);
+    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    
+    publishTask(request, new GeneralGroupOperationPublishCallback(callback), addGroupMemberTopic);
+};
+
+void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+    RemoveGroupMemberRequest request;
+    request.set_group_id(groupId);
+    request.mutable_removed_member()->Reserve((int)members.size());
+    
+    for (std::list<std::string>::const_iterator it = members.begin(); it != members.end(); it++) {
+        request.mutable_removed_member()->AddAllocated(new std::string(*it));
+    }
+    
+    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
+    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
+    request.mutable_notify_content()->set_push_content(notifyPushContent);
+    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    
+    publishTask(request, new GeneralGroupOperationPublishCallback(callback), kickoffGroupMemberTopic);
+};
+
+void (*quitGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+    QuitGroupRequest request;
+    request.set_group_id(groupId);
+    
+    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
+    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
+    request.mutable_notify_content()->set_push_content(notifyPushContent);
+    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    
+    publishTask(request, new GeneralGroupOperationPublishCallback(callback), quitGroupTopic);
+};
+
+void (*dismissGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+    DismissGroupRequest request;
+    request.set_group_id(groupId);
+    
+    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
+    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
+    request.mutable_notify_content()->set_push_content(notifyPushContent);
+    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    
+    publishTask(request, new GeneralGroupOperationPublishCallback(callback), dismissGroupTopic);
+
+};
+    class GetGroupInfoPublishCallback : public MQTTPublishCallback {
+    public:
+        GetGroupInfoPublishCallback(GetGroupInfoCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        GetGroupInfoCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            
+            PullGroupInfoResult result;
+            if(result.ParsePartialFromArray(data, (int)len)) {
+                std::list<TGroupInfo> retList;
+                
+                for (::google::protobuf::RepeatedPtrField< ::mars::stn::GroupInfo >::const_iterator it = result.info().begin(); it != result.info().end(); it++) {
+                    const ::mars::stn::GroupInfo &info = *it;
+                    TGroupInfo tInfo;
+                    tInfo.target = info.target_id();
+                    tInfo.name = info.name();
+                    tInfo.portrait = info.portrait();
+                    tInfo.owner = info.owner();
+                    tInfo.extraData = new unsigned char[info.extra().length()];
+                    memcpy(tInfo.extraData, info.extra().c_str(), info.extra().length());
+                    tInfo.extraLen = info.extra().length();
+                    retList.push_back(tInfo);
+                }
+                callback->onSuccess(retList);
+            } else {
+                callback->onFalure(-1);
+            }
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~GetGroupInfoPublishCallback() {
+            
+        }
+    };
+
+void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback)
+= [](const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback) {
+    IDListBuf listBuf;
+    listBuf.mutable_id()->Reserve((int)groupIdList.size());
+    for (std::list<std::string>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); it++) {
+        listBuf.mutable_id()->AddAllocated(new std::string(*it));
+    }
+    
+    publishTask(listBuf, new GetGroupInfoPublishCallback(callback), getGroupInfoTopic);
+};
+
+void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const TGroupInfo &groupInfo, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+    ModifyGroupInfoRequest request;
+    request.mutable_group_info()->set_target_id(groupId);
+    
+    if (!groupInfo.name.empty())
+        request.mutable_group_info()->set_name(groupInfo.name);
+    if (!groupInfo.portrait.empty())
+        request.mutable_group_info()->set_portrait(groupInfo.portrait);
+    if (!groupInfo.owner.empty())
+        request.mutable_group_info()->set_owner(groupInfo.owner);
+    if (groupInfo.type >= 0)
+        request.mutable_group_info()->set_type((GroupType)groupInfo.type);
+    if (groupInfo.extraData != NULL) {
+        request.mutable_group_info()->set_extra(groupInfo.extraData, groupInfo.extraLen);
+    }
+    
+    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
+    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
+    request.mutable_notify_content()->set_push_content(notifyPushContent);
+    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    
+    publishTask(request, new GeneralGroupOperationPublishCallback(callback), modifyGroupInfoTopic);
+};
+    class GetGroupMembersPublishCallback : public MQTTPublishCallback {
+    public:
+        GetGroupMembersPublishCallback(GetGroupMembersCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        GetGroupMembersCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            
+            PullGroupMemberResult result;
+            if(result.ParsePartialFromArray(data, (int)len)) {
+                std::list<std::string> retList;
+                
+                for (::google::protobuf::RepeatedPtrField< ::std::string>::const_iterator it = result.member().begin(); it != result.member().end(); it++) {
+                    const std::string &memberId = *it;
+                    retList.push_back(memberId);
+                }
+                callback->onSuccess(retList);
+            } else {
+                callback->onFalure(-1);
+            }
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~GetGroupMembersPublishCallback() {
+            
+        }
+    };
+void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback)
+= [](const std::string &groupId, GetGroupMembersCallback *callback) {
+    IDBuf idBuf;
+    idBuf.set_id(groupId);
+    
+    publishTask(idBuf, new GetGroupMembersPublishCallback(callback), getGroupMemberTopic);
+};
+    
+    
 #endif
 
 }

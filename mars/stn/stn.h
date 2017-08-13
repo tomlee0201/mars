@@ -26,6 +26,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 #include "mars/comm/autobuffer.h"
 
@@ -68,7 +69,19 @@ namespace mars{
       
 struct TaskProfile;
 struct DnsProfile;
-      
+        class TGroupInfo {
+        public:
+            TGroupInfo() : extraData(NULL), type(0), extraLen(NULL){}
+            std::string target;
+            std::string name;
+            std::string portrait;
+            std::string owner;
+            int type;
+            unsigned char *extraData;
+            size_t extraLen;
+            virtual ~TGroupInfo(){if(extraData != NULL) {delete [] extraData; extraData = NULL; extraLen = 0;}}
+        };
+        
       class MQTTGeneralCallback {
       public:
         virtual void onSuccess() = 0;
@@ -83,11 +96,34 @@ struct DnsProfile;
       
     class SendMessageCallback {
     public:
+        virtual void onPrepared(long messageId) = 0;
         virtual void onSuccess(long messageUid, long long timestamp) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
 
-      
+    class CreateGroupCallback {
+    public:
+        virtual void onSuccess(std::string groupId) = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
+        
+    class GeneralGroupOperationCallback {
+    public:
+        virtual void onSuccess() = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
+    class GetGroupInfoCallback {
+    public:
+        virtual void onSuccess(std::list<TGroupInfo> groupInfoList) = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
+    class GetGroupMembersCallback {
+    public:
+        virtual void onSuccess(std::list<std::string> groupMemberList) = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
+
+
 
 class Task {
 public:
@@ -212,6 +248,7 @@ public:
         virtual void onReceivePublish(const std::string &topic, const unsigned char* data, size_t len) = 0;
       };
       
+        
 enum TaskFailHandleType {
 	kTaskFailHandleNormal = 0,
 	kTaskFailHandleNoError = 0,
@@ -363,5 +400,22 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern ConnectionStatus getConnectionStatus();
         
 extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback);
+        
+extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback);
+        
+extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+
+extern void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+     
+extern void (*quitGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+
+extern void (*dismissGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+  
+extern void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback);
+
+extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+        
+extern void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback);
+
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

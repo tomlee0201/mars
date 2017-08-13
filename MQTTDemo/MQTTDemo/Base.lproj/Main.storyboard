@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mMI-v3-1gb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mMI-v3-1gb">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -71,35 +71,44 @@
                                     <action selector="onSendButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CVS-YI-9eV"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6x-eo-vEe">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6x-eo-vEe">
                                 <rect key="frame" x="16" y="225" width="343" height="434"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4IU-9X-uvp">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4IU-9X-uvp">
                                         <rect key="frame" x="0.0" y="-8" width="343" height="442"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="442" id="Ybc-3P-Mns"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="4IU-9X-uvp" firstAttribute="centerX" secondItem="m6x-eo-vEe" secondAttribute="centerX" id="BfT-2w-9Wk"/>
+                                    <constraint firstItem="4IU-9X-uvp" firstAttribute="leading" secondItem="m6x-eo-vEe" secondAttribute="leading" id="H7i-Ma-kdD"/>
+                                    <constraint firstAttribute="trailing" secondItem="4IU-9X-uvp" secondAttribute="trailing" id="WFM-Ik-iSy"/>
+                                    <constraint firstItem="4IU-9X-uvp" firstAttribute="top" secondItem="m6x-eo-vEe" secondAttribute="top" constant="-8" id="kcO-eV-9lH"/>
+                                    <constraint firstAttribute="bottom" secondItem="4IU-9X-uvp" secondAttribute="bottom" id="onn-py-6DL"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="m6x-eo-vEe" secondAttribute="bottom" constant="8" id="09x-lB-YCb"/>
                             <constraint firstItem="C2l-8O-N9W" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="7vl-Iq-xUe"/>
+                            <constraint firstItem="m6x-eo-vEe" firstAttribute="leading" secondItem="OIE-bB-AQE" secondAttribute="leading" id="8La-ED-Doi"/>
                             <constraint firstItem="ymw-Rd-xR3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AG0-AT-LSP"/>
                             <constraint firstItem="yOb-TL-dkO" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Bgr-xx-c9a"/>
                             <constraint firstItem="yOb-TL-dkO" firstAttribute="leading" secondItem="C2l-8O-N9W" secondAttribute="trailing" constant="8" id="Fxi-9G-bxy"/>
-                            <constraint firstItem="m6x-eo-vEe" firstAttribute="top" secondItem="ymw-Rd-xR3" secondAttribute="bottom" constant="8" id="Itg-zt-wbY"/>
-                            <constraint firstItem="m6x-eo-vEe" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="RYF-kO-fiK"/>
+                            <constraint firstItem="m6x-eo-vEe" firstAttribute="top" secondItem="ymw-Rd-xR3" secondAttribute="bottom" constant="8" symbolic="YES" id="ME8-Eo-amI"/>
                             <constraint firstItem="7bP-ql-n4K" firstAttribute="leading" secondItem="OIE-bB-AQE" secondAttribute="trailing" constant="8" id="Sxl-Kj-nsY"/>
                             <constraint firstItem="7bP-ql-n4K" firstAttribute="centerY" secondItem="OIE-bB-AQE" secondAttribute="centerY" id="TDF-uj-zu6"/>
                             <constraint firstItem="C2l-8O-N9W" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="23" id="end-IY-sZd"/>
                             <constraint firstItem="7bP-ql-n4K" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ggs-j1-v3d"/>
-                            <constraint firstItem="m6x-eo-vEe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="gyh-9O-Mge"/>
                             <constraint firstItem="OIE-bB-AQE" firstAttribute="top" secondItem="yOb-TL-dkO" secondAttribute="bottom" constant="26" id="mUw-tQ-aOw"/>
                             <constraint firstItem="OIE-bB-AQE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="p2j-RV-aq3"/>
+                            <constraint firstItem="m6x-eo-vEe" firstAttribute="trailing" secondItem="7bP-ql-n4K" secondAttribute="trailing" id="qvO-U6-RUb"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="m6x-eo-vEe" secondAttribute="bottom" constant="8" symbolic="YES" id="rQw-Lr-Hfy"/>
                             <constraint firstItem="yOb-TL-dkO" firstAttribute="centerY" secondItem="C2l-8O-N9W" secondAttribute="centerY" id="v6p-9B-gbk"/>
                             <constraint firstItem="ymw-Rd-xR3" firstAttribute="top" secondItem="7bP-ql-n4K" secondAttribute="bottom" constant="24" id="wMa-yy-ctp"/>
                         </constraints>

@@ -56,6 +56,60 @@ public:
     }
 };
 
+
+class IMCreateGroupCallback : public mars::stn::CreateGroupCallback {
+private:
+    void(^m_successBlock)(NSString *groupId);
+    void(^m_errorBlock)(int error_code);
+public:
+    IMCreateGroupCallback(void(^successBlock)(NSString *groupId), void(^errorBlock)(int error_code)) : mars::stn::CreateGroupCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    void onSuccess(std::string groupId) {
+        if (m_successBlock) {
+            m_successBlock([NSString stringWithUTF8String:groupId.c_str()]);
+        }
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        if (m_errorBlock) {
+            m_errorBlock(errorCode);
+        }
+        delete this;
+    }
+    void onPrepared(long messageId) {
+        
+    }
+    virtual ~IMCreateGroupCallback() {
+        m_successBlock = nil;
+        m_errorBlock = nil;
+    }
+};
+
+class IMGeneralGroupOperationCallback : public mars::stn::GeneralGroupOperationCallback {
+private:
+    void(^m_successBlock)();
+    void(^m_errorBlock)(int error_code);
+public:
+    IMGeneralGroupOperationCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::GeneralGroupOperationCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    void onSuccess() {
+        if (m_successBlock) {
+            m_successBlock();
+        }
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        if (m_errorBlock) {
+            m_errorBlock(errorCode);
+        }
+        delete this;
+    }
+
+    virtual ~IMGeneralGroupOperationCallback() {
+        m_successBlock = nil;
+        m_errorBlock = nil;
+    }
+};
+
+
 static IMService * sharedSingleton = nil;
 @implementation IMService
 + (IMService *)sharedIMService {
@@ -81,30 +135,35 @@ static IMService * sharedSingleton = nil;
       notifyContent:(MessageContent *)notifyContent
             success:(void(^)(NSString *groupId))successBlock
               error:(void(^)(int error_code))errorBlock {
-    
-    CreateGroupRequest *request = [[CreateGroupRequest alloc] init];
-    request.group.groupInfo.targetId = groupId;
-    request.group.groupInfo.name = groupName;
-    request.group.groupInfo.portrait = groupPortrait;
-    [request.group.membersArray addObjectsFromArray:groupMembers];
-    request.notifyContent = notifyContent;
-    
-    
-    NSData *data = request.data;
-    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:createGroupTopic message:data];
-    
-    
-    [publishTask send:^(NSData *data){
-        if (data) {
-            if (successBlock) {
-                successBlock(groupId);
-            }
-        }
-    } error:^(int error_code) {
-        if (errorBlock) {
-            errorBlock(error_code);
-        }
-    }];
+//    
+//    CreateGroupRequest *request = [[CreateGroupRequest alloc] init];
+//    request.group.groupInfo.targetId = groupId;
+//    request.group.groupInfo.name = groupName;
+//    request.group.groupInfo.portrait = groupPortrait;
+//    [request.group.membersArray addObjectsFromArray:groupMembers];
+//    request.notifyContent = notifyContent;
+//    
+//    
+//    NSData *data = request.data;
+//    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:createGroupTopic message:data];
+//    
+//    
+//    [publishTask send:^(NSData *data){
+//        if (data) {
+//            if (successBlock) {
+//                successBlock(groupId);
+//            }
+//        }
+//    } error:^(int error_code) {
+//        if (errorBlock) {
+//            errorBlock(error_code);
+//        }
+//    }];
+    std::list<std::string> memberList;
+    for (NSString *member in groupMembers) {
+        memberList.push_back([member UTF8String]);
+    }
+    mars::stn::createGroup([groupId UTF8String], [groupName UTF8String], [groupPortrait UTF8String], memberList, notifyContent.type, [notifyContent.searchableContent UTF8String], [notifyContent.pushContent UTF8String], (const unsigned char *)notifyContent.data_p.bytes, notifyContent.data_p.length, new IMCreateGroupCallback(successBlock, errorBlock));
 }
 
 - (void)addMembers:(NSArray *)members
@@ -112,26 +171,32 @@ static IMService * sharedSingleton = nil;
      notifyContent:(MessageContent *)notifyContent
            success:(void(^)())successBlock
              error:(void(^)(int error_code))errorBlock {
-    AddGroupMemberRequest *request = [[AddGroupMemberRequest alloc] init];
-    request.groupId = groupId;
-    [request.addedMemberArray addObjectsFromArray:members];
-    request.notifyContent = notifyContent;
-    
-    NSData *data = request.data;
-    PublishTask *addMemberTask = [[PublishTask alloc] initWithTopic:addGroupMemberTopic message:data];
-    
-    
-    [addMemberTask send:^(NSData *data){
-        if (data) {
-            if (successBlock) {
-                successBlock();
-            }
-        }
-    } error:^(int error_code) {
-        if (errorBlock) {
-            errorBlock(error_code);
-        }
-    }];
+//    AddGroupMemberRequest *request = [[AddGroupMemberRequest alloc] init];
+//    request.groupId = groupId;
+//    [request.addedMemberArray addObjectsFromArray:members];
+//    request.notifyContent = notifyContent;
+//    
+//    NSData *data = request.data;
+//    PublishTask *addMemberTask = [[PublishTask alloc] initWithTopic:addGroupMemberTopic message:data];
+//    
+//    
+//    [addMemberTask send:^(NSData *data){
+//        if (data) {
+//            if (successBlock) {
+//                successBlock();
+//            }
+//        }
+//    } error:^(int error_code) {
+//        if (errorBlock) {
+//            errorBlock(error_code);
+//        }
+//    }];
+    std::list<std::string> memberList;
+    for (NSString *member in members) {
+        memberList.push_back([member UTF8String]);
+    }
+
+    mars::stn::addMembers([groupId UTF8String], memberList, notifyContent.type, [notifyContent.searchableContent UTF8String], [notifyContent.pushContent UTF8String], (const unsigned char *)notifyContent.data_p.bytes, notifyContent.data_p.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)kickoffMembers:(NSArray *)members
@@ -139,76 +204,85 @@ static IMService * sharedSingleton = nil;
          notifyContent:(MessageContent *)notifyContent
                success:(void(^)())successBlock
                  error:(void(^)(int error_code))errorBlock {
-    RemoveGroupMemberRequest *request = [[RemoveGroupMemberRequest alloc] init];
-    request.groupId = groupId;
-    [request.removedMemberArray addObjectsFromArray:members];
-    request.notifyContent = notifyContent;
+//    RemoveGroupMemberRequest *request = [[RemoveGroupMemberRequest alloc] init];
+//    request.groupId = groupId;
+//    [request.removedMemberArray addObjectsFromArray:members];
+//    request.notifyContent = notifyContent;
+//    
+//    NSData *data = request.data;
+//    PublishTask *removeMemberTask = [[PublishTask alloc] initWithTopic:kickoffGroupMemberTopic message:data];
+//    
+//    
+//    [removeMemberTask send:^(NSData *data){
+//        if (data) {
+//            if (successBlock) {
+//                successBlock();
+//            }
+//        }
+//    } error:^(int error_code) {
+//        if (errorBlock) {
+//            errorBlock(error_code);
+//        }
+//    }];
+    std::list<std::string> memberList;
+    for (NSString *member in members) {
+        memberList.push_back([member UTF8String]);
+    }
     
-    NSData *data = request.data;
-    PublishTask *removeMemberTask = [[PublishTask alloc] initWithTopic:kickoffGroupMemberTopic message:data];
-    
-    
-    [removeMemberTask send:^(NSData *data){
-        if (data) {
-            if (successBlock) {
-                successBlock();
-            }
-        }
-    } error:^(int error_code) {
-        if (errorBlock) {
-            errorBlock(error_code);
-        }
-    }];
+    mars::stn::kickoffMembers([groupId UTF8String], memberList, notifyContent.type, [notifyContent.searchableContent UTF8String], [notifyContent.pushContent UTF8String], (const unsigned char *)notifyContent.data_p.bytes, notifyContent.data_p.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)quitGroup:(NSString *)groupId
     notifyContent:(MessageContent *)notifyContent
           success:(void(^)())successBlock
             error:(void(^)(int error_code))errorBlock {
-    QuitGroupRequest *request = [[QuitGroupRequest alloc] init];
-    request.groupId = groupId;
-    request.notifyContent = notifyContent;
-    
-    NSData *data = request.data;
-    PublishTask *task = [[PublishTask alloc] initWithTopic:quitGroupTopic message:data];
-    
-    
-    [task send:^(NSData *data){
-        if (data) {
-            if (successBlock) {
-                successBlock();
-            }
-        }
-    } error:^(int error_code) {
-        if (errorBlock) {
-            errorBlock(error_code);
-        }
-    }];
+//    QuitGroupRequest *request = [[QuitGroupRequest alloc] init];
+//    request.groupId = groupId;
+//    request.notifyContent = notifyContent;
+//    
+//    NSData *data = request.data;
+//    PublishTask *task = [[PublishTask alloc] initWithTopic:quitGroupTopic message:data];
+//    
+//    
+//    [task send:^(NSData *data){
+//        if (data) {
+//            if (successBlock) {
+//                successBlock();
+//            }
+//        }
+//    } error:^(int error_code) {
+//        if (errorBlock) {
+//            errorBlock(error_code);
+//        }
+//    }];
+        mars::stn::quitGroup([groupId UTF8String], notifyContent.type, [notifyContent.searchableContent UTF8String], [notifyContent.pushContent UTF8String], (const unsigned char *)notifyContent.data_p.bytes, notifyContent.data_p.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)dismissGroup:(NSString *)groupId
        notifyContent:(MessageContent *)notifyContent
              success:(void(^)())successBlock
                error:(void(^)(int error_code))errorBlock {
-    DismissGroupRequest *request = [[DismissGroupRequest alloc] init];
-    request.groupId = groupId;
-    request.notifyContent = notifyContent;
-    
-    NSData *data = request.data;
-    PublishTask *removeMemberTask = [[PublishTask alloc] initWithTopic:dismissGroupTopic message:data];
-    
-    
-    [removeMemberTask send:^(NSData *data){
-        if (data) {
-            if (successBlock) {
-                successBlock();
-            }
-        }
-    } error:^(int error_code) {
-        if (errorBlock) {
-            errorBlock(error_code);
-        }
-    }];
+//    DismissGroupRequest *request = [[DismissGroupRequest alloc] init];
+//    request.groupId = groupId;
+//    request.notifyContent = notifyContent;
+//    
+//    NSData *data = request.data;
+//    PublishTask *removeMemberTask = [[PublishTask alloc] initWithTopic:dismissGroupTopic message:data];
+//    
+//    
+//    [removeMemberTask send:^(NSData *data){
+//        if (data) {
+//            if (successBlock) {
+//                successBlock();
+//            }
+//        }
+//    } error:^(int error_code) {
+//        if (errorBlock) {
+//            errorBlock(error_code);
+//        }
+//    }];
+//    
+    mars::stn::dismissGroup([groupId UTF8String], notifyContent.type, [notifyContent.searchableContent UTF8String], [notifyContent.pushContent UTF8String], (const unsigned char *)notifyContent.data_p.bytes, notifyContent.data_p.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)modifyGroupInfo:(GroupInfo *)groupInfo
