@@ -64,18 +64,18 @@ namespace stn {
 static Callback* sg_callback = StnCallBack::Instance();
 static const std::string kLibName = "stn";
 
-static const std::string sendMessageTopic = "MS";
-static const std::string pullMessageTopic = "MP";
-static const std::string notifyMessageTopic = "MN";
+const std::string sendMessageTopic = "MS";
+const std::string pullMessageTopic = "MP";
+const std::string notifyMessageTopic = "MN";
     
-static const std::string createGroupTopic = "GC";
-static const std::string addGroupMemberTopic = "GAM";
-static const std::string kickoffGroupMemberTopic = "GKM";
-static const std::string quitGroupTopic = "GQ";
-static const std::string dismissGroupTopic = "GD";
-static const std::string modifyGroupInfoTopic = "GMI";
-static const std::string getGroupInfoTopic = "GPGI";
-static const std::string getGroupMemberTopic = "GPGM";
+const std::string createGroupTopic = "GC";
+const std::string addGroupMemberTopic = "GAM";
+const std::string kickoffGroupMemberTopic = "GKM";
+const std::string quitGroupTopic = "GQ";
+const std::string dismissGroupTopic = "GD";
+const std::string modifyGroupInfoTopic = "GMI";
+const std::string getGroupInfoTopic = "GPGI";
+const std::string getGroupMemberTopic = "GPGM";
 
     
 #define STN_WEAK_CALL(func) \

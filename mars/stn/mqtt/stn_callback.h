@@ -76,6 +76,7 @@ public:
 
 private:
     static StnCallBack* instance_;
+    void PullMessage(int64_t head);
     
 };
     }

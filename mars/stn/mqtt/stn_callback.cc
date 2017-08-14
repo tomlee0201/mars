@@ -18,12 +18,27 @@
 #include "mars/comm/xlogger/xlogger.h"
 #include "mars/stn/stn.h"
 #include "net_core.h"
-
 #include "libemqtt.h"
+#include "mars/stn/mqtt/Proto/notify_message.pb.h"
+#include "mars/stn/mqtt/Proto/pull_message_request.pb.h"
 
 namespace mars {
     namespace stn {
       
+        extern const std::string sendMessageTopic;
+        extern const std::string pullMessageTopic;
+        extern const std::string notifyMessageTopic;
+        
+        extern const std::string createGroupTopic;
+        extern const std::string addGroupMemberTopic;
+        extern const std::string kickoffGroupMemberTopic;
+        extern const std::string quitGroupTopic;
+        extern const std::string dismissGroupTopic;
+        extern const std::string modifyGroupInfoTopic;
+        extern const std::string getGroupInfoTopic;
+        extern const std::string getGroupMemberTopic;
+
+        
       void setConnectionStatusCallback(ConnectionStatusCallback *callback) {
         StnCallBack::Instance()->setConnectionStatusCallback(callback);
       }
@@ -80,9 +95,59 @@ std::vector<std::string> StnCallBack::OnNewDns(const std::string& _host) {
     return vector;
 }
 
+void StnCallBack::PullMessage(int64_t head) {
+//    static long long currentMessageId = 0;
+//    if (currentMessageId >= messageId) {
+//        return;
+//    }
+//    PullMessageRequest *request = [[PullMessageRequest alloc] init];
+//    request.id_p = currentMessageId;
+//    request.type = PullType_PullNormal;
+//    
+//    NSData *data = request.data;
+//    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:pullMessageTopic message:data];
+//    
+//    __weak typeof(self)weakSelf = self;
+//    [publishTask send:^(NSData *data){
+//     if (data) {
+//     PullMessageResult *result = [PullMessageResult parseFromData:data error:nil];
+//     if (result) {
+//     currentMessageId = result.current;
+//     [weakSelf pullMsg:result.head];
+//     [weakSelf.receiveMessageDelegate onReceiveMessage:result.messageArray hasMore:currentMessageId < result.head];
+//     }
+//     }
+//     } error:^(int error_code) {
+//     
+//     }];
+    static int64_t currentHead = 0;
+    if (currentHead >= head) {
+        return;
+    }
+    PullMessageRequest request;
+    request.set_id(currentHead);
+    request.set_type((PullType)0);
+    
+    std::string output;
+    request.SerializeToString(&output);
+    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(NULL);
+    publishTask->topic = pullMessageTopic;
+    publishTask->length = output.length();
+    publishTask->body = new unsigned char[publishTask->length];
+    memcpy(publishTask->body, output.c_str(), publishTask->length);
+    mars::stn::StartTask(*publishTask);
+}
+        
 void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend) {
-  if(m_receivePublishCB) {
     std::string topic = (char *)(_body.Ptr());
+    if (topic.compare(notifyMessageTopic)) {
+        NotifyMessage notifyMessage;
+        if (notifyMessage.ParsePartialFromArray(_extend.Ptr(), (int)_extend.Length())) {
+            PullMessage(notifyMessage.head());
+        }
+    }
+  if(m_receivePublishCB) {
+    
     m_receivePublishCB->onReceivePublish(topic, (const unsigned char *)_extend.Ptr(), _extend.Length());
   }
 }
