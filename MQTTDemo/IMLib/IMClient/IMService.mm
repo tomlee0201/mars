@@ -109,6 +109,75 @@ public:
     }
 };
 
+class IMGetGroupInfoCallback : public mars::stn::GetGroupInfoCallback {
+private:
+    void(^m_successBlock)(NSArray<GroupInfo *> *);
+    void(^m_errorBlock)(int error_code);
+public:
+    IMGetGroupInfoCallback(void(^successBlock)(NSArray<GroupInfo *> *), void(^errorBlock)(int error_code)) : mars::stn::GetGroupInfoCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    void onSuccess(std::list<mars::stn::TGroupInfo> groupInfoList) {
+        if (m_successBlock) {
+            NSMutableArray *ret = [[NSMutableArray alloc] init];
+            for (std::list<mars::stn::TGroupInfo>::iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {
+                GroupInfo *gi = [[GroupInfo alloc] init];
+                mars::stn::TGroupInfo &tgi = *it;
+                gi.targetId = [NSString stringWithUTF8String:tgi.target.c_str()];
+                gi.type = (GroupType)tgi.type;
+                gi.name = [NSString stringWithUTF8String:tgi.name.c_str()];
+                gi.owner = [NSString stringWithUTF8String:tgi.owner.c_str()];
+                gi.extra = [NSData dataWithBytes:(const void *)tgi.extraData length:tgi.extraLen];
+                [ret addObject:gi];
+            }
+            m_successBlock(ret);
+        }
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        if (m_errorBlock) {
+            m_errorBlock(errorCode);
+        }
+        delete this;
+    }
+    
+    virtual ~IMGetGroupInfoCallback() {
+        m_successBlock = nil;
+        m_errorBlock = nil;
+    }
+};
+
+class IMGetGroupMemberCallback : public mars::stn::GetGroupMembersCallback {
+private:
+    void(^m_successBlock)(NSArray<NSString *> *);
+    void(^m_errorBlock)(int error_code);
+public:
+    IMGetGroupMemberCallback(void(^successBlock)(NSArray<NSString *> *), void(^errorBlock)(int error_code)) : mars::stn::GetGroupMembersCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    void onSuccess(std::list<std::string> groupMemberList) {
+        if (m_successBlock) {
+            NSMutableArray *ret = [[NSMutableArray alloc] init];
+            for (std::list<std::string>::iterator it = groupMemberList.begin(); it != groupMemberList.end(); it++) {
+                
+                [ret addObject:[NSString stringWithUTF8String:(*it).c_str()]];
+            }
+            m_successBlock(ret);
+        }
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        if (m_errorBlock) {
+            m_errorBlock(errorCode);
+        }
+        delete this;
+    }
+    
+    virtual ~IMGetGroupMemberCallback() {
+        m_successBlock = nil;
+        m_errorBlock = nil;
+    }
+};
+
+
+
+
 
 static IMService * sharedSingleton = nil;
 @implementation IMService
@@ -289,60 +358,87 @@ static IMService * sharedSingleton = nil;
           notifyContent:(MessageContent *)notifyContent
                 success:(void(^)())successBlock
                   error:(void(^)(int error_code))errorBlock {
-    ModifyGroupInfoRequest *request = [[ModifyGroupInfoRequest alloc] init];
-    request.groupInfo = groupInfo;
-    request.notifyContent = notifyContent;
+//    ModifyGroupInfoRequest *request = [[ModifyGroupInfoRequest alloc] init];
+//    request.groupInfo = groupInfo;
+//    request.notifyContent = notifyContent;
+//    
+//    NSData *data = request.data;
+//    PublishTask *task = [[PublishTask alloc] initWithTopic:modifyGroupInfoTopic message:data];
+//    
+//    
+//    [task send:^(NSData *data){
+//        if (data) {
+//            if (successBlock) {
+//                successBlock();
+//            }
+//        }
+//    } error:^(int error_code) {
+//        if (errorBlock) {
+//            errorBlock(error_code);
+//        }
+//    }];
     
-    NSData *data = request.data;
-    PublishTask *task = [[PublishTask alloc] initWithTopic:modifyGroupInfoTopic message:data];
+    mars::stn::TGroupInfo tInfo;
+    tInfo.target = [groupInfo.targetId UTF8String];
+    if (groupInfo.name) {
+        tInfo.name = [groupInfo.name UTF8String];
+    }
+    if (groupInfo.portrait) {
+        tInfo.portrait = [groupInfo.portrait UTF8String];
+    }
+    if (groupInfo.owner) {
+        tInfo.owner = [groupInfo.owner UTF8String];
+    }
+    if (groupInfo.extra) {
+        tInfo.extraData = (unsigned char *)groupInfo.data.bytes;
+        tInfo.extraLen = groupInfo.data.length;
+    }
     
-    
-    [task send:^(NSData *data){
-        if (data) {
-            if (successBlock) {
-                successBlock();
-            }
-        }
-    } error:^(int error_code) {
-        if (errorBlock) {
-            errorBlock(error_code);
-        }
-    }];
+    mars::stn::modifyGroupInfo([groupInfo.targetId UTF8String], tInfo, notifyContent.type, [notifyContent.searchableContent UTF8String], [notifyContent.pushContent UTF8String], (const unsigned char*)notifyContent.data_p.bytes, notifyContent.data_p.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {
-    IDListBuf *request = [[IDListBuf alloc] init];
-    [request.idArray addObjectsFromArray:groupIds];
+//    IDListBuf *request = [[IDListBuf alloc] init];
+//    [request.idArray addObjectsFromArray:groupIds];
+//    
+//    NSData *data = request.data;
+//    PublishTask *task = [[PublishTask alloc] initWithTopic:getGroupInfoTopic message:data];
+//    
+//    
+//    [task send:^(NSData *data){
+//        if (data) {
+//            PullGroupInfoResult *result = [PullGroupInfoResult parseFromData:data error:nil];
+//            successBlock(result.infoArray);
+//        }
+//    } error:^(int error_code) {
+//        errorBlock(error_code);
+//    }];
+//
     
-    NSData *data = request.data;
-    PublishTask *task = [[PublishTask alloc] initWithTopic:getGroupInfoTopic message:data];
+    std::list<std::string> idList;
+    for (NSString *groupId in groupIds) {
+        idList.push_back([groupId UTF8String]);
+    }
     
-    
-    [task send:^(NSData *data){
-        if (data) {
-            PullGroupInfoResult *result = [PullGroupInfoResult parseFromData:data error:nil];
-            successBlock(result.infoArray);
-        }
-    } error:^(int error_code) {
-        errorBlock(error_code);
-    }];
+    mars::stn::getGroupInfo(idList, new IMGetGroupInfoCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupMembers:(NSString *)groupId success:(void(^)(NSArray<NSString *> *))successBlock error:(void(^)(int error_code))errorBlock {
-    IDBuf *request = [[IDBuf alloc] init];
-    request.id_p = groupId;
-    
-    NSData *data = request.data;
-    PublishTask *task = [[PublishTask alloc] initWithTopic:getGroupMemberTopic message:data];
-    
-    
-    [task send:^(NSData *data){
-        if (data) {
-            PullGroupMemberResult *result = [PullGroupMemberResult parseFromData:data error:nil];
-            successBlock(result.memberArray);
-        }
-    } error:^(int error_code) {
-        errorBlock(error_code);
-    }];
+//    IDBuf *request = [[IDBuf alloc] init];
+//    request.id_p = groupId;
+//    
+//    NSData *data = request.data;
+//    PublishTask *task = [[PublishTask alloc] initWithTopic:getGroupMemberTopic message:data];
+//    
+//    
+//    [task send:^(NSData *data){
+//        if (data) {
+//            PullGroupMemberResult *result = [PullGroupMemberResult parseFromData:data error:nil];
+//            successBlock(result.memberArray);
+//        }
+//    } error:^(int error_code) {
+//        errorBlock(error_code);
+//    }];
+    mars::stn::getGroupMembers([groupId UTF8String], new IMGetGroupMemberCallback(successBlock, errorBlock));
 }
 @end
