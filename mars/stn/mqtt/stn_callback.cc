@@ -21,6 +21,7 @@
 #include "libemqtt.h"
 #include "mars/stn/mqtt/Proto/notify_message.pb.h"
 #include "mars/stn/mqtt/Proto/pull_message_request.pb.h"
+#include "mars/stn/mqtt/Proto/pull_message_result.pb.h"
 
 namespace mars {
     namespace stn {
@@ -94,7 +95,61 @@ std::vector<std::string> StnCallBack::OnNewDns(const std::string& _host) {
     //vector.push_back("118.89.24.72");
     return vector;
 }
-
+        
+void StnCallBack::onPullSuccess(std::list<TMessage> messageList, int64_t current, int64_t head) {
+    isPulling = false;
+    currentHead = current;
+    PullMessage(head);
+    
+    //save messages
+    //callback
+}
+void StnCallBack::onPullFailure(int errorCode) {
+    isPulling = false;
+}
+        
+        class PullingMessagePublishCallback : public MQTTPublishCallback {
+        public:
+            PullingMessageCallback *cb;
+            PullingMessagePublishCallback() : MQTTPublishCallback() {}
+            
+            void onSuccess(const unsigned char* data, size_t len) {
+                std::list<TMessage> messageList;
+                PullMessageResult result;
+                if (result.ParseFromArray((const void *)data, (int)len)) {
+                    for (::google::protobuf::RepeatedPtrField< ::mars::stn::Message >::const_iterator it = result.message().begin(); it != result.message().end(); it++) {
+                        const ::mars::stn::Message &pmsg = *it;
+                        TMessage tmsg;
+                        tmsg.conversationType = (int)pmsg.conversation().type();
+                        tmsg.target = pmsg.conversation().target();
+                        tmsg.from = pmsg.from_user();
+                        tmsg.messageUid = pmsg.message_id();
+                        tmsg.messageId = 0;
+                        tmsg.timestamp = pmsg.server_timestamp();
+                        tmsg.content.type = pmsg.content().type();
+                        tmsg.content.searchableContent = pmsg.content().searchable_content();
+                        tmsg.content.pushContent = pmsg.content().push_content();
+                        tmsg.content.dataLen = pmsg.content().data().length();
+                        tmsg.content.data = new unsigned char[tmsg.content.dataLen];
+                        
+                        memcpy(tmsg.content.data, pmsg.content().data().c_str(), tmsg.content.dataLen);
+                        messageList.push_back(tmsg);
+                    }
+                    cb->onPullSuccess(messageList, result.current(), result.head());
+                } else {
+                    cb->onPullFailure(-1);
+                }
+                delete this;
+            };
+            void onFalure(int errorCode) {
+                cb->onPullFailure(errorCode);
+                delete this;
+            };
+            virtual ~PullingMessagePublishCallback() {
+                
+            }
+        };
+        
 void StnCallBack::PullMessage(int64_t head) {
 //    static long long currentMessageId = 0;
 //    if (currentMessageId >= messageId) {
@@ -120,17 +175,18 @@ void StnCallBack::PullMessage(int64_t head) {
 //     } error:^(int error_code) {
 //     
 //     }];
-    static int64_t currentHead = 0;
-    if (currentHead >= head) {
+    
+    if (isPulling || currentHead >= head) {
         return;
     }
+    isPulling = true;
     PullMessageRequest request;
     request.set_id(currentHead);
     request.set_type((PullType)0);
     
     std::string output;
     request.SerializeToString(&output);
-    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(NULL);
+    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PullingMessagePublishCallback());
     publishTask->topic = pullMessageTopic;
     publishTask->length = output.length();
     publishTask->body = new unsigned char[publishTask->length];

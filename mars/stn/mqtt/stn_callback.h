@@ -27,11 +27,17 @@
 namespace mars {
     namespace stn {
       
-      
-class StnCallBack : public Callback {
+        class PullingMessagePublishCallback;
+        class PullingMessageCallback {
+            friend PullingMessagePublishCallback;
+            virtual void onPullSuccess(std::list<TMessage> messageList, int64_t current, int64_t head) = 0;
+            virtual void onPullFailure(int errorCode) = 0;
+        };
+
+class StnCallBack : public Callback,  PullingMessageCallback {
     
 private:
-    StnCallBack() : m_connectionStatus(kConnectionStatusLogout), m_connectionStatusCB(NULL), m_receivePublishCB(NULL) {};
+    StnCallBack() : m_connectionStatus(kConnectionStatusLogout), m_connectionStatusCB(NULL), m_receivePublishCB(NULL), isPulling(false), currentHead(0) {};
     ~StnCallBack() {}
     StnCallBack(StnCallBack&);
     StnCallBack& operator = (StnCallBack&);
@@ -77,6 +83,10 @@ public:
 private:
     static StnCallBack* instance_;
     void PullMessage(int64_t head);
+    bool isPulling;
+    void onPullSuccess(std::list<TMessage> messageList, int64_t current, int64_t head);
+    void onPullFailure(int errorCode);
+    int64_t currentHead;
     
 };
     }

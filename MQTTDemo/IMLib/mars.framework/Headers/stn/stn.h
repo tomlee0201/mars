@@ -82,6 +82,30 @@ struct DnsProfile;
             virtual ~TGroupInfo(){if(extraData != NULL) {delete [] extraData; extraData = NULL; extraLen = 0;}}
         };
         
+        class TMessageContent {
+        public:
+            TMessageContent() : data(NULL), type(0), dataLen(NULL){}
+            int type;
+            std::string searchableContent;
+            std::string pushContent;
+            unsigned char *data;
+            size_t dataLen;
+            virtual ~TMessageContent(){if(data != NULL) {delete [] data; data = NULL; dataLen = 0;}}
+        };
+        
+        class TMessage {
+        public:
+            TMessage() : conversationType(0) {}
+            int conversationType;
+            std::string target;
+            std::string from;
+            TMessageContent content;
+            long messageId;
+            int64_t messageUid;
+            int64_t timestamp;
+            virtual ~TMessage(){}
+        };
+        
       class MQTTGeneralCallback {
       public:
         virtual void onSuccess() = 0;
