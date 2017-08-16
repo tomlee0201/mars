@@ -37,19 +37,19 @@ namespace mars {
 class StnCallBack : public Callback,  PullingMessageCallback {
     
 private:
-    StnCallBack() : m_connectionStatus(kConnectionStatusLogout), m_connectionStatusCB(NULL), m_receivePublishCB(NULL), isPulling(false), currentHead(0) {};
+    StnCallBack() : m_connectionStatus(kConnectionStatusLogout), m_connectionStatusCB(NULL), m_receiveMessageCB(NULL), isPulling(false), currentHead(0) {};
     ~StnCallBack() {}
     StnCallBack(StnCallBack&);
     StnCallBack& operator = (StnCallBack&);
     ConnectionStatus m_connectionStatus;
   ConnectionStatusCallback *m_connectionStatusCB;
-  ReceivePublishCallback *m_receivePublishCB;
+  ReceiveMessageCallback *m_receiveMessageCB;
   
 public:
     static StnCallBack* Instance();
     static void Release();
   void setConnectionStatusCallback(ConnectionStatusCallback *callback);
-  void setReceivePublishCallback(ReceivePublishCallback *callback);
+  void setReceiveMessageCallback(ReceiveMessageCallback *callback);
   ConnectionStatus getConnectionStatus() {
     return m_connectionStatus;
   }

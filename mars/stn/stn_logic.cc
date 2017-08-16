@@ -65,8 +65,6 @@ static Callback* sg_callback = StnCallBack::Instance();
 static const std::string kLibName = "stn";
 
 const std::string sendMessageTopic = "MS";
-const std::string pullMessageTopic = "MP";
-const std::string notifyMessageTopic = "MN";
     
 const std::string createGroupTopic = "GC";
 const std::string addGroupMemberTopic = "GAM";

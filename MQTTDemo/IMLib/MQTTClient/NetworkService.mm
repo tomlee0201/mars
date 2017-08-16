@@ -33,28 +33,7 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 #import "PublishTask.h"
-#import "NotifyMessage.pbobjc.h"
-#import "PullMessageResult.pbobjc.h"
-#import "PullMessageRequest.pbobjc.h"
-#import "Message.pbobjc.h"
-
-
-NSString *sendMessageTopic = @"MS";
-NSString *pullMessageTopic = @"MP";
-NSString *notifyMessageTopic = @"MN";
-
-NSString *createGroupTopic = @"GC";
-NSString *addGroupMemberTopic = @"GAM";
-NSString *kickoffGroupMemberTopic = @"GKM";
-NSString *quitGroupTopic = @"GQ";
-NSString *dismissGroupTopic = @"GD";
-NSString *modifyGroupInfoTopic = @"GMI";
-NSString *getGroupInfoTopic = @"GPGI";
-NSString *getGroupMemberTopic = @"GPGM";
-
-@protocol ReceivePublishDelegate <NSObject>
-- (void)onReceivePublish:(NSString *)topic message:(NSData *)data;
-@end
+#import <objc/runtime.h>
 
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
@@ -69,20 +48,22 @@ public:
   id<ConnectionStatusDelegate> m_delegate;
 };
 
-class RPCB : public mars::stn::ReceivePublishCallback {
+
+class RPCB : public mars::stn::ReceiveMessageCallback {
 public:
-  RPCB(id<ReceivePublishDelegate> delegate) : m_delegate(delegate) {}
+  RPCB(id<ReceiveMessageDelegate> delegate) : m_delegate(delegate) {}
   
-  void onReceivePublish(const std::string &topic, const unsigned char* data, size_t len) {
+    void onReceiveMessage(const std::list<mars::stn::TMessage> &messageList, bool hasMore) {
     if (m_delegate) {
-      [m_delegate onReceivePublish:[NSString stringWithUTF8String:topic.c_str()] message:[NSData dataWithBytes:data length:len]];
+        [m_delegate onReceiveMessage:nil hasMore:hasMore];
     }
   }
-  id<ReceivePublishDelegate> m_delegate;
+  id<ReceiveMessageDelegate> m_delegate;
 };
 
-@interface NetworkService () <ConnectionStatusDelegate, ReceivePublishDelegate>
+@interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 @property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
+@property(nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *MessageContentMaps;
 @end
 
 @implementation NetworkService
@@ -111,32 +92,8 @@ static NetworkService * sharedSingleton = nil;
     appender_close();
 }
 
-- (void)pullMsg:(long long)messageId {
-  static long long currentMessageId = 0;
-  if (currentMessageId >= messageId) {
-    return;
-  }
-  PullMessageRequest *request = [[PullMessageRequest alloc] init];
-  request.id_p = currentMessageId;
-  request.type = PullType_PullNormal;
-  
-  NSData *data = request.data;
-  PublishTask *publishTask = [[PublishTask alloc] initWithTopic:pullMessageTopic message:data];
-  
-  __weak typeof(self)weakSelf = self;
-  [publishTask send:^(NSData *data){
-    if (data) {
-      PullMessageResult *result = [PullMessageResult parseFromData:data error:nil];
-      if (result) {
-        currentMessageId = result.current;
-        [weakSelf pullMsg:result.head];
-        [weakSelf.receiveMessageDelegate onReceiveMessage:result.messageArray hasMore:currentMessageId < result.head];
-      }
-    }
-  } error:^(int error_code) {
-
-  }];
-
+- (void)onReceiveMessage:(NSArray<Message *> *)messages hasMore:(BOOL)hasMore {
+    [self.receiveMessageDelegate onReceiveMessage:messages hasMore:hasMore];
 }
 
 - (void)onDisconnected {
@@ -160,20 +117,6 @@ static NetworkService * sharedSingleton = nil;
     return;
   }
     self.currentConnectionStatus = status;
-  if (status == kConnectionStatusConnected) {
-    [self pullMsg:1000000L];
-  }
-}
-
-- (void)onReceivePublish:(NSString *)topic message:(NSData *)data {
-  NSLog(@"Received topic(%@), content(%@)", topic, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-  if ([topic isEqualToString:notifyMessageTopic]) {
-    NotifyMessage *notifyMsg = [NotifyMessage parseFromData:data error:nil];
-    if (notifyMsg != nil) {
-      [self pullMsg:notifyMsg.head];
-    }
-    return;
-  }
 }
 
 + (NetworkService *)sharedInstance {
@@ -181,6 +124,7 @@ static NetworkService * sharedSingleton = nil;
         @synchronized (self) {
             if (sharedSingleton == nil) {
                 sharedSingleton = [[NetworkService alloc] init];
+                sharedSingleton.MessageContentMaps = [[NSMutableDictionary alloc] init];
             }
         }
     }
@@ -203,7 +147,7 @@ static NetworkService * sharedSingleton = nil;
 - (void) createMars {
   mars::app::SetCallback(mars::app::AppCallBack::Instance());
   mars::stn::setConnectionStatusCallback(new CSCB(self));
-  mars::stn::setReceivePublishCallback(new RPCB(self));
+  mars::stn::setReceiveMessageCallback(new RPCB(self));
   mars::baseevent::OnCreate();
 }
 
@@ -268,6 +212,32 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnForeground(isForeground);
 }
 
+- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
+    int contenttype = payload.contentType;
+    Class contentClass = self.MessageContentMaps[@(contenttype)];
+    if (contentClass != nil) {
+        id messageInstance = [[contentClass alloc] init];
+        
+        if ([contentClass conformsToProtocol:@protocol(MessageContent)]) {
+            if ([messageInstance respondsToSelector:@selector(decode:)]) {
+                [messageInstance performSelector:@selector(decode:)
+                                      withObject:payload];
+            }
+        }
+        return messageInstance;
+    }
+    return nil;
+}
+
+- (void)registerMessageContent:(Class)contentClass {
+    int contenttype;
+    if (class_getClassMethod(contentClass, @selector(getContentType))) {
+        contenttype = [contentClass getContentType];
+        self.MessageContentMaps[@(contenttype)] = contentClass;
+    } else {
+        return;
+    }
+}
 
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {

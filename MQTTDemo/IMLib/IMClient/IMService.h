@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Message.pbobjc.h"
-#import "Group.pbobjc.h"
+#import "Message.h"
+#import "GroupInfo.h"
 
 
 @interface IMService : NSObject
 + (IMService*)sharedIMService;
 
-- (int)send:(Message *)message success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock;
+- (Message *)send:(Conversation *)conversation content:(MessageContent *)content success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock;
 
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName

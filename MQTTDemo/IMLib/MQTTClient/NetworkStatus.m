@@ -24,7 +24,6 @@
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <SystemConfiguration/SCNetworkReachability.h>
 #import <netinet/in.h>
-#import "IMTopic.h"
 
 SCNetworkReachabilityRef g_Reach;
 

@@ -12,10 +12,10 @@
 #import "PublishTask.h"
 #import "SubscribeTask.h"
 #import "UnsubscribeTask.h"
-#import "Message.pbobjc.h"
-#import "Conversation.pbobjc.h"
-#import "Messagecontent.pbobjc.h"
+#import "Message.h"
+#import "Conversation.h"
 #import "IMService.h"
+#import "TextMessageContent.h"
 
 @interface ViewController () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *targetIdField;
@@ -105,15 +105,17 @@
 //    
 //  }];
   
-    Message *msg = [Message message];
-    msg.conversation.type = ConversationType_ConversationTypePrivate;
-    msg.conversation.target = self.targetIdField.text;
-    msg.content.type = ContentType_Text;
-    msg.content.searchableContent = self.contentField.text;
-    msg.content.data_p = [@"hello extra" dataUsingEncoding:NSUTF8StringEncoding];
+//    MessageContent *msg = [[MessageContent alloc] init];
+//    msg.conversation.type = ConversationType_ConversationTypePrivate;
+//    msg.conversation.target = self.targetIdField.text;
+//    msg.content.type = ContentType_Text;
+//    msg.content.searchableContent = self.contentField.text;
+//    msg.content.data_p = [@"hello extra" dataUsingEncoding:NSUTF8StringEncoding];
   
+    Conversation *conversation = [Conversation conversationWithType:Single_Type target:self.targetIdField.text];
+    MessageContent *content = [TextMessageContent contentWith:self.contentField.text];
     __weak typeof(self) weakSelf = self;
-    [[IMService sharedIMService] send:msg success:^(long messageId, long timestamp) {
+    [[IMService sharedIMService] send:conversation content:content success:^(long messageId, long timestamp) {
       [weakSelf appendEvent:[NSString stringWithFormat:@"Send message success, ret messageId:%ld, timestamp:%ld", messageId, timestamp]];
     } error:^(int error_code) {
       [weakSelf appendEvent:[NSString stringWithFormat:@"Send message failure with errorCode %d", error_code]];

@@ -26,26 +26,26 @@
 namespace mars {
     namespace stn {
       
-        extern const std::string sendMessageTopic;
-        extern const std::string pullMessageTopic;
-        extern const std::string notifyMessageTopic;
+//        extern const std::string sendMessageTopic;
+        const std::string pullMessageTopic = "MP";
+        const std::string notifyMessageTopic = "MN";
         
-        extern const std::string createGroupTopic;
-        extern const std::string addGroupMemberTopic;
-        extern const std::string kickoffGroupMemberTopic;
-        extern const std::string quitGroupTopic;
-        extern const std::string dismissGroupTopic;
-        extern const std::string modifyGroupInfoTopic;
-        extern const std::string getGroupInfoTopic;
-        extern const std::string getGroupMemberTopic;
-
+//        extern const std::string createGroupTopic;
+//        extern const std::string addGroupMemberTopic;
+//        extern const std::string kickoffGroupMemberTopic;
+//        extern const std::string quitGroupTopic;
+//        extern const std::string dismissGroupTopic;
+//        extern const std::string modifyGroupInfoTopic;
+//        extern const std::string getGroupInfoTopic;
+//        extern const std::string getGroupMemberTopic;
+//
         
       void setConnectionStatusCallback(ConnectionStatusCallback *callback) {
         StnCallBack::Instance()->setConnectionStatusCallback(callback);
       }
       
-      void setReceivePublishCallback(ReceivePublishCallback *callback) {
-        StnCallBack::Instance()->setReceivePublishCallback(callback);
+      void setReceiveMessageCallback(ReceiveMessageCallback *callback) {
+        StnCallBack::Instance()->setReceiveMessageCallback(callback);
       }
       
       ConnectionStatus getConnectionStatus() {
@@ -70,8 +70,8 @@ void StnCallBack::Release() {
       void StnCallBack::setConnectionStatusCallback(ConnectionStatusCallback *callback) {
         m_connectionStatusCB = callback;
       }
-      void StnCallBack::setReceivePublishCallback(ReceivePublishCallback *callback) {
-        m_receivePublishCB = callback;
+      void StnCallBack::setReceiveMessageCallback(ReceiveMessageCallback *callback) {
+        m_receiveMessageCB = callback;
       }
       
       void StnCallBack::updateConnectionStatus(ConnectionStatus newStatus) {
@@ -102,7 +102,9 @@ void StnCallBack::onPullSuccess(std::list<TMessage> messageList, int64_t current
     PullMessage(head);
     
     //save messages
-    //callback
+    if(m_receiveMessageCB) {
+        m_receiveMessageCB->onReceiveMessage(messageList, head > current);
+    }
 }
 void StnCallBack::onPullFailure(int errorCode) {
     isPulling = false;
@@ -111,7 +113,7 @@ void StnCallBack::onPullFailure(int errorCode) {
         class PullingMessagePublishCallback : public MQTTPublishCallback {
         public:
             PullingMessageCallback *cb;
-            PullingMessagePublishCallback() : MQTTPublishCallback() {}
+            PullingMessagePublishCallback(PullingMessageCallback *callback) : MQTTPublishCallback(), cb(callback) {}
             
             void onSuccess(const unsigned char* data, size_t len) {
                 std::list<TMessage> messageList;
@@ -186,7 +188,7 @@ void StnCallBack::PullMessage(int64_t head) {
     
     std::string output;
     request.SerializeToString(&output);
-    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PullingMessagePublishCallback());
+    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new PullingMessagePublishCallback(this));
     publishTask->topic = pullMessageTopic;
     publishTask->length = output.length();
     publishTask->body = new unsigned char[publishTask->length];
@@ -202,10 +204,6 @@ void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid
             PullMessage(notifyMessage.head());
         }
     }
-  if(m_receivePublishCB) {
-    
-    m_receivePublishCB->onReceivePublish(topic, (const unsigned char *)_extend.Ptr(), _extend.Length());
-  }
 }
 
 bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select) {
@@ -339,6 +337,7 @@ bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer,
      */
     
   if (*(_packed + 1) == 0) {
+    PullMessage(0x7FFFFFFFFFFFFFFF);
     updateConnectionStatus(kConnectionStatusConnected);
   } else {
     updateConnectionStatus(kConnectionStatusRejected);

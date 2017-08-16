@@ -267,9 +267,9 @@ public:
         virtual void onConnectionStatusChanged(ConnectionStatus connectionStatus) = 0;
       };
       
-      class ReceivePublishCallback {
+      class ReceiveMessageCallback {
       public:
-        virtual void onReceivePublish(const std::string &topic, const unsigned char* data, size_t len) = 0;
+        virtual void onReceiveMessage(const std::list<TMessage> &messageList, bool hasMore) = 0;
       };
       
         
@@ -420,7 +420,7 @@ extern void (*ReportTaskLimited)(int _check_type, const Task& _task, unsigned in
 extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
 
       extern void setConnectionStatusCallback(ConnectionStatusCallback *callback);
-      extern void setReceivePublishCallback(ReceivePublishCallback *callback);
+      extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
       extern ConnectionStatus getConnectionStatus();
         
 extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback);
