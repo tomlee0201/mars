@@ -67,6 +67,7 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port;
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 - (void)registerMessageContent:(Class)contentClass;
+- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 @end
 
 #endif /* NetworkService_hpp */

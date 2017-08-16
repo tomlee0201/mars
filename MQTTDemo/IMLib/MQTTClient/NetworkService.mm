@@ -48,6 +48,25 @@ public:
   id<ConnectionStatusDelegate> m_delegate;
 };
 
+static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
+    Message *ret = [[Message alloc] init];
+    ret.fromUser = [NSString stringWithUTF8String:tMessage->from.c_str()];
+    ret.conversation = [[Conversation alloc] init];
+    ret.conversation.type = (ConversationType)tMessage->conversationType;
+    ret.conversation.target = [NSString stringWithUTF8String:tMessage->target.c_str()];
+    ret.messageId = tMessage->messageId;
+    ret.messageUid = tMessage->messageUid;
+    ret.serverTime = tMessage->timestamp;
+    
+    MessagePayload *payload = [[MessagePayload alloc] init];
+    payload.contentType = tMessage->content.type;
+    payload.searchableContent = [NSString stringWithUTF8String:tMessage->content.searchableContent.c_str()];
+    payload.pushContent = [NSString stringWithUTF8String:tMessage->content.pushContent.c_str()];
+    payload.data = [NSData dataWithBytes:tMessage->content.data length:tMessage->content.dataLen];
+    ret.content = [[NetworkService sharedInstance] messageContentFromPayload:payload];
+    
+    return ret;
+}
 
 class RPCB : public mars::stn::ReceiveMessageCallback {
 public:
@@ -55,6 +74,13 @@ public:
   
     void onReceiveMessage(const std::list<mars::stn::TMessage> &messageList, bool hasMore) {
     if (m_delegate) {
+        NSMutableArray *messages = [[NSMutableArray alloc] init];
+        for (std::list<mars::stn::TMessage>::const_iterator it = messageList.begin(); it != messageList.end(); it++) {
+            const mars::stn::TMessage &tmsg = *it;
+            Message *msg = convertProtoMessage(&tmsg);
+            [messages addObject:msg];
+            
+        }
         [m_delegate onReceiveMessage:nil hasMore:hasMore];
     }
   }
