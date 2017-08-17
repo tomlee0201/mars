@@ -81,7 +81,7 @@ public:
             [messages addObject:msg];
             
         }
-        [m_delegate onReceiveMessage:nil hasMore:hasMore];
+        [m_delegate onReceiveMessage:messages hasMore:hasMore];
     }
   }
   id<ReceiveMessageDelegate> m_delegate;

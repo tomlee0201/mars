@@ -7,10 +7,12 @@
 //
 
 #import "TextMessageContent.h"
+#import "NetworkService.h"
 
 @implementation TextMessageContent
 - (MessagePayload *)encode {
     MessagePayload *payload = [[MessagePayload alloc] init];
+    payload.contentType = [self.class getContentType];
     payload.searchableContent = self.text;
     return payload;
 }
@@ -27,5 +29,8 @@
     TextMessageContent *content = [[TextMessageContent alloc] init];
     content.text = text;
     return content;
+}
++ (void)load {
+    [[NetworkService sharedInstance] registerMessageContent:self];
 }
 @end

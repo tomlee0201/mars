@@ -85,6 +85,9 @@ struct DnsProfile;
         class TMessageContent {
         public:
             TMessageContent() : data(NULL), type(0), dataLen(NULL){}
+            TMessageContent(const TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) { if(dataLen > 0) { data = new unsigned char[dataLen]; memcpy(data, c.data, dataLen);} else {
+                data = NULL;
+            }}
             int type;
             std::string searchableContent;
             std::string pushContent;
