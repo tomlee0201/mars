@@ -31,11 +31,12 @@ namespace mars {
 class AppCallBack : public Callback {
     
 private:
-    AppCallBack() {}
+    AppCallBack();
     ~AppCallBack() {}
     AppCallBack(AppCallBack&);
     AppCallBack& operator = (AppCallBack&);
-    
+    std::string filePath;
+    AccountInfo info;
     
 public:
     static AppCallBack* Instance();
@@ -44,6 +45,9 @@ public:
     virtual std::string GetAppFilePath();
     
     virtual AccountInfo GetAccountInfo();
+    
+    virtual void SetAccountUserName(const std::string &userName);
+    virtual void SetAccountLogoned(bool isLogoned);
     
     virtual unsigned int GetClientVersion();
     

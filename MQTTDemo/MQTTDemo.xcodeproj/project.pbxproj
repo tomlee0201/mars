@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1482141F4D0CC80077EBEA /* sqlcipher.framework */; };
-		2E1482171F4D0CC80077EBEA /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1482151F4D0CC80077EBEA /* WCDB.framework */; };
 		2E3071C41F43C86100B17DC9 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071C21F43C86100B17DC9 /* Message.m */; };
 		2E3071C81F43C89300B17DC9 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071C61F43C89300B17DC9 /* Conversation.m */; };
 		2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071CA1F43CA2600B17DC9 /* GroupInfo.m */; };
@@ -25,6 +24,7 @@
 		2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */; };
 		2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE121F04E658006C6E6F /* UIKit.framework */; };
 		2E4995301F43402400C52CA2 /* MessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E49952D1F43402400C52CA2 /* MessageContent.m */; };
+		2E4A8A3D1F4DD83A0083F36B /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4A8A3C1F4DD83A0083F36B /* WCDB.framework */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
@@ -98,6 +98,7 @@
 		2E30C9801F3EBF8C00DB259A /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../../DerivedData/Build/Products/Debug-iphonesimulator/libmars-open-iphone.a"; sourceTree = "<group>"; };
 		2E49952D1F43402400C52CA2 /* MessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.m; sourceTree = "<group>"; };
+		2E4A8A3C1F4DD83A0083F36B /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../DerivedData/mars-mqtt-workspace-amhznbukkfwyxlhfqyagqiomyscc/Build/Products/Debug-iphonesimulator/WCDB.framework"; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E4A8A3D1F4DD83A0083F36B /* WCDB.framework in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
 				2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */,
 				2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */,
@@ -162,7 +164,6 @@
 				2E30C9811F3EBF8C00DB259A /* libresolv.tbd in Frameworks */,
 				2E30C97F1F3EBF8600DB259A /* libz.tbd in Frameworks */,
 				2EC51B861F3EBB98009D60AE /* mars.framework in Frameworks */,
-				2E1482171F4D0CC80077EBEA /* WCDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +218,7 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E4A8A3C1F4DD83A0083F36B /* WCDB.framework */,
 				2E1482141F4D0CC80077EBEA /* sqlcipher.framework */,
 				2E1482151F4D0CC80077EBEA /* WCDB.framework */,
 				2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */,

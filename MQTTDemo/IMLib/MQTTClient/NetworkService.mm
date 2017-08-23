@@ -179,6 +179,7 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)login:(NSString *)userName password:(NSString *)password {
   _logined = YES;
+    mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
     [self setLongLinkAddress:@"192.168.1.106" port:1883];

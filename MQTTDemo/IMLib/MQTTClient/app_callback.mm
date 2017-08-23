@@ -40,15 +40,34 @@ void AppCallBack::Release() {
     delete instance_;
     instance_ = NULL;
 }
+        
+    AppCallBack::AppCallBack() {
+        
+    }
 
+        void AppCallBack::SetAccountUserName(const std::string &userName) {
+            info.username = userName;
+            
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                                 NSUserDomainMask, YES);
+            NSString *documentDirectory = [paths objectAtIndex:0];
+            NSString *path = [documentDirectory stringByAppendingPathComponent:[NSString stringWithUTF8String:info.username.c_str()]];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+            filePath = [path UTF8String];
+        }
+        
+        void AppCallBack::SetAccountLogoned(bool isLogoned) {
+            info.is_logoned = isLogoned;
+        }
+        
 // return your app path
 std::string AppCallBack::GetAppFilePath(){
-    return "";
+    return filePath;
 }
         
 AccountInfo AppCallBack::GetAccountInfo() {
-    AccountInfo info;
-    
     return info;
 }
 
