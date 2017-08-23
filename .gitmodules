@@ -1,0 +1,3 @@
+[submodule "wcdb"]
+	path = wcdb
+	url = git@github.com:tomlee0201/wcdb.git

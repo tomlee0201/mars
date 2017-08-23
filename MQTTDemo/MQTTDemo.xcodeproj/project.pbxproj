@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1482141F4D0CC80077EBEA /* sqlcipher.framework */; };
+		2E1482171F4D0CC80077EBEA /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1482151F4D0CC80077EBEA /* WCDB.framework */; };
 		2E3071C41F43C86100B17DC9 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071C21F43C86100B17DC9 /* Message.m */; };
 		2E3071C81F43C89300B17DC9 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071C61F43C89300B17DC9 /* Conversation.m */; };
 		2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071CA1F43CA2600B17DC9 /* GroupInfo.m */; };
@@ -81,6 +83,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E1482141F4D0CC80077EBEA /* sqlcipher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlcipher.framework; path = IMLib/sqlcipher.framework; sourceTree = "<group>"; };
+		2E1482151F4D0CC80077EBEA /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
 		2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libprotobuf.tbd; path = usr/lib/libprotobuf.tbd; sourceTree = SDKROOT; };
 		2E3071C21F43C86100B17DC9 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		2E3071C61F43C89300B17DC9 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
@@ -152,11 +156,13 @@
 			files = (
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
 				2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */,
+				2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */,
 				2E30C9831F3EBF9C00DB259A /* CoreTelephony.framework in Frameworks */,
 				2E30C9821F3EBF9300DB259A /* SystemConfiguration.framework in Frameworks */,
 				2E30C9811F3EBF8C00DB259A /* libresolv.tbd in Frameworks */,
 				2E30C97F1F3EBF8600DB259A /* libz.tbd in Frameworks */,
 				2EC51B861F3EBB98009D60AE /* mars.framework in Frameworks */,
+				2E1482171F4D0CC80077EBEA /* WCDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +217,8 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E1482141F4D0CC80077EBEA /* sqlcipher.framework */,
+				2E1482151F4D0CC80077EBEA /* WCDB.framework */,
 				2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */,
 				2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */,
 				2E30C9801F3EBF8C00DB259A /* libresolv.tbd */,
