@@ -107,6 +107,7 @@
 		2E1F1B0A1F3F5E04000A84E9 /* wire_format_lite.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA01F3F5E04000A84E9 /* wire_format_lite.cc */; };
 		2E1F1B0B1F3F5E04000A84E9 /* wrappers.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */; };
 		2E4A8A2F1F4DC87D0083F36B /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */; };
+		2EFD82321F4E438200542244 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD82301F4E438200542244 /* DB.cpp */; };
 		2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4A1F04727D000F2C79 /* libemqtt.cc */; };
 		2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4E1F04727D000F2C79 /* longlink_packer.cc */; };
 		2F395A581F04727E000F2C79 /* shortlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A501F04727D000F2C79 /* shortlink_packer.cc */; };
@@ -422,6 +423,8 @@
 		2E1F1AA41F3F5E04000A84E9 /* wrappers.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrappers.pb.h; sourceTree = "<group>"; };
 		2E1F1B0C1F3F5F3F000A84E9 /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = usr/lib/libpthread.tbd; sourceTree = SDKROOT; };
 		2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../../DerivedData/mars-mqtt-workspace-amhznbukkfwyxlhfqyagqiomyscc/Build/Products/Debug-iphonesimulator/WCDB.framework"; sourceTree = "<group>"; };
+		2EFD82301F4E438200542244 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DB.cpp; sourceTree = "<group>"; };
+		2EFD82311F4E438200542244 /* DB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DB.hpp; sourceTree = "<group>"; };
 		2F395A4A1F04727D000F2C79 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
 		2F395A4B1F04727D000F2C79 /* libemqtt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libemqtt.h; sourceTree = "<group>"; };
 		2F395A4E1F04727D000F2C79 /* longlink_packer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = longlink_packer.cc; sourceTree = "<group>"; };
@@ -889,6 +892,8 @@
 		2F395A491F04727D000F2C79 /* mqtt */ = {
 			isa = PBXGroup;
 			children = (
+				2EFD82301F4E438200542244 /* DB.cpp */,
+				2EFD82311F4E438200542244 /* DB.hpp */,
 				2E1F15971F3F4C34000A84E9 /* Proto */,
 				2F395A4A1F04727D000F2C79 /* libemqtt.cc */,
 				2F395A4B1F04727D000F2C79 /* libemqtt.h */,
@@ -1095,6 +1100,7 @@
 				2E1F1ACE1F3F5E04000A84E9 /* source_context.pb.cc in Sources */,
 				2E1F1ACC1F3F5E04000A84E9 /* repeated_field.cc in Sources */,
 				2E1F1AC11F3F5E04000A84E9 /* zero_copy_stream_impl_lite.cc in Sources */,
+				2EFD82321F4E438200542244 /* DB.cpp in Sources */,
 				2E1F1ADE1F3F5E04000A84E9 /* strutil.cc in Sources */,
 				2E1F1AEF1F3F5E04000A84E9 /* default_value_objectwriter.cc in Sources */,
 				4B07F31C1C4F8F0700FD1B8D /* smart_heartbeat.cc in Sources */,

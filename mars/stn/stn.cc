@@ -24,10 +24,7 @@
 #include "mars/stn/mqtt/libemqtt.h"
 #include "mars/stn/stn_logic.h"
 #include "mars/baseevent/base_logic.h"
-#include <WCDB/core_base.hpp>
-#include <WCDB/database.hpp>
-#include <WCDB/statement_create_table.hpp>
-#include "mars/app/app.h"
+#include "mars/stn/mqtt/DB.hpp"
 
 namespace mars{
     namespace stn{
@@ -89,58 +86,10 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         cmdid = MQTT_DISCONNECT_CMDID;
       }
      
-        WCDB::Database *gDatabase = NULL;
         
       void login(std::string &userName, std::string &passwd) {
-          std::string dbPath = app::GetAppFilePath() + "/" + "im.db";
-          gDatabase = new WCDB::Database(dbPath.c_str());
-          
-          std::function<void(void)> callback = nullptr;
-          
-              callback = []() {
-          
-                  WCDB::Error unixError;
-                  bool result = gDatabase->removeFiles(unixError);
-                  
-
-              };
-          
-          gDatabase->close(callback);
-
-        
-//      {
-//          WCDB::ColumnDef localIDColumnDef(WCDB::Column("localID"), WCDB::ColumnType::Integer32);
-//          localIDColumnDef.makePrimary(WCDB::OrderTerm::ASC);
-//          WCDB::ColumnDef contentColumnDef(WCDB::Column("content"), WCDB::ColumnType::Text);
-//          WCDB::ColumnDefList columnDefList = {localIDColumnDef, contentColumnDef};
-//          WCDB::StatementCreateTable statementCreate = WCDB::StatementCreateTable().create("message", columnDefList);
-//          WCTStatement *statementExplain = [database prepare:WCDB::StatementExplain().explain(statementCreate)];
-//          if (statementExplain && [statementExplain step]) {
-//              for (int i = 0; i < [statementExplain getCount]; ++i) {
-//                  NSString *columnName = [statementExplain getNameAtIndex:i];
-//                  WCTValue *value = [statementExplain getValueAtIndex:i];
-//                  NSLog(@"%@:%@", columnName, value);
-//              }
-//          }
-//      }
-        
-          WCDB::Column column1("testintc1");
-          WCDB::ColumnDef columnDef1(column1, WCDB::ColumnType::Integer32);
-          columnDef1.makePrimary();
-          
-          WCDB::Column column2("testtextc2");
-          WCDB::ColumnDef columnDef2(column2, WCDB::ColumnType::Text);
-          
-
-          std::string tableName = "testtable";
-          std::list<const WCDB::ColumnDef> defList = {columnDef1, columnDef2};
-          
-          WCDB::Error innerError;
-          
-          gDatabase->exec(WCDB::StatementCreateTable().create(tableName, defList, true),
-                      innerError);
-
-          
+          DB::Instance()->Open();
+          DB::Instance()->Upgrade();
         mqtt_init_auth(userName.c_str(), passwd.c_str());
         MakesureLonglinkConnected();
         mars::baseevent::OnForeground(true);
