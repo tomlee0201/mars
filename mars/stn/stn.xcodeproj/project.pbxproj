@@ -106,6 +106,7 @@
 		2E1F1B091F3F5E04000A84E9 /* wire_format.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1A9E1F3F5E04000A84E9 /* wire_format.cc */; };
 		2E1F1B0A1F3F5E04000A84E9 /* wire_format_lite.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA01F3F5E04000A84E9 /* wire_format_lite.cc */; };
 		2E1F1B0B1F3F5E04000A84E9 /* wrappers.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */; };
+		2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */; };
 		2E4A8A2F1F4DC87D0083F36B /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */; };
 		2EFD82321F4E438200542244 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD82301F4E438200542244 /* DB.cpp */; };
 		2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4A1F04727D000F2C79 /* libemqtt.cc */; };
@@ -422,6 +423,8 @@
 		2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrappers.pb.cc; sourceTree = "<group>"; };
 		2E1F1AA41F3F5E04000A84E9 /* wrappers.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrappers.pb.h; sourceTree = "<group>"; };
 		2E1F1B0C1F3F5F3F000A84E9 /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = usr/lib/libpthread.tbd; sourceTree = SDKROOT; };
+		2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDB.cpp; sourceTree = "<group>"; };
+		2E3FB83D1F516DF100D8F8E3 /* MessageDB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageDB.hpp; sourceTree = "<group>"; };
 		2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../../DerivedData/mars-mqtt-workspace-amhznbukkfwyxlhfqyagqiomyscc/Build/Products/Debug-iphonesimulator/WCDB.framework"; sourceTree = "<group>"; };
 		2EFD82301F4E438200542244 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DB.cpp; sourceTree = "<group>"; };
 		2EFD82311F4E438200542244 /* DB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DB.hpp; sourceTree = "<group>"; };
@@ -904,6 +907,8 @@
 				2F395A521F04727D000F2C79 /* stn_callback.h */,
 				2F395A531F04727D000F2C79 /* stn_callback.cc */,
 				2F395A541F04727D000F2C79 /* stnproto_logic.h */,
+				2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */,
+				2E3FB83D1F516DF100D8F8E3 /* MessageDB.hpp */,
 			);
 			path = mqtt;
 			sourceTree = "<group>";
@@ -1123,6 +1128,7 @@
 				4B07F3161C4F8F0700FD1B8D /* longlink.cc in Sources */,
 				2E1F1ADB1F3F5E04000A84E9 /* stringpiece.cc in Sources */,
 				2E1F15F11F3F4CFC000A84E9 /* quit_group_request.pb.cc in Sources */,
+				2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */,
 				2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */,
 				2E1F15E31F3F4CFC000A84E9 /* create_group_request.pb.cc in Sources */,
 				4B07F3111C4F8F0700FD1B8D /* longlink_identify_checker.cc in Sources */,

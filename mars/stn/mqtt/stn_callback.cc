@@ -22,6 +22,7 @@
 #include "mars/stn/mqtt/Proto/notify_message.pb.h"
 #include "mars/stn/mqtt/Proto/pull_message_request.pb.h"
 #include "mars/stn/mqtt/Proto/pull_message_result.pb.h"
+#include "mars/stn/mqtt/MessageDB.hpp"
 
 namespace mars {
     namespace stn {
@@ -99,6 +100,7 @@ std::vector<std::string> StnCallBack::OnNewDns(const std::string& _host) {
 void StnCallBack::onPullSuccess(std::list<TMessage> messageList, int64_t current, int64_t head) {
     isPulling = false;
     currentHead = current;
+    MessageDB::Instance()->UpdateMessageTimeline(current);
     PullMessage(head);
     
     //save messages
@@ -136,6 +138,9 @@ void StnCallBack::onPullFailure(int errorCode) {
                         
                         memcpy(tmsg.content.data, pmsg.content().data().c_str(), tmsg.content.dataLen);
                         messageList.push_back(tmsg);
+                        
+                        long id = MessageDB::Instance()->InsertMessage(tmsg);
+                        tmsg.messageId = id;
                     }
                     cb->onPullSuccess(messageList, result.current(), result.head());
                 } else {
@@ -349,6 +354,9 @@ bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer,
 void StnCallBack::RequestSync() {
 
 }
+        void StnCallBack::onDBOpened() {
+            currentHead = MessageDB::Instance()->GetMessageTimeline();
+        }
         
         
     }

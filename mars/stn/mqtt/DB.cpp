@@ -97,7 +97,7 @@ namespace mars {
             
         }
         
-        bool DB::ExecuteInsert(WCDB::RecyclableStatement statementHandle) {
+        bool DB::ExecuteInsert(WCDB::RecyclableStatement statementHandle, long *rowId) {
             Error error;
             statementHandle->step();
             if (!statementHandle->isOK()) {
@@ -110,6 +110,11 @@ namespace mars {
                 error = statementHandle->getError();
                 return false;
             }
+            if (rowId != NULL) {
+                *rowId = statementHandle->getLastInsertedRowID();
+            }
+            
+            
             return error.isOK();
         }
         
@@ -187,8 +192,62 @@ namespace mars {
             }
         }
         
+//        TMessage() : conversationType(0) {}
+//        int conversationType;
+//        std::string target;
+//        std::string from;
+//        TMessageContent content;
+//        long messageId;
+//        int direction;
+//        MessageStatus status;
+//        int64_t messageUid;
+//        int64_t timestamp;
+
+        
+//        int type;
+//        std::string searchableContent;
+//        std::string pushContent;
+//        unsigned char *data;
+//        size_t dataLen;
+        
+        
         bool DB::CreateDBVersion1() {
             WCDB::Error error;
+            
+            //create message table
+            std::list<const WCDB::ColumnDef> messageDefList = {
+                WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+                WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
+                WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_from"), ColumnType::Text).makeNotNull(),
+                
+                WCDB::ColumnDef(Column("_cont_type"), ColumnType::Integer32).makeNotNull(),
+                WCDB::ColumnDef(Column("_cont_searchable"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont_push"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont_data"), ColumnType::BLOB).makeDefault(NULL),
+                
+                WCDB::ColumnDef(Column("_direction"), ColumnType::Integer32).makeDefault(0),
+                WCDB::ColumnDef(Column("_status"), ColumnType::Integer32).makeDefault(0),
+                WCDB::ColumnDef(Column("_uid"), ColumnType::Integer64).makeDefault(0),
+                WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create("message", messageDefList, true),
+                            error);
+
+            
+            
+            //create timeline table
+            std::list<const WCDB::ColumnDef> timelineDefList = {
+                WCDB::ColumnDef(Column("_head"), ColumnType::Integer64).makeDefault(0),
+            };
+            _database->exec(WCDB::StatementCreateTable().create("timeline", timelineDefList, true),
+                            error);
+            //set timeline to 0;
+            WCDB::RecyclableStatement statementHandleTimeline = GetInsertStatement("timeline", {"_head"});
+            Bind(statementHandleTimeline, 0, 1);
+            ExecuteInsert(statementHandleTimeline);
+
+            
             
             //create version table
             WCDB::ColumnDef columnDef(Column(VERSION_COLUMN_VERSION), ColumnType::Integer32);

@@ -10,8 +10,8 @@
 #define DB_hpp
 
 #include <stdio.h>
-#import <mars/app/app.h>
-#import <mars/app/app_logic.h>
+#include "mars/app/app.h"
+#include "mars/app/app_logic.h"
 #include <WCDB/core_base.hpp>
 #include <WCDB/database.hpp>
 #include <WCDB/statement_create_table.hpp>
@@ -37,7 +37,7 @@ namespace mars {
             void Upgrade();
             WCDB::RecyclableStatement GetSelectStatement(const std::string &tableName, const std::list<const std::string> &columns, WCDB::Error &error, const WCDB::Expr *where = NULL, const std::list<const WCDB::Order> *orderBy = NULL, int limit = 0, int offset = 0);
             WCDB::RecyclableStatement GetInsertStatement(const std::string &table, const std::list<const std::string> &columns, bool replace = false);
-            bool ExecuteInsert(WCDB::RecyclableStatement statementHandle);
+            bool ExecuteInsert(WCDB::RecyclableStatement statementHandle, long *rowId = NULL);
             
             WCDB::RecyclableStatement GetUpdateStatement(const std::string &table, const std::list<const std::string> &columns, const WCDB::Expr *where = NULL);
             int ExecuteUpdate(WCDB::RecyclableStatement &statementHandle);
@@ -61,6 +61,7 @@ namespace mars {
             bool CreateDBVersion1();
         };
         
-    }}
+    }
+}
 
 #endif /* DB_hpp */

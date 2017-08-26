@@ -79,6 +79,7 @@ public:
     //
     virtual void RequestSync();
 
+    void onDBOpened();
 
 private:
     static StnCallBack* instance_;

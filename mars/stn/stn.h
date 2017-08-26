@@ -96,6 +96,16 @@ struct DnsProfile;
             virtual ~TMessageContent(){if(data != NULL) {delete [] data; data = NULL; dataLen = 0;}}
         };
         
+        typedef enum {
+            Message_Status_Sending,
+            Message_Status_Sent,
+            Message_Status_Send_Failure,
+            Message_Status_Unread,
+            Message_Status_Readed,
+            Message_Status_Listened,
+            Message_Status_Downloaded,
+        } MessageStatus;
+        
         class TMessage {
         public:
             TMessage() : conversationType(0) {}
@@ -104,6 +114,8 @@ struct DnsProfile;
             std::string from;
             TMessageContent content;
             long messageId;
+            int direction;
+            MessageStatus status;
             int64_t messageUid;
             int64_t timestamp;
             virtual ~TMessage(){}
