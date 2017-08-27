@@ -103,7 +103,7 @@ namespace mars {
             DB *db = DB::Instance();
             WCDB::Error error;
             
-            WCDB::Expr where = ((WCDB::Expr("_conv_type") == conversationType) && (WCDB::Expr("_conv_target") == target));
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_timestamp"}, &where);
             db->Bind(updateStatementHandle, timestamp, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
@@ -124,7 +124,7 @@ namespace mars {
             WCDB::Error error;
             
             
-            WCDB::Expr where = ((WCDB::Expr("_conv_type") == conversationType) && (WCDB::Expr("_conv_target") == target));
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_istop"}, &where);
             db->Bind(updateStatementHandle, istop, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
@@ -145,7 +145,7 @@ namespace mars {
             WCDB::Error error;
             
             
-            WCDB::Expr where = ((WCDB::Expr("_conv_type") == conversationType) && (WCDB::Expr("_conv_target") == target));
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_draft"}, &where);
             db->Bind(updateStatementHandle, draft, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
@@ -166,7 +166,7 @@ namespace mars {
             WCDB::Error error;
             TConversation conv;
             ;
-            WCDB::Expr where = WCDB::Expr("_conv_type") == conversationType ;//&& WCDB::Expr("_conv_target") == target;
+            WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_draft",  "_istop", "_timestamp"}, error, &where);
             
             conv.target = target;
