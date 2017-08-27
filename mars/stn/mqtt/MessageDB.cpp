@@ -175,8 +175,80 @@ namespace mars {
                 conv.draft = db->getStringValue(statementHandle, 0);
                 conv.isTop = db->getIntValue(statementHandle, 1);
                 conv.timestamp = db->getBigIntValue(statementHandle, 2);
+                
+                std::list<TMessage> lastMessages = GetMessages(conversationType, target, true, 1, LONG_LONG_MAX);
+                if (lastMessages.size() > 0) {
+                    conv.lastMessage = *lastMessages.begin();
+                }
             }
             return conv;
+        }
+        std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, bool desc, int count, int64_t startPoint) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            
+            ;
+            WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
+            if (desc) {
+                where = where && WCDB::Expr(WCDB::Column("_timestamp")) < startPoint;
+            } else {
+                where = where && WCDB::Expr(WCDB::Column("_timestamp")) > startPoint;
+            }
+            
+            std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message",
+                {
+                    "_id",
+                    "_conv_type",
+                    "_conv_target",
+                    "_from",
+                    "_cont_type",
+                    "_cont_searchable",
+                    "_cont_push",
+                    "_cont_data",
+                    "_direction",
+                    "_status",
+                    "_uid",
+                    "_timestamp"}, error, &where, &orderBy, count);
+            
+            std::list<TMessage> result;
+            
+//            WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+//            WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
+//            WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
+//            WCDB::ColumnDef(Column("_from"), ColumnType::Text).makeNotNull(),
+//            
+//            WCDB::ColumnDef(Column("_cont_type"), ColumnType::Integer32).makeNotNull(),
+//            WCDB::ColumnDef(Column("_cont_searchable"), ColumnType::Text).makeDefault(NULL),
+//            WCDB::ColumnDef(Column("_cont_push"), ColumnType::Text).makeDefault(NULL),
+//            WCDB::ColumnDef(Column("_cont_data"), ColumnType::BLOB).makeDefault(NULL),
+//            
+//            WCDB::ColumnDef(Column("_direction"), ColumnType::Integer32).makeDefault(0),
+//            WCDB::ColumnDef(Column("_status"), ColumnType::Integer32).makeDefault(0),
+//            WCDB::ColumnDef(Column("_uid"), ColumnType::Integer64).makeDefault(0),
+//            WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
+            while (statementHandle->step()) {
+                TMessage msg;
+                msg.messageId = db->getIntValue(statementHandle, 0);
+                msg.conversationType = db->getIntValue(statementHandle, 1);
+                msg.target = db->getStringValue(statementHandle, 2);
+                msg.from = db->getStringValue(statementHandle, 3);
+                msg.content.type = db->getIntValue(statementHandle, 4);
+                msg.content.searchableContent = db->getStringValue(statementHandle, 5);
+                msg.content.pushContent = db->getStringValue(statementHandle, 6);
+                int size;
+                const void *p = db->getBlobValue(statementHandle, 7, size);
+                msg.content.dataLen = size;
+                msg.content.data = new unsigned char[msg.content.dataLen + 1];
+                memcpy(msg.content.data, p, msg.content.dataLen);
+                msg.direction = db->getIntValue(statementHandle, 8);
+                msg.status = (MessageStatus)db->getIntValue(statementHandle, 9);
+                msg.messageUid = db->getBigIntValue(statementHandle, 10);
+                msg.timestamp = db->getBigIntValue(statementHandle, 11);
+                
+                result.push_back(msg);
+            }
+            return result;
         }
     }
 }

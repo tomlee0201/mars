@@ -165,7 +165,7 @@ namespace mars {
         }
 
         int64_t DB::getBigIntValue(const WCDB::RecyclableStatement &statementHandle, int index) {
-            return statementHandle->getValue<ColumnType::Integer32>(index);
+            return statementHandle->getValue<ColumnType::Integer64>(index);
         }
 
         std::string DB::getStringValue(const WCDB::RecyclableStatement &statementHandle, int index) {
@@ -247,13 +247,6 @@ namespace mars {
             Bind(statementHandleTimeline, 0, 1);
             ExecuteInsert(statementHandleTimeline);
 
-//            int conversationType;
-//            std::string target;
-//            TMessage lastMessage;
-//            int64_t timestamp;
-//            std::string draft;
-//            int unreadCount;
-//            bool isTop;
             //create conversation table
             std::list<const WCDB::ColumnDef> convDefList = {
                 WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
@@ -271,7 +264,7 @@ namespace mars {
                 WCDB::ColumnIndex(Column("_conv_target"),OrderTerm::NotSet)
             };
             _database->exec(WCDB::StatementCreateIndex()
-                        .create("conv_index")
+                        .create("conv_index", true, true)
                         .on("conversation", convIndexList),
                         error);
             

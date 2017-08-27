@@ -120,13 +120,24 @@ void StnCallBack::onPullFailure(int errorCode) {
             void onSuccess(const unsigned char* data, size_t len) {
                 std::list<TMessage> messageList;
                 PullMessageResult result;
+                std::string curUser = app::GetUserName();
                 if (result.ParseFromArray((const void *)data, (int)len)) {
                     for (::google::protobuf::RepeatedPtrField< ::mars::stn::Message >::const_iterator it = result.message().begin(); it != result.message().end(); it++) {
                         const ::mars::stn::Message &pmsg = *it;
                         TMessage tmsg;
                         tmsg.conversationType = (int)pmsg.conversation().type();
-                        tmsg.target = pmsg.conversation().target();
+                        
                         tmsg.from = pmsg.from_user();
+                        if (tmsg.from == curUser) {
+                            tmsg.target = pmsg.conversation().target();
+                            tmsg.direction = 0;
+                            tmsg.status = Message_Status_Sent;
+                        } else {
+                            tmsg.target = pmsg.from_user();
+                            tmsg.direction = 1;
+                            tmsg.status = Message_Status_Unread;
+                        }
+                        
                         tmsg.messageUid = pmsg.message_id();
                         tmsg.messageId = 0;
                         tmsg.timestamp = pmsg.server_timestamp();
@@ -141,11 +152,12 @@ void StnCallBack::onPullFailure(int errorCode) {
                         
                         long id = MessageDB::Instance()->InsertMessage(tmsg);
                         tmsg.messageId = id;
+                        MessageDB::Instance()->updateConversationTimestamp(0, tmsg.from, tmsg.timestamp);
                     }
-                    MessageDB::Instance()->updateConversationTimestamp(1, "1", 1);
-                    MessageDB::Instance()->updateConversationDraft(1, "1", "hell");
-                    MessageDB::Instance()->updateConversationIsTop(1, "1", true);
-                    TConversation tc = MessageDB::Instance()->GetConversation(1, "1");
+//                    MessageDB::Instance()->updateConversationTimestamp(1, "user2", 1);
+//                    MessageDB::Instance()->updateConversationDraft(1, "1", "hell");
+//                    MessageDB::Instance()->updateConversationIsTop(1, "1", true);
+                    TConversation tc = MessageDB::Instance()->GetConversation(0, "user1");
                     cb->onPullSuccess(messageList, result.current(), result.head());
                 } else {
                     cb->onPullFailure(-1);
