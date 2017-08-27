@@ -121,6 +121,19 @@ struct DnsProfile;
             virtual ~TMessage(){}
         };
         
+        class TConversation {
+        public:
+            TConversation() : conversationType(0) {}
+            int conversationType;
+            std::string target;
+            TMessage lastMessage;
+            int64_t timestamp;
+            std::string draft;
+            int unreadCount;
+            bool isTop;
+            virtual ~TConversation(){}
+        };
+        
       class MQTTGeneralCallback {
       public:
         virtual void onSuccess() = 0;

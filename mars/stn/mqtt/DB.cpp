@@ -9,6 +9,7 @@
 #include "DB.hpp"
 
 #include "mars/app/app.h"
+#include <WCDB/statement_create_index.hpp>
 
 using namespace WCDB;
 
@@ -72,9 +73,6 @@ namespace mars {
             }
             
             WCDB::RecyclableStatement statementHandle = _database->prepare(statement, error);
-            if (statementHandle->step()) {
-                return statementHandle;
-            }
             return statementHandle;
         }
         
@@ -186,9 +184,11 @@ namespace mars {
 
             
             WCDB::RecyclableStatement statementHandle = GetSelectStatement(VERSION_TABLE_NAME, {VERSION_COLUMN_VERSION}, error);
-            int version = getIntValue(statementHandle, 0);
-            if (version < 2) {
-                version++;
+            if (statementHandle->step()) {
+                int version = getIntValue(statementHandle, 0);
+                if (version < 2) {
+                    version++;
+                }
             }
         }
         
@@ -247,6 +247,34 @@ namespace mars {
             Bind(statementHandleTimeline, 0, 1);
             ExecuteInsert(statementHandleTimeline);
 
+//            int conversationType;
+//            std::string target;
+//            TMessage lastMessage;
+//            int64_t timestamp;
+//            std::string draft;
+//            int unreadCount;
+//            bool isTop;
+            //create conversation table
+            std::list<const WCDB::ColumnDef> convDefList = {
+                WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
+                WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_draft"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_istop"), ColumnType::Integer32).makeDefault(0),
+                WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create("conversation", convDefList, true),
+                            error);
+            
+            //create conversation index table
+            std::list<const WCDB::ColumnIndex> convIndexList = {
+                WCDB::ColumnIndex(Column("_conv_type"),OrderTerm::NotSet),
+                WCDB::ColumnIndex(Column("_conv_target"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                        .create("conv_index")
+                        .on("conversation", convIndexList),
+                        error);
+            
             
             
             //create version table
