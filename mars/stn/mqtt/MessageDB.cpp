@@ -161,6 +161,37 @@ namespace mars {
             db->Bind(statementHandle, draft, 3);
             return db->ExecuteInsert(statementHandle);
         }
+        std::list<TConversation> MessageDB::GetConversationList(const std::list<int> &conversationTypes) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            
+            ;
+            std::list<const WCDB::Expr> exprs;
+            for (std::list<int>::const_iterator it = conversationTypes.begin(); it != conversationTypes.end(); it++) {
+                exprs.push_back(WCDB::Expr(*it));
+            }
+            WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")).in(exprs);
+            std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_conv_type", "_conv_target", "_draft",  "_istop", "_timestamp"}, error, &where, &orderBy);
+            
+            std::list<TConversation> convs;
+            if (statementHandle->step()) {
+                TConversation conv;
+                conv.target = db->getStringValue(statementHandle, 0);
+                conv.conversationType = db->getIntValue(statementHandle, 1);
+                
+                conv.draft = db->getStringValue(statementHandle, 2);
+                conv.isTop = db->getIntValue(statementHandle, 3);
+                conv.timestamp = db->getBigIntValue(statementHandle, 3);
+                
+                std::list<TMessage> lastMessages = GetMessages(conv.conversationType, conv.target, true, 1, LONG_LONG_MAX);
+                if (lastMessages.size() > 0) {
+                    conv.lastMessage = *lastMessages.begin();
+                }
+                convs.push_back(conv);
+            }
+            return convs;
+        }
         TConversation MessageDB::GetConversation(int conversationType, const std::string &target) {
             DB *db = DB::Instance();
             WCDB::Error error;

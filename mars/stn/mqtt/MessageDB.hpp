@@ -33,6 +33,7 @@ namespace mars {
             bool updateConversationDraft(int conversationType, const std::string &target, const std::string &draft);
             
             TConversation GetConversation(int conversationType, const std::string &target);
+            std::list<TConversation> GetConversationList(const std::list<int> &conversationTypes);
             
             std::list<TMessage> GetMessages(int conversationType, const std::string &target, bool desc, int count, int64_t startPoint);
         private:
