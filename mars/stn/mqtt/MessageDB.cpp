@@ -39,27 +39,13 @@ namespace mars {
         MessageDB::~MessageDB() {
             
         }
-        
-        
-//        std::list<const WCDB::ColumnDef> messageDefList = {
-//            WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
-//            WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
-//            WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
-//            WCDB::ColumnDef(Column("_from"), ColumnType::Text).makeNotNull(),
-//            
-//            WCDB::ColumnDef(Column("_cont_type"), ColumnType::Integer32).makeNotNull(),
-//            WCDB::ColumnDef(Column("_cont_searchable"), ColumnType::Text).makeDefault(NULL),
-//            WCDB::ColumnDef(Column("_cont_push"), ColumnType::Text).makeDefault(NULL),
-//            WCDB::ColumnDef(Column("_cont_data"), ColumnType::BLOB).makeDefault(NULL),
-//            
-//            WCDB::ColumnDef(Column("_direction"), ColumnType::Integer32).makeDefault(0),
-//            WCDB::ColumnDef(Column("_status"), ColumnType::Integer32).makeDefault(0),
-//            WCDB::ColumnDef(Column("_uid"), ColumnType::Integer64).makeDefault(0),
-//            WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
-//        };
+    
         
         long MessageDB::InsertMessage(TMessage &msg) {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return -1;
+            }
             WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("message", {"_conv_type","_conv_target","_from","_cont_type","_cont_searchable","_cont_push","_cont_data","_direction","_status","_uid","_timestamp"});
             db->Bind(statementHandle, msg.conversationType, 1);
             db->Bind(statementHandle, msg.target, 2);
@@ -82,6 +68,9 @@ namespace mars {
         
         bool MessageDB::UpdateMessageTimeline(int64_t timeline) {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return false;
+            }
             WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement("timeline", {"_head"});
             db->Bind(statementHandle, timeline, 1);
             return db->ExecuteUpdate(statementHandle) > 0;
@@ -89,6 +78,10 @@ namespace mars {
         
         int64_t MessageDB::GetMessageTimeline() {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return -1;
+            }
+          
             WCDB::Error error;
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("timeline", {"_head"}, error);
             if (statementHandle->step()) {
@@ -101,6 +94,10 @@ namespace mars {
 
         bool MessageDB::updateConversationTimestamp(int conversationType, const std::string &target, int64_t timestamp) {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return false;
+            }
+          
             WCDB::Error error;
             
             WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
@@ -121,6 +118,9 @@ namespace mars {
         
         bool MessageDB::updateConversationIsTop(int conversationType, const std::string &target, bool istop) {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return false;
+            }
             WCDB::Error error;
             
             
@@ -142,6 +142,9 @@ namespace mars {
         
         bool MessageDB::updateConversationDraft(int conversationType, const std::string &target, const std::string &draft) {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return false;
+            }
             WCDB::Error error;
             
             
@@ -163,9 +166,11 @@ namespace mars {
         }
         std::list<TConversation> MessageDB::GetConversationList(const std::list<int> &conversationTypes) {
             DB *db = DB::Instance();
+            if (!db->isOpened()) {
+              return std::list<TConversation>();
+            }
             WCDB::Error error;
-            
-            ;
+          
             std::list<const WCDB::Expr> exprs;
             for (std::list<int>::const_iterator it = conversationTypes.begin(); it != conversationTypes.end(); it++) {
                 exprs.push_back(WCDB::Expr(*it));
@@ -196,7 +201,10 @@ namespace mars {
             DB *db = DB::Instance();
             WCDB::Error error;
             TConversation conv;
-            ;
+            if (!db->isOpened()) {
+              return conv;
+            }
+          
             WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_draft",  "_istop", "_timestamp"}, error, &where);
             
@@ -217,8 +225,10 @@ namespace mars {
         std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, bool desc, int count, int64_t startPoint) {
             DB *db = DB::Instance();
             WCDB::Error error;
-            
-            ;
+          if (!db->isOpened()) {
+            return std::list<TMessage>();
+          }
+          
             WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
             if (desc) {
                 where = where && WCDB::Expr(WCDB::Column("_timestamp")) < startPoint;
@@ -244,20 +254,6 @@ namespace mars {
             
             std::list<TMessage> result;
             
-//            WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
-//            WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
-//            WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
-//            WCDB::ColumnDef(Column("_from"), ColumnType::Text).makeNotNull(),
-//            
-//            WCDB::ColumnDef(Column("_cont_type"), ColumnType::Integer32).makeNotNull(),
-//            WCDB::ColumnDef(Column("_cont_searchable"), ColumnType::Text).makeDefault(NULL),
-//            WCDB::ColumnDef(Column("_cont_push"), ColumnType::Text).makeDefault(NULL),
-//            WCDB::ColumnDef(Column("_cont_data"), ColumnType::BLOB).makeDefault(NULL),
-//            
-//            WCDB::ColumnDef(Column("_direction"), ColumnType::Integer32).makeDefault(0),
-//            WCDB::ColumnDef(Column("_status"), ColumnType::Integer32).makeDefault(0),
-//            WCDB::ColumnDef(Column("_uid"), ColumnType::Integer64).makeDefault(0),
-//            WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
             while (statementHandle->step()) {
                 TMessage msg;
                 msg.messageId = db->getIntValue(statementHandle, 0);

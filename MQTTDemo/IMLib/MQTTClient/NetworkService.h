@@ -24,6 +24,7 @@
 #import <Foundation/Foundation.h>
 #import "NetworkStatus.h"
 #import "Message.h"
+#import "ConversationInfo.h"
 
 @class CGITask;
 @class ViewController;
@@ -68,6 +69,7 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
+- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes;
 @end
 
 #endif /* NetworkService_hpp */

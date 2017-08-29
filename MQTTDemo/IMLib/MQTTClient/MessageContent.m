@@ -37,4 +37,7 @@
 + (int)getContentFlags {
     return 0;
 }
+- (NSString *)digest {
+  return @"Unimplement digest function";
+}
 @end

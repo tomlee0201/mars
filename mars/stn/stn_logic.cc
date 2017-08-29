@@ -19,7 +19,7 @@
 //
 
 #include "mars/stn/stn_logic.h"
-
+#include <sys/time.h>
 #include <stdlib.h>
 #include <string>
 #include <map>
@@ -37,6 +37,7 @@
 #include "mars/comm/platform_comm.h"
 #include "mars/comm/compiler_util.h"
 #include "mars/stn/mqtt/stn_callback.h"
+#include "mars/stn/mqtt/MessageDB.hpp"
 
 #include "stn/src/net_core.h"//一定要放这里，Mac os 编译
 #include "stn/src/net_source.h"
@@ -402,11 +403,29 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     
 int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback)
 = [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback) {
-    
+  
+  TMessage tmsg;
+  tmsg.conversationType = conversationType;
+  tmsg.target = target;
+  tmsg.from = app::GetUserName();
+  tmsg.content.type = contentType;
+  tmsg.content.searchableContent = searchableContent;
+  tmsg.content.pushContent = pushContent;
+  tmsg.content.data = (unsigned char *)data;
+  tmsg.content.dataLen = dataLen;
+  tmsg.status = MessageStatus::Message_Status_Sending;
+  tmsg.timestamp = time(NULL);
+  tmsg.direction = 0;
+  
+  long id = MessageDB::Instance()->InsertMessage(tmsg);
+  MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.timestamp);
+  callback->onPrepared(id);
+  
+  
     Message message;
     message.mutable_conversation()->set_type((ConversationType)conversationType);
     message.mutable_conversation()->set_target(target);
-    message.set_from_user("");
+    message.set_from_user(app::GetUserName());
     message.mutable_content()->set_type((::mars::stn::ContentType)contentType);
     message.mutable_content()->set_searchable_content(searchableContent);
     message.mutable_content()->set_push_content(pushContent);

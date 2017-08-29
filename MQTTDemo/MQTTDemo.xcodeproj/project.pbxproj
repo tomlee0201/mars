@@ -55,6 +55,10 @@
 		2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */; };
 		2EC51B851F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
 		2EC51B861F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
+		2EDD766E1F55542200F1FC8C /* ConversationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */; };
+		2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */; };
+		2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDD76721F5557A100F1FC8C /* ConversationInfo.h */; };
+		2EDD76761F5557A100F1FC8C /* ConversationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76731F5557A100F1FC8C /* ConversationInfo.m */; };
 		2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F698A0C1F12489E004B7A80 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +136,12 @@
 		2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
 		2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
 		2EC51B841F3EBB98009D60AE /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = IMLib/mars.framework; sourceTree = "<group>"; };
+		2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationTableViewController.h; sourceTree = "<group>"; };
+		2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationTableViewController.m; sourceTree = "<group>"; };
+		2EDD766F1F55545400F1FC8C /* ConversationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationTableViewCell.h; sourceTree = "<group>"; };
+		2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationTableViewCell.m; sourceTree = "<group>"; };
+		2EDD76721F5557A100F1FC8C /* ConversationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationInfo.h; sourceTree = "<group>"; };
+		2EDD76731F5557A100F1FC8C /* ConversationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationInfo.m; sourceTree = "<group>"; };
 		2F698A0B1F12489E004B7A80 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		2F698A0C1F12489E004B7A80 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +209,10 @@
 				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
 				2F698A0C1F12489E004B7A80 /* LoginViewController.m */,
 				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
+				2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */,
+				2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */,
+				2EDD766F1F55545400F1FC8C /* ConversationTableViewCell.h */,
+				2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */,
 			);
 			path = MQTTDemo;
 			sourceTree = "<group>";
@@ -279,6 +293,8 @@
 				2E3071CA1F43CA2600B17DC9 /* GroupInfo.m */,
 				2E3071D51F43D2C300B17DC9 /* TextMessageContent.h */,
 				2E3071D61F43D2C300B17DC9 /* TextMessageContent.m */,
+				2EDD76721F5557A100F1FC8C /* ConversationInfo.h */,
+				2EDD76731F5557A100F1FC8C /* ConversationInfo.m */,
 			);
 			path = MQTTClient;
 			sourceTree = "<group>";
@@ -291,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EC51B751F3EBB49009D60AE /* NetworkService.h in Headers */,
+				2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */,
 				2E3071D71F43D2C300B17DC9 /* TextMessageContent.h in Headers */,
 				2EC51A861F3EBB3D009D60AE /* IMService.h in Headers */,
 				2EC51B7E1F3EBB49009D60AE /* SubscribeTask.h in Headers */,
@@ -411,7 +428,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
+				2EDD766E1F55542200F1FC8C /* ConversationTableViewController.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
@@ -434,6 +453,7 @@
 				2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */,
 				2E3071C41F43C86100B17DC9 /* Message.m in Sources */,
 				2EC51A881F3EBB3D009D60AE /* IMService.mm in Sources */,
+				2EDD76761F5557A100F1FC8C /* ConversationInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

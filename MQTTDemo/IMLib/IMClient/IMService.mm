@@ -10,6 +10,7 @@
 #import "PublishTask.h"
 #import <mars/stn/stn.h>
 
+
 class IMSendMessageCallback : public mars::stn::SendMessageCallback {
 private:
     void(^m_successBlock)(long messageId, long timestamp);
@@ -391,23 +392,7 @@ static IMService * sharedSingleton = nil;
 }
 
 - (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {
-//    IDListBuf *request = [[IDListBuf alloc] init];
-//    [request.idArray addObjectsFromArray:groupIds];
-//    
-//    NSData *data = request.data;
-//    PublishTask *task = [[PublishTask alloc] initWithTopic:getGroupInfoTopic message:data];
-//    
-//    
-//    [task send:^(NSData *data){
-//        if (data) {
-//            PullGroupInfoResult *result = [PullGroupInfoResult parseFromData:data error:nil];
-//            successBlock(result.infoArray);
-//        }
-//    } error:^(int error_code) {
-//        errorBlock(error_code);
-//    }];
-//
-    
+
     std::list<std::string> idList;
     for (NSString *groupId in groupIds) {
         idList.push_back([groupId UTF8String]);
@@ -417,21 +402,8 @@ static IMService * sharedSingleton = nil;
 }
 
 - (void)getGroupMembers:(NSString *)groupId success:(void(^)(NSArray<NSString *> *))successBlock error:(void(^)(int error_code))errorBlock {
-//    IDBuf *request = [[IDBuf alloc] init];
-//    request.id_p = groupId;
-//    
-//    NSData *data = request.data;
-//    PublishTask *task = [[PublishTask alloc] initWithTopic:getGroupMemberTopic message:data];
-//    
-//    
-//    [task send:^(NSData *data){
-//        if (data) {
-//            PullGroupMemberResult *result = [PullGroupMemberResult parseFromData:data error:nil];
-//            successBlock(result.memberArray);
-//        }
-//    } error:^(int error_code) {
-//        errorBlock(error_code);
-//    }];
+
     mars::stn::getGroupMembers([groupId UTF8String], new IMGetGroupMemberCallback(successBlock, errorBlock));
 }
+
 @end

@@ -34,6 +34,7 @@
 #include <mars/stn/stn_logic.h>
 #import "PublishTask.h"
 #import <objc/runtime.h>
+#import <mars/stn/MessageDB.hpp>
 
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
@@ -182,7 +183,7 @@ static NetworkService * sharedSingleton = nil;
     mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
 //  [self setLongLinkAddress:@"www.liyufan.win" port:11883];
-    [self setLongLinkAddress:@"192.168.1.106" port:1883];
+    [self setLongLinkAddress:@"10.12.10.199" port:1883];
   //[self setLongLinkAddress:@"172.16.11.120" port:1883];
   
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -264,6 +265,29 @@ static NetworkService * sharedSingleton = nil;
     } else {
         return;
     }
+}
+
+- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes {
+  std::list<int> types;
+  for (NSNumber *type in conversationTypes) {
+    types.push_back([type intValue]);
+  }
+  std::list<mars::stn::TConversation> convers = mars::stn::MessageDB::Instance()->GetConversationList(types);
+  NSMutableArray *ret = [[NSMutableArray alloc] init];
+  for (std::list<mars::stn::TConversation>::iterator it = convers.begin(); it != convers.end(); it++) {
+    mars::stn::TConversation &tConv = *it;
+    ConversationInfo *info = [[ConversationInfo alloc] init];
+    info.conversation = [[Conversation alloc] init];
+    info.conversation.type = (ConversationType)tConv.conversationType;
+    info.conversation.target = [NSString stringWithUTF8String:tConv.target.c_str()];
+    info.lastMessage = convertProtoMessage(&tConv.lastMessage);
+    info.draft = [NSString stringWithUTF8String:tConv.draft.c_str()];
+    info.timestamp = tConv.timestamp;
+    info.unreadCount = tConv.unreadCount;
+    info.isTop = tConv.isTop;
+    [ret addObject:info];
+  }
+  return ret;
 }
 
 #pragma mark NetworkStatusDelegate

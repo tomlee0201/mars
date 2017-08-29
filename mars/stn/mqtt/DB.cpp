@@ -29,14 +29,18 @@ namespace mars {
             return instance_;
         }
 
-        DB::DB() {
+        DB::DB() : opened(false) {
             
         }
         
         DB::~DB() {
             
         }
-        
+      
+      bool DB::isOpened() {
+        return opened;
+      }
+      
         void DB::Open() {
             std::string dbPath = app::GetAppFilePath() + "/" + DB_NAME;
             _database = new WCDB::Database(dbPath.c_str());
@@ -49,6 +53,7 @@ namespace mars {
             };
             
             _database->close(callback);
+          opened = true;
         }
         
         WCDB::RecyclableStatement DB::GetSelectStatement(const std::string &tableName, const std::list<const std::string> &columns, WCDB::Error &error, const WCDB::Expr *where, const std::list<const WCDB::Order> *orderBy, int limit, int offset) {

@@ -25,6 +25,7 @@
 - (void)decode:(MessagePayload *)payload;
 + (int)getContentType;
 + (int)getContentFlags;
+- (NSString *)digest;
 @end
 
 

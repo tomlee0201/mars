@@ -85,7 +85,7 @@ struct DnsProfile;
         class TMessageContent {
         public:
             TMessageContent() : data(NULL), type(0), dataLen(NULL){}
-            TMessageContent(TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) { if(dataLen > 0) { data = new unsigned char[dataLen]; memcpy(data, c.data, dataLen);} else {
+            TMessageContent(const TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) { if(dataLen > 0) { data = new unsigned char[dataLen]; memcpy(data, c.data, dataLen);} else {
                 data = NULL;
             }}
             int type;
@@ -96,6 +96,16 @@ struct DnsProfile;
             virtual ~TMessageContent(){if(data != NULL) {delete [] data; data = NULL; dataLen = 0;}}
         };
         
+        typedef enum {
+            Message_Status_Sending,
+            Message_Status_Sent,
+            Message_Status_Send_Failure,
+            Message_Status_Unread,
+            Message_Status_Readed,
+            Message_Status_Listened,
+            Message_Status_Downloaded,
+        } MessageStatus;
+        
         class TMessage {
         public:
             TMessage() : conversationType(0) {}
@@ -104,9 +114,24 @@ struct DnsProfile;
             std::string from;
             TMessageContent content;
             long messageId;
+            int direction;
+            MessageStatus status;
             int64_t messageUid;
             int64_t timestamp;
             virtual ~TMessage(){}
+        };
+        
+        class TConversation {
+        public:
+            TConversation() : conversationType(0) {}
+            int conversationType;
+            std::string target;
+            TMessage lastMessage;
+            int64_t timestamp;
+            std::string draft;
+            int unreadCount;
+            bool isTop;
+            virtual ~TConversation(){}
         };
         
       class MQTTGeneralCallback {

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Message.h"
 #import "GroupInfo.h"
-
+#import "ConversationInfo.h"
 
 @interface IMService : NSObject
 + (IMService*)sharedIMService;

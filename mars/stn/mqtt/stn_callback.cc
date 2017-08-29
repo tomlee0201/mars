@@ -152,7 +152,7 @@ void StnCallBack::onPullFailure(int errorCode) {
                         
                         long id = MessageDB::Instance()->InsertMessage(tmsg);
                         tmsg.messageId = id;
-                        MessageDB::Instance()->updateConversationTimestamp(0, tmsg.from, tmsg.timestamp);
+                        MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.timestamp);
                     }
 //                    MessageDB::Instance()->updateConversationTimestamp(1, "user2", 1);
 //                    MessageDB::Instance()->updateConversationDraft(1, "1", "hell");
