@@ -1224,11 +1224,11 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../tools/protobuf-3.3.0/src\"",
 					$SOURCE_ROOT/,
 					$SOURCE_ROOT/../,
 					$SOURCE_ROOT/../../,
 					$SOURCE_ROOT/../comm,
-					"\"$(SRCROOT)/../../../../Tools/protobuf-3.3.0/src\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1279,11 +1279,11 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../tools/protobuf-3.3.0/src\"",
 					$SOURCE_ROOT/,
 					$SOURCE_ROOT/../,
 					$SOURCE_ROOT/../../,
 					$SOURCE_ROOT/../comm,
-					"\"$(SRCROOT)/../../../../Tools/protobuf-3.3.0/src\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
