@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "ViewController.h"
 #import "NetworkService.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController () 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -28,8 +29,11 @@
 }
 
 - (IBAction)onLoginButton:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
+      [[NSUserDefaults standardUserDefaults] setObject:self.userNameField.text forKey:@"savedName"];
+      [[NSUserDefaults standardUserDefaults] setObject:self.passwordField.text forKey:@"savedPwd"];
         [[NetworkService sharedInstance] login:self.userNameField.text password:self.passwordField.text];
-    }];
+      UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+      UIViewController *rootVC =  [sb instantiateViewControllerWithIdentifier:@"rootVC"];
+      [UIApplication sharedApplication].delegate.window.rootViewController = rootVC;
 }
 @end

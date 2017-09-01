@@ -219,7 +219,7 @@ void StnCallBack::PullMessage(int64_t head) {
         
 void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid, const AutoBuffer& _body, const AutoBuffer& _extend) {
     std::string topic = (char *)(_body.Ptr());
-    if (topic.compare(notifyMessageTopic)) {
+    if (topic.compare(notifyMessageTopic) == 0) {
         NotifyMessage notifyMessage;
         if (notifyMessage.ParsePartialFromArray(_extend.Ptr(), (int)_extend.Length())) {
             PullMessage(notifyMessage.head());

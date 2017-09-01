@@ -70,6 +70,7 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 - (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes;
+- (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count;
 @end
 
 #endif /* NetworkService_hpp */

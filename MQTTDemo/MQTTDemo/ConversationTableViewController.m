@@ -9,7 +9,10 @@
 #import "ConversationTableViewController.h"
 #import "ConversationInfo.h"
 #import "ConversationTableViewCell.h"
-#import "LoginViewController.h"
+
+#import "MessageViewController.h"
+
+
 #import "NetworkService.h"
 #import "PublishTask.h"
 #import "SubscribeTask.h"
@@ -19,7 +22,7 @@
 #import "IMService.h"
 #import "TextMessageContent.h"
 
-@interface ConversationTableViewController ()<ConnectionStatusDelegate, ReceiveMessageDelegate>
+@interface ConversationTableViewController ()
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
 @end
 
@@ -28,62 +31,69 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.conversations = [[NSMutableArray alloc] init];
-  [NetworkService sharedInstance].connectionStatusDelegate = self;
-  [NetworkService sharedInstance].receiveMessageDelegate = self;
-  [self onConnectionStatusChanged:[NetworkService sharedInstance].currentConnectionStatus];
+  [self updateConnectionStatus:[NetworkService sharedInstance].currentConnectionStatus];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConnectionStatusChanged:) name:@"kConnectionStatusChanged" object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
+  
+  
+  
 }
 
+- (void)updateConnectionStatus:(ConnectionStatus)status {
+  UIView *title;
+  if (status != kConnectionStatusConnectiong) {
+    UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2 - 40, 0, 80, 44)];
+    switch (status) {
+      case kConnectionStatusLogout:
+        navLabel.text = @"未登录";
+        break;
+      case kConnectionStatusUnconnected:
+        navLabel.text = @"未连接";
+        break;
+      case kConnectionStatusConnected:
+        navLabel.text = @"已连接";
+        break;
+        
+      default:
+        break;
+    }
+    
+    navLabel.textColor = [UIColor blueColor];
+    navLabel.font = [UIFont systemFontOfSize:18];
+    navLabel.textAlignment = NSTextAlignmentCenter;
+    title = navLabel;
+  } else {
+    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicatorView.center = CGPointMake(self.navigationController.navigationBar.bounds.size.width/2, self.navigationController.navigationBar.bounds.size.height/2);
+    [indicatorView startAnimating];
+    title = indicatorView;
+  }
+  self.navigationItem.titleView = title;
+}
+
+- (void)onConnectionStatusChanged:(NSNotification *)notification {
+  ConnectionStatus status = [notification.object intValue];
+  [self updateConnectionStatus:status];
+}
+
+- (void)onReceiveMessages:(NSNotification *)notification {
+  NSArray<Message *> *messages = notification.object;
+  [self refreshList];
+}
+
+- (void)refreshList {
+  self.conversations = [[[NetworkService sharedInstance] getConversations:@[@(0), @(1), @(2)]] mutableCopy];
+  [self.tableView reloadData];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)onReceiveMessage:(NSArray<Message *> *)messages hasMore:(BOOL)hasMore {
-
-}
-
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  self.conversations = [[[NetworkService sharedInstance] getConversations:@[@(0), @(1), @(2)]] mutableCopy];
-  [self.tableView reloadData];
-}
-
-- (void)onConnectionStatusChanged:(ConnectionStatus)status {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UIView *title;
-    if (status == kConnectionStatusLogout) {
-      UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-      LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginVC"];
-      [self.navigationController presentViewController:loginViewController animated:YES completion:nil];
-    } else if (status != kConnectionStatusConnectiong) {
-      UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2 - 40, 0, 80, 44)];
-      switch (status) {
-        case kConnectionStatusLogout:
-          navLabel.text = @"未登录";
-          break;
-        case kConnectionStatusUnconnected:
-          navLabel.text = @"未连接";
-          break;
-        case kConnectionStatusConnected:
-          navLabel.text = @"已连接";
-          break;
-          
-        default:
-          break;
-      }
-      
-      navLabel.textColor = [UIColor blueColor];
-      navLabel.font = [UIFont systemFontOfSize:18];
-      navLabel.textAlignment = NSTextAlignmentCenter;
-      title = navLabel;
-    } else {
-      UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-      indicatorView.center = CGPointMake(self.navigationController.navigationBar.bounds.size.width/2, self.navigationController.navigationBar.bounds.size.height/2);
-      [indicatorView startAnimating];
-      title = indicatorView;
-    }
-    self.navigationItem.titleView = title;
-  });
+  [self refreshList];
 }
 
 #pragma mark - Table view data source
@@ -102,11 +112,46 @@
   ConversationInfo *info = self.conversations[indexPath.row];
   cell.targetView.text = info.conversation.target;
   cell.digestView.text = info.lastMessage.content.digest;
-  cell.timeView.text = [NSString stringWithFormat:@"%lld", info.timestamp];
+  NSDate *date = [NSDate dateWithTimeIntervalSince1970:info.timestamp/1000];
+  NSDate *current = [[NSDate alloc] init];
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSInteger days = [calendar component:NSCalendarUnitDay fromDate:date];
+  NSInteger curDays = [calendar component:NSCalendarUnitDay fromDate:current];
+  if (days >= curDays) {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    cell.timeView.text = [formatter stringFromDate:date];
+  } else if(days == curDays -1) {
+    cell.timeView.text = @"昨天";
+  } else {
+    NSInteger weeks = [calendar component:NSCalendarUnitWeekOfYear fromDate:date];
+    NSInteger curWeeks = [calendar component:NSCalendarUnitWeekOfYear fromDate:current];
+    
+    NSInteger weekDays = [calendar component:NSCalendarUnitWeekday fromDate:date];
+    if (weeks == curWeeks) {
+      cell.timeView.text = [NSString stringWithFormat:@"周%ld", (long)weekDays];
+    } else if (weeks == curWeeks - 1) {
+      cell.timeView.text = @"上周";
+    } else {
+      NSInteger month = [calendar component:NSCalendarUnitMonth fromDate:date];
+      NSInteger curMonth = [calendar component:NSCalendarUnitMonth fromDate:current];
+      if (month == curMonth) {
+        cell.timeView.text = @"本月";
+      } else if(month == curMonth - 1) {
+        cell.timeView.text = @"上月";
+      } else {
+        cell.timeView.text = @"2个月之前";
+      }
+    }
+  }
+  
   
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 80;
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -142,14 +187,20 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+  if ([segue.destinationViewController isKindOfClass:[MessageViewController class]]) {
+    MessageViewController *mvc = (MessageViewController *)segue.destinationViewController;
+    NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
+    ConversationInfo *info = self.conversations[indexPath.row];
+    mvc.conversation = info.conversation;
+  }
 }
-*/
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

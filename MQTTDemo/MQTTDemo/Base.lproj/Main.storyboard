@@ -13,7 +13,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="RPb-jM-K8e">
             <objects>
-                <tabBarController id="Hrr-1B-Wv9" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="rootVC" id="Hrr-1B-Wv9" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="a2Q-hS-Dej">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -40,7 +40,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ConversationCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ReuseableConversationCell" rowHeight="80" id="17r-C0-2So" customClass="ConversationTableViewCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="center" restorationIdentifier="ConversationCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ReuseableConversationCell" rowHeight="80" id="17r-C0-2So" customClass="ConversationTableViewCell">
                                 <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="17r-C0-2So" id="UHA-Pz-C0a">
@@ -118,10 +118,10 @@
             </objects>
             <point key="canvasLocation" x="2957.5999999999999" y="796.55172413793105"/>
         </scene>
-        <!--View Controller-->
+        <!--Message View Controller-->
         <scene sceneID="2Uu-3b-LYJ">
             <objects>
-                <viewController id="QDf-ZZ-WoK" sceneMemberID="viewController">
+                <viewController id="QDf-ZZ-WoK" customClass="MessageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mpp-h3-Fxb"/>
                         <viewControllerLayoutGuide type="bottom" id="ssZ-Yt-vPE"/>
@@ -204,6 +204,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XbW-LI-lge"/>
+                    <connections>
+                        <outlet property="collectionView" destination="0oH-HD-Bj2" id="MAF-6M-62W"/>
+                        <outlet property="extendedBtn" destination="7et-ju-T5s" id="f7j-pP-vml"/>
+                        <outlet property="inputTextField" destination="uio-uA-ISk" id="z0M-FM-2Kb"/>
+                        <outlet property="voiceBtn" destination="bNQ-ky-BYw" id="Hpq-bI-rD6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LhJ-dN-rzP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -16,21 +16,30 @@
     payload.searchableContent = self.text;
     return payload;
 }
+
 - (void)decode:(MessagePayload *)payload {
     self.text = payload.searchableContent;
 }
+
 + (int)getContentType {
     return MESSAGE_CONTENT_TYPE_TEXT;
 }
+
 + (int)getContentFlags {
     return 3;
 }
+
 + (instancetype)contentWith:(NSString *)text {
     TextMessageContent *content = [[TextMessageContent alloc] init];
     content.text = text;
     return content;
 }
+
 + (void)load {
     [[NetworkService sharedInstance] registerMessageContent:self];
+}
+
+- (NSString *)digest {
+  return self.text;
 }
 @end

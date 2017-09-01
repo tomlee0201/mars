@@ -69,24 +69,30 @@ static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     return ret;
 }
 
+static NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList) {
+  NSMutableArray *messages = [[NSMutableArray alloc] init];
+  for (std::list<mars::stn::TMessage>::const_iterator it = messageList.begin(); it != messageList.end(); it++) {
+    const mars::stn::TMessage &tmsg = *it;
+    Message *msg = convertProtoMessage(&tmsg);
+    [messages addObject:msg];
+    
+  }
+  return messages;
+}
+
 class RPCB : public mars::stn::ReceiveMessageCallback {
 public:
   RPCB(id<ReceiveMessageDelegate> delegate) : m_delegate(delegate) {}
   
     void onReceiveMessage(const std::list<mars::stn::TMessage> &messageList, bool hasMore) {
     if (m_delegate) {
-        NSMutableArray *messages = [[NSMutableArray alloc] init];
-        for (std::list<mars::stn::TMessage>::const_iterator it = messageList.begin(); it != messageList.end(); it++) {
-            const mars::stn::TMessage &tmsg = *it;
-            Message *msg = convertProtoMessage(&tmsg);
-            [messages addObject:msg];
-            
-        }
+        NSMutableArray *messages = convertProtoMessageList(messageList);
         [m_delegate onReceiveMessage:messages hasMore:hasMore];
     }
   }
   id<ReceiveMessageDelegate> m_delegate;
 };
+
 
 @interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 @property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
@@ -183,9 +189,6 @@ static NetworkService * sharedSingleton = nil;
     mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
   [self setLongLinkAddress:@"www.liyufan.win" port:1883];
-//    [self setLongLinkAddress:@"10.12.10.199" port:1883];
-  //[self setLongLinkAddress:@"172.16.11.120" port:1883];
-   // [self setLongLinkAddress:@"10.12.10.101" port:1883];
   
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -291,6 +294,10 @@ static NetworkService * sharedSingleton = nil;
   return ret;
 }
 
+- (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count {
+  std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], true, count, fromIndex);
+  return convertProtoMessageList(messages);
+}
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {
     if ((uiFlags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {

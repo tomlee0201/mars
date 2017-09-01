@@ -8,10 +8,24 @@
 
 #import "AppDelegate.h"
 #import "NetworkService.h"
+#import "LoginViewController.h"
+
+@interface AppDelegate () <ConnectionStatusDelegate, ReceiveMessageDelegate>
+
+@end
 
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [NetworkService startLog];
+  [NetworkService startLog];
+  [NetworkService sharedInstance].connectionStatusDelegate = self;
+  [NetworkService sharedInstance].receiveMessageDelegate = self;
+  NSString *savedName = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedName"];
+  NSString *savedPwd = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedPwd"];
+  if (savedName.length + savedPwd.length > 0) {
+    [[NetworkService sharedInstance] login:savedName password:savedPwd];
+  } else {
+    [self onConnectionStatusChanged:[NetworkService sharedInstance].currentConnectionStatus];
+  }
   return YES;
 }
 
@@ -43,6 +57,24 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [NetworkService startLog];
+}
+
+- (void)onReceiveMessage:(NSArray<Message *> *)messages hasMore:(BOOL)hasMore {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kReceiveMessages" object:messages];
+  });
+}
+
+- (void)onConnectionStatusChanged:(ConnectionStatus)status {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (status == kConnectionStatusLogout) {
+      UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+      LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginVC"];
+      self.window.rootViewController = loginViewController;
+    } else {
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"kConnectionStatusChanged" object:@(status)];
+    }
+  });
 }
 
 
