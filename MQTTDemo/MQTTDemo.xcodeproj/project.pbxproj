@@ -60,6 +60,12 @@
 		2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDD76721F5557A100F1FC8C /* ConversationInfo.h */; };
 		2EDD76761F5557A100F1FC8C /* ConversationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76731F5557A100F1FC8C /* ConversationInfo.m */; };
 		2EFEC1B31F5936FB00424902 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E29BFEC1F58FDAD00C97891 /* WCDB.framework */; };
+		2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B51F593E6D00424902 /* TextCell.m */; };
+		2EFEC1B91F593F5700424902 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B81F593F5700424902 /* MessageCell.m */; };
+		2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1BB1F59423B00424902 /* MessageCellBase.m */; };
+		2EFEC1BF1F59434C00424902 /* InformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1BE1F59434C00424902 /* InformationCell.m */; };
+		2EFEC1C21F5943B000424902 /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1C11F5943B000424902 /* MessageModel.m */; };
+		2EFEC1C51F59498100424902 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1C41F59498100424902 /* Utilities.m */; };
 		2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F698A0C1F12489E004B7A80 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +151,18 @@
 		2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationTableViewCell.m; sourceTree = "<group>"; };
 		2EDD76721F5557A100F1FC8C /* ConversationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationInfo.h; sourceTree = "<group>"; };
 		2EDD76731F5557A100F1FC8C /* ConversationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationInfo.m; sourceTree = "<group>"; };
+		2EFEC1B41F593E6D00424902 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
+		2EFEC1B51F593E6D00424902 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
+		2EFEC1B71F593F5700424902 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		2EFEC1B81F593F5700424902 /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		2EFEC1BA1F59423B00424902 /* MessageCellBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCellBase.h; sourceTree = "<group>"; };
+		2EFEC1BB1F59423B00424902 /* MessageCellBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCellBase.m; sourceTree = "<group>"; };
+		2EFEC1BD1F59434C00424902 /* InformationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationCell.h; sourceTree = "<group>"; };
+		2EFEC1BE1F59434C00424902 /* InformationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationCell.m; sourceTree = "<group>"; };
+		2EFEC1C01F5943B000424902 /* MessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageModel.h; sourceTree = "<group>"; };
+		2EFEC1C11F5943B000424902 /* MessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageModel.m; sourceTree = "<group>"; };
+		2EFEC1C31F59498100424902 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		2EFEC1C41F59498100424902 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		2F698A0B1F12489E004B7A80 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		2F698A0C1F12489E004B7A80 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -218,6 +236,18 @@
 				2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */,
 				2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */,
 				2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */,
+				2EFEC1B41F593E6D00424902 /* TextCell.h */,
+				2EFEC1B51F593E6D00424902 /* TextCell.m */,
+				2EFEC1B71F593F5700424902 /* MessageCell.h */,
+				2EFEC1B81F593F5700424902 /* MessageCell.m */,
+				2EFEC1BA1F59423B00424902 /* MessageCellBase.h */,
+				2EFEC1BB1F59423B00424902 /* MessageCellBase.m */,
+				2EFEC1BD1F59434C00424902 /* InformationCell.h */,
+				2EFEC1BE1F59434C00424902 /* InformationCell.m */,
+				2EFEC1C01F5943B000424902 /* MessageModel.h */,
+				2EFEC1C11F5943B000424902 /* MessageModel.m */,
+				2EFEC1C31F59498100424902 /* Utilities.h */,
+				2EFEC1C41F59498100424902 /* Utilities.m */,
 			);
 			path = MQTTDemo;
 			sourceTree = "<group>";
@@ -435,11 +465,17 @@
 			files = (
 				2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
+				2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */,
+				2EFEC1BF1F59434C00424902 /* InformationCell.m in Sources */,
 				2EDD766E1F55542200F1FC8C /* ConversationTableViewController.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
+				2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */,
+				2EFEC1B91F593F5700424902 /* MessageCell.m in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,
 				2EB6C1271F58200E00F8ABD7 /* MessageViewController.m in Sources */,
+				2EFEC1C51F59498100424902 /* Utilities.m in Sources */,
+				2EFEC1C21F5943B000424902 /* MessageModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

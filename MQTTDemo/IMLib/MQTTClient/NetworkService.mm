@@ -58,7 +58,8 @@ static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     ret.messageId = tMessage->messageId;
     ret.messageUid = tMessage->messageUid;
     ret.serverTime = tMessage->timestamp;
-    
+    ret.direction = (MessageDirection)tMessage->direction;
+  
     MessagePayload *payload = [[MessagePayload alloc] init];
     payload.contentType = tMessage->content.type;
     payload.searchableContent = [NSString stringWithUTF8String:tMessage->content.searchableContent.c_str()];
