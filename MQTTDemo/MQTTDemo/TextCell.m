@@ -19,11 +19,12 @@
   [super setModel:model];
     
   TextMessageContent *txtContent = (TextMessageContent *)model.message.content;
+  self.textLabel.frame = self.contentArea.bounds;
   self.textLabel.text = txtContent.text;
 }
 - (UILabel *)textLabel {
     if (!_textLabel) {
-        _textLabel = [[UILabel alloc] initWithFrame:self.contentArea.bounds];
+        _textLabel = [[UILabel alloc] init];
         _textLabel.numberOfLines = 0;
         [self.contentArea addSubview:_textLabel];
     }

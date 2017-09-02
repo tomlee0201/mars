@@ -64,6 +64,7 @@ alpha:1.0]
   }
   [self initializedSubViews];
   [self.collectionView reloadData];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
 }
 
 - (void)scrollToBottom:(BOOL)animated {
@@ -159,17 +160,25 @@ alpha:1.0]
   } error:^(int error_code) {
     
   }];
-  [self appendNewMessage:message];
+  [self appendNewMessage:@[message]];
   return YES;
 }
 
-- (void)appendNewMessage:(Message *)message {
-  BOOL showTime = NO;
-  if (self.modelList.count > 0 && (message.serverTime -  (self.modelList[self.modelList.count - 1]).message.serverTime > 60 * 1000)) {
-    showTime = YES;
-    
-  }
-  [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
+- (void)onReceiveMessages:(NSNotification *)notification {
+    NSArray<Message *> *messages = notification.object;
+    [self appendNewMessage:messages];
+}
+
+- (void)appendNewMessage:(NSArray<Message *> *)messages {
+  BOOL showTime = YES;
+    for (Message *message in messages) {
+        if (self.modelList.count > 0 && (message.serverTime -  (self.modelList[self.modelList.count - 1]).message.serverTime < 60 * 1000)) {
+            showTime = NO;
+            
+        }
+        [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
+    }
+  
   [self.collectionView reloadData];
     [self scrollToBottom:YES];
 }

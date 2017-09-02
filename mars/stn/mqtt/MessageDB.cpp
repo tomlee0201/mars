@@ -278,6 +278,10 @@ namespace mars {
                 
                 result.push_back(msg);
             }
+            if (old) {
+                result.reverse();
+            }
+            
             return result;
         }
     }
