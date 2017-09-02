@@ -13,5 +13,6 @@
 + (CGSize)sizeForClientArea:(MessageModel *)msgModel withViewWidth:(CGFloat)width;
 @property (nonatomic, strong)UIImageView *portraitView;
 @property (nonatomic, strong)UILabel *nameLabel;
+@property (nonatomic, strong)UIImageView *bubbleView;
 @property (nonatomic, strong)UIView *contentArea;
 @end

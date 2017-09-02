@@ -16,10 +16,21 @@
 #define Portrait_Padding_Right 4
 #define Portrait_Padding_Buttom 4
 
-#define Client_Arad_Buttom_Padding 5;
+#define Client_Arad_Buttom_Padding 5
+
+#define Client_Bubble_Top_Padding  4
+#define Client_Bubble_Bottom_Padding  4
+
+#define Bubble_Padding_Arraw 15
+#define Bubble_Padding_Another_Side 5
+
 @implementation MessageCell
 + (CGFloat)clientAreaWidth {
-  return ([UIScreen mainScreen].bounds.size.width - Portrait_Size - Portrait_Padding_Left - Portrait_Padding_Right) * 0.7;
+  return [MessageCell bubbleWidth] - Bubble_Padding_Arraw - Bubble_Padding_Another_Side;
+}
+
++ (CGFloat)bubbleWidth {
+    return ([UIScreen mainScreen].bounds.size.width - Portrait_Size - Portrait_Padding_Left - Portrait_Padding_Right) * 0.7;
 }
 
 + (CGSize)sizeForCell:(MessageModel *)msgModel withViewWidth:(CGFloat)width {
@@ -33,6 +44,10 @@
   if (msgModel.showNameLabel) {
     nameAndClientHeight += nameLabelHeight;
   }
+    
+    nameAndClientHeight += Client_Bubble_Top_Padding;
+    nameAndClientHeight += Client_Bubble_Bottom_Padding;
+    
   if (portraitSize + Portrait_Padding_Buttom > nameAndClientHeight) {
     height += portraitSize + Portrait_Padding_Buttom;
   } else {
@@ -60,8 +75,15 @@
     } else {
       self.nameLabel.hidden = YES;
     }
+      
     CGSize size = [self.class sizeForClientArea:model withViewWidth:[MessageCell clientAreaWidth]];
-    self.contentArea.frame = CGRectMake(frame.size.width - Portrait_Size - Portrait_Padding_Right -Portrait_Padding_Left - size.width, top + Name_Label_Height + Name_Client_Padding, size.width, size.height);
+      self.bubbleView.image = [UIImage imageNamed:@"sent_msg_background"];
+      self.bubbleView.frame = CGRectMake(frame.size.width - Portrait_Size - Portrait_Padding_Right -Portrait_Padding_Left - size.width - Bubble_Padding_Arraw - Bubble_Padding_Another_Side, top + Name_Client_Padding, size.width + Bubble_Padding_Arraw + Bubble_Padding_Another_Side, size.height + Client_Bubble_Top_Padding + Client_Bubble_Bottom_Padding);
+    self.contentArea.frame = CGRectMake(Bubble_Padding_Another_Side, Client_Bubble_Top_Padding, size.width, size.height);
+      
+      UIImage *image = self.bubbleView.image;
+      self.bubbleView.image = [self.bubbleView.image
+                                         resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.2,image.size.height * 0.2, image.size.width * 0.8)];
   } else {
     CGFloat top = [MessageCellBase hightForTimeLabel:model];
     self.portraitView.frame = CGRectMake(Portrait_Padding_Left, top, Portrait_Size, Portrait_Size);
@@ -73,8 +95,16 @@
     } else {
       self.nameLabel.hidden = YES;
     }
+      
     CGSize size = [self.class sizeForClientArea:model withViewWidth:[MessageCell clientAreaWidth]];
-    self.contentArea.frame = CGRectMake(Portrait_Padding_Left + Portrait_Size + Portrait_Padding_Right, top + Name_Label_Height + Name_Client_Padding, size.width, size.height);
+      self.bubbleView.image = [UIImage imageNamed:@"received_msg_background"];
+      self.bubbleView.frame = CGRectMake(Portrait_Padding_Left + Portrait_Size + Portrait_Padding_Right, top + Name_Label_Height + Name_Client_Padding, size.width + Bubble_Padding_Arraw + Bubble_Padding_Another_Side, size.height + Client_Bubble_Top_Padding + Client_Bubble_Bottom_Padding);
+    self.contentArea.frame = CGRectMake(Bubble_Padding_Arraw, Client_Bubble_Top_Padding, size.width, size.height);
+      
+      UIImage *image = self.bubbleView.image;
+      self.bubbleView.image = [self.bubbleView.image
+                                         resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.8,
+                                                                                      image.size.height * 0.2, image.size.width * 0.2)];
   }
 }
 
@@ -100,8 +130,15 @@
 - (UIView *)contentArea {
   if (!_contentArea) {
     _contentArea = [[UIView alloc] init];
-    [self addSubview:_contentArea];
+    [self.bubbleView addSubview:_contentArea];
   }
   return _contentArea;
+}
+- (UIImageView *)bubbleView {
+    if (!_bubbleView) {
+        _bubbleView = [[UIImageView alloc] init];
+        [self addSubview:_bubbleView];
+    }
+    return _bubbleView;
 }
 @end

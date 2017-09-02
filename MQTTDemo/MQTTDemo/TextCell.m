@@ -15,6 +15,7 @@
   TextMessageContent *txtContent = (TextMessageContent *)msgModel.message.content;
   return [Utilities getTextDrawingSize:txtContent.text font:[UIFont systemFontOfSize:18] constrainedSize:CGSizeMake(width, 8000)];
 }
+
 - (void)setModel:(MessageModel *)model {
   [super setModel:model];
     
@@ -22,10 +23,12 @@
   self.textLabel.frame = self.contentArea.bounds;
   self.textLabel.text = txtContent.text;
 }
+
 - (UILabel *)textLabel {
     if (!_textLabel) {
         _textLabel = [[UILabel alloc] init];
         _textLabel.numberOfLines = 0;
+        _textLabel.font = [UIFont systemFontOfSize:18];
         [self.contentArea addSubview:_textLabel];
     }
     return _textLabel;

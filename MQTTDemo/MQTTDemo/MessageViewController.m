@@ -49,7 +49,7 @@ alpha:1.0]
   self.inputTextField.returnKeyType = UIReturnKeySend;
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onResetKeyboard:)];
   [self.collectionView addGestureRecognizer:tap];
-  NSArray *messageList = [[[NetworkService sharedInstance] getMessages:self.conversation from:0 count:20] mutableCopy];
+  NSArray *messageList = [[[NetworkService sharedInstance] getMessages:self.conversation from:0 count:10] mutableCopy];
   self.modelList = [[NSMutableArray alloc] init];
   Message *lastMsg = nil;
   BOOL showTime = YES;
@@ -65,10 +65,12 @@ alpha:1.0]
   [self initializedSubViews];
   [self.collectionView reloadData];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
+    
+    self.title = self.conversation.target;
 }
 
 - (void)scrollToBottom:(BOOL)animated {
-    NSUInteger finalRow = MAX(0, [self.collectionView numberOfItemsInSection:0] - 1);
+    NSUInteger finalRow = MAX(0, self.modelList.count - 1);
     
     if (0 == finalRow) {
         return;
@@ -143,7 +145,7 @@ alpha:1.0]
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self scrollToBottom:NO];
+    [self scrollToBottom:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
