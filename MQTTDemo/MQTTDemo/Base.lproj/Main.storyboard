@@ -63,15 +63,15 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVL-nR-NpZ">
-                                            <rect key="frame" x="60" y="26" width="194" height="20"/>
+                                            <rect key="frame" x="60" y="26" width="234" height="20"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yNE-HH-Csm">
-                                            <rect key="frame" x="254" y="8" width="80" height="15"/>
+                                            <rect key="frame" x="294" y="8" width="40" height="15"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="80" id="Fou-vu-khQ"/>
+                                                <constraint firstAttribute="width" constant="40" id="Fou-vu-khQ"/>
                                                 <constraint firstAttribute="height" constant="15" id="uDg-jp-i2C"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -91,7 +91,7 @@
                                         <constraint firstItem="yNE-HH-Csm" firstAttribute="top" secondItem="UHA-Pz-C0a" secondAttribute="topMargin" id="dO9-o8-LXf"/>
                                         <constraint firstItem="DXL-iM-GfM" firstAttribute="top" secondItem="UHA-Pz-C0a" secondAttribute="topMargin" constant="-2" id="dYg-Lj-uCt"/>
                                         <constraint firstItem="VQi-ll-Kz7" firstAttribute="leading" secondItem="UHA-Pz-C0a" secondAttribute="leading" constant="4" id="neT-o7-50f"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="gVL-nR-NpZ" secondAttribute="trailing" constant="80" id="pNJ-AL-gdu"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="gVL-nR-NpZ" secondAttribute="trailing" constant="40" id="pNJ-AL-gdu"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
