@@ -189,7 +189,7 @@ namespace mars {
                 conv.isTop = db->getIntValue(statementHandle, 3);
                 conv.timestamp = db->getBigIntValue(statementHandle, 4);
                 
-                std::list<TMessage> lastMessages = GetMessages(conv.conversationType, conv.target, false, 1, LONG_MAX);
+                std::list<TMessage> lastMessages = GetMessages(conv.conversationType, conv.target, true, 1, LONG_MAX);
                 if (lastMessages.size() > 0) {
                     conv.lastMessage = *lastMessages.begin();
                 }
@@ -222,7 +222,7 @@ namespace mars {
             }
             return conv;
         }
-        std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, bool desc, int count, long startPoint) {
+        std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, bool old, int count, long startPoint) {
             DB *db = DB::Instance();
             WCDB::Error error;
           if (!db->isOpened()) {
@@ -230,7 +230,7 @@ namespace mars {
           }
           
             WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
-            if (!desc) {
+            if (old) {
               if (startPoint == 0) {
                 startPoint = LONG_MAX;
               }
@@ -239,7 +239,7 @@ namespace mars {
                 where = where && WCDB::Expr(WCDB::Column("_id")) > startPoint;
             }
             
-          std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), desc ? WCDB::OrderTerm::DESC : WCDB::OrderTerm::ASC)};
+          std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), old ? WCDB::OrderTerm::DESC : WCDB::OrderTerm::ASC)};
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message",
                 {
                     "_id",
