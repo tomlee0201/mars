@@ -414,7 +414,7 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
   tmsg.content.data = (unsigned char *)data;
   tmsg.content.dataLen = dataLen;
   tmsg.status = MessageStatus::Message_Status_Sending;
-  tmsg.timestamp = time(NULL);
+  tmsg.timestamp = time(NULL)*1000;
   tmsg.direction = 0;
   
   long id = MessageDB::Instance()->InsertMessage(tmsg);

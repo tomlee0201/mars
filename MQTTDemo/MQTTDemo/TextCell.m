@@ -17,11 +17,16 @@
 }
 - (void)setModel:(MessageModel *)model {
   [super setModel:model];
+    
   TextMessageContent *txtContent = (TextMessageContent *)model.message.content;
-  
-  self.textLabel = [[UILabel alloc] initWithFrame:self.contentArea.bounds];
-  self.textLabel.numberOfLines = 0;
   self.textLabel.text = txtContent.text;
-  [self.contentArea addSubview:self.textLabel];
+}
+- (UILabel *)textLabel {
+    if (!_textLabel) {
+        _textLabel = [[UILabel alloc] initWithFrame:self.contentArea.bounds];
+        _textLabel.numberOfLines = 0;
+        [self.contentArea addSubview:_textLabel];
+    }
+    return _textLabel;
 }
 @end

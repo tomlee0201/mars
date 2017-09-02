@@ -60,10 +60,23 @@ alpha:1.0]
       showTime = NO;
     }
     lastMsg = message;
-    [self.modelList addObject:[MessageModel modelOf:message showName:message.direction = MessageDirection_Receive showTime:showTime]];
+    [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
   }
   [self initializedSubViews];
   [self.collectionView reloadData];
+}
+
+- (void)scrollToBottom:(BOOL)animated {
+    NSUInteger finalRow = MAX(0, [self.collectionView numberOfItemsInSection:0] - 1);
+    
+    if (0 == finalRow) {
+        return;
+    }
+    
+    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:finalIndexPath
+                                atScrollPosition:UICollectionViewScrollPositionBottom
+                                        animated:animated];
 }
 
 - (void)initializedSubViews {
@@ -109,8 +122,6 @@ alpha:1.0]
 {
   NSDictionary *userInfo = [notification userInfo];
   NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-  CGRect keyboardRect = [value CGRectValue];
-  int height = keyboardRect.size.height;
   CGRect frame = self.view.frame;
   
   self.view.frame = frame;
@@ -129,6 +140,10 @@ alpha:1.0]
   self.tabBarController.tabBar.hidden = YES;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self scrollToBottom:NO];
+}
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   self.tabBarController.tabBar.hidden = NO;
@@ -144,6 +159,7 @@ alpha:1.0]
   } error:^(int error_code) {
     
   }];
+  [self appendNewMessage:message];
   return YES;
 }
 
@@ -155,6 +171,7 @@ alpha:1.0]
   }
   [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
   [self.collectionView reloadData];
+    [self scrollToBottom:YES];
 }
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

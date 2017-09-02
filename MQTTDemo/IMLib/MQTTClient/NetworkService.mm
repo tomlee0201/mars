@@ -296,7 +296,7 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count {
-  std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], true, count, fromIndex);
+  std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], false, count, fromIndex);
   return convertProtoMessageList(messages);
 }
 #pragma mark NetworkStatusDelegate

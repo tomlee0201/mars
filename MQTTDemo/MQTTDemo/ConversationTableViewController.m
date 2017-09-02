@@ -35,9 +35,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConnectionStatusChanged:) name:@"kConnectionStatusChanged" object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
-  
-  
-  
 }
 
 - (void)updateConnectionStatus:(ConnectionStatus)status {
@@ -112,6 +109,7 @@
   ConversationInfo *info = self.conversations[indexPath.row];
   cell.targetView.text = info.conversation.target;
   cell.digestView.text = info.lastMessage.content.digest;
+    cell.potraitView.layer.cornerRadius = 3.f;
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:info.timestamp/1000];
   NSDate *current = [[NSDate alloc] init];
   NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -150,7 +148,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return 80;
+  return 56;
 }
 
 /*
