@@ -140,6 +140,11 @@ alpha:1.0]
 
   frame.origin.y = -height;
   self.view.frame = frame;
+    frame = self.collectionView.frame;
+    frame.origin.y += height;
+    frame.size.height -= height;
+    self.collectionView.frame = frame;
+    [self scrollToBottom:NO];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification

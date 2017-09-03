@@ -21,6 +21,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (rand()%2) {
+        self.userNameField.text = @"user1";
+        self.passwordField.text = @"jqO1RBqPweQMQ2fhLFs91ZoblwlOSnregkl4PyooJG8=";
+    } else {
+        self.userNameField.text = @"user2";
+        self.passwordField.text = @"jqO1RBqPweRov3/TT5hBgfLYJSq7ShKvkTK5s6WviTM=";
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

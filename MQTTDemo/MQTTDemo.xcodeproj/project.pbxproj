@@ -25,7 +25,7 @@
 		2E30C9831F3EBF9C00DB259A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE0A1F04E62A006C6E6F /* CoreTelephony.framework */; };
 		2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */; };
 		2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC3BE121F04E658006C6E6F /* UIKit.framework */; };
-		2E3504101F5B9A9F00E97BC0 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E95BA781F5A36C00079B516 /* WCDB.framework */; };
+		2E3504111F5B9FA200E97BC0 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E95BA781F5A36C00079B516 /* WCDB.framework */; };
 		2E4995301F43402400C52CA2 /* MessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E49952D1F43402400C52CA2 /* MessageContent.m */; };
 		2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */; };
 		2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA801F5AA0870079B516 /* ImageCell.m */; };
@@ -98,9 +98,7 @@
 
 /* Begin PBXFileReference section */
 		2E1482141F4D0CC80077EBEA /* sqlcipher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlcipher.framework; path = IMLib/sqlcipher.framework; sourceTree = "<group>"; };
-		2E1482151F4D0CC80077EBEA /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
 		2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libprotobuf.tbd; path = usr/lib/libprotobuf.tbd; sourceTree = SDKROOT; };
-		2E29BFEC1F58FDAD00C97891 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../../../Workspace/DerivedData/mars-mqtt-workspace-ekrhhxtcfrwydhetbuznykxwrnxr/Build/Products/Debug-iphoneos/WCDB.framework"; sourceTree = "<group>"; };
 		2E3071C21F43C86100B17DC9 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		2E3071C61F43C89300B17DC9 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
 		2E3071CA1F43CA2600B17DC9 /* GroupInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupInfo.m; sourceTree = "<group>"; };
@@ -194,7 +192,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E3504101F5B9A9F00E97BC0 /* WCDB.framework in Frameworks */,
+				2E3504111F5B9FA200E97BC0 /* WCDB.framework in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
 				2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */,
 				2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */,
@@ -278,9 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				2E95BA781F5A36C00079B516 /* WCDB.framework */,
-				2E29BFEC1F58FDAD00C97891 /* WCDB.framework */,
 				2E1482141F4D0CC80077EBEA /* sqlcipher.framework */,
-				2E1482151F4D0CC80077EBEA /* WCDB.framework */,
 				2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */,
 				2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */,
 				2E30C9801F3EBF8C00DB259A /* libresolv.tbd */,
