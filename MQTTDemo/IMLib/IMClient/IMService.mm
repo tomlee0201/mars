@@ -19,18 +19,27 @@ private:
 public:
     IMSendMessageCallback(Message *message, void(^successBlock)(long messageId, long timestamp), void(^errorBlock)(int error_code)) : mars::stn::SendMessageCallback(), m_message(message), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
      void onSuccess(long messageUid, long long timestamp) {
-         m_message.messageUid = messageUid;
-         m_message.serverTime = timestamp;
-        if (m_successBlock) {
-            m_successBlock(messageUid, timestamp);
-        }
-        delete this;
-    }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            m_message.messageUid = messageUid;
+            m_message.serverTime = timestamp;
+            m_message.status = Message_Status_Sent;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kMessageStatusChanged" object:@(m_message.messageId) userInfo:@{@"status":@(Message_Status_Sent), @"messageUid":@(messageUid), @"timestamp":@(timestamp)}];
+            if (m_successBlock) {
+                m_successBlock(messageUid, timestamp);
+            }
+            delete this;
+
+        });
+     }
     void onFalure(int errorCode) {
-        if (m_errorBlock) {
-            m_errorBlock(errorCode);
-        }
-        delete this;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            m_message.status = Message_Status_Send_Failure;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kMessageStatusChanged" object:@(m_message.messageId) userInfo:@{@"status":@(Message_Status_Send_Failure)}];
+            if (m_errorBlock) {
+                m_errorBlock(errorCode);
+            }
+            delete this;
+        });
     }
     void onPrepared(long messageId) {
         m_message.messageId = messageId;

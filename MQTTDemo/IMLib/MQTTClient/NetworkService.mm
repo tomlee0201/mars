@@ -59,6 +59,7 @@ static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     ret.messageUid = tMessage->messageUid;
     ret.serverTime = tMessage->timestamp;
     ret.direction = (MessageDirection)tMessage->direction;
+    ret.status = (MessageStatus)tMessage->status;
   
     MessagePayload *payload = [[MessagePayload alloc] init];
     payload.contentType = tMessage->content.type;

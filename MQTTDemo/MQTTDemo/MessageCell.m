@@ -24,6 +24,11 @@
 #define Bubble_Padding_Arraw 15
 #define Bubble_Padding_Another_Side 5
 
+@interface MessageCell ()
+@property (nonatomic, strong)UIActivityIndicatorView *activityView;
+@property (nonatomic, strong)UIImageView *failureView;
+@end
+
 @implementation MessageCell
 + (CGFloat)clientAreaWidth {
   return [MessageCell bubbleWidth] - Bubble_Padding_Arraw - Bubble_Padding_Another_Side;
@@ -61,7 +66,48 @@
   return CGSizeZero;
 }
 
+- (void)updateStatus {
+    if (self.model.message.direction == MessageDirection_Send) {
+        if (self.model.message.status == Message_Status_Sending) {
+            CGRect frame = self.bubbleView.frame;
+            frame.origin.x -= 24;
+            frame.origin.y = frame.origin.y + frame.size.height - 24;
+            frame.size.width = 20;
+            frame.size.height = 20;
+            self.activityView.frame = frame;
+            [self.activityView startAnimating];
+        } else {
+            [_activityView stopAnimating];
+            _activityView.hidden = YES;
+        }
+        
+        if (self.model.message.status == Message_Status_Send_Failure) {
+            CGRect frame = self.bubbleView.frame;
+            frame.origin.x -= 24;
+            frame.origin.y = frame.origin.y + frame.size.height - 24;
+            frame.size.width = 20;
+            frame.size.height = 20;
+            self.failureView.frame = frame;
+            self.failureView.hidden = NO;
+        } else {
+            _failureView.hidden = YES;
+        }
+    } else {
+        [_activityView stopAnimating];
+        _activityView.hidden = YES;
+        _failureView.hidden = YES;
+    }
+}
+-(void)onStatusChanged:(NSNotification *)notification {
+    MessageStatus newStatus = (MessageStatus)[[notification.userInfo objectForKey:@"status"] integerValue];
+    self.model.message.status = newStatus;
+    [self updateStatus];
+}
+
 - (void)setModel:(MessageModel *)model {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onStatusChanged:) name:@"kMessageStatusChanged" object:
+    @(model.message.messageId)];
   [super setModel:model];
   if (model.message.direction == MessageDirection_Send) {
     CGFloat top = [MessageCellBase hightForTimeLabel:model];
@@ -106,6 +152,7 @@
                                          resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.8,
                                                                                       image.size.height * 0.2, image.size.width * 0.2)];
   }
+    [self updateStatus];
 }
 
 - (UIImageView *)portraitView {
@@ -140,5 +187,20 @@
         [self addSubview:_bubbleView];
     }
     return _bubbleView;
+}
+- (UIActivityIndicatorView *)activityView {
+    if (!_activityView) {
+        _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self addSubview:_activityView];
+    }
+    return _activityView;
+}
+- (UIImageView *)failureView {
+    if (!_failureView) {
+        _failureView = [[UIImageView alloc] init];
+        _failureView.image = [UIImage imageNamed:@"failure"];
+        [self addSubview:_failureView];
+    }
+    return _failureView;
 }
 @end

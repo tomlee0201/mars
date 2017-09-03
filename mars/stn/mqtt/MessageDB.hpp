@@ -36,6 +36,8 @@ namespace mars {
             std::list<TConversation> GetConversationList(const std::list<int> &conversationTypes);
             
             std::list<TMessage> GetMessages(int conversationType, const std::string &target, bool desc, int count, long startPoint);
+            
+            bool updateMessageStatus(long messageId, MessageStatus status);
         private:
             static MessageDB* instance_;
         };

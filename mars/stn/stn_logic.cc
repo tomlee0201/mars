@@ -362,19 +362,22 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     
     class MessagePublishCallback : public MQTTPublishCallback {
     public:
-        MessagePublishCallback(SendMessageCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        MessagePublishCallback(long messageId, SendMessageCallback *cb) : MQTTPublishCallback(), callback(cb), mId(messageId) {}
+        long mId;
         SendMessageCallback *callback;
         void onSuccess(const unsigned char* data, size_t len) {
-            long long messageId = 0;
+            long long messageUId = 0;
             long long timestamp = 0;
             if (len == 16) {
                 const unsigned char* p = data;
                 for (int i = 0; i < 8; i++) {
-                    messageId = (messageId << 8) + *(p + i);
+                    messageUId = (messageUId << 8) + *(p + i);
                     timestamp = (timestamp << 8) + *(p + 8 + i);
                 }
-                callback->onSuccess(messageId, timestamp);
+                MessageDB::Instance()->updateMessageStatus(mId, Message_Status_Sent);
+                callback->onSuccess(messageUId, timestamp);
             } else {
+                MessageDB::Instance()->updateMessageStatus(mId, Message_Status_Send_Failure);
                 callback->onFalure(-1);
             }
 
@@ -431,7 +434,7 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
     message.mutable_content()->set_push_content(pushContent);
     message.mutable_content()->set_data(data, dataLen);
     
-    publishTask(message, new MessagePublishCallback(callback), sendMessageTopic);
+    publishTask(message, new MessagePublishCallback(id, callback), sendMessageTopic);
     return 0;
 };
     class CreateGroupPublishCallback : public MQTTPublishCallback {

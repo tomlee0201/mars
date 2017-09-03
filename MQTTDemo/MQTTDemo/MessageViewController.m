@@ -81,7 +81,6 @@ alpha:1.0]
     UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.sourceType = sourcheType;
     picker.delegate = self;
-    picker.allowsEditing = YES;
     [self.navigationController presentViewController:picker animated:YES completion:nil];
 }
 
@@ -238,7 +237,7 @@ alpha:1.0]
 }
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    UIImage *image = info[UIImagePickerControllerEditedImage];
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
     ImageMessageContent *imgContent = [ImageMessageContent contentFrom:image];
     [self sendMessage:imgContent];
     [picker dismissViewControllerAnimated:YES completion:nil];

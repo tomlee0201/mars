@@ -385,16 +385,16 @@ int mqtt_publish_with_qos(const char* topic, const unsigned char* msg, size_t ms
        fixed_header[1] = remainLen % 128;
        fixed_header[1] = fixed_header[1] | 0x80;
        // second byte is number of 128s
-       remainLen = remainLen / 128;
+       remainLen = remainLen >> 7;
        
        if (remainLen <= 127) {
            fixed_header[2] = remainLen;
        } else {
            // first byte is remainder (mod) of 128, then set the MSB to indicate more bytes
            fixed_header[2] = remainLen % 128;
-           fixed_header[2] = fixed_header[1] | 0x80;
+           fixed_header[2] = fixed_header[2] | 0x80;
            // second byte is number of 128s
-           fixed_header[3] = remainLen / 128;
+           fixed_header[3] = remainLen >> 7;
        }
    }
 

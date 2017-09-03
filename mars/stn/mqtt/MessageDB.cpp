@@ -284,5 +284,24 @@ namespace mars {
             
             return result;
         }
+        bool MessageDB::updateMessageStatus(long messageId, MessageStatus status) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            db->Bind(updateStatementHandle, status, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
     }
 }
