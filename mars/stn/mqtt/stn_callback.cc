@@ -154,10 +154,7 @@ void StnCallBack::onPullFailure(int errorCode) {
                         tmsg.messageId = id;
                         MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.timestamp);
                     }
-//                    MessageDB::Instance()->updateConversationTimestamp(1, "user2", 1);
-//                    MessageDB::Instance()->updateConversationDraft(1, "1", "hell");
-//                    MessageDB::Instance()->updateConversationIsTop(1, "1", true);
-                    TConversation tc = MessageDB::Instance()->GetConversation(0, "user1");
+
                     cb->onPullSuccess(messageList, result.current(), result.head());
                 } else {
                     cb->onPullFailure(-1);

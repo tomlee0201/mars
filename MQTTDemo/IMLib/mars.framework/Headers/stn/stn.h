@@ -85,15 +85,25 @@ struct DnsProfile;
         class TMessageContent {
         public:
             TMessageContent() : data(NULL), type(0), dataLen(NULL){}
-            TMessageContent(const TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) { if(dataLen > 0) { data = new unsigned char[dataLen]; memcpy(data, c.data, dataLen);} else {
-                data = NULL;
-            }}
+            TMessageContent(const TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) {
+                if(dataLen > 0) {
+                    data = new unsigned char[dataLen]; memcpy(data, c.data, dataLen);
+                } else {
+                    data = NULL;
+                }
+            }
             int type;
             std::string searchableContent;
             std::string pushContent;
             unsigned char *data;
             size_t dataLen;
-            virtual ~TMessageContent(){if(data != NULL) {delete [] data; data = NULL; dataLen = 0;}}
+            virtual ~TMessageContent(){
+                if(data != NULL) {
+                    delete [] data;
+                    data = NULL;
+                    dataLen = 0;
+                }
+            }
         };
         
         typedef enum {
@@ -109,7 +119,11 @@ struct DnsProfile;
         class TMessage {
         public:
             TMessage() : conversationType(0) {}
+            
             int conversationType;
+            
+            TMessage(const TMessage &c) : conversationType(c.conversationType), target(c.target), from(c.from), content(c.content), messageId(c.messageId), direction(c.direction), status(c.status), messageUid(c.messageUid), timestamp(c.timestamp)  {}
+            
             std::string target;
             std::string from;
             TMessageContent content;

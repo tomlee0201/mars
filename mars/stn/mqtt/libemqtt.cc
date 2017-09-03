@@ -364,6 +364,9 @@ int mqtt_publish_with_qos(const char* topic, const unsigned char* msg, size_t ms
 	if (remainLen > 127) {
 		fixedHeaderSize++;          // add an additional byte for Remaining Length
 	}
+    if (remainLen > 16383) {
+        fixedHeaderSize++;
+    }
 	uint8_t fixed_header[fixedHeaderSize];
     
    // Message Type, DUP flag, QoS level, Retain
@@ -382,7 +385,17 @@ int mqtt_publish_with_qos(const char* topic, const unsigned char* msg, size_t ms
        fixed_header[1] = remainLen % 128;
        fixed_header[1] = fixed_header[1] | 0x80;
        // second byte is number of 128s
-       fixed_header[2] = remainLen / 128;
+       remainLen = remainLen / 128;
+       
+       if (remainLen <= 127) {
+           fixed_header[2] = remainLen;
+       } else {
+           // first byte is remainder (mod) of 128, then set the MSB to indicate more bytes
+           fixed_header[2] = remainLen % 128;
+           fixed_header[2] = fixed_header[1] | 0x80;
+           // second byte is number of 128s
+           fixed_header[3] = remainLen / 128;
+       }
    }
 
 	uint8_t packet[sizeof(fixed_header)+sizeof(var_header)+msglen];

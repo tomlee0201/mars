@@ -9,7 +9,9 @@
 #import "MessageViewController.h"
 #import "NetworkService.h"
 #import "TextMessageContent.h"
+#import "ImageMessageContent.h"
 #import "TextCell.h"
+#import "ImageCell.h"
 #import "IMService.h"
 
 
@@ -27,8 +29,9 @@ green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0                               
 blue:((float)(rgbValue & 0xFF)) / 255.0                                                           \
 alpha:1.0]
 
-@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource>
+@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong)NSMutableArray<MessageModel *> *modelList;
+@property (nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *cellContentDict;
 @end
 
 @implementation MessageViewController
@@ -37,6 +40,7 @@ alpha:1.0]
     [super viewDidLoad];
 
   self.inputTextField.delegate = self;
+    self.cellContentDict = [[NSMutableDictionary alloc] init];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWillShow:)
                                                name:UIKeyboardWillShowNotification
@@ -67,6 +71,18 @@ alpha:1.0]
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
     
     self.title = self.conversation.target;
+    
+    [self.extendedBtn addTarget:self action:@selector(onExtendedBtn:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)onExtendedBtn:(id)sender {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.view.backgroundColor = [UIColor orangeColor];
+    UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.sourceType = sourcheType;
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    [self.navigationController presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)scrollToBottom:(BOOL)animated {
@@ -96,14 +112,19 @@ alpha:1.0]
      setBackgroundColor:RGBCOLOR(235, 235, 235)];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.alwaysBounceVertical = YES;
-  
-  [self.collectionView registerClass:[TextCell class]
-          forCellWithReuseIdentifier:[NSString stringWithFormat:@"%d", [[TextMessageContent class] getContentType]]];
-  
+    
+    [self registerCell:[TextCell class] forContent:[TextMessageContent class]];
+    [self registerCell:[ImageCell class] forContent:[ImageMessageContent class]];
+    
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
 }
 
+- (void)registerCell:(Class)cellCls forContent:(Class)msgContentCls {
+    [self.collectionView registerClass:cellCls
+            forCellWithReuseIdentifier:[NSString stringWithFormat:@"%d", [msgContentCls getContentType]]];
+    [self.cellContentDict setObject:cellCls forKey:@([msgContentCls getContentType])];
+}
 
 - (void)onResetKeyboard:(id)sender {
   [self.inputTextField resignFirstResponder];
@@ -156,16 +177,19 @@ alpha:1.0]
   TextMessageContent *txtContent = [[TextMessageContent alloc] init];
   txtContent.text = textField.text;
   textField.text = nil;
-  
-  Message *message = [[IMService sharedIMService] send:self.conversation content:txtContent success:^(long messageId, long timestamp) {
-    
-  } error:^(int error_code) {
-    
-  }];
-  [self appendNewMessage:@[message]];
+   
+    [self sendMessage:txtContent];
   return YES;
 }
 
+- (void)sendMessage:(MessageContent *)content {
+    Message *message = [[IMService sharedIMService] send:self.conversation content:content success:^(long messageId, long timestamp) {
+        
+    } error:^(int error_code) {
+        
+    }];
+    [self appendNewMessage:@[message]];
+}
 - (void)onReceiveMessages:(NSNotification *)notification {
     NSArray<Message *> *messages = notification.object;
     [self appendNewMessage:messages];
@@ -204,7 +228,15 @@ alpha:1.0]
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
   
   MessageModel *model = self.modelList[indexPath.row];
-  
-  return [TextCell sizeForCell:model withViewWidth:self.collectionView.frame.size.width];
+    Class cellCls = self.cellContentDict[@([[model.message.content class] getContentType])];
+  return [cellCls sizeForCell:model withViewWidth:self.collectionView.frame.size.width];
 }
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    ImageMessageContent *imgContent = [ImageMessageContent contentFrom:image];
+    [self sendMessage:imgContent];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
