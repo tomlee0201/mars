@@ -57,7 +57,7 @@
 #include "mars/stn/mqtt/Proto/id_list_buf.pb.h"
 #include "mars/stn/mqtt/Proto/pull_group_info_result.pb.h"
 #include "mars/stn/mqtt/Proto/pull_group_member_result.pb.h"
-
+#include "mars/stn/mqtt/Proto/get_upload_token_result.pb.h"
 
 namespace mars {
 namespace stn {
@@ -75,6 +75,8 @@ const std::string dismissGroupTopic = "GD";
 const std::string modifyGroupInfoTopic = "GMI";
 const std::string getGroupInfoTopic = "GPGI";
 const std::string getGroupMemberTopic = "GPGM";
+    
+const std::string getQiniuUploadTokenTopic = "GQNUT";
 
     
 #define STN_WEAK_CALL(func) \
@@ -391,6 +393,31 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
             
         }
     };
+    
+    class GetUploadTokenCallback : public MQTTPublishCallback {
+    public:
+        GetUploadTokenCallback(SendMessageCallback *cb, const TMessage &tmsg, const std::string md) : MQTTPublishCallback(), callback(cb), msg(tmsg), mediaData(md) {}
+        TMessage msg;
+        std::string mediaData;
+        SendMessageCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            GetUploadTokenResult result;
+            if(result.ParseFromArray((const void*)data, (int)len)) {
+                
+            }
+            
+            
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~GetUploadTokenCallback() {
+            
+        }
+    };
+
 
     void publishTask(const ::google::protobuf::Message &message, MQTTPublishCallback *callback, const std::string &topic) {
         std::string output;
@@ -425,16 +452,28 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
   callback->onPrepared(id);
   
   
-    Message message;
-    message.mutable_conversation()->set_type((ConversationType)conversationType);
-    message.mutable_conversation()->set_target(target);
-    message.set_from_user(app::GetUserName());
-    message.mutable_content()->set_type((::mars::stn::ContentType)contentType);
-    message.mutable_content()->set_searchable_content(searchableContent);
-    message.mutable_content()->set_push_content(pushContent);
-    message.mutable_content()->set_data(data, dataLen);
+
     
-    publishTask(message, new MessagePublishCallback(id, callback), sendMessageTopic);
+    if(mediaDataLen == 0) {
+        int type = 1;
+        std::string md("1");//(*mediaData, mediaDataLen);
+        mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new GetUploadTokenCallback(callback, tmsg, md));
+        publishTask->topic = getQiniuUploadTokenTopic;
+        publishTask->length = sizeof(int);
+        publishTask->body = new unsigned char[publishTask->length];
+        memcpy(publishTask->body, &type, publishTask->length);
+        mars::stn::StartTask(*publishTask);
+    } else {
+        Message message;
+        message.mutable_conversation()->set_type((ConversationType)conversationType);
+        message.mutable_conversation()->set_target(target);
+        message.set_from_user(app::GetUserName());
+        message.mutable_content()->set_type((::mars::stn::ContentType)contentType);
+        message.mutable_content()->set_searchable_content(searchableContent);
+        message.mutable_content()->set_push_content(pushContent);
+        message.mutable_content()->set_data(data, dataLen);
+        publishTask(message, new MessagePublishCallback(id, callback), sendMessageTopic);
+    }
     return 0;
 };
     class CreateGroupPublishCallback : public MQTTPublishCallback {
