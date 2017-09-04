@@ -108,6 +108,7 @@
 		2E1F1B0B1F3F5E04000A84E9 /* wrappers.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */; };
 		2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */; };
 		2E4A8A2F1F4DC87D0083F36B /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */; };
+		2E8D662A1F5D2D2F009BDBCB /* get_upload_token_result.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */; };
 		2EFD82321F4E438200542244 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD82301F4E438200542244 /* DB.cpp */; };
 		2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4A1F04727D000F2C79 /* libemqtt.cc */; };
 		2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4E1F04727D000F2C79 /* longlink_packer.cc */; };
@@ -426,6 +427,9 @@
 		2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDB.cpp; sourceTree = "<group>"; };
 		2E3FB83D1F516DF100D8F8E3 /* MessageDB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageDB.hpp; sourceTree = "<group>"; };
 		2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../../DerivedData/mars-mqtt-workspace-amhznbukkfwyxlhfqyagqiomyscc/Build/Products/Debug-iphonesimulator/WCDB.framework"; sourceTree = "<group>"; };
+		2E8D66271F5D2C8F009BDBCB /* get_upload_token_result.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = get_upload_token_result.proto; sourceTree = "<group>"; };
+		2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = get_upload_token_result.pb.cc; sourceTree = "<group>"; };
+		2E8D66291F5D2D2F009BDBCB /* get_upload_token_result.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = get_upload_token_result.pb.h; sourceTree = "<group>"; };
 		2EFD82301F4E438200542244 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DB.cpp; sourceTree = "<group>"; };
 		2EFD82311F4E438200542244 /* DB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DB.hpp; sourceTree = "<group>"; };
 		2F395A4A1F04727D000F2C79 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
@@ -578,6 +582,9 @@
 				2E1F15C61F3F4CFC000A84E9 /* message.pb.cc */,
 				2E1F15C71F3F4CFC000A84E9 /* message.pb.h */,
 				2E1F15C81F3F4CFC000A84E9 /* message.proto */,
+				2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */,
+				2E8D66291F5D2D2F009BDBCB /* get_upload_token_result.pb.h */,
+				2E8D66271F5D2C8F009BDBCB /* get_upload_token_result.proto */,
 				2E1F15C91F3F4CFC000A84E9 /* modify_group_info_request.pb.cc */,
 				2E1F15CA1F3F4CFC000A84E9 /* modify_group_info_request.pb.h */,
 				2E1F15CB1F3F4CFC000A84E9 /* modify_group_info_request.proto */,
@@ -1080,6 +1087,7 @@
 				2E1F1AB21F3F5E04000A84E9 /* dynamic_message.cc in Sources */,
 				2E1F1AFC1F3F5E04000A84E9 /* protostream_objectwriter.cc in Sources */,
 				2E1F15EC1F3F4CFC000A84E9 /* notify_message.pb.cc in Sources */,
+				2E8D662A1F5D2D2F009BDBCB /* get_upload_token_result.pb.cc in Sources */,
 				2E1F1AE01F3F5E04000A84E9 /* time.cc in Sources */,
 				2E1F1AD01F3F5E04000A84E9 /* atomicops_internals_x86_gcc.cc in Sources */,
 				2E1F1AAF1F3F5E04000A84E9 /* descriptor_database.cc in Sources */,

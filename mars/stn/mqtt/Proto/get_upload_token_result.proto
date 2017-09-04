@@ -1,0 +1,14 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "GetUploadTokenResultOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+message GetUploadTokenResult {
+  string domain = 1;
+  string token = 2;
+  string server = 3;
+}
