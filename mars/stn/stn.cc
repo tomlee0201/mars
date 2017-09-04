@@ -56,6 +56,10 @@ Task::Task(uint32_t _taskid) {
 
 }
 
+MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
+  user_context = this;
+  channel_select = ChannelType_LongConn;
+}
         
         UploadTask::UploadTask(const std::string &data) : Task(), mData(data) {
             user_context = this;
