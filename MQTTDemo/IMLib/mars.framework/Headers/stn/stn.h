@@ -87,10 +87,24 @@ struct DnsProfile;
             TMessageContent() : data(NULL), type(0), dataLen(NULL){}
             TMessageContent(const TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) {
                 if(dataLen > 0) {
-                    data = new unsigned char[dataLen]; memcpy(data, c.data, dataLen);
+                    data = new unsigned char[dataLen];
+                    memcpy(data, c.data, dataLen);
                 } else {
                     data = NULL;
                 }
+            }
+            TMessageContent operator=(const TMessageContent &c) {
+                type = c.type;
+                searchableContent = c.searchableContent;
+                pushContent = c.pushContent;
+                dataLen = c.dataLen;
+                if(dataLen > 0) {
+                    data = new unsigned char[dataLen];
+                    memcpy(data, c.data, dataLen);
+                } else {
+                    data = NULL;
+                }
+                return *this;
             }
             int type;
             std::string searchableContent;
@@ -121,8 +135,6 @@ struct DnsProfile;
             TMessage() : conversationType(0) {}
             
             int conversationType;
-            
-            TMessage(const TMessage &c) : conversationType(c.conversationType), target(c.target), from(c.from), content(c.content), messageId(c.messageId), direction(c.direction), status(c.status), messageUid(c.messageUid), timestamp(c.timestamp)  {}
             
             std::string target;
             std::string from;
@@ -465,7 +477,7 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
       extern ConnectionStatus getConnectionStatus();
         
-extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback);
+extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen);
         
 extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback);
         

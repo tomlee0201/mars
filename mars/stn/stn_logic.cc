@@ -404,8 +404,8 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     }
     
     
-int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback)
-= [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback) {
+int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen)
+= [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen) {
   
   TMessage tmsg;
   tmsg.conversationType = conversationType;

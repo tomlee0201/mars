@@ -42,7 +42,10 @@ namespace mars{
 #define MQTT_SUBSCRIBE_CMDID 13
 #define MQTT_UNSUBSCRIBE_CMDID 14
 #define MQTT_PUBACK_CMDID 15
-    
+
+        
+#define UPLOAD_SEND_OUT_CMDID 20
+        
       typedef enum : int32_t {
         ChannelType_ShortConn = 1,
         ChannelType_LongConn = 2,
@@ -261,6 +264,13 @@ public:
     std::vector<std::string> shortlink_host_list;
     virtual ~Task() {}
 };
+        class UploadTask : public Task {
+        public:
+            UploadTask(const std::string &data);
+        public:
+            std::string mData;
+            virtual ~UploadTask() {}
+        };
 
       class MQTTTask : public Task {
       protected:
@@ -477,7 +487,7 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
       extern ConnectionStatus getConnectionStatus();
         
-extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback);
+extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen);
         
 extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback);
         

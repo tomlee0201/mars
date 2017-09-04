@@ -19,11 +19,14 @@
 
 #include "shortlink_packer.h"
 #include "mars/comm/http.h"
-
+#include "mars/app/app.h"
+#include <sstream>
 
 using namespace http;
 namespace mars { namespace stn {
 
+static const std::string UploadBoundary = "--727f6ee7446cbf7263";
+    
 shortlink_tracker* (*shortlink_tracker::Create)()
 =  []() { return new shortlink_tracker; };
 
@@ -37,11 +40,27 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeAcceptAll());
 	req_builder.Fields().HeaderFiled(HeaderFields::KStringUserAgent, HeaderFields::KStringMicroMessenger);
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeCacheControlNoCache());
-	req_builder.Fields().HeaderFiled(HeaderFields::MakeContentTypeOctetStream());
+	req_builder.Fields().HeaderFiled(std::make_pair("Content-Type", "multipart/form-data; boundary="+UploadBoundary));
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeConnectionClose());
 
+    std::string uploadToken((const char *)_extension.Ptr(), _extension.Length());
+    std::string fileName;
+    std::stringstream ss;
+    ss << mars::app::GetUserName();
+    ss << "-";
+    ss << time(NULL);
+    ss << "_";
+    ss << rand()%10000;
+    ss >> fileName;
+    
+    std::string mimeType = "image_jpeg";
+    
+    std::string firstBoday = "--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n"
+    + uploadToken + "\r\n--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"key\"\r\n\r\n" + fileName + "\r\n--"
+    + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\nContent-Type: " + mimeType + "\r\n\r\n";
+    
     char len_str[32] = {0};
-	snprintf(len_str, sizeof(len_str), "%u", (unsigned int)_body.Length());
+	snprintf(len_str, sizeof(len_str), "%u", (unsigned int)(_body.Length() + firstBoday.length()));
 	req_builder.Fields().HeaderFiled(HeaderFields::KStringContentLength, len_str);
 
 	for (std::map<std::string, std::string>::const_iterator iter = _headers.begin(); iter != _headers.end(); ++iter) {
@@ -50,6 +69,9 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
 
 	req_builder.Request().Url(_url);
 	req_builder.HeaderToBuffer(_out_buff);
+    
+     
+    _out_buff.Write(firstBoday.c_str(), firstBoday.length());
 	_out_buff.Write(_body.Ptr(), _body.Length());
 };
 

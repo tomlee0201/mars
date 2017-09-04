@@ -193,7 +193,7 @@ static IMService * sharedSingleton = nil;
     message.conversation = conversation;
     message.content = content;
     MessagePayload *payload = [content encode];
-    mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMSendMessageCallback(message, successBlock, errorBlock));
+    mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMSendMessageCallback(message, successBlock, errorBlock), NULL, 0);
     return message;
 }
 
@@ -204,30 +204,7 @@ static IMService * sharedSingleton = nil;
       notifyContent:(MessageContent *)notifyContent
             success:(void(^)(NSString *groupId))successBlock
               error:(void(^)(int error_code))errorBlock {
-//    
-//    CreateGroupRequest *request = [[CreateGroupRequest alloc] init];
-//    request.group.groupInfo.targetId = groupId;
-//    request.group.groupInfo.name = groupName;
-//    request.group.groupInfo.portrait = groupPortrait;
-//    [request.group.membersArray addObjectsFromArray:groupMembers];
-//    request.notifyContent = notifyContent;
-//    
-//    
-//    NSData *data = request.data;
-//    PublishTask *publishTask = [[PublishTask alloc] initWithTopic:createGroupTopic message:data];
-//    
-//    
-//    [publishTask send:^(NSData *data){
-//        if (data) {
-//            if (successBlock) {
-//                successBlock(groupId);
-//            }
-//        }
-//    } error:^(int error_code) {
-//        if (errorBlock) {
-//            errorBlock(error_code);
-//        }
-//    }];
+
     std::list<std::string> memberList;
     for (NSString *member in groupMembers) {
         memberList.push_back([member UTF8String]);
@@ -241,26 +218,7 @@ static IMService * sharedSingleton = nil;
      notifyContent:(MessageContent *)notifyContent
            success:(void(^)())successBlock
              error:(void(^)(int error_code))errorBlock {
-//    AddGroupMemberRequest *request = [[AddGroupMemberRequest alloc] init];
-//    request.groupId = groupId;
-//    [request.addedMemberArray addObjectsFromArray:members];
-//    request.notifyContent = notifyContent;
-//    
-//    NSData *data = request.data;
-//    PublishTask *addMemberTask = [[PublishTask alloc] initWithTopic:addGroupMemberTopic message:data];
-//    
-//    
-//    [addMemberTask send:^(NSData *data){
-//        if (data) {
-//            if (successBlock) {
-//                successBlock();
-//            }
-//        }
-//    } error:^(int error_code) {
-//        if (errorBlock) {
-//            errorBlock(error_code);
-//        }
-//    }];
+
     std::list<std::string> memberList;
     for (NSString *member in members) {
         memberList.push_back([member UTF8String]);
@@ -274,26 +232,7 @@ static IMService * sharedSingleton = nil;
          notifyContent:(MessageContent *)notifyContent
                success:(void(^)())successBlock
                  error:(void(^)(int error_code))errorBlock {
-//    RemoveGroupMemberRequest *request = [[RemoveGroupMemberRequest alloc] init];
-//    request.groupId = groupId;
-//    [request.removedMemberArray addObjectsFromArray:members];
-//    request.notifyContent = notifyContent;
-//    
-//    NSData *data = request.data;
-//    PublishTask *removeMemberTask = [[PublishTask alloc] initWithTopic:kickoffGroupMemberTopic message:data];
-//    
-//    
-//    [removeMemberTask send:^(NSData *data){
-//        if (data) {
-//            if (successBlock) {
-//                successBlock();
-//            }
-//        }
-//    } error:^(int error_code) {
-//        if (errorBlock) {
-//            errorBlock(error_code);
-//        }
-//    }];
+
     std::list<std::string> memberList;
     for (NSString *member in members) {
         memberList.push_back([member UTF8String]);
@@ -306,25 +245,7 @@ static IMService * sharedSingleton = nil;
     notifyContent:(MessageContent *)notifyContent
           success:(void(^)())successBlock
             error:(void(^)(int error_code))errorBlock {
-//    QuitGroupRequest *request = [[QuitGroupRequest alloc] init];
-//    request.groupId = groupId;
-//    request.notifyContent = notifyContent;
-//    
-//    NSData *data = request.data;
-//    PublishTask *task = [[PublishTask alloc] initWithTopic:quitGroupTopic message:data];
-//    
-//    
-//    [task send:^(NSData *data){
-//        if (data) {
-//            if (successBlock) {
-//                successBlock();
-//            }
-//        }
-//    } error:^(int error_code) {
-//        if (errorBlock) {
-//            errorBlock(error_code);
-//        }
-//    }];
+
         MessagePayload *payload = [notifyContent encode];
         mars::stn::quitGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
@@ -333,26 +254,7 @@ static IMService * sharedSingleton = nil;
        notifyContent:(MessageContent *)notifyContent
              success:(void(^)())successBlock
                error:(void(^)(int error_code))errorBlock {
-//    DismissGroupRequest *request = [[DismissGroupRequest alloc] init];
-//    request.groupId = groupId;
-//    request.notifyContent = notifyContent;
-//    
-//    NSData *data = request.data;
-//    PublishTask *removeMemberTask = [[PublishTask alloc] initWithTopic:dismissGroupTopic message:data];
-//    
-//    
-//    [removeMemberTask send:^(NSData *data){
-//        if (data) {
-//            if (successBlock) {
-//                successBlock();
-//            }
-//        }
-//    } error:^(int error_code) {
-//        if (errorBlock) {
-//            errorBlock(error_code);
-//        }
-//    }];
-//
+
     MessagePayload *payload = [notifyContent encode];
     mars::stn::dismissGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
@@ -361,25 +263,6 @@ static IMService * sharedSingleton = nil;
           notifyContent:(MessageContent *)notifyContent
                 success:(void(^)())successBlock
                   error:(void(^)(int error_code))errorBlock {
-//    ModifyGroupInfoRequest *request = [[ModifyGroupInfoRequest alloc] init];
-//    request.groupInfo = groupInfo;
-//    request.notifyContent = notifyContent;
-//    
-//    NSData *data = request.data;
-//    PublishTask *task = [[PublishTask alloc] initWithTopic:modifyGroupInfoTopic message:data];
-//    
-//    
-//    [task send:^(NSData *data){
-//        if (data) {
-//            if (successBlock) {
-//                successBlock();
-//            }
-//        }
-//    } error:^(int error_code) {
-//        if (errorBlock) {
-//            errorBlock(error_code);
-//        }
-//    }];
     
     mars::stn::TGroupInfo tInfo;
     tInfo.target = [groupInfo.target UTF8String];
