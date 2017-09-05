@@ -258,10 +258,27 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
 }
 
 int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
-    if(strcmp("UploadTask", typeid(_user_context).name()) == 0) {
+    
+    Task *task = (Task *)_user_context;
+    if(task->cmdid == UPLOAD_SEND_OUT_CMDID) {
         UploadTask *uploadTask = (UploadTask *)_user_context;
-        
-        delete uploadTask;
+
+        std::string result((char *)_inbuffer.Ptr(), _inbuffer.Length());
+        long index = result.find("\"key\":\"");
+        if (index > 0 && index < LONG_MAX) {
+            std::string rest = result.substr(index + 7);
+            index = rest.find("\"");
+            if (index > 0 && index < LONG_MAX) {
+                std::string key = rest.substr(0, index);
+                if (!key.empty()) {
+                    uploadTask->mCallback->onSuccess(key);
+                    return mars::stn::kTaskFailHandleNormal;
+                }
+            }
+        }
+        uploadTask->mCallback->onFalure(-1);
+
+        return mars::stn::kTaskFailHandleNormal;
     }
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
@@ -294,9 +311,9 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
 }
 
 int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
-    if(strcmp("UploadTask", typeid(_user_context).name()) == 0) {
+    Task *task = (Task *)_user_context;
+    if(task->cmdid == UPLOAD_SEND_OUT_CMDID) {
         UploadTask *uploadTask = (UploadTask *)_user_context;
-        
         delete uploadTask;
         return 0;
     }
@@ -343,9 +360,9 @@ void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
         case mars::stn::kConnecting:
             updateConnectionStatus(kConnectionStatusConnectiong);
             break;
-        case mars::stn::kConnected:
-            updateConnectionStatus(kConnectionStatusConnectiong);
-            break;
+//        case mars::stn::kConnected:
+//            updateConnectionStatus(kConnectionStatusConnectiong);
+//            break;
         case mars::stn::kNetworkUnkown:
             updateConnectionStatus(kConnectionStatusUnconnected);
             return;

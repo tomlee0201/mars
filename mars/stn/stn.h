@@ -163,6 +163,13 @@ struct DnsProfile;
             virtual ~TConversation(){}
         };
         
+        class UPloadCallback {
+        public:
+            virtual void onSuccess(std::string key) = 0;
+            virtual void onFalure(int errorCode) = 0;
+        };
+
+        
       class MQTTGeneralCallback {
       public:
         virtual void onSuccess() = 0;
@@ -266,10 +273,11 @@ public:
 };
         class UploadTask : public Task {
         public:
-            UploadTask(const std::string &data, const std::string &token);
+            UploadTask(const std::string &data, const std::string &token, UPloadCallback *callback);
         public:
             std::string mData;
             std::string mToken;
+            UPloadCallback *mCallback;
             virtual ~UploadTask() {}
         };
 

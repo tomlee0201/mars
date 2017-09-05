@@ -55,12 +55,14 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
     
     std::string mimeType = "image_jpeg";
     
-    std::string firstBoday = "--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n"
+    std::string firstBody = "--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n"
     + uploadToken + "\r\n--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"key\"\r\n\r\n" + fileName + "\r\n--"
     + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\nContent-Type: " + mimeType + "\r\n\r\n";
     
+    std::string lastBody =  "\r\n--" + UploadBoundary + "--";
+    
     char len_str[32] = {0};
-	snprintf(len_str, sizeof(len_str), "%u", (unsigned int)(_body.Length() + firstBoday.length()));
+	snprintf(len_str, sizeof(len_str), "%u", (unsigned int)(_body.Length() + firstBody.length() + lastBody.length()));
 	req_builder.Fields().HeaderFiled(HeaderFields::KStringContentLength, len_str);
 
 	for (std::map<std::string, std::string>::const_iterator iter = _headers.begin(); iter != _headers.end(); ++iter) {
@@ -71,8 +73,9 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
 	req_builder.HeaderToBuffer(_out_buff);
     
      
-    _out_buff.Write(firstBoday.c_str(), firstBoday.length());
+    _out_buff.Write(firstBody.c_str(), firstBody.length());
 	_out_buff.Write(_body.Ptr(), _body.Length());
+    _out_buff.Write(lastBody.c_str(), lastBody.length());
 };
 
 }}

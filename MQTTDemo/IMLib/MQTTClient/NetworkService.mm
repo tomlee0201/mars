@@ -190,8 +190,8 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
     mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
-  [self setLongLinkAddress:@"localhost" port:1883];
-    [self setShortLinkDebugIP:@"up.qbox.me" port:80];
+  [self setLongLinkAddress:@"www.liyufan.win" port:1883];
+    [self setShortLinkPort:80];
   
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
