@@ -225,6 +225,16 @@ void StnCallBack::OnPush(uint64_t _channel_id, uint32_t _cmdid, uint32_t _taskid
 }
 
 bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffer& _outbuffer, AutoBuffer& _extend, int& _error_code, const int _channel_select) {
+    Task *task = (Task *)_user_context;
+    if(task->cmdid == UPLOAD_SEND_OUT_CMDID) {
+        UploadTask *uploadTask = (UploadTask *)_user_context;
+        _outbuffer.AllocWrite(uploadTask->mData.length());
+        _outbuffer.Write(uploadTask->mData.c_str(), uploadTask->mData.length());
+        
+        _extend.AllocWrite(uploadTask->mToken.length());
+        _extend.Write(uploadTask->mToken.c_str(), uploadTask->mToken.length());
+        return true;
+    }
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
@@ -248,6 +258,11 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
 }
 
 int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const AutoBuffer& _inbuffer, const AutoBuffer& _extend, int& _error_code, const int _channel_select) {
+    if(strcmp("UploadTask", typeid(_user_context).name()) == 0) {
+        UploadTask *uploadTask = (UploadTask *)_user_context;
+        
+        delete uploadTask;
+    }
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
@@ -279,6 +294,12 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
 }
 
 int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _error_type, int _error_code) {
+    if(strcmp("UploadTask", typeid(_user_context).name()) == 0) {
+        UploadTask *uploadTask = (UploadTask *)_user_context;
+        
+        delete uploadTask;
+        return 0;
+    }
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
   const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;

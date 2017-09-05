@@ -43,7 +43,9 @@ namespace mars{
 #define MQTT_UNSUBSCRIBE_CMDID 14
 #define MQTT_PUBACK_CMDID 15
 
-                
+        
+#define UPLOAD_SEND_OUT_CMDID 20
+        
       typedef enum : int32_t {
         ChannelType_ShortConn = 1,
         ChannelType_LongConn = 2,
@@ -262,6 +264,14 @@ public:
     std::vector<std::string> shortlink_host_list;
     virtual ~Task() {}
 };
+        class UploadTask : public Task {
+        public:
+            UploadTask(const std::string &data, const std::string &token);
+        public:
+            std::string mData;
+            std::string mToken;
+            virtual ~UploadTask() {}
+        };
 
       class MQTTTask : public Task {
       protected:

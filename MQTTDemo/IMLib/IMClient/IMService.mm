@@ -193,7 +193,7 @@ static IMService * sharedSingleton = nil;
     message.conversation = conversation;
     message.content = content;
     MessagePayload *payload = [content encode];
-    mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMSendMessageCallback(message, successBlock, errorBlock), NULL, 0);
+    mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMSendMessageCallback(message, successBlock, errorBlock), (const unsigned char *)payload.mediaData.bytes, payload.mediaData.length);
     return message;
 }
 

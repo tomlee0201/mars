@@ -18,6 +18,7 @@
 @property (nonatomic, strong)NSString *searchableContent;
 @property (nonatomic, strong)NSString *pushContent;
 @property (nonatomic, strong)NSData *data;
+@property (nonatomic, strong)NSData *mediaData;
 @end
 
 @protocol MessageContent <NSObject>

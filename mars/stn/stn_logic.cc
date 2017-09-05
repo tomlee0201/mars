@@ -165,8 +165,8 @@ void SetCallback(Callback* const callback) {
 	sg_callback = callback;
 }
 
-void (*StartTask)(const MQTTTask& _task)
-= [](const MQTTTask& _task) {
+void (*StartTask)(const Task& _task)
+= [](const Task& _task) {
     STN_WEAK_CALL(StartTask(_task));
 };
 
@@ -403,9 +403,10 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         void onSuccess(const unsigned char* data, size_t len) {
             GetUploadTokenResult result;
             if(result.ParseFromArray((const void*)data, (int)len)) {
-                
+                UploadTask *uploadTask = new UploadTask(mediaData, result.token());
+                uploadTask->cgi = result.server();
+                StartTask(*uploadTask);
             }
-            
             
             delete this;
         };
@@ -454,9 +455,9 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
   
 
     
-    if(mediaDataLen == 0) {
+    if(mediaDataLen > 0) {
         int type = 1;
-        std::string md("1");//(*mediaData, mediaDataLen);
+        std::string md((const char *)mediaData, mediaDataLen);
         mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new GetUploadTokenCallback(callback, tmsg, md));
         publishTask->topic = getQiniuUploadTokenTopic;
         publishTask->length = sizeof(int);

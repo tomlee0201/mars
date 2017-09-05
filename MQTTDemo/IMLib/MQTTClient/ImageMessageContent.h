@@ -11,6 +11,7 @@
 
 @interface ImageMessageContent : MessageContent
 + (instancetype)contentFrom:(UIImage *)image;
+@property (nonatomic, strong)UIImage *image;
 @property (nonatomic, strong)NSString *localPath;
 @property (nonatomic, strong)NSString *remotePath;
 @property (nonatomic, strong)UIImage *thumbnail;

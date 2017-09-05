@@ -24,6 +24,7 @@
     
     [imgData writeToFile:path atomically:YES];
     
+    content.image = image;
     content.localPath = path;
     content.thumbnail = [Utilities generateThumbnail:image withWidth:240 withHeight:240];
     
@@ -33,6 +34,7 @@
     MessagePayload *payload = [[MessagePayload alloc] init];
     payload.contentType = [self.class getContentType];
     payload.searchableContent = [UIImageJPEGRepresentation(self.thumbnail, 0.92) base64EncodedStringWithOptions:0];
+    payload.mediaData = UIImageJPEGRepresentation(self.image, 0.92);
     return payload;
 }
 
