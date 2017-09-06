@@ -9,6 +9,7 @@
 #import "ImageMessageContent.h"
 #import "NetworkService.h"
 #import "Utilities.h"
+#import "IMService.h"
 
 @implementation ImageMessageContent
 + (instancetype)contentFrom:(UIImage *)image {
@@ -68,7 +69,7 @@
 
 
 + (void)load {
-    [[NetworkService sharedInstance] registerMessageContent:self];
+    [[IMService sharedIMService] registerMessageContent:self];
 }
 
 - (NSString *)digest {

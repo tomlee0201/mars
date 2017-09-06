@@ -10,6 +10,9 @@
 #import "PublishTask.h"
 #import <mars/stn/stn.h>
 #import "MediaMessageContent.h"
+#import <mars/stn/MessageDB.hpp>
+#import <objc/runtime.h>
+
 
 class IMSendMessageCallback : public mars::stn::SendMessageCallback {
 private:
@@ -177,16 +180,59 @@ public:
 };
 
 
+static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
+    Message *ret = [[Message alloc] init];
+    ret.fromUser = [NSString stringWithUTF8String:tMessage->from.c_str()];
+    ret.conversation = [[Conversation alloc] init];
+    ret.conversation.type = (ConversationType)tMessage->conversationType;
+    ret.conversation.target = [NSString stringWithUTF8String:tMessage->target.c_str()];
+    ret.messageId = tMessage->messageId;
+    ret.messageUid = tMessage->messageUid;
+    ret.serverTime = tMessage->timestamp;
+    ret.direction = (MessageDirection)tMessage->direction;
+    ret.status = (MessageStatus)tMessage->status;
+    
+    MediaMessagePayload *payload = [[MediaMessagePayload alloc] init];
+    payload.contentType = tMessage->content.type;
+    payload.searchableContent = [NSString stringWithUTF8String:tMessage->content.searchableContent.c_str()];
+    payload.pushContent = [NSString stringWithUTF8String:tMessage->content.pushContent.c_str()];
+    
+    payload.content = [NSString stringWithUTF8String:tMessage->content.content.c_str()];
+    payload.binaryContent = [NSData dataWithBytes:tMessage->content.binaryContent.c_str() length:tMessage->content.binaryContent.length()];
+    payload.localContent = [NSString stringWithUTF8String:tMessage->content.localContent.c_str()];
+    payload.mediaType = (MediaType)tMessage->content.mediaType;
+    payload.remoteMediaUrl = [NSString stringWithUTF8String:tMessage->content.remoteMediaUrl.c_str()];
+    payload.localMediaPath = [NSString stringWithUTF8String:tMessage->content.localMediaPath.c_str()];
+    
+    ret.content = [[IMService sharedIMService] messageContentFromPayload:payload];
+    return ret;
+}
 
+
+NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList) {
+    NSMutableArray *messages = [[NSMutableArray alloc] init];
+    for (std::list<mars::stn::TMessage>::const_iterator it = messageList.begin(); it != messageList.end(); it++) {
+        const mars::stn::TMessage &tmsg = *it;
+        Message *msg = convertProtoMessage(&tmsg);
+        [messages addObject:msg];
+        
+    }
+    return messages;
+}
 
 
 static IMService * sharedSingleton = nil;
+
+@interface IMService ()
+@property(nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *MessageContentMaps;
+@end
 @implementation IMService
 + (IMService *)sharedIMService {
     if (sharedSingleton == nil) {
         @synchronized (self) {
             if (sharedSingleton == nil) {
                 sharedSingleton = [[IMService alloc] init];
+                sharedSingleton.MessageContentMaps = [[NSMutableDictionary alloc] init];
             }
         }
     }
@@ -207,6 +253,34 @@ static IMService * sharedSingleton = nil;
         mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), 0, "", "");
     }
     return message;
+}
+
+- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes {
+    std::list<int> types;
+    for (NSNumber *type in conversationTypes) {
+        types.push_back([type intValue]);
+    }
+    std::list<mars::stn::TConversation> convers = mars::stn::MessageDB::Instance()->GetConversationList(types);
+    NSMutableArray *ret = [[NSMutableArray alloc] init];
+    for (std::list<mars::stn::TConversation>::iterator it = convers.begin(); it != convers.end(); it++) {
+        mars::stn::TConversation &tConv = *it;
+        ConversationInfo *info = [[ConversationInfo alloc] init];
+        info.conversation = [[Conversation alloc] init];
+        info.conversation.type = (ConversationType)tConv.conversationType;
+        info.conversation.target = [NSString stringWithUTF8String:tConv.target.c_str()];
+        info.lastMessage = convertProtoMessage(&tConv.lastMessage);
+        info.draft = [NSString stringWithUTF8String:tConv.draft.c_str()];
+        info.timestamp = tConv.timestamp;
+        info.unreadCount = tConv.unreadCount;
+        info.isTop = tConv.isTop;
+        [ret addObject:info];
+    }
+    return ret;
+}
+
+- (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count {
+    std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], true, (int)count, fromIndex);
+    return convertProtoMessageList(messages);
 }
 
 - (void)createGroup:(NSString *)groupId
@@ -309,5 +383,33 @@ static IMService * sharedSingleton = nil;
 
     mars::stn::getGroupMembers([groupId UTF8String], new IMGetGroupMemberCallback(successBlock, errorBlock));
 }
+
+- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
+    int contenttype = payload.contentType;
+    Class contentClass = self.MessageContentMaps[@(contenttype)];
+    if (contentClass != nil) {
+        id messageInstance = [[contentClass alloc] init];
+        
+        if ([contentClass conformsToProtocol:@protocol(MessageContent)]) {
+            if ([messageInstance respondsToSelector:@selector(decode:)]) {
+                [messageInstance performSelector:@selector(decode:)
+                                      withObject:payload];
+            }
+        }
+        return messageInstance;
+    }
+    return nil;
+}
+
+- (void)registerMessageContent:(Class)contentClass {
+    int contenttype;
+    if (class_getClassMethod(contentClass, @selector(getContentType))) {
+        contenttype = [contentClass getContentType];
+        self.MessageContentMaps[@(contenttype)] = contentClass;
+    } else {
+        return;
+    }
+}
+
 
 @end

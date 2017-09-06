@@ -7,7 +7,7 @@
 //
 
 #import "TextMessageContent.h"
-#import "NetworkService.h"
+#import "IMService.h"
 
 @implementation TextMessageContent
 - (MessagePayload *)encode {
@@ -36,7 +36,7 @@
 }
 
 + (void)load {
-    [[NetworkService sharedInstance] registerMessageContent:self];
+    [[IMService sharedIMService] registerMessageContent:self];
 }
 
 - (NSString *)digest {

@@ -116,8 +116,8 @@
 		2E30C9841F3EBFD900DB259A /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../../DerivedData/Build/Products/Debug-iphonesimulator/libmars-open-iphone.a"; sourceTree = "<group>"; };
 		2E3504131F5C1EEC00E97BC0 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../DerivedData/mars-mqtt-workspace-amhznbukkfwyxlhfqyagqiomyscc/Build/Products/Debug-iphoneos/WCDB.framework"; sourceTree = "<group>"; };
 		2E49952D1F43402400C52CA2 /* MessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.m; sourceTree = "<group>"; };
-		2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageMessageContent.h; path = ../MQTTClient/ImageMessageContent.h; sourceTree = "<group>"; };
-		2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageMessageContent.m; path = ../MQTTClient/ImageMessageContent.m; sourceTree = "<group>"; };
+		2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageMessageContent.h; sourceTree = "<group>"; };
+		2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageMessageContent.m; sourceTree = "<group>"; };
 		2E95BA7F1F5AA0870079B516 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		2E95BA801F5AA0870079B516 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
 		2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
@@ -163,8 +163,8 @@
 		2EDD76731F5557A100F1FC8C /* ConversationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationInfo.m; sourceTree = "<group>"; };
 		2EF9A6B81F605D330009D908 /* IMUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUtilities.h; sourceTree = "<group>"; };
 		2EF9A6B91F605D330009D908 /* IMUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMUtilities.m; sourceTree = "<group>"; };
-		2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaMessageContent.h; sourceTree = "<group>"; };
-		2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaMessageContent.m; sourceTree = "<group>"; };
+		2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaMessageContent.h; path = ../IMClient/MediaMessageContent.h; sourceTree = "<group>"; };
+		2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaMessageContent.m; path = ../IMClient/MediaMessageContent.m; sourceTree = "<group>"; };
 		2EFEC1B41F593E6D00424902 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
 		2EFEC1B51F593E6D00424902 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
 		2EFEC1B71F593F5700424902 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
@@ -215,6 +215,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E8A32491F60BDC000A25131 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */,
+				2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */,
+				2EC3BD7F1F04D61A006C6E6F /* ViewController.h */,
+				2EC3BD801F04D61A006C6E6F /* ViewController.m */,
+				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
+				2F698A0C1F12489E004B7A80 /* LoginViewController.m */,
+				2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */,
+				2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		2E8A324A1F60BDE500A25131 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2E95BA7F1F5AA0870079B516 /* ImageCell.h */,
+				2E95BA801F5AA0870079B516 /* ImageCell.m */,
+				2EDD766F1F55545400F1FC8C /* ConversationTableViewCell.h */,
+				2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */,
+				2EFEC1B41F593E6D00424902 /* TextCell.h */,
+				2EFEC1B51F593E6D00424902 /* TextCell.m */,
+				2EFEC1B71F593F5700424902 /* MessageCell.h */,
+				2EFEC1B81F593F5700424902 /* MessageCell.m */,
+				2EFEC1BA1F59423B00424902 /* MessageCellBase.h */,
+				2EFEC1BB1F59423B00424902 /* MessageCellBase.m */,
+				2EFEC1BD1F59434C00424902 /* InformationCell.h */,
+				2EFEC1BE1F59434C00424902 /* InformationCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		2E8A324B1F60BDFE00A25131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2EFEC1C01F5943B000424902 /* MessageModel.h */,
+				2EFEC1C11F5943B000424902 /* MessageModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2E8A324C1F60BE1100A25131 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				2E3071D31F43CF0D00B17DC9 /* MessageContent.h */,
+				2E49952D1F43402400C52CA2 /* MessageContent.m */,
+				2E3071D51F43D2C300B17DC9 /* TextMessageContent.h */,
+				2E3071D61F43D2C300B17DC9 /* TextMessageContent.m */,
+				2EDD76721F5557A100F1FC8C /* ConversationInfo.h */,
+				2EDD76731F5557A100F1FC8C /* ConversationInfo.m */,
+				2E3071CF1F43CEA600B17DC9 /* Conversation.h */,
+				2E3071C61F43C89300B17DC9 /* Conversation.m */,
+				2E3071D11F43CEB500B17DC9 /* GroupInfo.h */,
+				2E3071CA1F43CA2600B17DC9 /* GroupInfo.m */,
+				2E3071CD1F43CE9400B17DC9 /* Message.h */,
+				2E3071C21F43C86100B17DC9 /* Message.m */,
+				2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */,
+				2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */,
+				2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */,
+				2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */,
+			);
+			name = Message;
+			path = ../MQTTClient;
+			sourceTree = "<group>";
+		};
 		2EC3BD6D1F04D61A006C6E6F = {
 			isa = PBXGroup;
 			children = (
@@ -237,33 +304,14 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2E8A324B1F60BDFE00A25131 /* Model */,
+				2E8A324A1F60BDE500A25131 /* Cell */,
+				2E8A32491F60BDC000A25131 /* ViewController */,
 				2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */,
 				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */,
-				2EC3BD7F1F04D61A006C6E6F /* ViewController.h */,
-				2EC3BD801F04D61A006C6E6F /* ViewController.m */,
-				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
-				2F698A0C1F12489E004B7A80 /* LoginViewController.m */,
-				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
-				2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */,
-				2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */,
-				2EDD766F1F55545400F1FC8C /* ConversationTableViewCell.h */,
-				2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */,
-				2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */,
-				2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */,
-				2EFEC1B41F593E6D00424902 /* TextCell.h */,
-				2EFEC1B51F593E6D00424902 /* TextCell.m */,
-				2EFEC1B71F593F5700424902 /* MessageCell.h */,
-				2EFEC1B81F593F5700424902 /* MessageCell.m */,
-				2EFEC1BA1F59423B00424902 /* MessageCellBase.h */,
-				2EFEC1BB1F59423B00424902 /* MessageCellBase.m */,
-				2EFEC1BD1F59434C00424902 /* InformationCell.h */,
-				2EFEC1BE1F59434C00424902 /* InformationCell.m */,
-				2EFEC1C01F5943B000424902 /* MessageModel.h */,
-				2EFEC1C11F5943B000424902 /* MessageModel.m */,
 				2EFEC1C31F59498100424902 /* Utilities.h */,
 				2EFEC1C41F59498100424902 /* Utilities.m */,
-				2E95BA7F1F5AA0870079B516 /* ImageCell.h */,
-				2E95BA801F5AA0870079B516 /* ImageCell.m */,
+				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
 			);
 			path = MQTTDemo;
 			sourceTree = "<group>";
@@ -312,12 +360,9 @@
 		2EC519F11F3EBB3C009D60AE /* IMClient */ = {
 			isa = PBXGroup;
 			children = (
-				2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */,
-				2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */,
+				2E8A324C1F60BE1100A25131 /* Message */,
 				2EC519F21F3EBB3C009D60AE /* IMService.h */,
 				2EC519F31F3EBB3C009D60AE /* IMService.mm */,
-				2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */,
-				2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */,
 				2EF9A6B81F605D330009D908 /* IMUtilities.h */,
 				2EF9A6B91F605D330009D908 /* IMUtilities.m */,
 			);
@@ -339,18 +384,6 @@
 				2EC51B6F1F3EBB49009D60AE /* SubscribeTask.mm */,
 				2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */,
 				2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */,
-				2E3071D31F43CF0D00B17DC9 /* MessageContent.h */,
-				2E49952D1F43402400C52CA2 /* MessageContent.m */,
-				2E3071CD1F43CE9400B17DC9 /* Message.h */,
-				2E3071C21F43C86100B17DC9 /* Message.m */,
-				2E3071CF1F43CEA600B17DC9 /* Conversation.h */,
-				2E3071C61F43C89300B17DC9 /* Conversation.m */,
-				2E3071D11F43CEB500B17DC9 /* GroupInfo.h */,
-				2E3071CA1F43CA2600B17DC9 /* GroupInfo.m */,
-				2E3071D51F43D2C300B17DC9 /* TextMessageContent.h */,
-				2E3071D61F43D2C300B17DC9 /* TextMessageContent.m */,
-				2EDD76721F5557A100F1FC8C /* ConversationInfo.h */,
-				2EDD76731F5557A100F1FC8C /* ConversationInfo.m */,
 			);
 			path = MQTTClient;
 			sourceTree = "<group>";

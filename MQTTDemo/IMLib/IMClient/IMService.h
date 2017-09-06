@@ -16,6 +16,9 @@
 
 - (Message *)send:(Conversation *)conversation content:(MessageContent *)content success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock;
 
+- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes;
+- (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count;
+
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait
@@ -58,4 +61,7 @@
 - (void)getGroupMembers:(NSString *)groupId
                 success:(void(^)(NSArray<NSString *> *))successBlock
                   error:(void(^)(int error_code))errorBlock;
+
+- (void)registerMessageContent:(Class)contentClass;
+- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 @end

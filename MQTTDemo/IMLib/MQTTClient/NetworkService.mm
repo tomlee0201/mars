@@ -33,9 +33,8 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 #import "PublishTask.h"
-#import <objc/runtime.h>
-#import <mars/stn/MessageDB.hpp>
 
+extern NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList);
 
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
@@ -49,44 +48,7 @@ public:
   id<ConnectionStatusDelegate> m_delegate;
 };
 
-static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
-    Message *ret = [[Message alloc] init];
-    ret.fromUser = [NSString stringWithUTF8String:tMessage->from.c_str()];
-    ret.conversation = [[Conversation alloc] init];
-    ret.conversation.type = (ConversationType)tMessage->conversationType;
-    ret.conversation.target = [NSString stringWithUTF8String:tMessage->target.c_str()];
-    ret.messageId = tMessage->messageId;
-    ret.messageUid = tMessage->messageUid;
-    ret.serverTime = tMessage->timestamp;
-    ret.direction = (MessageDirection)tMessage->direction;
-    ret.status = (MessageStatus)tMessage->status;
-  
-    MediaMessagePayload *payload = [[MediaMessagePayload alloc] init];
-    payload.contentType = tMessage->content.type;
-    payload.searchableContent = [NSString stringWithUTF8String:tMessage->content.searchableContent.c_str()];
-    payload.pushContent = [NSString stringWithUTF8String:tMessage->content.pushContent.c_str()];
-    
-    payload.content = [NSString stringWithUTF8String:tMessage->content.content.c_str()];
-    payload.binaryContent = [NSData dataWithBytes:tMessage->content.binaryContent.c_str() length:tMessage->content.binaryContent.length()];
-    payload.localContent = [NSString stringWithUTF8String:tMessage->content.localContent.c_str()];
-    payload.mediaType = (MediaType)tMessage->content.mediaType;
-    payload.remoteMediaUrl = [NSString stringWithUTF8String:tMessage->content.remoteMediaUrl.c_str()];
-    payload.localMediaPath = [NSString stringWithUTF8String:tMessage->content.localMediaPath.c_str()];
-    
-    ret.content = [[NetworkService sharedInstance] messageContentFromPayload:payload];
-    return ret;
-}
 
-static NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList) {
-  NSMutableArray *messages = [[NSMutableArray alloc] init];
-  for (std::list<mars::stn::TMessage>::const_iterator it = messageList.begin(); it != messageList.end(); it++) {
-    const mars::stn::TMessage &tmsg = *it;
-    Message *msg = convertProtoMessage(&tmsg);
-    [messages addObject:msg];
-    
-  }
-  return messages;
-}
 
 class RPCB : public mars::stn::ReceiveMessageCallback {
 public:
@@ -104,7 +66,6 @@ public:
 
 @interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 @property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
-@property(nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *MessageContentMaps;
 @end
 
 @implementation NetworkService
@@ -165,7 +126,6 @@ static NetworkService * sharedSingleton = nil;
         @synchronized (self) {
             if (sharedSingleton == nil) {
                 sharedSingleton = [[NetworkService alloc] init];
-                sharedSingleton.MessageContentMaps = [[NSMutableDictionary alloc] init];
             }
         }
     }
@@ -253,60 +213,7 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnForeground(isForeground);
 }
 
-- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
-    int contenttype = payload.contentType;
-    Class contentClass = self.MessageContentMaps[@(contenttype)];
-    if (contentClass != nil) {
-        id messageInstance = [[contentClass alloc] init];
-        
-        if ([contentClass conformsToProtocol:@protocol(MessageContent)]) {
-            if ([messageInstance respondsToSelector:@selector(decode:)]) {
-                [messageInstance performSelector:@selector(decode:)
-                                      withObject:payload];
-            }
-        }
-        return messageInstance;
-    }
-    return nil;
-}
 
-- (void)registerMessageContent:(Class)contentClass {
-    int contenttype;
-    if (class_getClassMethod(contentClass, @selector(getContentType))) {
-        contenttype = [contentClass getContentType];
-        self.MessageContentMaps[@(contenttype)] = contentClass;
-    } else {
-        return;
-    }
-}
-
-- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes {
-  std::list<int> types;
-  for (NSNumber *type in conversationTypes) {
-    types.push_back([type intValue]);
-  }
-  std::list<mars::stn::TConversation> convers = mars::stn::MessageDB::Instance()->GetConversationList(types);
-  NSMutableArray *ret = [[NSMutableArray alloc] init];
-  for (std::list<mars::stn::TConversation>::iterator it = convers.begin(); it != convers.end(); it++) {
-    mars::stn::TConversation &tConv = *it;
-    ConversationInfo *info = [[ConversationInfo alloc] init];
-    info.conversation = [[Conversation alloc] init];
-    info.conversation.type = (ConversationType)tConv.conversationType;
-    info.conversation.target = [NSString stringWithUTF8String:tConv.target.c_str()];
-    info.lastMessage = convertProtoMessage(&tConv.lastMessage);
-    info.draft = [NSString stringWithUTF8String:tConv.draft.c_str()];
-    info.timestamp = tConv.timestamp;
-    info.unreadCount = tConv.unreadCount;
-    info.isTop = tConv.isTop;
-    [ret addObject:info];
-  }
-  return ret;
-}
-
-- (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count {
-  std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], true, count, fromIndex);
-  return convertProtoMessageList(messages);
-}
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {
     if ((uiFlags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {
