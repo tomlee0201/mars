@@ -61,13 +61,19 @@ static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     ret.direction = (MessageDirection)tMessage->direction;
     ret.status = (MessageStatus)tMessage->status;
   
-    MessagePayload *payload = [[MessagePayload alloc] init];
+    MediaMessagePayload *payload = [[MediaMessagePayload alloc] init];
     payload.contentType = tMessage->content.type;
     payload.searchableContent = [NSString stringWithUTF8String:tMessage->content.searchableContent.c_str()];
     payload.pushContent = [NSString stringWithUTF8String:tMessage->content.pushContent.c_str()];
-    payload.data = [NSData dataWithBytes:tMessage->content.data length:tMessage->content.dataLen];
-    ret.content = [[NetworkService sharedInstance] messageContentFromPayload:payload];
     
+    payload.content = [NSString stringWithUTF8String:tMessage->content.content.c_str()];
+    payload.binaryContent = [NSData dataWithBytes:tMessage->content.binaryContent.c_str() length:tMessage->content.binaryContent.length()];
+    payload.localContent = [NSString stringWithUTF8String:tMessage->content.localContent.c_str()];
+    payload.mediaType = (MediaType)tMessage->content.mediaType;
+    payload.remoteMediaUrl = [NSString stringWithUTF8String:tMessage->content.remoteMediaUrl.c_str()];
+    payload.localMediaPath = [NSString stringWithUTF8String:tMessage->content.localMediaPath.c_str()];
+    
+    ret.content = [[NetworkService sharedInstance] messageContentFromPayload:payload];
     return ret;
 }
 

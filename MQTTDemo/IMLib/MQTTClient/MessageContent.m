@@ -10,16 +10,10 @@
 
 
 @implementation MessagePayload
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.searchableContent = @"";
-        self.pushContent = @"";
-    }
-    return self;
-}
 @end
 
+@implementation MediaMessagePayload
+@end
 
 @implementation MessageContent
 + (void)load {

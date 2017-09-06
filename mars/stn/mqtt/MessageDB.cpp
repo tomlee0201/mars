@@ -46,7 +46,9 @@ namespace mars {
             if (!db->isOpened()) {
               return -1;
             }
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("message", {"_conv_type","_conv_target","_from","_cont_type","_cont_searchable","_cont_push","_cont_data","_direction","_status","_uid","_timestamp"});
+            
+
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("message", {"_conv_type","_conv_target","_from","_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path","_direction","_status","_uid","_timestamp"});
             db->Bind(statementHandle, msg.conversationType, 1);
             db->Bind(statementHandle, msg.target, 2);
             db->Bind(statementHandle, msg.from, 3);
@@ -54,13 +56,18 @@ namespace mars {
             db->Bind(statementHandle, msg.content.type, 4);
             db->Bind(statementHandle, msg.content.searchableContent, 5);
             db->Bind(statementHandle, msg.content.pushContent, 6);
+            db->Bind(statementHandle, msg.content.content, 7);
+            db->Bind(statementHandle, (const void *)msg.content.binaryContent.c_str(), (int)msg.content.binaryContent.length(), 8);
+            db->Bind(statementHandle, msg.content.localContent, 9);
+            db->Bind(statementHandle, msg.content.mediaType, 10);
+            db->Bind(statementHandle, msg.content.remoteMediaUrl, 11);
+            db->Bind(statementHandle, msg.content.localMediaPath, 12);
             
-            db->Bind(statementHandle, (const void *)msg.content.data, (int)msg.content.dataLen, 7);
-            db->Bind(statementHandle, msg.direction, 8);
-            db->Bind(statementHandle, msg.status, 9);
+            db->Bind(statementHandle, msg.direction, 13);
+            db->Bind(statementHandle, msg.status, 14);
             
-            db->Bind(statementHandle, msg.messageUid, 10);
-            db->Bind(statementHandle, msg.timestamp, 11);
+            db->Bind(statementHandle, msg.messageUid, 15);
+            db->Bind(statementHandle, msg.timestamp, 16);
             
             db->ExecuteInsert(statementHandle, &(msg.messageId));
             return msg.messageId;
@@ -249,7 +256,12 @@ namespace mars {
                     "_cont_type",
                     "_cont_searchable",
                     "_cont_push",
+                    "_cont",
                     "_cont_data",
+                    "_cont_local",
+                    "_cont_media_type",
+                    "_cont_remote_media_url",
+                    "_cont_local_media_path",
                     "_direction",
                     "_status",
                     "_uid",
@@ -263,18 +275,23 @@ namespace mars {
                 msg.conversationType = db->getIntValue(statementHandle, 1);
                 msg.target = db->getStringValue(statementHandle, 2);
                 msg.from = db->getStringValue(statementHandle, 3);
+                
                 msg.content.type = db->getIntValue(statementHandle, 4);
                 msg.content.searchableContent = db->getStringValue(statementHandle, 5);
                 msg.content.pushContent = db->getStringValue(statementHandle, 6);
-                int size;
-                const void *p = db->getBlobValue(statementHandle, 7, size);
-                msg.content.dataLen = size;
-                msg.content.data = new unsigned char[msg.content.dataLen + 1];
-                memcpy(msg.content.data, p, msg.content.dataLen);
-                msg.direction = db->getIntValue(statementHandle, 8);
-                msg.status = (MessageStatus)db->getIntValue(statementHandle, 9);
-                msg.messageUid = db->getBigIntValue(statementHandle, 10);
-                msg.timestamp = db->getBigIntValue(statementHandle, 11);
+                msg.content.content = db->getStringValue(statementHandle, 7);
+                int size = 0;
+                const void *p = db->getBlobValue(statementHandle, 8, size);
+                msg.content.binaryContent = std::string((const char *)p, size);
+                msg.content.localContent = db->getStringValue(statementHandle, 9);
+                msg.content.mediaType = db->getIntValue(statementHandle, 10);
+                msg.content.remoteMediaUrl = db->getStringValue(statementHandle, 11);
+                msg.content.localMediaPath = db->getStringValue(statementHandle, 12);
+                
+                msg.direction = db->getIntValue(statementHandle, 13);
+                msg.status = (MessageStatus)db->getIntValue(statementHandle, 14);
+                msg.messageUid = db->getBigIntValue(statementHandle, 15);
+                msg.timestamp = db->getBigIntValue(statementHandle, 16);
                 
                 result.push_back(msg);
             }
@@ -295,6 +312,25 @@ namespace mars {
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
             db->Bind(updateStatementHandle, status, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        bool MessageDB::updateMessageRemoteMediaUrl(long messageId, const std::string &remoteMediaUrl) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_cont_remote_media_url"}, &where);
+            db->Bind(updateStatementHandle, remoteMediaUrl, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
             if (count > 0) {

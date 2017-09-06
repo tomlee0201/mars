@@ -9,7 +9,7 @@
 #import "IMService.h"
 #import "PublishTask.h"
 #import <mars/stn/stn.h>
-
+#import "MediaMessageContent.h"
 
 class IMSendMessageCallback : public mars::stn::SendMessageCallback {
 private:
@@ -43,6 +43,12 @@ public:
     }
     void onPrepared(long messageId) {
         m_message.messageId = messageId;
+    }
+    void onMediaUploaded(std::string remoteUrl) {
+        if ([m_message.content isKindOfClass:[MediaMessageContent class]]) {
+            MediaMessageContent *mediaContent = (MediaMessageContent *)m_message.content;
+            mediaContent.remoteUrl = [NSString stringWithUTF8String:remoteUrl.c_str()];
+        }
     }
     virtual ~IMSendMessageCallback() {
         m_successBlock = nil;
@@ -193,7 +199,13 @@ static IMService * sharedSingleton = nil;
     message.conversation = conversation;
     message.content = content;
     MessagePayload *payload = [content encode];
-    mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMSendMessageCallback(message, successBlock, errorBlock), (const unsigned char *)payload.mediaData.bytes, payload.mediaData.length);
+    if ([payload isKindOfClass:[MediaMessagePayload class]]) {
+        MediaMessagePayload *mediaPayload = (MediaMessagePayload *)payload;
+        
+        mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String] ? [mediaPayload.remoteMediaUrl UTF8String] : "", [mediaPayload.localMediaPath UTF8String] ? [mediaPayload.localMediaPath UTF8String] : "");
+    } else {
+        mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), 0, "", "");
+    }
     return message;
 }
 
@@ -210,7 +222,7 @@ static IMService * sharedSingleton = nil;
         memberList.push_back([member UTF8String]);
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::createGroup([groupId UTF8String], [groupName UTF8String], [groupPortrait UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMCreateGroupCallback(successBlock, errorBlock));
+    mars::stn::createGroup([groupId UTF8String], [groupName UTF8String], [groupPortrait UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMCreateGroupCallback(successBlock, errorBlock));
 }
 
 - (void)addMembers:(NSArray *)members
@@ -224,7 +236,7 @@ static IMService * sharedSingleton = nil;
         memberList.push_back([member UTF8String]);
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::addMembers([groupId UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::addMembers([groupId UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)kickoffMembers:(NSArray *)members
@@ -238,7 +250,7 @@ static IMService * sharedSingleton = nil;
         memberList.push_back([member UTF8String]);
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::kickoffMembers([groupId UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::kickoffMembers([groupId UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)quitGroup:(NSString *)groupId
@@ -247,7 +259,7 @@ static IMService * sharedSingleton = nil;
             error:(void(^)(int error_code))errorBlock {
 
         MessagePayload *payload = [notifyContent encode];
-        mars::stn::quitGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+        mars::stn::quitGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)dismissGroup:(NSString *)groupId
@@ -256,7 +268,7 @@ static IMService * sharedSingleton = nil;
                error:(void(^)(int error_code))errorBlock {
 
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::dismissGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::dismissGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)modifyGroupInfo:(GroupInfo *)groupInfo
@@ -280,7 +292,7 @@ static IMService * sharedSingleton = nil;
         tInfo.extraLen = groupInfo.extra.length;
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char*)payload.data.bytes, payload.data.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char*)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {

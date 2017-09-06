@@ -64,6 +64,10 @@
 		2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */; };
 		2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDD76721F5557A100F1FC8C /* ConversationInfo.h */; };
 		2EDD76761F5557A100F1FC8C /* ConversationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76731F5557A100F1FC8C /* ConversationInfo.m */; };
+		2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF9A6B81F605D330009D908 /* IMUtilities.h */; };
+		2EF9A6BB1F605D330009D908 /* IMUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9A6B91F605D330009D908 /* IMUtilities.m */; };
+		2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */; };
+		2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */; };
 		2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B51F593E6D00424902 /* TextCell.m */; };
 		2EFEC1B91F593F5700424902 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B81F593F5700424902 /* MessageCell.m */; };
 		2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1BB1F59423B00424902 /* MessageCellBase.m */; };
@@ -157,6 +161,10 @@
 		2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationTableViewCell.m; sourceTree = "<group>"; };
 		2EDD76721F5557A100F1FC8C /* ConversationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationInfo.h; sourceTree = "<group>"; };
 		2EDD76731F5557A100F1FC8C /* ConversationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationInfo.m; sourceTree = "<group>"; };
+		2EF9A6B81F605D330009D908 /* IMUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUtilities.h; sourceTree = "<group>"; };
+		2EF9A6B91F605D330009D908 /* IMUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMUtilities.m; sourceTree = "<group>"; };
+		2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaMessageContent.h; sourceTree = "<group>"; };
+		2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaMessageContent.m; sourceTree = "<group>"; };
 		2EFEC1B41F593E6D00424902 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
 		2EFEC1B51F593E6D00424902 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
 		2EFEC1B71F593F5700424902 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
@@ -308,6 +316,10 @@
 				2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */,
 				2EC519F21F3EBB3C009D60AE /* IMService.h */,
 				2EC519F31F3EBB3C009D60AE /* IMService.mm */,
+				2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */,
+				2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */,
+				2EF9A6B81F605D330009D908 /* IMUtilities.h */,
+				2EF9A6B91F605D330009D908 /* IMUtilities.m */,
 			);
 			path = IMClient;
 			sourceTree = "<group>";
@@ -361,6 +373,8 @@
 				2EC51B7B1F3EBB49009D60AE /* PublishTask.h in Headers */,
 				2E3071CE1F43CE9400B17DC9 /* Message.h in Headers */,
 				2EC51B781F3EBB49009D60AE /* NetworkStatus.h in Headers */,
+				2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */,
+				2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */,
 				2EC51B811F3EBB49009D60AE /* UnsubscribeTask.h in Headers */,
 				2EC51B721F3EBB49009D60AE /* app_callback.h in Headers */,
 				2E3071D41F43CF0D00B17DC9 /* MessageContent.h in Headers */,
@@ -493,12 +507,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */,
 				2E3071C81F43C89300B17DC9 /* Conversation.m in Sources */,
 				2EC51B7D1F3EBB49009D60AE /* PublishTask.mm in Sources */,
 				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,
 				2EC51B741F3EBB49009D60AE /* app_callback.mm in Sources */,
 				2E3071D91F43D2C300B17DC9 /* TextMessageContent.m in Sources */,
+				2EF9A6BB1F605D330009D908 /* IMUtilities.m in Sources */,
 				2E4995301F43402400C52CA2 /* MessageContent.m in Sources */,
 				2EC51B801F3EBB49009D60AE /* SubscribeTask.mm in Sources */,
 				2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */,

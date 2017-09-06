@@ -144,10 +144,11 @@ void StnCallBack::onPullFailure(int errorCode) {
                         tmsg.content.type = pmsg.content().type();
                         tmsg.content.searchableContent = pmsg.content().searchable_content();
                         tmsg.content.pushContent = pmsg.content().push_content();
-                        tmsg.content.dataLen = pmsg.content().data().length();
-                        tmsg.content.data = new unsigned char[tmsg.content.dataLen];
+                        tmsg.content.content = pmsg.content().content();
+                        tmsg.content.binaryContent = std::string(pmsg.content().data().c_str(), pmsg.content().data().length());
+                        tmsg.content.mediaType = pmsg.content().mediatype();
+                        tmsg.content.remoteMediaUrl = pmsg.content().remotemediaurl();
                         
-                        memcpy(tmsg.content.data, pmsg.content().data().c_str(), tmsg.content.dataLen);
                         messageList.push_back(tmsg);
                         
                         long id = MessageDB::Instance()->InsertMessage(tmsg);

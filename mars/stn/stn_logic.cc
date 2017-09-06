@@ -24,6 +24,7 @@
 #include <string>
 #include <map>
 #include <iterator>
+#include <fstream>
 
 #include "mars/log/appender.h"
 
@@ -410,10 +411,15 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         message.mutable_conversation()->set_type((ConversationType)tmsg.conversationType);
         message.mutable_conversation()->set_target(tmsg.target);
         message.set_from_user(app::GetUserName());
+        
         message.mutable_content()->set_type((::mars::stn::ContentType)tmsg.content.type);
         message.mutable_content()->set_searchable_content(tmsg.content.searchableContent);
         message.mutable_content()->set_push_content(tmsg.content.pushContent);
-        message.mutable_content()->set_data(tmsg.content.data, tmsg.content.dataLen);
+        message.mutable_content()->set_content(tmsg.content.content);
+        message.mutable_content()->set_data(tmsg.content.binaryContent.c_str(), tmsg.content.binaryContent.length());
+        message.mutable_content()->set_mediatype(tmsg.content.mediaType);
+        message.mutable_content()->set_remotemediaurl(tmsg.content.remoteMediaUrl);
+        
         publishTask(message, new MessagePublishCallback(messageId, callback), sendMessageTopic);
     }
     
@@ -428,6 +434,8 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         }
         void onSuccess(std::string key) {
             std::string fileUrl = mDomain + "/" + key;
+            MessageDB::Instance()->updateMessageRemoteMediaUrl(mMid, fileUrl);
+            mCallback->onMediaUploaded(key);
             sendSavedMsg(mMid, mMsg, mCallback);
             delete this;
         }
@@ -468,10 +476,10 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
 
  
     
- 
+// conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], [payload.content UTF8String], [payload.localContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String], [mediaPayload.localMediaPath UTF8String]
     
-int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen)
-= [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen) {
+int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath)
+= [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath) {
   
   TMessage tmsg;
   tmsg.conversationType = conversationType;
@@ -480,8 +488,16 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
   tmsg.content.type = contentType;
   tmsg.content.searchableContent = searchableContent;
   tmsg.content.pushContent = pushContent;
-  tmsg.content.data = (unsigned char *)data;
-  tmsg.content.dataLen = dataLen;
+
+    tmsg.content.content = content;
+    if (data != NULL && dataLen > 0) {
+        tmsg.content.binaryContent = std::string((const char *)data, dataLen);
+    }
+    tmsg.content.localContent = localContent;
+    tmsg.content.mediaType = mediaType;
+    tmsg.content.remoteMediaUrl = remoteUrl;
+    tmsg.content.localMediaPath = localPath;
+    
   tmsg.status = MessageStatus::Message_Status_Sending;
   tmsg.timestamp = time(NULL)*1000;
   tmsg.direction = 0;
@@ -493,14 +509,26 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
   
 
     
-    if(mediaDataLen > 0) {
-        int type = 1;
-        std::string md((const char *)mediaData, mediaDataLen);
+    if(!localPath.empty() && mediaType > 0) {
+        
+        char * buffer;
+        long size;
+        std::ifstream file (localPath.c_str(), std::ios::in|std::ios::binary|std::ios::ate);
+        size = file.tellg();
+        file.seekg (0, std::ios::beg);
+        buffer = new char [size];
+        file.read (buffer, size);
+        file.close();
+        
+        std::string md(buffer, size);
+        
+        delete [] buffer;
+        
         mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new GetUploadTokenCallback(callback, tmsg, md, id));
         publishTask->topic = getQiniuUploadTokenTopic;
         publishTask->length = sizeof(int);
         publishTask->body = new unsigned char[publishTask->length];
-        memcpy(publishTask->body, &type, publishTask->length);
+        memcpy(publishTask->body, &mediaType, publishTask->length);
         mars::stn::StartTask(*publishTask);
     } else {
         sendSavedMsg(id, tmsg, callback);

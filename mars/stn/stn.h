@@ -87,39 +87,42 @@ struct DnsProfile;
         
         class TMessageContent {
         public:
-            TMessageContent() : data(NULL), type(0), dataLen(NULL){}
-            TMessageContent(const TMessageContent &c) : type(c.type), dataLen(c.dataLen), searchableContent(c.searchableContent), pushContent(c.pushContent) {
-                if(dataLen > 0) {
-                    data = new unsigned char[dataLen];
-                    memcpy(data, c.data, dataLen);
-                } else {
-                    data = NULL;
-                }
-            }
+            TMessageContent() : type(0) {}
+            TMessageContent(const TMessageContent &c) :
+                    type(c.type),
+                    searchableContent(c.searchableContent),
+                    pushContent(c.pushContent),
+                    content(c.content),
+                    binaryContent(c.binaryContent),
+                    localContent(c.localContent),
+                    mediaType(c.mediaType),
+                    remoteMediaUrl(c.remoteMediaUrl),
+                    localMediaPath(c.localMediaPath) {}
+            
             TMessageContent operator=(const TMessageContent &c) {
                 type = c.type;
                 searchableContent = c.searchableContent;
                 pushContent = c.pushContent;
-                dataLen = c.dataLen;
-                if(dataLen > 0) {
-                    data = new unsigned char[dataLen];
-                    memcpy(data, c.data, dataLen);
-                } else {
-                    data = NULL;
-                }
+                content = c.content;
+                binaryContent = c.binaryContent;
+                localContent = c.localContent;
+                mediaType = c.mediaType;
+                remoteMediaUrl = c.remoteMediaUrl;
+                localMediaPath = c.localMediaPath;
                 return *this;
             }
             int type;
             std::string searchableContent;
             std::string pushContent;
-            unsigned char *data;
-            size_t dataLen;
+            std::string content;
+            std::string binaryContent;
+            std::string localContent;
+            int mediaType;
+            std::string remoteMediaUrl;
+            std::string localMediaPath;
+            
+
             virtual ~TMessageContent(){
-                if(data != NULL) {
-                    delete [] data;
-                    data = NULL;
-                    dataLen = 0;
-                }
             }
         };
         
@@ -185,6 +188,7 @@ struct DnsProfile;
     class SendMessageCallback {
     public:
         virtual void onPrepared(long messageId) = 0;
+        virtual void onMediaUploaded(std::string remoteUrl) = 0;
         virtual void onSuccess(long messageUid, long long timestamp) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
@@ -496,7 +500,7 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
       extern ConnectionStatus getConnectionStatus();
         
-extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, const unsigned char *mediaData, size_t mediaDataLen);
+extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath);
         
 extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback);
         

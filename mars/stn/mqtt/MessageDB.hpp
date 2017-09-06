@@ -38,6 +38,7 @@ namespace mars {
             std::list<TMessage> GetMessages(int conversationType, const std::string &target, bool desc, int count, long startPoint);
             
             bool updateMessageStatus(long messageId, MessageStatus status);
+            bool updateMessageRemoteMediaUrl(long messageId, const std::string &remoteMediaUrl);
         private:
             static MessageDB* instance_;
         };

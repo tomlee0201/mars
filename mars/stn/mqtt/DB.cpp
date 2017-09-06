@@ -229,7 +229,12 @@ namespace mars {
                 WCDB::ColumnDef(Column("_cont_type"), ColumnType::Integer32).makeNotNull(),
                 WCDB::ColumnDef(Column("_cont_searchable"), ColumnType::Text).makeDefault(NULL),
                 WCDB::ColumnDef(Column("_cont_push"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont"), ColumnType::Text).makeDefault(NULL),
                 WCDB::ColumnDef(Column("_cont_data"), ColumnType::BLOB).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont_local"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont_media_type"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont_remote_media_url"), ColumnType::Text).makeDefault(NULL),
+                WCDB::ColumnDef(Column("_cont_local_media_path"), ColumnType::Text).makeDefault(NULL),
                 
                 WCDB::ColumnDef(Column("_direction"), ColumnType::Integer32).makeDefault(0),
                 WCDB::ColumnDef(Column("_status"), ColumnType::Integer32).makeDefault(0),

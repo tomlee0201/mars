@@ -55,7 +55,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, type_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, searchable_content_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, push_content_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, content_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, data_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, mediatype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageContent, remotemediaurl_),
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
@@ -108,17 +111,19 @@ void InitDefaults() {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
-      "\n\025message_content.proto\022\010mars.stn\"u\n\016Mes"
-      "sageContent\022#\n\004type\030\001 \001(\0162\025.mars.stn.Con"
-      "tentType\022\032\n\022searchable_content\030\002 \001(\t\022\024\n\014"
-      "push_content\030\003 \001(\t\022\014\n\004data\030\004 \001(\014*a\n\013Cont"
-      "entType\022\010\n\004Text\020\000\022\t\n\005Image\020\001\022\t\n\005Voice\020\002\022"
-      "\014\n\010Location\020\003\022\t\n\005Video\020\004\022\r\n\tRichMedia\020\005\022"
-      "\n\n\006Custom\020\006B0\n\024win.liyufan.im.protoB\030Mes"
-      "sageContentOuterClassb\006proto3"
+      "\n\025message_content.proto\022\010mars.stn\"\261\001\n\016Me"
+      "ssageContent\022#\n\004type\030\001 \001(\0162\025.mars.stn.Co"
+      "ntentType\022\032\n\022searchable_content\030\002 \001(\t\022\024\n"
+      "\014push_content\030\003 \001(\t\022\017\n\007content\030\004 \001(\t\022\014\n\004"
+      "data\030\005 \001(\014\022\021\n\tmediaType\030\006 \001(\005\022\026\n\016remoteM"
+      "ediaUrl\030\007 \001(\t*a\n\013ContentType\022\010\n\004Text\020\000\022\t"
+      "\n\005Image\020\001\022\t\n\005Voice\020\002\022\014\n\010Location\020\003\022\t\n\005Vi"
+      "deo\020\004\022\r\n\tRichMedia\020\005\022\n\n\006Custom\020\006B0\n\024win."
+      "liyufan.im.protoB\030MessageContentOuterCla"
+      "ssb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 309);
+      descriptor, 370);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message_content.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -163,7 +168,10 @@ bool ContentType_IsValid(int value) {
 const int MessageContent::kTypeFieldNumber;
 const int MessageContent::kSearchableContentFieldNumber;
 const int MessageContent::kPushContentFieldNumber;
+const int MessageContent::kContentFieldNumber;
 const int MessageContent::kDataFieldNumber;
+const int MessageContent::kMediaTypeFieldNumber;
+const int MessageContent::kRemoteMediaUrlFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 MessageContent::MessageContent()
@@ -187,19 +195,32 @@ MessageContent::MessageContent(const MessageContent& from)
   if (from.push_content().size() > 0) {
     push_content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.push_content_);
   }
+  content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.content().size() > 0) {
+    content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
+  }
   data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.data().size() > 0) {
     data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
   }
-  type_ = from.type_;
+  remotemediaurl_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.remotemediaurl().size() > 0) {
+    remotemediaurl_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.remotemediaurl_);
+  }
+  ::memcpy(&type_, &from.type_,
+    reinterpret_cast<char*>(&mediatype_) -
+    reinterpret_cast<char*>(&type_) + sizeof(mediatype_));
   // @@protoc_insertion_point(copy_constructor:mars.stn.MessageContent)
 }
 
 void MessageContent::SharedCtor() {
   searchable_content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   push_content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  remotemediaurl_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&type_, 0, reinterpret_cast<char*>(&mediatype_) -
+    reinterpret_cast<char*>(&type_) + sizeof(mediatype_));
   _cached_size_ = 0;
 }
 
@@ -211,7 +232,9 @@ MessageContent::~MessageContent() {
 void MessageContent::SharedDtor() {
   searchable_content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   push_content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   data_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  remotemediaurl_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void MessageContent::SetCachedSize(int size) const {
@@ -241,8 +264,11 @@ void MessageContent::Clear() {
 // @@protoc_insertion_point(message_clear_start:mars.stn.MessageContent)
   searchable_content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   push_content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  remotemediaurl_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&type_, 0, reinterpret_cast<char*>(&mediatype_) -
+    reinterpret_cast<char*>(&type_) + sizeof(mediatype_));
 }
 
 bool MessageContent::MergePartialFromCodedStream(
@@ -302,12 +328,58 @@ bool MessageContent::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes data = 4;
+      // string content = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_content()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->content().data(), this->content().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "mars.stn.MessageContent.content"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bytes data = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_data()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 mediaType = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &mediatype_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string remoteMediaUrl = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_remotemediaurl()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->remotemediaurl().data(), this->remotemediaurl().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "mars.stn.MessageContent.remoteMediaUrl"));
         } else {
           goto handle_unusual;
         }
@@ -367,10 +439,35 @@ void MessageContent::SerializeWithCachedSizes(
       3, this->push_content(), output);
   }
 
-  // bytes data = 4;
+  // string content = 4;
+  if (this->content().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->content().data(), this->content().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "mars.stn.MessageContent.content");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->content(), output);
+  }
+
+  // bytes data = 5;
   if (this->data().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      4, this->data(), output);
+      5, this->data(), output);
+  }
+
+  // int32 mediaType = 6;
+  if (this->mediatype() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->mediatype(), output);
+  }
+
+  // string remoteMediaUrl = 7;
+  if (this->remotemediaurl().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->remotemediaurl().data(), this->remotemediaurl().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "mars.stn.MessageContent.remoteMediaUrl");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->remotemediaurl(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:mars.stn.MessageContent)
@@ -410,11 +507,38 @@ void MessageContent::SerializeWithCachedSizes(
         3, this->push_content(), target);
   }
 
-  // bytes data = 4;
+  // string content = 4;
+  if (this->content().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->content().data(), this->content().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "mars.stn.MessageContent.content");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->content(), target);
+  }
+
+  // bytes data = 5;
   if (this->data().size() > 0) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        4, this->data(), target);
+        5, this->data(), target);
+  }
+
+  // int32 mediaType = 6;
+  if (this->mediatype() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->mediatype(), target);
+  }
+
+  // string remoteMediaUrl = 7;
+  if (this->remotemediaurl().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->remotemediaurl().data(), this->remotemediaurl().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "mars.stn.MessageContent.remoteMediaUrl");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->remotemediaurl(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:mars.stn.MessageContent)
@@ -439,17 +563,38 @@ size_t MessageContent::ByteSizeLong() const {
         this->push_content());
   }
 
-  // bytes data = 4;
+  // string content = 4;
+  if (this->content().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->content());
+  }
+
+  // bytes data = 5;
   if (this->data().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::BytesSize(
         this->data());
   }
 
+  // string remoteMediaUrl = 7;
+  if (this->remotemediaurl().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->remotemediaurl());
+  }
+
   // .mars.stn.ContentType type = 1;
   if (this->type() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
+  }
+
+  // int32 mediaType = 6;
+  if (this->mediatype() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->mediatype());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -489,12 +634,23 @@ void MessageContent::MergeFrom(const MessageContent& from) {
 
     push_content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.push_content_);
   }
+  if (from.content().size() > 0) {
+
+    content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
+  }
   if (from.data().size() > 0) {
 
     data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
   }
+  if (from.remotemediaurl().size() > 0) {
+
+    remotemediaurl_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.remotemediaurl_);
+  }
   if (from.type() != 0) {
     set_type(from.type());
+  }
+  if (from.mediatype() != 0) {
+    set_mediatype(from.mediatype());
   }
 }
 
@@ -523,8 +679,11 @@ void MessageContent::Swap(MessageContent* other) {
 void MessageContent::InternalSwap(MessageContent* other) {
   searchable_content_.Swap(&other->searchable_content_);
   push_content_.Swap(&other->push_content_);
+  content_.Swap(&other->content_);
   data_.Swap(&other->data_);
+  remotemediaurl_.Swap(&other->remotemediaurl_);
   std::swap(type_, other->type_);
+  std::swap(mediatype_, other->mediatype_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -656,7 +815,60 @@ void MessageContent::set_allocated_push_content(::std::string* push_content) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.MessageContent.push_content)
 }
 
-// bytes data = 4;
+// string content = 4;
+void MessageContent::clear_content() {
+  content_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+const ::std::string& MessageContent::content() const {
+  // @@protoc_insertion_point(field_get:mars.stn.MessageContent.content)
+  return content_.GetNoArena();
+}
+void MessageContent::set_content(const ::std::string& value) {
+  
+  content_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:mars.stn.MessageContent.content)
+}
+#if LANG_CXX11
+void MessageContent::set_content(::std::string&& value) {
+  
+  content_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:mars.stn.MessageContent.content)
+}
+#endif
+void MessageContent::set_content(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  content_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:mars.stn.MessageContent.content)
+}
+void MessageContent::set_content(const char* value, size_t size) {
+  
+  content_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:mars.stn.MessageContent.content)
+}
+::std::string* MessageContent::mutable_content() {
+  
+  // @@protoc_insertion_point(field_mutable:mars.stn.MessageContent.content)
+  return content_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* MessageContent::release_content() {
+  // @@protoc_insertion_point(field_release:mars.stn.MessageContent.content)
+  
+  return content_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void MessageContent::set_allocated_content(::std::string* content) {
+  if (content != NULL) {
+    
+  } else {
+    
+  }
+  content_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), content);
+  // @@protoc_insertion_point(field_set_allocated:mars.stn.MessageContent.content)
+}
+
+// bytes data = 5;
 void MessageContent::clear_data() {
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -707,6 +919,73 @@ void MessageContent::set_allocated_data(::std::string* data) {
   }
   data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
   // @@protoc_insertion_point(field_set_allocated:mars.stn.MessageContent.data)
+}
+
+// int32 mediaType = 6;
+void MessageContent::clear_mediatype() {
+  mediatype_ = 0;
+}
+::google::protobuf::int32 MessageContent::mediatype() const {
+  // @@protoc_insertion_point(field_get:mars.stn.MessageContent.mediaType)
+  return mediatype_;
+}
+void MessageContent::set_mediatype(::google::protobuf::int32 value) {
+  
+  mediatype_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.MessageContent.mediaType)
+}
+
+// string remoteMediaUrl = 7;
+void MessageContent::clear_remotemediaurl() {
+  remotemediaurl_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+const ::std::string& MessageContent::remotemediaurl() const {
+  // @@protoc_insertion_point(field_get:mars.stn.MessageContent.remoteMediaUrl)
+  return remotemediaurl_.GetNoArena();
+}
+void MessageContent::set_remotemediaurl(const ::std::string& value) {
+  
+  remotemediaurl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:mars.stn.MessageContent.remoteMediaUrl)
+}
+#if LANG_CXX11
+void MessageContent::set_remotemediaurl(::std::string&& value) {
+  
+  remotemediaurl_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:mars.stn.MessageContent.remoteMediaUrl)
+}
+#endif
+void MessageContent::set_remotemediaurl(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  remotemediaurl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:mars.stn.MessageContent.remoteMediaUrl)
+}
+void MessageContent::set_remotemediaurl(const char* value, size_t size) {
+  
+  remotemediaurl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:mars.stn.MessageContent.remoteMediaUrl)
+}
+::std::string* MessageContent::mutable_remotemediaurl() {
+  
+  // @@protoc_insertion_point(field_mutable:mars.stn.MessageContent.remoteMediaUrl)
+  return remotemediaurl_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* MessageContent::release_remotemediaurl() {
+  // @@protoc_insertion_point(field_release:mars.stn.MessageContent.remoteMediaUrl)
+  
+  return remotemediaurl_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void MessageContent::set_allocated_remotemediaurl(::std::string* remotemediaurl) {
+  if (remotemediaurl != NULL) {
+    
+  } else {
+    
+  }
+  remotemediaurl_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), remotemediaurl);
+  // @@protoc_insertion_point(field_set_allocated:mars.stn.MessageContent.remoteMediaUrl)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

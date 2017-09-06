@@ -22,5 +22,8 @@ message MessageContent {
   ContentType type = 1;
   string searchable_content = 2;
   string push_content = 3;
-  bytes data = 4;
+  string content = 4;
+  bytes data = 5;
+  int32 mediaType = 6;
+  string remoteMediaUrl = 7;
 }

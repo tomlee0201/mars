@@ -6,13 +6,10 @@
 //  Copyright © 2017年 tomlee. All rights reserved.
 //
 
-#import "MessageContent.h"
+#import "MediaMessageContent.h"
 #import <UIKit/UIKit.h>
 
-@interface ImageMessageContent : MessageContent
+@interface ImageMessageContent : MediaMessageContent
 + (instancetype)contentFrom:(UIImage *)image;
-@property (nonatomic, strong)UIImage *image;
-@property (nonatomic, strong)NSString *localPath;
-@property (nonatomic, strong)NSString *remotePath;
 @property (nonatomic, strong)UIImage *thumbnail;
 @end

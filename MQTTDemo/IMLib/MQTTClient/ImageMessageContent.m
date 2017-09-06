@@ -24,22 +24,37 @@
     
     [imgData writeToFile:path atomically:YES];
     
-    content.image = image;
     content.localPath = path;
     content.thumbnail = [Utilities generateThumbnail:image withWidth:240 withHeight:240];
     
     return content;
 }
 - (MessagePayload *)encode {
-    MessagePayload *payload = [[MessagePayload alloc] init];
+    MediaMessagePayload *payload = [[MediaMessagePayload alloc] init];
     payload.contentType = [self.class getContentType];
-    payload.searchableContent = [UIImageJPEGRepresentation(self.thumbnail, 0.92) base64EncodedStringWithOptions:0];
-    payload.mediaData = UIImageJPEGRepresentation(self.image, 0.92);
+    payload.searchableContent = @"[图片]";
+    payload.binaryContent = UIImageJPEGRepresentation(self.thumbnail, 0.92);
+    payload.mediaType = Media_Type_IMAGE;
+    payload.remoteMediaUrl = self.remoteUrl;
+    payload.localMediaPath = self.localPath;
     return payload;
 }
 
 - (void)decode:(MessagePayload *)payload {
-    self.thumbnail = [UIImage imageWithData:[[NSData alloc] initWithBase64EncodedString:payload.searchableContent options:0]];
+    if ([payload isKindOfClass:[MediaMessagePayload class]]) {
+        MediaMessagePayload *mediaPayload = (MediaMessagePayload *)payload;
+        self.thumbnail = [UIImage imageWithData:payload.binaryContent];
+        self.remoteUrl = mediaPayload.remoteMediaUrl;
+        self.localPath = mediaPayload.localMediaPath;
+    }
+}
+
+- (UIImage *)thumbnail {
+    if (!_thumbnail) {
+        UIImage *image = [UIImage imageWithContentsOfFile:self.localPath];
+        _thumbnail = [Utilities generateThumbnail:image withWidth:240 withHeight:240];
+    }
+    return _thumbnail;
 }
 
 + (int)getContentType {
