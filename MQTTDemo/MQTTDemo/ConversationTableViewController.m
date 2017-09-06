@@ -80,7 +80,7 @@
 }
 
 - (void)refreshList {
-  self.conversations = [[[NetworkService sharedInstance] getConversations:@[@(0), @(1), @(2)]] mutableCopy];
+  self.conversations = [[[IMService sharedIMService] getConversations:@[@(0), @(1), @(2)]] mutableCopy];
   [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning {

@@ -53,7 +53,7 @@ alpha:1.0]
   self.inputTextField.returnKeyType = UIReturnKeySend;
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onResetKeyboard:)];
   [self.collectionView addGestureRecognizer:tap];
-  NSArray *messageList = [[[NetworkService sharedInstance] getMessages:self.conversation from:0 count:10] mutableCopy];
+  NSArray *messageList = [[[IMService sharedIMService] getMessages:self.conversation from:0 count:10] mutableCopy];
   self.modelList = [[NSMutableArray alloc] init];
   Message *lastMsg = nil;
   BOOL showTime = YES;
