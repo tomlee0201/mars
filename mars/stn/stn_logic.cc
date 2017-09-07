@@ -603,8 +603,8 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
         }
     };
     
-void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     AddGroupMemberRequest request;
     request.set_group_id(groupId);
     request.mutable_added_member()->Reserve((int)members.size());
@@ -612,17 +612,13 @@ void (*addMembers)(const std::string &groupId, const std::list<std::string> &mem
     for (std::list<std::string>::const_iterator it = members.begin(); it != members.end(); it++) {
         request.mutable_added_member()->AddAllocated(new std::string(*it));
     }
-    
-    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
-    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
-    request.mutable_notify_content()->set_push_content(notifyPushContent);
-    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), addGroupMemberTopic);
 };
 
-void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     RemoveGroupMemberRequest request;
     request.set_group_id(groupId);
     request.mutable_removed_member()->Reserve((int)members.size());
@@ -631,36 +627,27 @@ void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> 
         request.mutable_removed_member()->AddAllocated(new std::string(*it));
     }
     
-    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
-    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
-    request.mutable_notify_content()->set_push_content(notifyPushContent);
-    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), kickoffGroupMemberTopic);
 };
 
-void (*quitGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+void (*quitGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     QuitGroupRequest request;
     request.set_group_id(groupId);
     
-    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
-    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
-    request.mutable_notify_content()->set_push_content(notifyPushContent);
-    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), quitGroupTopic);
 };
 
-void (*dismissGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     DismissGroupRequest request;
     request.set_group_id(groupId);
     
-    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
-    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
-    request.mutable_notify_content()->set_push_content(notifyPushContent);
-    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), dismissGroupTopic);
 
@@ -713,8 +700,8 @@ void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCall
     publishTask(listBuf, new GetGroupInfoPublishCallback(callback), getGroupInfoTopic);
 };
 
-void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const TGroupInfo &groupInfo, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback) {
+void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     ModifyGroupInfoRequest request;
     request.mutable_group_info()->set_target_id(groupId);
     
@@ -730,10 +717,7 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
         request.mutable_group_info()->set_extra(groupInfo.extraData, groupInfo.extraLen);
     }
     
-    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
-    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
-    request.mutable_notify_content()->set_push_content(notifyPushContent);
-    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), modifyGroupInfoTopic);
 };

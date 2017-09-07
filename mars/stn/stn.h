@@ -506,17 +506,17 @@ extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);
         
 extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, TMessage &tmsg, CreateGroupCallback *callback);
         
-extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback);
 
-extern void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+extern void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback);
      
-extern void (*quitGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+extern void (*quitGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback);
 
-extern void (*dismissGroup)(const std::string &groupId, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+extern void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback);
   
 extern void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback);
 
-extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
+extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback);
         
 extern void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback);
 

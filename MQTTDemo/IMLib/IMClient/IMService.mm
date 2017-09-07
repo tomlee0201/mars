@@ -345,7 +345,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         memberList.push_back([member UTF8String]);
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::addMembers([groupId UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::TMessage tmsg;
+    fillTMessage(tmsg, nil, payload);
+    mars::stn::addMembers([groupId UTF8String], memberList, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)kickoffMembers:(NSArray *)members
@@ -359,7 +361,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         memberList.push_back([member UTF8String]);
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::kickoffMembers([groupId UTF8String], memberList, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::TMessage tmsg;
+    fillTMessage(tmsg, nil, payload);
+    mars::stn::kickoffMembers([groupId UTF8String], memberList, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)quitGroup:(NSString *)groupId
@@ -368,7 +372,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
             error:(void(^)(int error_code))errorBlock {
 
         MessagePayload *payload = [notifyContent encode];
-        mars::stn::quitGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::TMessage tmsg;
+    fillTMessage(tmsg, nil, payload);
+        mars::stn::quitGroup([groupId UTF8String], tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)dismissGroup:(NSString *)groupId
@@ -377,7 +383,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
                error:(void(^)(int error_code))errorBlock {
 
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::dismissGroup([groupId UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::TMessage tmsg;
+    fillTMessage(tmsg, nil, payload);
+    mars::stn::dismissGroup([groupId UTF8String], tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)modifyGroupInfo:(GroupInfo *)groupInfo
@@ -401,7 +409,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         tInfo.extraLen = groupInfo.extra.length;
     }
     MessagePayload *payload = [notifyContent encode];
-    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], (const unsigned char*)payload.binaryContent.bytes, payload.binaryContent.length, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::TMessage tmsg;
+    fillTMessage(tmsg, nil, payload);
+    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {
