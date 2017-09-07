@@ -1,0 +1,25 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "PullUserResultOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+import "user.proto";
+
+enum UserResultCode {
+    Success = 0;
+    NotFound = 1;
+    NotModified = 2;
+}
+
+message UserResult {
+    User user = 1;
+    UserResultCode code = 2;
+}
+
+message PullUserResult {
+  repeated UserResult result = 1;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "UserOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+message User {
+    string uid = 1;
+    string name = 2;
+    string display_name = 3;
+    string portrait = 4;
+    string mobile = 5;
+    string email = 6;
+    string address = 7;
+    string company = 8;
+    string extra = 9;
+    int64 update_dt = 10;
+}

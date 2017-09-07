@@ -246,6 +246,53 @@ namespace mars {
                             error);
 
             
+            //create user table
+            std::list<const WCDB::ColumnDef> userDefList = {
+                WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+                WCDB::ColumnDef(Column("_uid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_name"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_display_name"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_portrait"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_mobile"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_email"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_address"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_company"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_social"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_extra"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create("user", userDefList, true),
+                            error);
+            
+            
+            //create group table
+            std::list<const WCDB::ColumnDef> groupDefList = {
+                WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+                WCDB::ColumnDef(Column("_uid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_line"), ColumnType::Integer32),
+                WCDB::ColumnDef(Column("_name"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_portrait"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_owner"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_type"), ColumnType::Integer32),
+                WCDB::ColumnDef(Column("_extra"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create("group", groupDefList, true),
+                            error);
+            
+            
+            //create group member table
+            std::list<const WCDB::ColumnDef> groupMemberDefList = {
+                WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+                WCDB::ColumnDef(Column("_gid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_line"), ColumnType::Integer32),
+                WCDB::ColumnDef(Column("_mid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_type"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create("groupMember", groupMemberDefList, true),
+                            error);
+
             
             //create timeline table
             std::list<const WCDB::ColumnDef> timelineDefList = {

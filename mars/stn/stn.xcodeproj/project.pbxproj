@@ -109,6 +109,9 @@
 		2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */; };
 		2E4A8A2F1F4DC87D0083F36B /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4A8A2E1F4DC87D0083F36B /* WCDB.framework */; };
 		2E8D662A1F5D2D2F009BDBCB /* get_upload_token_result.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */; };
+		2EC9FC161F6198C8001C733E /* user.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC141F6198C8001C733E /* user.pb.cc */; };
+		2EC9FC1B1F619B27001C733E /* pull_user_response.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC191F619B27001C733E /* pull_user_response.pb.cc */; };
+		2EC9FC201F619BF6001C733E /* pull_user_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC1F1F619BF6001C733E /* pull_user_request.pb.cc */; };
 		2EFD82321F4E438200542244 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD82301F4E438200542244 /* DB.cpp */; };
 		2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4A1F04727D000F2C79 /* libemqtt.cc */; };
 		2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4E1F04727D000F2C79 /* longlink_packer.cc */; };
@@ -430,6 +433,15 @@
 		2E8D66271F5D2C8F009BDBCB /* get_upload_token_result.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = get_upload_token_result.proto; sourceTree = "<group>"; };
 		2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = get_upload_token_result.pb.cc; sourceTree = "<group>"; };
 		2E8D66291F5D2D2F009BDBCB /* get_upload_token_result.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = get_upload_token_result.pb.h; sourceTree = "<group>"; };
+		2EC9FC131F6197F1001C733E /* user.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = user.proto; sourceTree = "<group>"; };
+		2EC9FC141F6198C8001C733E /* user.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = user.pb.cc; sourceTree = "<group>"; };
+		2EC9FC151F6198C8001C733E /* user.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = user.pb.h; sourceTree = "<group>"; };
+		2EC9FC181F619981001C733E /* pull_user_response.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pull_user_response.proto; sourceTree = "<group>"; };
+		2EC9FC191F619B27001C733E /* pull_user_response.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pull_user_response.pb.cc; sourceTree = "<group>"; };
+		2EC9FC1A1F619B27001C733E /* pull_user_response.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pull_user_response.pb.h; sourceTree = "<group>"; };
+		2EC9FC1D1F619BDC001C733E /* pull_user_request.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pull_user_request.pb.h; sourceTree = "<group>"; };
+		2EC9FC1E1F619BDC001C733E /* pull_user_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pull_user_request.proto; sourceTree = "<group>"; };
+		2EC9FC1F1F619BF6001C733E /* pull_user_request.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pull_user_request.pb.cc; sourceTree = "<group>"; };
 		2EFD82301F4E438200542244 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DB.cpp; sourceTree = "<group>"; };
 		2EFD82311F4E438200542244 /* DB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DB.hpp; sourceTree = "<group>"; };
 		2F395A4A1F04727D000F2C79 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
@@ -609,6 +621,15 @@
 				2E1F15DE1F3F4CFC000A84E9 /* remove_group_member_request.pb.cc */,
 				2E1F15DF1F3F4CFC000A84E9 /* remove_group_member_request.pb.h */,
 				2E1F15E01F3F4CFC000A84E9 /* remove_group_member_request.proto */,
+				2EC9FC141F6198C8001C733E /* user.pb.cc */,
+				2EC9FC151F6198C8001C733E /* user.pb.h */,
+				2EC9FC131F6197F1001C733E /* user.proto */,
+				2EC9FC191F619B27001C733E /* pull_user_response.pb.cc */,
+				2EC9FC1A1F619B27001C733E /* pull_user_response.pb.h */,
+				2EC9FC181F619981001C733E /* pull_user_response.proto */,
+				2EC9FC1F1F619BF6001C733E /* pull_user_request.pb.cc */,
+				2EC9FC1D1F619BDC001C733E /* pull_user_request.pb.h */,
+				2EC9FC1E1F619BDC001C733E /* pull_user_request.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -1100,6 +1121,7 @@
 				2E1F1AB41F3F5E04000A84E9 /* extension_set.cc in Sources */,
 				134DEC5D197631D90055FA73 /* signalling_keeper.cc in Sources */,
 				2E1F1AD51F3F5E04000A84E9 /* mathlimits.cc in Sources */,
+				2EC9FC201F619BF6001C733E /* pull_user_request.pb.cc in Sources */,
 				2E1F1AE41F3F5E04000A84E9 /* text_format.cc in Sources */,
 				2E1F1AF81F3F5E04000A84E9 /* object_writer.cc in Sources */,
 				2E1F1AB71F3F5E04000A84E9 /* generated_message_reflection.cc in Sources */,
@@ -1121,6 +1143,7 @@
 				4B07F3151C4F8F0700FD1B8D /* longlink_task_manager.cc in Sources */,
 				4B07F31A1C4F8F0700FD1B8D /* shortlink_task_manager.cc in Sources */,
 				4B07F3201C4F8F0700FD1B8D /* zombie_task_manager.cc in Sources */,
+				2EC9FC161F6198C8001C733E /* user.pb.cc in Sources */,
 				2E1F1AE71F3F5E04000A84E9 /* unknown_field_set.cc in Sources */,
 				2E1F1AFA1F3F5E04000A84E9 /* protostream_objectsource.cc in Sources */,
 				4B07F2E01C4F8E7A00FD1B8D /* anti_avalanche.cc in Sources */,
@@ -1136,6 +1159,7 @@
 				4B07F3161C4F8F0700FD1B8D /* longlink.cc in Sources */,
 				2E1F1ADB1F3F5E04000A84E9 /* stringpiece.cc in Sources */,
 				2E1F15F11F3F4CFC000A84E9 /* quit_group_request.pb.cc in Sources */,
+				2EC9FC1B1F619B27001C733E /* pull_user_response.pb.cc in Sources */,
 				2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */,
 				2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */,
 				2E1F15E31F3F4CFC000A84E9 /* create_group_request.pb.cc in Sources */,

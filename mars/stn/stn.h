@@ -74,15 +74,16 @@ struct TaskProfile;
 struct DnsProfile;
         class TGroupInfo {
         public:
-            TGroupInfo() : extraData(NULL), type(0), extraLen(NULL){}
+            TGroupInfo() : type(0), line(0) {}
             std::string target;
+            int line;
             std::string name;
             std::string portrait;
             std::string owner;
             int type;
-            unsigned char *extraData;
-            size_t extraLen;
-            virtual ~TGroupInfo(){if(extraData != NULL) {delete [] extraData; extraData = NULL; extraLen = 0;}}
+            std::string extra;
+            int64_t updateDt;
+            virtual ~TGroupInfo() {}
         };
         
         class TMessageContent {

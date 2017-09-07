@@ -1,0 +1,20 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "PullUserRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+
+
+
+message UserRequest {
+    string uid = 1;
+    int64 update_dt = 2;
+}
+
+message PullUserRequest {
+  repeated UserRequest request = 1;
+}

@@ -39,6 +39,9 @@ namespace mars {
             
             bool updateMessageStatus(long messageId, MessageStatus status);
             bool updateMessageRemoteMediaUrl(long messageId, const std::string &remoteMediaUrl);
+            
+            TGroupInfo GetGroupInfo(const std::string &groupId, int line);
+            long InsertGroupInfo(const TGroupInfo &groupInfo);
         private:
             static MessageDB* instance_;
         };

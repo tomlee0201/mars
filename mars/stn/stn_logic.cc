@@ -669,9 +669,7 @@ void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOpe
                     tInfo.name = info.name();
                     tInfo.portrait = info.portrait();
                     tInfo.owner = info.owner();
-                    tInfo.extraData = new unsigned char[info.extra().length()];
-                    memcpy(tInfo.extraData, info.extra().c_str(), info.extra().length());
-                    tInfo.extraLen = info.extra().length();
+                    tInfo.extra = info.extra();
                     retList.push_back(tInfo);
                 }
                 callback->onSuccess(retList);
@@ -713,8 +711,8 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
         request.mutable_group_info()->set_owner(groupInfo.owner);
     if (groupInfo.type >= 0)
         request.mutable_group_info()->set_type((GroupType)groupInfo.type);
-    if (groupInfo.extraData != NULL) {
-        request.mutable_group_info()->set_extra(groupInfo.extraData, groupInfo.extraLen);
+    if (!groupInfo.extra.empty()) {
+        request.mutable_group_info()->set_extra(groupInfo.extra);
     }
     
     fillMessageContent(tmsg, request.mutable_notify_content());
