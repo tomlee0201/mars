@@ -138,11 +138,12 @@ struct DnsProfile;
         
         class TMessage {
         public:
-            TMessage() : conversationType(0) {}
+            TMessage() : conversationType(0), line(0) {}
             
             int conversationType;
-            
             std::string target;
+            int line;
+            
             std::string from;
             TMessageContent content;
             long messageId;
@@ -155,9 +156,10 @@ struct DnsProfile;
         
         class TConversation {
         public:
-            TConversation() : conversationType(0) {}
+            TConversation() : conversationType(0), line(0) {}
             int conversationType;
             std::string target;
+            int line;
             TMessage lastMessage;
             int64_t timestamp;
             std::string draft;
@@ -188,7 +190,7 @@ struct DnsProfile;
     class SendMessageCallback {
     public:
         virtual void onPrepared(long messageId) = 0;
-        virtual void onMediaUploaded(std::string remotePath) = 0;
+        virtual void onMediaUploaded(std::string remoteUrl) = 0;
         virtual void onSuccess(long messageUid, long long timestamp) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
@@ -500,7 +502,7 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
       extern ConnectionStatus getConnectionStatus();
         
-extern int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath);
+extern int (*sendMessage)(int conversationType, const std::string &target, int line, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath);
         
 extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback);
         

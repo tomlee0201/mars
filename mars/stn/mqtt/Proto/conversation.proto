@@ -19,4 +19,5 @@ enum ConversationType {
 message Conversation {
   ConversationType type = 1;
   string target = 2;
+  int32 line = 3;
 }

@@ -48,7 +48,7 @@
 
 - (IBAction)onSendButton:(id)sender {
   
-    Conversation *conversation = [Conversation conversationWithType:Single_Type target:self.targetIdField.text];
+    Conversation *conversation = [Conversation conversationWithType:Single_Type target:self.targetIdField.text line:0];
     MessageContent *content = [TextMessageContent contentWith:self.contentField.text];
     __weak typeof(self) weakSelf = self;
     [[IMService sharedIMService] send:conversation content:content success:^(long messageId, long timestamp) {

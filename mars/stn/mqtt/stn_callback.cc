@@ -126,6 +126,7 @@ void StnCallBack::onPullFailure(int errorCode) {
                         const ::mars::stn::Message &pmsg = *it;
                         TMessage tmsg;
                         tmsg.conversationType = (int)pmsg.conversation().type();
+                        tmsg.line = (int)pmsg.conversation().line();
                         
                         tmsg.from = pmsg.from_user();
                         if (tmsg.from == curUser) {
@@ -153,7 +154,7 @@ void StnCallBack::onPullFailure(int errorCode) {
                         
                         long id = MessageDB::Instance()->InsertMessage(tmsg);
                         tmsg.messageId = id;
-                        MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.timestamp);
+                        MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.line, tmsg.timestamp);
                     }
 
                     cb->onPullSuccess(messageList, result.current(), result.head());

@@ -87,7 +87,7 @@ namespace stn{
     
 
     // async function.
-    extern void (*StartTask)(const MQTTTask& task);
+    extern void (*StartTask)(const Task& task);
     
     // sync function
     extern void (*StopTask)(uint32_t taskid);

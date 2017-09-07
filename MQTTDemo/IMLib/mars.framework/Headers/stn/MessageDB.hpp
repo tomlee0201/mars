@@ -28,14 +28,17 @@ namespace mars {
             bool UpdateMessageTimeline(int64_t timeline);
             int64_t GetMessageTimeline();
             
-            bool updateConversationTimestamp(int conversationType, const std::string &target, int64_t timestamp);
-            bool updateConversationIsTop(int conversationType, const std::string &target, bool istop);
-            bool updateConversationDraft(int conversationType, const std::string &target, const std::string &draft);
+            bool updateConversationTimestamp(int conversationType, const std::string &target, int line, int64_t timestamp);
+            bool updateConversationIsTop(int conversationType, const std::string &target, int line, bool istop);
+            bool updateConversationDraft(int conversationType, const std::string &target, int line, const std::string &draft);
             
-            TConversation GetConversation(int conversationType, const std::string &target);
-            std::list<TConversation> GetConversationList(const std::list<int> &conversationTypes);
+            TConversation GetConversation(int conversationType, const std::string &target, int line);
+            std::list<TConversation> GetConversationList(const std::list<int> &conversationTypes, const std::list<int> &lines);
             
-            std::list<TMessage> GetMessages(int conversationType, const std::string &target, bool desc, int count, long startPoint);
+            std::list<TMessage> GetMessages(int conversationType, const std::string &target, int line, bool desc, int count, long startPoint);
+            
+            bool updateMessageStatus(long messageId, MessageStatus status);
+            bool updateMessageRemoteMediaUrl(long messageId, const std::string &remoteMediaUrl);
         private:
             static MessageDB* instance_;
         };

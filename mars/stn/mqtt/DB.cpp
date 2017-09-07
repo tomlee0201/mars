@@ -224,6 +224,7 @@ namespace mars {
                 WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
                 WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
                 WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_conv_line"), ColumnType::Integer32).makeNotNull(),
                 WCDB::ColumnDef(Column("_from"), ColumnType::Text).makeNotNull(),
                 
                 WCDB::ColumnDef(Column("_cont_type"), ColumnType::Integer32).makeNotNull(),
@@ -261,6 +262,7 @@ namespace mars {
             std::list<const WCDB::ColumnDef> convDefList = {
                 WCDB::ColumnDef(Column("_conv_type"), ColumnType::Integer32).makeNotNull(),
                 WCDB::ColumnDef(Column("_conv_target"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_conv_line"), ColumnType::Integer32).makeNotNull(),
                 WCDB::ColumnDef(Column("_draft"), ColumnType::Text).makeDefault(NULL),
                 WCDB::ColumnDef(Column("_istop"), ColumnType::Integer32).makeDefault(0),
                 WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
@@ -271,7 +273,8 @@ namespace mars {
             //create conversation index table
             std::list<const WCDB::ColumnIndex> convIndexList = {
                 WCDB::ColumnIndex(Column("_conv_type"),OrderTerm::NotSet),
-                WCDB::ColumnIndex(Column("_conv_target"),OrderTerm::NotSet)
+                WCDB::ColumnIndex(Column("_conv_target"),OrderTerm::NotSet),
+                WCDB::ColumnIndex(Column("_conv_line"),OrderTerm::NotSet)
             };
             _database->exec(WCDB::StatementCreateIndex()
                         .create("conv_index", true, true)

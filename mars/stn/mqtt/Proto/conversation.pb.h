@@ -166,12 +166,19 @@ class Conversation : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::mars::stn::ConversationType type() const;
   void set_type(::mars::stn::ConversationType value);
 
+  // int32 line = 3;
+  void clear_line();
+  static const int kLineFieldNumber = 3;
+  ::google::protobuf::int32 line() const;
+  void set_line(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:mars.stn.Conversation)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr target_;
   int type_;
+  ::google::protobuf::int32 line_;
   mutable int _cached_size_;
   friend struct protobuf_conversation_2eproto::TableStruct;
 };
@@ -248,6 +255,20 @@ inline void Conversation::set_allocated_target(::std::string* target) {
   }
   target_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), target);
   // @@protoc_insertion_point(field_set_allocated:mars.stn.Conversation.target)
+}
+
+// int32 line = 3;
+inline void Conversation::clear_line() {
+  line_ = 0;
+}
+inline ::google::protobuf::int32 Conversation::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.Conversation.line)
+  return line_;
+}
+inline void Conversation::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.Conversation.line)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

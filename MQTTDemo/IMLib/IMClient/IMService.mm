@@ -186,6 +186,7 @@ static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     ret.conversation = [[Conversation alloc] init];
     ret.conversation.type = (ConversationType)tMessage->conversationType;
     ret.conversation.target = [NSString stringWithUTF8String:tMessage->target.c_str()];
+    ret.conversation.line = tMessage->line;
     ret.messageId = tMessage->messageId;
     ret.messageUid = tMessage->messageUid;
     ret.serverTime = tMessage->timestamp;
@@ -248,19 +249,24 @@ static IMService * sharedSingleton = nil;
     if ([payload isKindOfClass:[MediaMessagePayload class]]) {
         MediaMessagePayload *mediaPayload = (MediaMessagePayload *)payload;
         
-        mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String] ? [mediaPayload.remoteMediaUrl UTF8String] : "", [mediaPayload.localMediaPath UTF8String] ? [mediaPayload.localMediaPath UTF8String] : "");
+        mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], conversation.line, payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String] ? [mediaPayload.remoteMediaUrl UTF8String] : "", [mediaPayload.localMediaPath UTF8String] ? [mediaPayload.localMediaPath UTF8String] : "");
     } else {
-        mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), 0, "", "");
+        mars::stn::sendMessage(conversation.type, [conversation.target UTF8String], conversation.line, payload.contentType, [payload.searchableContent UTF8String] ? [payload.searchableContent UTF8String] : "", [payload.pushContent UTF8String] ? [payload.pushContent UTF8String] : "", [payload.content UTF8String] ? [payload.content UTF8String] : "", [payload.localContent UTF8String] ? [payload.localContent UTF8String] : "", (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), 0, "", "");
     }
     return message;
 }
 
-- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes {
+- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *> *)lines{
     std::list<int> types;
     for (NSNumber *type in conversationTypes) {
         types.push_back([type intValue]);
     }
-    std::list<mars::stn::TConversation> convers = mars::stn::MessageDB::Instance()->GetConversationList(types);
+    
+    std::list<int> ls;
+    for (NSNumber *type in lines) {
+        ls.push_back([type intValue]);
+    }
+    std::list<mars::stn::TConversation> convers = mars::stn::MessageDB::Instance()->GetConversationList(types, ls);
     NSMutableArray *ret = [[NSMutableArray alloc] init];
     for (std::list<mars::stn::TConversation>::iterator it = convers.begin(); it != convers.end(); it++) {
         mars::stn::TConversation &tConv = *it;
@@ -268,6 +274,7 @@ static IMService * sharedSingleton = nil;
         info.conversation = [[Conversation alloc] init];
         info.conversation.type = (ConversationType)tConv.conversationType;
         info.conversation.target = [NSString stringWithUTF8String:tConv.target.c_str()];
+        info.conversation.line = tConv.line;
         info.lastMessage = convertProtoMessage(&tConv.lastMessage);
         info.draft = [NSString stringWithUTF8String:tConv.draft.c_str()];
         info.timestamp = tConv.timestamp;
@@ -279,7 +286,7 @@ static IMService * sharedSingleton = nil;
 }
 
 - (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count {
-    std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], true, (int)count, fromIndex);
+    std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], conversation.line, true, (int)count, fromIndex);
     return convertProtoMessageList(messages);
 }
 

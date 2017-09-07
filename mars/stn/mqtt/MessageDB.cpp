@@ -48,26 +48,27 @@ namespace mars {
             }
             
 
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("message", {"_conv_type","_conv_target","_from","_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path","_direction","_status","_uid","_timestamp"});
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("message", {"_conv_type","_conv_target","_conv_line","_from","_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path","_direction","_status","_uid","_timestamp"});
             db->Bind(statementHandle, msg.conversationType, 1);
             db->Bind(statementHandle, msg.target, 2);
-            db->Bind(statementHandle, msg.from, 3);
+            db->Bind(statementHandle, msg.line, 3);
+            db->Bind(statementHandle, msg.from, 4);
             
-            db->Bind(statementHandle, msg.content.type, 4);
-            db->Bind(statementHandle, msg.content.searchableContent, 5);
-            db->Bind(statementHandle, msg.content.pushContent, 6);
-            db->Bind(statementHandle, msg.content.content, 7);
-            db->Bind(statementHandle, (const void *)msg.content.binaryContent.c_str(), (int)msg.content.binaryContent.length(), 8);
-            db->Bind(statementHandle, msg.content.localContent, 9);
-            db->Bind(statementHandle, msg.content.mediaType, 10);
-            db->Bind(statementHandle, msg.content.remoteMediaUrl, 11);
-            db->Bind(statementHandle, msg.content.localMediaPath, 12);
+            db->Bind(statementHandle, msg.content.type, 5);
+            db->Bind(statementHandle, msg.content.searchableContent, 6);
+            db->Bind(statementHandle, msg.content.pushContent, 7);
+            db->Bind(statementHandle, msg.content.content, 8);
+            db->Bind(statementHandle, (const void *)msg.content.binaryContent.c_str(), (int)msg.content.binaryContent.length(), 9);
+            db->Bind(statementHandle, msg.content.localContent, 10);
+            db->Bind(statementHandle, msg.content.mediaType, 11);
+            db->Bind(statementHandle, msg.content.remoteMediaUrl, 12);
+            db->Bind(statementHandle, msg.content.localMediaPath, 13);
             
-            db->Bind(statementHandle, msg.direction, 13);
-            db->Bind(statementHandle, msg.status, 14);
+            db->Bind(statementHandle, msg.direction, 14);
+            db->Bind(statementHandle, msg.status, 15);
             
-            db->Bind(statementHandle, msg.messageUid, 15);
-            db->Bind(statementHandle, msg.timestamp, 16);
+            db->Bind(statementHandle, msg.messageUid, 16);
+            db->Bind(statementHandle, msg.timestamp, 17);
             
             db->ExecuteInsert(statementHandle, &(msg.messageId));
             return msg.messageId;
@@ -99,7 +100,7 @@ namespace mars {
             return 0;
         }
 
-        bool MessageDB::updateConversationTimestamp(int conversationType, const std::string &target, int64_t timestamp) {
+        bool MessageDB::updateConversationTimestamp(int conversationType, const std::string &target, int line, int64_t timestamp) {
             DB *db = DB::Instance();
             if (!db->isOpened()) {
               return false;
@@ -107,7 +108,7 @@ namespace mars {
           
             WCDB::Error error;
             
-            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_timestamp"}, &where);
             db->Bind(updateStatementHandle, timestamp, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
@@ -116,14 +117,15 @@ namespace mars {
                 return true;
             }
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_timestamp"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_timestamp"}, true);
             db->Bind(statementHandle, conversationType, 1);
             db->Bind(statementHandle, target, 2);
-            db->Bind(statementHandle, timestamp, 3);
+            db->Bind(statementHandle, line, 3);
+            db->Bind(statementHandle, timestamp, 4);
             return db->ExecuteInsert(statementHandle);
         }
         
-        bool MessageDB::updateConversationIsTop(int conversationType, const std::string &target, bool istop) {
+        bool MessageDB::updateConversationIsTop(int conversationType, const std::string &target, int line, bool istop) {
             DB *db = DB::Instance();
             if (!db->isOpened()) {
               return false;
@@ -131,7 +133,7 @@ namespace mars {
             WCDB::Error error;
             
             
-            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_istop"}, &where);
             db->Bind(updateStatementHandle, istop, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
@@ -140,14 +142,15 @@ namespace mars {
                 return true;
             }
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_istop"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_istop"}, true);
             db->Bind(statementHandle, conversationType, 1);
             db->Bind(statementHandle, target, 2);
-            db->Bind(statementHandle, istop, 3);
+            db->Bind(statementHandle, line, 3);
+            db->Bind(statementHandle, istop, 4);
             return db->ExecuteInsert(statementHandle);
         }
         
-        bool MessageDB::updateConversationDraft(int conversationType, const std::string &target, const std::string &draft) {
+        bool MessageDB::updateConversationDraft(int conversationType, const std::string &target, int line, const std::string &draft) {
             DB *db = DB::Instance();
             if (!db->isOpened()) {
               return false;
@@ -155,7 +158,7 @@ namespace mars {
             WCDB::Error error;
             
             
-            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target));
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_draft"}, &where);
             db->Bind(updateStatementHandle, draft, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
@@ -165,38 +168,46 @@ namespace mars {
             }
             
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_draft"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_draft"}, true);
             db->Bind(statementHandle, conversationType, 1);
             db->Bind(statementHandle, target, 2);
-            db->Bind(statementHandle, draft, 3);
+            db->Bind(statementHandle, line, 3);
+            db->Bind(statementHandle, draft, 4);
             return db->ExecuteInsert(statementHandle);
         }
-        std::list<TConversation> MessageDB::GetConversationList(const std::list<int> &conversationTypes) {
+        std::list<TConversation> MessageDB::GetConversationList(const std::list<int> &conversationTypes, const std::list<int> &lines) {
             DB *db = DB::Instance();
             if (!db->isOpened()) {
               return std::list<TConversation>();
             }
             WCDB::Error error;
           
-            std::list<const WCDB::Expr> exprs;
+            std::list<const WCDB::Expr> exprsType;
             for (std::list<int>::const_iterator it = conversationTypes.begin(); it != conversationTypes.end(); it++) {
-                exprs.push_back(WCDB::Expr(*it));
+                exprsType.push_back(WCDB::Expr(*it));
             }
-            WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")).in(exprs);
+            
+            std::list<const WCDB::Expr> exprsLine;
+            for (std::list<int>::const_iterator it = lines.begin(); it != lines.end(); it++) {
+                exprsLine.push_back(WCDB::Expr(*it));
+            }
+
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")).in(exprsType)) && WCDB::Expr(WCDB::Column("_conv_line")).in(exprsLine);
             std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_conv_type", "_conv_target", "_draft",  "_istop", "_timestamp"}, error, &where, &orderBy);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_draft",  "_istop", "_timestamp"}, error, &where, &orderBy);
             
             std::list<TConversation> convs;
           while(statementHandle->step()) {
                 TConversation conv;
                 conv.conversationType = db->getIntValue(statementHandle, 0);
                 conv.target = db->getStringValue(statementHandle, 1);
+                conv.line = db->getIntValue(statementHandle, 2);
+                conv.draft = db->getStringValue(statementHandle, 3);
+                conv.isTop = db->getIntValue(statementHandle, 4);
+                conv.timestamp = db->getBigIntValue(statementHandle, 5);
                 
-                conv.draft = db->getStringValue(statementHandle, 2);
-                conv.isTop = db->getIntValue(statementHandle, 3);
-                conv.timestamp = db->getBigIntValue(statementHandle, 4);
-                
-                std::list<TMessage> lastMessages = GetMessages(conv.conversationType, conv.target, true, 1, LONG_MAX);
+                std::list<TMessage> lastMessages = GetMessages(conv.conversationType, conv.target, conv.line, true, 1, LONG_MAX);
                 if (lastMessages.size() > 0) {
                     conv.lastMessage = *lastMessages.begin();
                 }
@@ -204,7 +215,7 @@ namespace mars {
             }
             return convs;
         }
-        TConversation MessageDB::GetConversation(int conversationType, const std::string &target) {
+        TConversation MessageDB::GetConversation(int conversationType, const std::string &target, int line) {
             DB *db = DB::Instance();
             WCDB::Error error;
             TConversation conv;
@@ -212,7 +223,7 @@ namespace mars {
               return conv;
             }
           
-            WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line);
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_draft",  "_istop", "_timestamp"}, error, &where);
             
             conv.target = target;
@@ -222,21 +233,21 @@ namespace mars {
                 conv.isTop = db->getIntValue(statementHandle, 1);
                 conv.timestamp = db->getBigIntValue(statementHandle, 2);
                 
-                std::list<TMessage> lastMessages = GetMessages(conversationType, target, true, 1, LONG_MAX);
+                std::list<TMessage> lastMessages = GetMessages(conversationType, target, line, true, 1, LONG_MAX);
                 if (lastMessages.size() > 0) {
                     conv.lastMessage = *lastMessages.begin();
                 }
             }
             return conv;
         }
-        std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, bool old, int count, long startPoint) {
+        std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, int line, bool old, int count, long startPoint) {
             DB *db = DB::Instance();
             WCDB::Error error;
           if (!db->isOpened()) {
             return std::list<TMessage>();
           }
           
-            WCDB::Expr where = WCDB::Expr(WCDB::Column("_conv_type")) == conversationType && WCDB::Expr(WCDB::Column("_conv_target")) == target;
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line);
             if (old) {
               if (startPoint == 0) {
                 startPoint = LONG_MAX;
@@ -252,6 +263,7 @@ namespace mars {
                     "_id",
                     "_conv_type",
                     "_conv_target",
+                    "_conv_line",
                     "_from",
                     "_cont_type",
                     "_cont_searchable",
@@ -274,24 +286,25 @@ namespace mars {
                 msg.messageId = db->getIntValue(statementHandle, 0);
                 msg.conversationType = db->getIntValue(statementHandle, 1);
                 msg.target = db->getStringValue(statementHandle, 2);
-                msg.from = db->getStringValue(statementHandle, 3);
+                msg.line = db->getIntValue(statementHandle, 3);
+                msg.from = db->getStringValue(statementHandle, 4);
                 
-                msg.content.type = db->getIntValue(statementHandle, 4);
-                msg.content.searchableContent = db->getStringValue(statementHandle, 5);
-                msg.content.pushContent = db->getStringValue(statementHandle, 6);
-                msg.content.content = db->getStringValue(statementHandle, 7);
+                msg.content.type = db->getIntValue(statementHandle, 5);
+                msg.content.searchableContent = db->getStringValue(statementHandle, 6);
+                msg.content.pushContent = db->getStringValue(statementHandle, 7);
+                msg.content.content = db->getStringValue(statementHandle, 8);
                 int size = 0;
-                const void *p = db->getBlobValue(statementHandle, 8, size);
+                const void *p = db->getBlobValue(statementHandle, 9, size);
                 msg.content.binaryContent = std::string((const char *)p, size);
-                msg.content.localContent = db->getStringValue(statementHandle, 9);
-                msg.content.mediaType = db->getIntValue(statementHandle, 10);
-                msg.content.remoteMediaUrl = db->getStringValue(statementHandle, 11);
-                msg.content.localMediaPath = db->getStringValue(statementHandle, 12);
+                msg.content.localContent = db->getStringValue(statementHandle, 10);
+                msg.content.mediaType = db->getIntValue(statementHandle, 11);
+                msg.content.remoteMediaUrl = db->getStringValue(statementHandle, 12);
+                msg.content.localMediaPath = db->getStringValue(statementHandle, 13);
                 
-                msg.direction = db->getIntValue(statementHandle, 13);
-                msg.status = (MessageStatus)db->getIntValue(statementHandle, 14);
-                msg.messageUid = db->getBigIntValue(statementHandle, 15);
-                msg.timestamp = db->getBigIntValue(statementHandle, 16);
+                msg.direction = db->getIntValue(statementHandle, 14);
+                msg.status = (MessageStatus)db->getIntValue(statementHandle, 15);
+                msg.messageUid = db->getBigIntValue(statementHandle, 16);
+                msg.timestamp = db->getBigIntValue(statementHandle, 17);
                 
                 result.push_back(msg);
             }

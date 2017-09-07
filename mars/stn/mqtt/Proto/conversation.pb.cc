@@ -54,6 +54,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Conversation, type_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Conversation, target_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Conversation, line_),
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
@@ -106,18 +107,18 @@ void InitDefaults() {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
-      "\n\022conversation.proto\022\010mars.stn\"H\n\014Conver"
+      "\n\022conversation.proto\022\010mars.stn\"V\n\014Conver"
       "sation\022(\n\004type\030\001 \001(\0162\032.mars.stn.Conversa"
-      "tionType\022\016\n\006target\030\002 \001(\t*\246\001\n\020Conversatio"
-      "nType\022\034\n\030ConversationType_Private\020\000\022\032\n\026C"
-      "onversationType_Group\020\001\022\033\n\027ConversationT"
-      "ype_System\020\002\022\035\n\031ConversationType_ChatRoo"
-      "m\020\003\022\034\n\030ConversationType_Command\020\004B.\n\024win"
-      ".liyufan.im.protoB\026ConversationOuterClas"
-      "sb\006proto3"
+      "tionType\022\016\n\006target\030\002 \001(\t\022\014\n\004line\030\003 \001(\005*\246"
+      "\001\n\020ConversationType\022\034\n\030ConversationType_"
+      "Private\020\000\022\032\n\026ConversationType_Group\020\001\022\033\n"
+      "\027ConversationType_System\020\002\022\035\n\031Conversati"
+      "onType_ChatRoom\020\003\022\034\n\030ConversationType_Co"
+      "mmand\020\004B.\n\024win.liyufan.im.protoB\026Convers"
+      "ationOuterClassb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 329);
+      descriptor, 343);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "conversation.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -159,6 +160,7 @@ bool ConversationType_IsValid(int value) {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Conversation::kTypeFieldNumber;
 const int Conversation::kTargetFieldNumber;
+const int Conversation::kLineFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Conversation::Conversation()
@@ -178,13 +180,16 @@ Conversation::Conversation(const Conversation& from)
   if (from.target().size() > 0) {
     target_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.target_);
   }
-  type_ = from.type_;
+  ::memcpy(&type_, &from.type_,
+    reinterpret_cast<char*>(&line_) -
+    reinterpret_cast<char*>(&type_) + sizeof(line_));
   // @@protoc_insertion_point(copy_constructor:mars.stn.Conversation)
 }
 
 void Conversation::SharedCtor() {
   target_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  ::memset(&type_, 0, reinterpret_cast<char*>(&line_) -
+    reinterpret_cast<char*>(&type_) + sizeof(line_));
   _cached_size_ = 0;
 }
 
@@ -223,7 +228,8 @@ Conversation* Conversation::New(::google::protobuf::Arena* arena) const {
 void Conversation::Clear() {
 // @@protoc_insertion_point(message_clear_start:mars.stn.Conversation)
   target_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  ::memset(&type_, 0, reinterpret_cast<char*>(&line_) -
+    reinterpret_cast<char*>(&type_) + sizeof(line_));
 }
 
 bool Conversation::MergePartialFromCodedStream(
@@ -261,6 +267,20 @@ bool Conversation::MergePartialFromCodedStream(
             this->target().data(), this->target().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "mars.stn.Conversation.target"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 line = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &line_)));
         } else {
           goto handle_unusual;
         }
@@ -310,6 +330,11 @@ void Conversation::SerializeWithCachedSizes(
       2, this->target(), output);
   }
 
+  // int32 line = 3;
+  if (this->line() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->line(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:mars.stn.Conversation)
 }
 
@@ -336,6 +361,11 @@ void Conversation::SerializeWithCachedSizes(
         2, this->target(), target);
   }
 
+  // int32 line = 3;
+  if (this->line() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->line(), target);
+  }
+
   // @@protoc_insertion_point(serialize_to_array_end:mars.stn.Conversation)
   return target;
 }
@@ -355,6 +385,13 @@ size_t Conversation::ByteSizeLong() const {
   if (this->type() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
+  }
+
+  // int32 line = 3;
+  if (this->line() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->line());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -393,6 +430,9 @@ void Conversation::MergeFrom(const Conversation& from) {
   if (from.type() != 0) {
     set_type(from.type());
   }
+  if (from.line() != 0) {
+    set_line(from.line());
+  }
 }
 
 void Conversation::CopyFrom(const ::google::protobuf::Message& from) {
@@ -420,6 +460,7 @@ void Conversation::Swap(Conversation* other) {
 void Conversation::InternalSwap(Conversation* other) {
   target_.Swap(&other->target_);
   std::swap(type_, other->type_);
+  std::swap(line_, other->line_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -496,6 +537,20 @@ void Conversation::set_allocated_target(::std::string* target) {
   }
   target_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), target);
   // @@protoc_insertion_point(field_set_allocated:mars.stn.Conversation.target)
+}
+
+// int32 line = 3;
+void Conversation::clear_line() {
+  line_ = 0;
+}
+::google::protobuf::int32 Conversation::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.Conversation.line)
+  return line_;
+}
+void Conversation::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.Conversation.line)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

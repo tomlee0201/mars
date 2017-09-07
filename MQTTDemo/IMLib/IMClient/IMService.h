@@ -16,8 +16,11 @@
 
 - (Message *)send:(Conversation *)conversation content:(MessageContent *)content success:(void(^)(long messageId, long timestamp))successBlock error:(void(^)(int error_code))errorBlock;
 
-- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes;
+- (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *> *)lines;
 - (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count;
+
+- (void)registerMessageContent:(Class)contentClass;
+- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
@@ -62,6 +65,4 @@
                 success:(void(^)(NSArray<NSString *> *))successBlock
                   error:(void(^)(int error_code))errorBlock;
 
-- (void)registerMessageContent:(Class)contentClass;
-- (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 @end

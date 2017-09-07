@@ -410,6 +410,7 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         Message message;
         message.mutable_conversation()->set_type((ConversationType)tmsg.conversationType);
         message.mutable_conversation()->set_target(tmsg.target);
+        message.mutable_conversation()->set_line(tmsg.line);
         message.set_from_user(app::GetUserName());
         
         message.mutable_content()->set_type((::mars::stn::ContentType)tmsg.content.type);
@@ -478,12 +479,13 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     
 // conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], [payload.content UTF8String], [payload.localContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String], [mediaPayload.localMediaPath UTF8String]
     
-int (*sendMessage)(int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath)
-= [](int conversationType, const std::string &target, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath) {
+int (*sendMessage)(int conversationType, const std::string &target, int line, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath)
+= [](int conversationType, const std::string &target, int line, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath) {
   
   TMessage tmsg;
   tmsg.conversationType = conversationType;
   tmsg.target = target;
+    tmsg.line = line;
   tmsg.from = app::GetUserName();
   tmsg.content.type = contentType;
   tmsg.content.searchableContent = searchableContent;
@@ -503,7 +505,7 @@ int (*sendMessage)(int conversationType, const std::string &target, int contentT
   tmsg.direction = 0;
   
   long id = MessageDB::Instance()->InsertMessage(tmsg);
-  MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.timestamp);
+  MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.line, tmsg.timestamp);
   callback->onPrepared(id);
   
   

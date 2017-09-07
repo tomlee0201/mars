@@ -15,7 +15,8 @@ typedef enum : NSUInteger {
 } ConversationType;
 
 @interface Conversation : NSObject
-+(instancetype)conversationWithType:(ConversationType)type target:(NSString *)target;
++(instancetype)conversationWithType:(ConversationType)type target:(NSString *)target line:(int)line;
 @property (nonatomic, assign)ConversationType type;
 @property (nonatomic, strong)NSString *target;
+@property (nonatomic, assign)int line;
 @end
