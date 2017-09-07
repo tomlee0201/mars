@@ -18,11 +18,12 @@ enum GroupType {
 
 message GroupInfo {
   string target_id = 1;
-  string name = 2;
-  string portrait = 3;
-  string owner = 4;
-  GroupType type = 5;
-  bytes extra = 6;
+  int32 line = 2;
+  string name = 3;
+  string portrait = 4;
+  string owner = 5;
+  GroupType type = 6;
+  bytes extra = 7;
 }
 
 message Group {

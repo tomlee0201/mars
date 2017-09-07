@@ -502,9 +502,9 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
       extern ConnectionStatus getConnectionStatus();
         
-extern int (*sendMessage)(int conversationType, const std::string &target, int line, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath);
+extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);
         
-extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback);
+extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, TMessage &tmsg, CreateGroupCallback *callback);
         
 extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, GeneralGroupOperationCallback *callback);
 

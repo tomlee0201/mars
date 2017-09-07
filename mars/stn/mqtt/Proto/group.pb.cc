@@ -56,6 +56,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GroupInfo, target_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GroupInfo, line_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GroupInfo, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GroupInfo, portrait_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GroupInfo, owner_),
@@ -72,7 +73,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 0, -1, sizeof(GroupInfo)},
-  { 11, -1, sizeof(Group)},
+  { 12, -1, sizeof(Group)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -127,18 +128,19 @@ void InitDefaults() {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
-      "\n\013group.proto\022\010mars.stn\"\177\n\tGroupInfo\022\021\n\t"
-      "target_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010portrai"
-      "t\030\003 \001(\t\022\r\n\005owner\030\004 \001(\t\022!\n\004type\030\005 \001(\0162\023.m"
-      "ars.stn.GroupType\022\r\n\005extra\030\006 \001(\014\"A\n\005Grou"
-      "p\022\'\n\ngroup_info\030\001 \001(\0132\023.mars.stn.GroupIn"
-      "fo\022\017\n\007members\030\002 \003(\t*O\n\tGroupType\022\024\n\020Grou"
-      "pType_Normal\020\000\022\022\n\016GroupType_Free\020\001\022\030\n\024Gr"
-      "oupType_Restricted\020\002B\'\n\024win.liyufan.im.p"
-      "rotoB\017GroupOuterClassb\006proto3"
+      "\n\013group.proto\022\010mars.stn\"\215\001\n\tGroupInfo\022\021\n"
+      "\ttarget_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\022\014\n\004name\030\003"
+      " \001(\t\022\020\n\010portrait\030\004 \001(\t\022\r\n\005owner\030\005 \001(\t\022!\n"
+      "\004type\030\006 \001(\0162\023.mars.stn.GroupType\022\r\n\005extr"
+      "a\030\007 \001(\014\"A\n\005Group\022\'\n\ngroup_info\030\001 \001(\0132\023.m"
+      "ars.stn.GroupInfo\022\017\n\007members\030\002 \003(\t*O\n\tGr"
+      "oupType\022\024\n\020GroupType_Normal\020\000\022\022\n\016GroupTy"
+      "pe_Free\020\001\022\030\n\024GroupType_Restricted\020\002B\'\n\024w"
+      "in.liyufan.im.protoB\017GroupOuterClassb\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 349);
+      descriptor, 364);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "group.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -177,6 +179,7 @@ bool GroupType_IsValid(int value) {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GroupInfo::kTargetIdFieldNumber;
+const int GroupInfo::kLineFieldNumber;
 const int GroupInfo::kNameFieldNumber;
 const int GroupInfo::kPortraitFieldNumber;
 const int GroupInfo::kOwnerFieldNumber;
@@ -217,7 +220,9 @@ GroupInfo::GroupInfo(const GroupInfo& from)
   if (from.extra().size() > 0) {
     extra_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.extra_);
   }
-  type_ = from.type_;
+  ::memcpy(&line_, &from.line_,
+    reinterpret_cast<char*>(&type_) -
+    reinterpret_cast<char*>(&line_) + sizeof(type_));
   // @@protoc_insertion_point(copy_constructor:mars.stn.GroupInfo)
 }
 
@@ -227,7 +232,8 @@ void GroupInfo::SharedCtor() {
   portrait_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   owner_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   extra_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  ::memset(&line_, 0, reinterpret_cast<char*>(&type_) -
+    reinterpret_cast<char*>(&line_) + sizeof(type_));
   _cached_size_ = 0;
 }
 
@@ -274,7 +280,8 @@ void GroupInfo::Clear() {
   portrait_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   owner_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   extra_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  ::memset(&line_, 0, reinterpret_cast<char*>(&type_) -
+    reinterpret_cast<char*>(&line_) + sizeof(type_));
 }
 
 bool GroupInfo::MergePartialFromCodedStream(
@@ -303,10 +310,24 @@ bool GroupInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // string name = 2;
+      // int32 line = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(16u)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &line_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string name = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -319,10 +340,10 @@ bool GroupInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // string portrait = 3;
-      case 3: {
+      // string portrait = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u)) {
+            static_cast< ::google::protobuf::uint8>(34u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_portrait()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -335,10 +356,10 @@ bool GroupInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // string owner = 4;
-      case 4: {
+      // string owner = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u)) {
+            static_cast< ::google::protobuf::uint8>(42u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_owner()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -351,10 +372,10 @@ bool GroupInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // .mars.stn.GroupType type = 5;
-      case 5: {
+      // .mars.stn.GroupType type = 6;
+      case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u)) {
+            static_cast< ::google::protobuf::uint8>(48u)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -366,10 +387,10 @@ bool GroupInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes extra = 6;
-      case 6: {
+      // bytes extra = 7;
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u)) {
+            static_cast< ::google::protobuf::uint8>(58u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_extra()));
         } else {
@@ -415,46 +436,51 @@ void GroupInfo::SerializeWithCachedSizes(
       1, this->target_id(), output);
   }
 
-  // string name = 2;
+  // int32 line = 2;
+  if (this->line() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->line(), output);
+  }
+
+  // string name = 3;
   if (this->name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->name().data(), this->name().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "mars.stn.GroupInfo.name");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->name(), output);
+      3, this->name(), output);
   }
 
-  // string portrait = 3;
+  // string portrait = 4;
   if (this->portrait().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->portrait().data(), this->portrait().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "mars.stn.GroupInfo.portrait");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->portrait(), output);
+      4, this->portrait(), output);
   }
 
-  // string owner = 4;
+  // string owner = 5;
   if (this->owner().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->owner().data(), this->owner().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "mars.stn.GroupInfo.owner");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      4, this->owner(), output);
+      5, this->owner(), output);
   }
 
-  // .mars.stn.GroupType type = 5;
+  // .mars.stn.GroupType type = 6;
   if (this->type() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      5, this->type(), output);
+      6, this->type(), output);
   }
 
-  // bytes extra = 6;
+  // bytes extra = 7;
   if (this->extra().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
-      6, this->extra(), output);
+      7, this->extra(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:mars.stn.GroupInfo)
@@ -477,7 +503,12 @@ void GroupInfo::SerializeWithCachedSizes(
         1, this->target_id(), target);
   }
 
-  // string name = 2;
+  // int32 line = 2;
+  if (this->line() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->line(), target);
+  }
+
+  // string name = 3;
   if (this->name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->name().data(), this->name().length(),
@@ -485,10 +516,10 @@ void GroupInfo::SerializeWithCachedSizes(
       "mars.stn.GroupInfo.name");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->name(), target);
+        3, this->name(), target);
   }
 
-  // string portrait = 3;
+  // string portrait = 4;
   if (this->portrait().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->portrait().data(), this->portrait().length(),
@@ -496,10 +527,10 @@ void GroupInfo::SerializeWithCachedSizes(
       "mars.stn.GroupInfo.portrait");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->portrait(), target);
+        4, this->portrait(), target);
   }
 
-  // string owner = 4;
+  // string owner = 5;
   if (this->owner().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->owner().data(), this->owner().length(),
@@ -507,20 +538,20 @@ void GroupInfo::SerializeWithCachedSizes(
       "mars.stn.GroupInfo.owner");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        4, this->owner(), target);
+        5, this->owner(), target);
   }
 
-  // .mars.stn.GroupType type = 5;
+  // .mars.stn.GroupType type = 6;
   if (this->type() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      5, this->type(), target);
+      6, this->type(), target);
   }
 
-  // bytes extra = 6;
+  // bytes extra = 7;
   if (this->extra().size() > 0) {
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
-        6, this->extra(), target);
+        7, this->extra(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:mars.stn.GroupInfo)
@@ -538,35 +569,42 @@ size_t GroupInfo::ByteSizeLong() const {
         this->target_id());
   }
 
-  // string name = 2;
+  // string name = 3;
   if (this->name().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
   }
 
-  // string portrait = 3;
+  // string portrait = 4;
   if (this->portrait().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->portrait());
   }
 
-  // string owner = 4;
+  // string owner = 5;
   if (this->owner().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->owner());
   }
 
-  // bytes extra = 6;
+  // bytes extra = 7;
   if (this->extra().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::BytesSize(
         this->extra());
   }
 
-  // .mars.stn.GroupType type = 5;
+  // int32 line = 2;
+  if (this->line() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->line());
+  }
+
+  // .mars.stn.GroupType type = 6;
   if (this->type() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
@@ -621,6 +659,9 @@ void GroupInfo::MergeFrom(const GroupInfo& from) {
 
     extra_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.extra_);
   }
+  if (from.line() != 0) {
+    set_line(from.line());
+  }
   if (from.type() != 0) {
     set_type(from.type());
   }
@@ -654,6 +695,7 @@ void GroupInfo::InternalSwap(GroupInfo* other) {
   portrait_.Swap(&other->portrait_);
   owner_.Swap(&other->owner_);
   extra_.Swap(&other->extra_);
+  std::swap(line_, other->line_);
   std::swap(type_, other->type_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -719,7 +761,21 @@ void GroupInfo::set_allocated_target_id(::std::string* target_id) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.target_id)
 }
 
-// string name = 2;
+// int32 line = 2;
+void GroupInfo::clear_line() {
+  line_ = 0;
+}
+::google::protobuf::int32 GroupInfo::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupInfo.line)
+  return line_;
+}
+void GroupInfo::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.GroupInfo.line)
+}
+
+// string name = 3;
 void GroupInfo::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -772,7 +828,7 @@ void GroupInfo::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.name)
 }
 
-// string portrait = 3;
+// string portrait = 4;
 void GroupInfo::clear_portrait() {
   portrait_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -825,7 +881,7 @@ void GroupInfo::set_allocated_portrait(::std::string* portrait) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.portrait)
 }
 
-// string owner = 4;
+// string owner = 5;
 void GroupInfo::clear_owner() {
   owner_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -878,7 +934,7 @@ void GroupInfo::set_allocated_owner(::std::string* owner) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.owner)
 }
 
-// .mars.stn.GroupType type = 5;
+// .mars.stn.GroupType type = 6;
 void GroupInfo::clear_type() {
   type_ = 0;
 }
@@ -892,7 +948,7 @@ void GroupInfo::set_type(::mars::stn::GroupType value) {
   // @@protoc_insertion_point(field_set:mars.stn.GroupInfo.type)
 }
 
-// bytes extra = 6;
+// bytes extra = 7;
 void GroupInfo::clear_extra() {
   extra_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }

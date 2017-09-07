@@ -23,6 +23,7 @@
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 
 - (void)createGroup:(NSString *)groupId
+               line:(int)line
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait
             members:(NSArray *)groupMembers

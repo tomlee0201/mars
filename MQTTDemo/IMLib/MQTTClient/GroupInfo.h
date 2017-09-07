@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-//string target_id = 1;
-//string name = 2;
-//string portrait = 3;
-//string owner = 4;
-//GroupType type = 5;
-//bytes extra = 6;
-
 typedef enum : NSUInteger {
     //member can add quit change group name and portrait, owner can do all the operations
     GroupType_Normal = 0,
@@ -27,6 +20,7 @@ typedef enum : NSUInteger {
 @interface GroupInfo : NSObject
 @property (nonatomic, assign)GroupType type;
 @property (nonatomic, strong)NSString *target;
+@property (nonatomic, assign)int line;
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, strong)NSString *portrait;
 @property (nonatomic, strong)NSString *owner;

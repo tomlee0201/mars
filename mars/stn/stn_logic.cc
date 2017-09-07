@@ -406,20 +406,29 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         mars::stn::StartTask(*publishTask);
     }
     
+    void fillMessageContent(TMessage &tmsg, MessageContent *content) {
+        content->set_type((::mars::stn::ContentType)tmsg.content.type);
+        content->set_searchable_content(tmsg.content.searchableContent);
+        content->set_push_content(tmsg.content.pushContent);
+        content->set_content(tmsg.content.content);
+        content->set_data(tmsg.content.binaryContent.c_str(), tmsg.content.binaryContent.length());
+        content->set_mediatype(tmsg.content.mediaType);
+        content->set_remotemediaurl(tmsg.content.remoteMediaUrl);
+    }
+    
+    void fillConversation(TMessage &tmsg, Conversation *conversation) {
+        conversation->set_type((ConversationType)tmsg.conversationType);
+        conversation->set_target(tmsg.target);
+        conversation->set_line(tmsg.line);
+    }
+
+    
     void sendSavedMsg(long messageId, TMessage tmsg, SendMessageCallback *callback) {
         Message message;
-        message.mutable_conversation()->set_type((ConversationType)tmsg.conversationType);
-        message.mutable_conversation()->set_target(tmsg.target);
-        message.mutable_conversation()->set_line(tmsg.line);
-        message.set_from_user(app::GetUserName());
         
-        message.mutable_content()->set_type((::mars::stn::ContentType)tmsg.content.type);
-        message.mutable_content()->set_searchable_content(tmsg.content.searchableContent);
-        message.mutable_content()->set_push_content(tmsg.content.pushContent);
-        message.mutable_content()->set_content(tmsg.content.content);
-        message.mutable_content()->set_data(tmsg.content.binaryContent.c_str(), tmsg.content.binaryContent.length());
-        message.mutable_content()->set_mediatype(tmsg.content.mediaType);
-        message.mutable_content()->set_remotemediaurl(tmsg.content.remoteMediaUrl);
+        fillConversation(tmsg, message.mutable_conversation());
+        message.set_from_user(app::GetUserName());
+        fillMessageContent(tmsg, message.mutable_content());
         
         publishTask(message, new MessagePublishCallback(messageId, callback), sendMessageTopic);
     }
@@ -479,30 +488,8 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     
 // conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], [payload.content UTF8String], [payload.localContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String], [mediaPayload.localMediaPath UTF8String]
     
-int (*sendMessage)(int conversationType, const std::string &target, int line, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath)
-= [](int conversationType, const std::string &target, int line, int contentType, const std::string &searchableContent, const std::string &pushContent, const std::string &content, const std::string &localContent, const unsigned char *data, size_t dataLen, SendMessageCallback *callback, int mediaType, const std::string &remoteUrl, const std::string &localPath) {
-  
-  TMessage tmsg;
-  tmsg.conversationType = conversationType;
-  tmsg.target = target;
-    tmsg.line = line;
-  tmsg.from = app::GetUserName();
-  tmsg.content.type = contentType;
-  tmsg.content.searchableContent = searchableContent;
-  tmsg.content.pushContent = pushContent;
-
-    tmsg.content.content = content;
-    if (data != NULL && dataLen > 0) {
-        tmsg.content.binaryContent = std::string((const char *)data, dataLen);
-    }
-    tmsg.content.localContent = localContent;
-    tmsg.content.mediaType = mediaType;
-    tmsg.content.remoteMediaUrl = remoteUrl;
-    tmsg.content.localMediaPath = localPath;
-    
-  tmsg.status = MessageStatus::Message_Status_Sending;
-  tmsg.timestamp = time(NULL)*1000;
-  tmsg.direction = 0;
+int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
+= [](TMessage &tmsg, SendMessageCallback *callback) {
   
   long id = MessageDB::Instance()->InsertMessage(tmsg);
   MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.line, tmsg.timestamp);
@@ -511,11 +498,11 @@ int (*sendMessage)(int conversationType, const std::string &target, int line, in
   
 
     
-    if(!localPath.empty() && mediaType > 0) {
+    if(!tmsg.content.localMediaPath.empty() && tmsg.content.mediaType > 0) {
         
         char * buffer;
         long size;
-        std::ifstream file (localPath.c_str(), std::ios::in|std::ios::binary|std::ios::ate);
+        std::ifstream file (tmsg.content.localMediaPath.c_str(), std::ios::in|std::ios::binary|std::ios::ate);
         size = file.tellg();
         file.seekg (0, std::ios::beg);
         buffer = new char [size];
@@ -530,7 +517,7 @@ int (*sendMessage)(int conversationType, const std::string &target, int line, in
         publishTask->topic = getQiniuUploadTokenTopic;
         publishTask->length = sizeof(int);
         publishTask->body = new unsigned char[publishTask->length];
-        memcpy(publishTask->body, &mediaType, publishTask->length);
+        memcpy(publishTask->body, &tmsg.content.mediaType, publishTask->length);
         mars::stn::StartTask(*publishTask);
     } else {
         sendSavedMsg(id, tmsg, callback);
@@ -568,8 +555,8 @@ int (*sendMessage)(int conversationType, const std::string &target, int line, in
         }
     };
    
-void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback)
-= [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, int notifyContentType, const std::string &notifySearchableContent, const std::string &notifyPushContent, const unsigned char *notifyData, size_t notifyDataLen, CreateGroupCallback *callback) {
+void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, TMessage &tmsg, CreateGroupCallback *callback)
+= [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, TMessage &tmsg, CreateGroupCallback *callback) {
     CreateGroupRequest request;
     request.mutable_group()->mutable_group_info()->set_target_id(groupId);
     request.mutable_group()->mutable_group_info()->set_portrait(groupPortrait);
@@ -580,10 +567,7 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
         request.mutable_group()->mutable_members()->AddAllocated(new std::string(*it));
     }
     
-    request.mutable_notify_content()->set_type((ContentType)notifyContentType);
-    request.mutable_notify_content()->set_searchable_content(notifySearchableContent);
-    request.mutable_notify_content()->set_push_content(notifyPushContent);
-    request.mutable_notify_content()->set_data((void *)notifyData, notifyDataLen);
+    fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new CreateGroupPublishCallback(callback), createGroupTopic);
 };

@@ -161,9 +161,9 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_target_id();
   void set_allocated_target_id(::std::string* target_id);
 
-  // string name = 2;
+  // string name = 3;
   void clear_name();
-  static const int kNameFieldNumber = 2;
+  static const int kNameFieldNumber = 3;
   const ::std::string& name() const;
   void set_name(const ::std::string& value);
   #if LANG_CXX11
@@ -175,9 +175,9 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
 
-  // string portrait = 3;
+  // string portrait = 4;
   void clear_portrait();
-  static const int kPortraitFieldNumber = 3;
+  static const int kPortraitFieldNumber = 4;
   const ::std::string& portrait() const;
   void set_portrait(const ::std::string& value);
   #if LANG_CXX11
@@ -189,9 +189,9 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_portrait();
   void set_allocated_portrait(::std::string* portrait);
 
-  // string owner = 4;
+  // string owner = 5;
   void clear_owner();
-  static const int kOwnerFieldNumber = 4;
+  static const int kOwnerFieldNumber = 5;
   const ::std::string& owner() const;
   void set_owner(const ::std::string& value);
   #if LANG_CXX11
@@ -203,9 +203,9 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_owner();
   void set_allocated_owner(::std::string* owner);
 
-  // bytes extra = 6;
+  // bytes extra = 7;
   void clear_extra();
-  static const int kExtraFieldNumber = 6;
+  static const int kExtraFieldNumber = 7;
   const ::std::string& extra() const;
   void set_extra(const ::std::string& value);
   #if LANG_CXX11
@@ -217,9 +217,15 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_extra();
   void set_allocated_extra(::std::string* extra);
 
-  // .mars.stn.GroupType type = 5;
+  // int32 line = 2;
+  void clear_line();
+  static const int kLineFieldNumber = 2;
+  ::google::protobuf::int32 line() const;
+  void set_line(::google::protobuf::int32 value);
+
+  // .mars.stn.GroupType type = 6;
   void clear_type();
-  static const int kTypeFieldNumber = 5;
+  static const int kTypeFieldNumber = 6;
   ::mars::stn::GroupType type() const;
   void set_type(::mars::stn::GroupType value);
 
@@ -232,6 +238,7 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::internal::ArenaStringPtr portrait_;
   ::google::protobuf::internal::ArenaStringPtr owner_;
   ::google::protobuf::internal::ArenaStringPtr extra_;
+  ::google::protobuf::int32 line_;
   int type_;
   mutable int _cached_size_;
   friend struct protobuf_group_2eproto::TableStruct;
@@ -403,7 +410,21 @@ inline void GroupInfo::set_allocated_target_id(::std::string* target_id) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.target_id)
 }
 
-// string name = 2;
+// int32 line = 2;
+inline void GroupInfo::clear_line() {
+  line_ = 0;
+}
+inline ::google::protobuf::int32 GroupInfo::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupInfo.line)
+  return line_;
+}
+inline void GroupInfo::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.GroupInfo.line)
+}
+
+// string name = 3;
 inline void GroupInfo::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -456,7 +477,7 @@ inline void GroupInfo::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.name)
 }
 
-// string portrait = 3;
+// string portrait = 4;
 inline void GroupInfo::clear_portrait() {
   portrait_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -509,7 +530,7 @@ inline void GroupInfo::set_allocated_portrait(::std::string* portrait) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.portrait)
 }
 
-// string owner = 4;
+// string owner = 5;
 inline void GroupInfo::clear_owner() {
   owner_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -562,7 +583,7 @@ inline void GroupInfo::set_allocated_owner(::std::string* owner) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.owner)
 }
 
-// .mars.stn.GroupType type = 5;
+// .mars.stn.GroupType type = 6;
 inline void GroupInfo::clear_type() {
   type_ = 0;
 }
@@ -576,7 +597,7 @@ inline void GroupInfo::set_type(::mars::stn::GroupType value) {
   // @@protoc_insertion_point(field_set:mars.stn.GroupInfo.type)
 }
 
-// bytes extra = 6;
+// bytes extra = 7;
 inline void GroupInfo::clear_extra() {
   extra_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
