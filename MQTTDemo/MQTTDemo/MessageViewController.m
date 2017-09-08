@@ -252,12 +252,13 @@ alpha:1.0]
         ImageMessageContent *imc = (ImageMessageContent *)model.message.content;
         ImagePreviewViewController *previewController = [[ImagePreviewViewController alloc] init];
         previewController.thumbnail = imc.thumbnail;
-        if (imc.localPath) {
+        if (imc.localPath.length) {
             previewController.imageUrl = imc.localPath;
         } else {
             previewController.imageUrl = imc.remoteUrl;
         }
-        [self presentViewController:previewController animated:YES completion:nil];
+        UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:previewController];
+        [self presentViewController:navi animated:YES completion:nil];
     }
 }
 

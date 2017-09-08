@@ -10,6 +10,7 @@
 #import "SDWebImage.h"
 
 @interface ImagePreviewViewController ()
+@property (nonatomic, strong)UIScrollView *scrollView;
 @property (nonatomic, strong)UIImageView *imageView;
 @end
 
@@ -17,8 +18,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:_thumbnail];
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:_scrollView];
+    
+    
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _thumbnail.size.width, _thumbnail.size.height)];
+    [_scrollView addSubview:_imageView];
+    
+    __weak typeof(self) weakSelf = self;
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:_thumbnail completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+            weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+        });
+    }];
+    
+    _scrollView.contentSize = _imageView.image.size;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20);
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClose:)];
+    [self.imageView addGestureRecognizer:tap];
+}
+
+- (void)onClose:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
