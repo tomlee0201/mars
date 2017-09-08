@@ -257,8 +257,8 @@ alpha:1.0]
         } else {
             previewController.imageUrl = imc.remoteUrl;
         }
-        UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:previewController];
-        [self presentViewController:navi animated:YES completion:nil];
+        
+        [self presentViewController:previewController animated:YES completion:nil];
     }
 }
 
