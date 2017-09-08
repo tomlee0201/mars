@@ -13,10 +13,13 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
         return localPath;
     } else {
-        NSUInteger location =
-        MIN(MIN([localPath rangeOfString:@"Documents"].location,
-                [localPath rangeOfString:@"Library"].location),
-            [localPath rangeOfString:@"tmp"].location);
+        NSUInteger location = [localPath rangeOfString:@"Containers/Data/Application/"].location;
+        if (location != NSNotFound) {
+            location =
+                MIN(MIN([localPath rangeOfString:@"Documents" options:NSCaseInsensitiveSearch range:NSMakeRange(location, localPath.length - location)].location,
+                    [localPath rangeOfString:@"Library" options:NSCaseInsensitiveSearch range:NSMakeRange(location, localPath.length - location)].location),
+                [localPath rangeOfString:@"tmp" options:NSCaseInsensitiveSearch range:NSMakeRange(location, localPath.length - location)].location);
+        }
         
         if (location != NSNotFound) {
             NSString *relativePath = [localPath substringFromIndex:location];

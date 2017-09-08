@@ -445,6 +445,7 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         void onSuccess(std::string key) {
             std::string fileUrl = mDomain + "/" + key;
             MessageDB::Instance()->updateMessageRemoteMediaUrl(mMid, fileUrl);
+            mMsg.content.remoteMediaUrl = fileUrl;
             mCallback->onMediaUploaded(key);
             sendSavedMsg(mMid, mMsg, mCallback);
             delete this;

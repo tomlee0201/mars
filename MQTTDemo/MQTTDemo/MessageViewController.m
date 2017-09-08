@@ -10,6 +10,8 @@
 #import "NetworkService.h"
 #import "TextMessageContent.h"
 #import "ImageMessageContent.h"
+#import "ImagePreviewViewController.h"
+
 #import "TextCell.h"
 #import "ImageCell.h"
 #import "IMService.h"
@@ -29,7 +31,8 @@ green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0                               
 blue:((float)(rgbValue & 0xFF)) / 255.0                                                           \
 alpha:1.0]
 
-@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate>
 @property (nonatomic, strong)NSMutableArray<MessageModel *> *modelList;
 @property (nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *cellContentDict;
 @end
@@ -223,6 +226,7 @@ alpha:1.0]
   NSString *objName = [NSString stringWithFormat:@"%d", [model.message.content.class getContentType]];
   
    MessageCellBase *cell = [collectionView dequeueReusableCellWithReuseIdentifier:objName forIndexPath:indexPath];
+    cell.delegate = self;
   cell.model = model;
   
   return cell;
@@ -242,5 +246,20 @@ alpha:1.0]
     [self sendMessage:imgContent];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
+#pragma mark - MessageCellDelegate
+- (void)didTapMessageCell:(MessageCellBase *)cell withModel:(MessageModel *)model {
+    if ([model.message.content isKindOfClass:[ImageMessageContent class]]) {
+        ImageMessageContent *imc = (ImageMessageContent *)model.message.content;
+        ImagePreviewViewController *previewController = [[ImagePreviewViewController alloc] init];
+        previewController.thumbnail = imc.thumbnail;
+        if (imc.localPath) {
+            previewController.imageUrl = imc.localPath;
+        } else {
+            previewController.imageUrl = imc.remoteUrl;
+        }
+        [self presentViewController:previewController animated:YES completion:nil];
+    }
+}
+
 
 @end
