@@ -13,7 +13,4 @@
                         font:(UIFont *)font
              constrainedSize:(CGSize)constrainedSize;
 
-+ (UIImage *)generateThumbnail:(UIImage *)image
-                     withWidth:(CGFloat)targetWidth
-                    withHeight:(CGFloat)targetHeight;
 @end

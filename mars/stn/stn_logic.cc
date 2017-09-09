@@ -467,7 +467,7 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         void onSuccess(const unsigned char* data, size_t len) {
             GetUploadTokenResult result;
             if(result.ParseFromArray((const void*)data, (int)len)) {
-                UploadTask *uploadTask = new UploadTask(mediaData, result.token(), new UploadQiniuCallback(msg, callback, result.domain(), mMid));
+                UploadTask *uploadTask = new UploadTask(mediaData, result.token(), msg.content.mediaType, new UploadQiniuCallback(msg, callback, result.domain(), mMid));
                 uploadTask->cgi = result.server();
                 uploadTask->shortlink_host_list.push_back("up.qbox.me"); 
                 StartTask(*uploadTask);

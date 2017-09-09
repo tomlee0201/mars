@@ -233,7 +233,8 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
         _outbuffer.AllocWrite(uploadTask->mData.length());
         _outbuffer.Write(uploadTask->mData.c_str(), uploadTask->mData.length());
         
-        _extend.AllocWrite(uploadTask->mToken.length());
+        _extend.AllocWrite(uploadTask->mToken.length() + 1);
+        _extend.Write(&(uploadTask->mMediaType), 1);
         _extend.Write(uploadTask->mToken.c_str(), uploadTask->mToken.length());
         return true;
     }

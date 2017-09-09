@@ -43,7 +43,9 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
 	req_builder.Fields().HeaderFiled(std::make_pair("Content-Type", "multipart/form-data; boundary="+UploadBoundary));
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeConnectionClose());
 
-    std::string uploadToken((const char *)_extension.Ptr(), _extension.Length());
+    unsigned char mediaType = *((const unsigned char  *)_extension.Ptr());
+    
+    std::string uploadToken((const char *)_extension.Ptr() + 1, _extension.Length()-1);
     std::string fileName;
     std::stringstream ss;
     ss << mars::app::GetUserName();
@@ -53,7 +55,12 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
     ss << rand()%10000;
     ss >> fileName;
     
-    std::string mimeType = "image_jpeg";
+    std::string mimeType;
+    if (mediaType == 3) {
+        mimeType = "image_jpeg";
+    } else if(mediaType == 2) {
+        mimeType = "audio_amr";
+    }
     
     std::string firstBody = "--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n"
     + uploadToken + "\r\n--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"key\"\r\n\r\n" + fileName + "\r\n--"

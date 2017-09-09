@@ -10,15 +10,14 @@
 #import "NetworkService.h"
 #import "Utilities.h"
 #import "IMService.h"
+#import "IMUtilities.h"
 
 @implementation ImageMessageContent
 + (instancetype)contentFrom:(UIImage *)image {
     ImageMessageContent *content = [[ImageMessageContent alloc] init];
     UInt64 recordTime = [[NSDate date] timeIntervalSince1970]*1000;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask, YES);
-    NSString *documentDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"img%lld.jpg", recordTime]];
+    
+    NSString *path = [[IMUtilities getDocumentPathWithComponent:@"/IMG"] stringByAppendingPathComponent:[NSString stringWithFormat:@"img%lld.jpg", recordTime]];
     
     
     NSData *imgData = UIImageJPEGRepresentation(image, 0.92);
@@ -26,7 +25,7 @@
     [imgData writeToFile:path atomically:YES];
     
     content.localPath = path;
-    content.thumbnail = [Utilities generateThumbnail:image withWidth:240 withHeight:240];
+    content.thumbnail = [IMUtilities generateThumbnail:image withWidth:240 withHeight:240];
     
     return content;
 }
@@ -53,7 +52,7 @@
 - (UIImage *)thumbnail {
     if (!_thumbnail) {
         UIImage *image = [UIImage imageWithContentsOfFile:self.localPath];
-        _thumbnail = [Utilities generateThumbnail:image withWidth:240 withHeight:240];
+        _thumbnail = [IMUtilities generateThumbnail:image withWidth:240 withHeight:240];
     }
     return _thumbnail;
 }

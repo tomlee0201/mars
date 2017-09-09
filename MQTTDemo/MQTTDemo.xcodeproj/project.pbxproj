@@ -83,6 +83,20 @@
 		2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */; };
 		2EC51B851F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
 		2EC51B861F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
+		2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F01F63AF4300578E7D /* interf_dec.h */; };
+		2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F11F63AF4300578E7D /* interf_enc.h */; };
+		2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */; };
+		2EDB87FC1F63AF4300578E7D /* wav_amr.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F31F63AF4300578E7D /* wav_amr.c */; };
+		2EDB87FD1F63AF4300578E7D /* wav_amr.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F41F63AF4300578E7D /* wav_amr.h */; };
+		2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F51F63AF4300578E7D /* wavreader.c */; };
+		2EDB87FF1F63AF4300578E7D /* wavreader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F61F63AF4300578E7D /* wavreader.h */; };
+		2EDB88001F63AF4300578E7D /* wavwriter.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F71F63AF4300578E7D /* wavwriter.c */; };
+		2EDB88011F63AF4300578E7D /* wavwriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F81F63AF4300578E7D /* wavwriter.h */; };
+		2EDB88051F63AFEE00578E7D /* VoiceRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */; };
+		2EDB88071F63BCD300578E7D /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EDB88061F63BCD300578E7D /* images.xcassets */; };
+		2EDB880B1F63C37800578E7D /* SoundMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB88091F63C37800578E7D /* SoundMessageContent.h */; };
+		2EDB880D1F63C37800578E7D /* SoundMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB880A1F63C37800578E7D /* SoundMessageContent.m */; };
+		2EDB88101F63D1EF00578E7D /* VoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB880F1F63D1EF00578E7D /* VoiceCell.m */; };
 		2EDD766E1F55542200F1FC8C /* ConversationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */; };
 		2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */; };
 		2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDD76721F5557A100F1FC8C /* ConversationInfo.h */; };
@@ -226,6 +240,22 @@
 		2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
 		2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
 		2EC51B841F3EBB98009D60AE /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = IMLib/mars.framework; sourceTree = "<group>"; };
+		2EDB87F01F63AF4300578E7D /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
+		2EDB87F11F63AF4300578E7D /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
+		2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
+		2EDB87F31F63AF4300578E7D /* wav_amr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wav_amr.c; sourceTree = "<group>"; };
+		2EDB87F41F63AF4300578E7D /* wav_amr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wav_amr.h; sourceTree = "<group>"; };
+		2EDB87F51F63AF4300578E7D /* wavreader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wavreader.c; sourceTree = "<group>"; };
+		2EDB87F61F63AF4300578E7D /* wavreader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wavreader.h; sourceTree = "<group>"; };
+		2EDB87F71F63AF4300578E7D /* wavwriter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wavwriter.c; sourceTree = "<group>"; };
+		2EDB87F81F63AF4300578E7D /* wavwriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wavwriter.h; sourceTree = "<group>"; };
+		2EDB88031F63AFEE00578E7D /* VoiceRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceRecordView.h; sourceTree = "<group>"; };
+		2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceRecordView.m; sourceTree = "<group>"; };
+		2EDB88061F63BCD300578E7D /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
+		2EDB88091F63C37800578E7D /* SoundMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMessageContent.h; sourceTree = "<group>"; };
+		2EDB880A1F63C37800578E7D /* SoundMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundMessageContent.m; sourceTree = "<group>"; };
+		2EDB880E1F63D1EF00578E7D /* VoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceCell.h; sourceTree = "<group>"; };
+		2EDB880F1F63D1EF00578E7D /* VoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceCell.m; sourceTree = "<group>"; };
 		2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationTableViewController.h; sourceTree = "<group>"; };
 		2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationTableViewController.m; sourceTree = "<group>"; };
 		2EDD766F1F55545400F1FC8C /* ConversationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationTableViewCell.h; sourceTree = "<group>"; };
@@ -274,6 +304,7 @@
 				2E3504141F5C1EEC00E97BC0 /* WCDB.framework in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
 				2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */,
+				2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */,
 				2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */,
 				2E30C9831F3EBF9C00DB259A /* CoreTelephony.framework in Frameworks */,
 				2E30C9821F3EBF9300DB259A /* SystemConfiguration.framework in Frameworks */,
@@ -387,6 +418,8 @@
 				2EFEC1BB1F59423B00424902 /* MessageCellBase.m */,
 				2EFEC1BD1F59434C00424902 /* InformationCell.h */,
 				2EFEC1BE1F59434C00424902 /* InformationCell.m */,
+				2EDB880E1F63D1EF00578E7D /* VoiceCell.h */,
+				2EDB880F1F63D1EF00578E7D /* VoiceCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -419,6 +452,8 @@
 				2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */,
 				2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */,
 				2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */,
+				2EDB88091F63C37800578E7D /* SoundMessageContent.h */,
+				2EDB880A1F63C37800578E7D /* SoundMessageContent.m */,
 			);
 			name = Message;
 			path = ../MQTTClient;
@@ -446,6 +481,7 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2EDB88021F63AFD200578E7D /* View */,
 				2E32E3461F622527000063A6 /* SDWebImage */,
 				2E8A324B1F60BDFE00A25131 /* Model */,
 				2E8A324A1F60BDE500A25131 /* Cell */,
@@ -462,6 +498,7 @@
 		2EC3BD791F04D61A006C6E6F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2EDB88061F63BCD300578E7D /* images.xcassets */,
 				2EC3BD821F04D61A006C6E6F /* Main.storyboard */,
 				2EC3BD851F04D61A006C6E6F /* Assets.xcassets */,
 				2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */,
@@ -492,6 +529,7 @@
 		2EC519E51F3EBAB6009D60AE /* IMLib */ = {
 			isa = PBXGroup;
 			children = (
+				2EDB87EF1F63AF4300578E7D /* amr */,
 				2EC51B651F3EBB49009D60AE /* MQTTClient */,
 				2EC519F11F3EBB3C009D60AE /* IMClient */,
 				2EC519E61F3EBAB6009D60AE /* IMLib.h */,
@@ -531,6 +569,31 @@
 			path = MQTTClient;
 			sourceTree = "<group>";
 		};
+		2EDB87EF1F63AF4300578E7D /* amr */ = {
+			isa = PBXGroup;
+			children = (
+				2EDB87F01F63AF4300578E7D /* interf_dec.h */,
+				2EDB87F11F63AF4300578E7D /* interf_enc.h */,
+				2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */,
+				2EDB87F31F63AF4300578E7D /* wav_amr.c */,
+				2EDB87F41F63AF4300578E7D /* wav_amr.h */,
+				2EDB87F51F63AF4300578E7D /* wavreader.c */,
+				2EDB87F61F63AF4300578E7D /* wavreader.h */,
+				2EDB87F71F63AF4300578E7D /* wavwriter.c */,
+				2EDB87F81F63AF4300578E7D /* wavwriter.h */,
+			);
+			path = amr;
+			sourceTree = "<group>";
+		};
+		2EDB88021F63AFD200578E7D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2EDB88031F63AFEE00578E7D /* VoiceRecordView.h */,
+				2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -541,13 +604,19 @@
 				2EC51B751F3EBB49009D60AE /* NetworkService.h in Headers */,
 				2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */,
 				2E3071D71F43D2C300B17DC9 /* TextMessageContent.h in Headers */,
+				2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */,
+				2EDB880B1F63C37800578E7D /* SoundMessageContent.h in Headers */,
 				2EC51A861F3EBB3D009D60AE /* IMService.h in Headers */,
 				2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */,
+				2EDB87FF1F63AF4300578E7D /* wavreader.h in Headers */,
 				2EC51B7E1F3EBB49009D60AE /* SubscribeTask.h in Headers */,
 				2E3071D01F43CEA600B17DC9 /* Conversation.h in Headers */,
+				2EDB87FD1F63AF4300578E7D /* wav_amr.h in Headers */,
 				2E3071D21F43CEB500B17DC9 /* GroupInfo.h in Headers */,
 				2EC51B7B1F3EBB49009D60AE /* PublishTask.h in Headers */,
+				2EDB88011F63AF4300578E7D /* wavwriter.h in Headers */,
 				2E3071CE1F43CE9400B17DC9 /* Message.h in Headers */,
+				2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */,
 				2EC51B781F3EBB49009D60AE /* NetworkStatus.h in Headers */,
 				2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */,
 				2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */,
@@ -644,6 +713,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */,
+				2EDB88071F63BCD300578E7D /* images.xcassets in Resources */,
 				2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */,
 				2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */,
 			);
@@ -668,6 +738,7 @@
 				2E32E3841F622527000063A6 /* UIView+WebCache.m in Sources */,
 				2E32E3761F622527000063A6 /* SDImageCache.m in Sources */,
 				2E32E3851F622527000063A6 /* UIView+WebCacheOperation.m in Sources */,
+				2EDB88051F63AFEE00578E7D /* VoiceRecordView.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
 				2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */,
 				2E32E3811F622527000063A6 /* UIImage+WebP.m in Sources */,
@@ -698,6 +769,7 @@
 				2E32E3801F622527000063A6 /* UIImage+MultiFormat.m in Sources */,
 				2E32E3781F622527000063A6 /* SDWebImageCompat.m in Sources */,
 				2E32E3771F622527000063A6 /* SDImageCacheConfig.m in Sources */,
+				2EDB88101F63D1EF00578E7D /* VoiceCell.m in Sources */,
 				2EFEC1C21F5943B000424902 /* MessageModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -709,14 +781,18 @@
 				2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */,
 				2E3071C81F43C89300B17DC9 /* Conversation.m in Sources */,
 				2EC51B7D1F3EBB49009D60AE /* PublishTask.mm in Sources */,
+				2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */,
 				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,
 				2EC51B741F3EBB49009D60AE /* app_callback.mm in Sources */,
+				2EDB88001F63AF4300578E7D /* wavwriter.c in Sources */,
+				2EDB880D1F63C37800578E7D /* SoundMessageContent.m in Sources */,
 				2E3071D91F43D2C300B17DC9 /* TextMessageContent.m in Sources */,
 				2EF9A6BB1F605D330009D908 /* IMUtilities.m in Sources */,
 				2E4995301F43402400C52CA2 /* MessageContent.m in Sources */,
 				2EC51B801F3EBB49009D60AE /* SubscribeTask.mm in Sources */,
 				2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */,
+				2EDB87FC1F63AF4300578E7D /* wav_amr.c in Sources */,
 				2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */,
 				2EC51B771F3EBB49009D60AE /* NetworkService.mm in Sources */,
 				2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */,
@@ -909,6 +985,10 @@
 				INFOPLIST_FILE = IMLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/IMLib/amr",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.IMLib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -935,6 +1015,10 @@
 				INFOPLIST_FILE = IMLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/IMLib/amr",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.IMLib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

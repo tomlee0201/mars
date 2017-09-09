@@ -11,8 +11,9 @@
 
 @interface MessageViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
+@property (weak, nonatomic) IBOutlet UIButton *switchBtn;
 @property (weak, nonatomic) IBOutlet UIButton *extendedBtn;
 @property (weak, nonatomic) IBOutlet UITextField *inputTextField;
+@property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
 @property (nonatomic, strong)Conversation *conversation;
 @end

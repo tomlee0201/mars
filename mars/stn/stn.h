@@ -280,10 +280,11 @@ public:
 };
         class UploadTask : public Task {
         public:
-            UploadTask(const std::string &data, const std::string &token, UPloadCallback *callback);
+            UploadTask(const std::string &data, const std::string &token, int mediaType, UPloadCallback *callback);
         public:
             std::string mData;
             std::string mToken;
+            unsigned char mMediaType;
             UPloadCallback *mCallback;
             virtual ~UploadTask() {}
         };

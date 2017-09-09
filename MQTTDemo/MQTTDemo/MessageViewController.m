@@ -7,15 +7,22 @@
 //
 
 #import "MessageViewController.h"
+#import <AVFoundation/AVFoundation.h>
+
 #import "NetworkService.h"
 #import "TextMessageContent.h"
 #import "ImageMessageContent.h"
 #import "ImagePreviewViewController.h"
 
+#import "VoiceRecordView.h"
+
 #import "TextCell.h"
 #import "ImageCell.h"
+#import "VoiceCell.h"
+
 #import "IMService.h"
 
+#import "SoundMessageContent.h"
 
 #define IOS_SYSTEM_VERSION_LESS_THAN(v)                                     \
 ([[[UIDevice currentDevice] systemVersion]                                   \
@@ -32,9 +39,21 @@ blue:((float)(rgbValue & 0xFF)) / 255.0                                         
 alpha:1.0]
 
 
-@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate>
+@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate, AVAudioRecorderDelegate>
 @property (nonatomic, strong)NSMutableArray<MessageModel *> *modelList;
 @property (nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *cellContentDict;
+@property (nonatomic, assign)BOOL isVoiceInput;
+
+@property(nonatomic) AVAudioPlayer *player;
+@property(nonatomic) NSTimer *playTimer;
+
+@property(nonatomic) AVAudioRecorder *recorder;
+@property(nonatomic) NSTimer *recordingTimer;
+@property(nonatomic) NSTimer *updateMeterTimer;
+@property(nonatomic, assign) int seconds;
+@property(nonatomic) BOOL recordCanceled;
+
+@property (nonatomic, strong)VoiceRecordView *recordView;
 @end
 
 @implementation MessageViewController
@@ -76,6 +95,204 @@ alpha:1.0]
     self.title = self.conversation.target;
     
     [self.extendedBtn addTarget:self action:@selector(onExtendedBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.switchBtn addTarget:self action:@selector(onSwitchBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
+   // self.isVoiceInput = NO;
+    
+    [self.voiceBtn addTarget:self action:@selector(onTouchDown:) forControlEvents:UIControlEventTouchDown];
+    [self.voiceBtn addTarget:self action:@selector(onTouchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+    [self.voiceBtn addTarget:self action:@selector(onTouchDragEnter:) forControlEvents:UIControlEventTouchDragEnter];
+    [self.voiceBtn addTarget:self action:@selector(onTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+    [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+    [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchCancel];
+}
+
+- (void)onTouchDown:(id)sender {
+    if ([self canRecord]) {
+        _recordView = [[VoiceRecordView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - 70, self.view.bounds.size.height/2 - 70, 140, 140)];
+        _recordView.center = self.view.center;
+        [self.view addSubview:_recordView];
+        [self.view bringSubviewToFront:_recordView];
+        
+        [self recordStart];
+    }
+}
+
+- (void)recordStart {
+    if (self.recorder.recording) {
+        return;
+    }
+    
+    //[self stopPlayer];
+    
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (granted) {
+            AVAudioSession *session = [AVAudioSession sharedInstance];
+            [session setCategory:AVAudioSessionCategoryRecord error:nil];
+            BOOL r = [session setActive:YES error:nil];
+            if (!r) {
+                NSLog(@"activate audio session fail");
+                return;
+            }
+            NSLog(@"start record...");
+            
+            NSArray *pathComponents = [NSArray arrayWithObjects:
+                                       [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+                                       @"voice.wav",
+                                       nil];
+            NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+            
+            // Define the recorder setting
+            NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+            
+            [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+            [recordSetting setValue:[NSNumber numberWithFloat:8000] forKey:AVSampleRateKey];
+            [recordSetting setValue:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
+            
+            self.recorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:NULL];
+            self.recorder.delegate = self;
+            self.recorder.meteringEnabled = YES;
+            if (![self.recorder prepareToRecord]) {
+                NSLog(@"prepare record fail");
+                return;
+            }
+            if (![self.recorder record]) {
+                NSLog(@"start record fail");
+                return;
+            }
+            
+            
+            self.recordCanceled = NO;
+            self.seconds = 0;
+            self.recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+            
+            self.updateMeterTimer = [NSTimer scheduledTimerWithTimeInterval:0.05
+                                                                     target:self
+                                                                   selector:@selector(updateMeter:)
+                                                                   userInfo:nil
+                                                                    repeats:YES];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Warning" message:@"无法录音,请到设置-隐私-麦克风,允许程序访问" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+        }
+    }];
+}
+
+- (void)recordCancel {
+    NSLog(@"touch cancel");
+    
+    if (self.recorder.recording) {
+        NSLog(@"cancel record...");
+        self.recordCanceled = YES;
+        [self stopRecord];
+    }
+}
+
+- (void)onTouchDragExit:(id)sender {
+    [self.recordView recordButtonDragOutside];
+}
+
+- (void)onTouchDragEnter:(id)sender {
+    [self.recordView recordButtonDragInside];
+}
+
+- (void)onTouchUpInside:(id)sender {
+    [self.recordView removeFromSuperview];
+    [self recordEnd];
+}
+
+- (void)onTouchUpOutside:(id)sender {
+    [self.recordView removeFromSuperview];
+    [self recordCancel];
+}
+
+- (BOOL)canRecord {
+    __block BOOL bCanRecord = YES;
+    
+    if ([[AVAudioSession sharedInstance]
+         respondsToSelector:@selector(requestRecordPermission:)]) {
+        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+            bCanRecord = granted;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                bCanRecord = granted;
+                if (granted) {
+                    bCanRecord = YES;
+                } else {
+                    
+                }
+            });
+        }];
+    }
+    
+    return bCanRecord;
+}
+
+- (void)timerFired:(NSTimer*)timer {
+    self.seconds = self.seconds + 1;
+    int minute = self.seconds/60;
+    int s = self.seconds%60;
+    NSString *str = [NSString stringWithFormat:@"%02d:%02d", minute, s];
+    NSLog(@"timer:%@", str);
+    int countdown = 60 - self.seconds;
+    if (countdown <= 10) {
+        [self.recordView setCountdown:countdown];
+    }
+    if (countdown <= 0) {
+        [self.recordView removeFromSuperview];
+        [self recordEnd];
+    }
+}
+
+- (void)updateMeter:(NSTimer*)timer {
+    double voiceMeter = 0;
+    if ([self.recorder isRecording]) {
+        [self.recorder updateMeters];
+        //获取音量的平均值  [recorder averagePowerForChannel:0];
+        //音量的最大值  [recorder peakPowerForChannel:0];
+        double lowPassResults = pow(10, (0.05 * [self.recorder peakPowerForChannel:0]));
+        voiceMeter = lowPassResults;
+    }
+    [self.recordView setVoiceImage:voiceMeter];
+}
+
+-(void)recordEnd {
+    if (self.recorder.recording) {
+        NSLog(@"stop record...");
+        self.recordCanceled = NO;
+        [self stopRecord];
+    }
+}
+
+-(void)stopRecord {
+    [self.recorder stop];
+    [self.recordingTimer invalidate];
+    self.recordingTimer = nil;
+    [self.updateMeterTimer invalidate];
+    self.updateMeterTimer = nil;
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    BOOL r = [audioSession setActive:NO error:nil];
+    if (!r) {
+        NSLog(@"deactivate audio session fail");
+    }
+}
+
+- (void)onSwitchBtn:(id)sender {
+    self.isVoiceInput = !self.isVoiceInput;
+}
+
+- (void)setIsVoiceInput:(BOOL)isVoiceInput {
+    _isVoiceInput = isVoiceInput;
+    if (isVoiceInput) {
+        self.inputTextField.hidden = YES;
+        self.voiceBtn.hidden = NO;
+        [self.switchBtn setTitle:@"A" forState:UIControlStateNormal];
+        [self.inputTextField resignFirstResponder];
+    } else {
+        self.inputTextField.hidden = NO;
+        self.voiceBtn.hidden = YES;
+        [self.switchBtn setTitle:@"V" forState:UIControlStateNormal];
+        [self.inputTextField becomeFirstResponder];
+    }
 }
 
 - (void)onExtendedBtn:(id)sender {
@@ -117,6 +334,7 @@ alpha:1.0]
     
     [self registerCell:[TextCell class] forContent:[TextMessageContent class]];
     [self registerCell:[ImageCell class] forContent:[ImageMessageContent class]];
+    [self registerCell:[VoiceCell class] forContent:[SoundMessageContent class]];
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
@@ -261,6 +479,23 @@ alpha:1.0]
         [self presentViewController:previewController animated:YES completion:nil];
     }
 }
-
+#pragma mark - AVAudioRecorderDelegate
+- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
+    NSLog(@"record finish:%d", flag);
+    if (!flag) {
+        return;
+    }
+    if (self.recordCanceled) {
+        return;
+    }
+    if (self.seconds < 1) {
+        NSLog(@"record time too short");
+        [[[UIAlertView alloc] initWithTitle:@"Warning" message:@"录音时间太短了" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+        
+        return;
+    }
+    [self sendMessage:[SoundMessageContent soundMessageContentForWav:[recorder.url path] duration:self.seconds]];
+    [[NSFileManager defaultManager] removeItemAtURL:recorder.url error:nil];
+}
 
 @end

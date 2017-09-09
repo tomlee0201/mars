@@ -22,6 +22,7 @@
 
 #include <mars/comm/autobuffer.h>
 #import <UIKit/UIKit.h>
+#import "IMUtilities.h"
 
 namespace mars {
     namespace app {
@@ -48,13 +49,7 @@ void AppCallBack::Release() {
         void AppCallBack::SetAccountUserName(const std::string &userName) {
             info.username = userName;
             
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                                 NSUserDomainMask, YES);
-            NSString *documentDirectory = [paths objectAtIndex:0];
-            NSString *path = [documentDirectory stringByAppendingPathComponent:[NSString stringWithUTF8String:info.username.c_str()]];
-            if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-                [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-            }
+            NSString *path = [IMUtilities getDocumentPathWithComponent:[NSString stringWithUTF8String:info.username.c_str()]];
             filePath = [path UTF8String];
         }
         
