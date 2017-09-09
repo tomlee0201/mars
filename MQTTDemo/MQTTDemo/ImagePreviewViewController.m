@@ -24,23 +24,62 @@
     
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _thumbnail.size.width, _thumbnail.size.height)];
+    
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
     [_scrollView addSubview:_imageView];
     
     __weak typeof(self) weakSelf = self;
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:_thumbnail completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-            weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+    if ([_imageUrl rangeOfString:@"http"].location == 0 || [_imageUrl rangeOfString:@"ftp"].location == 0) {
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:_thumbnail completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+                weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+            });
+        }];
+    } else {
+        _imageView.image = _thumbnail;
+        weakSelf.imageView.frame = CGRectMake(0, 0, _imageView.image.size.width, _imageView.image.size.height);
+        weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+        dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+            UIImage *image = [UIImage imageWithContentsOfFile:_imageUrl];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.imageView.image = image;
+                weakSelf.imageView.frame = CGRectMake(0, 0, _imageView.image.size.width, _imageView.image.size.height);
+                weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+            });
         });
-    }];
+    }
+
     
-    _scrollView.contentSize = _imageView.image.size;
+    
+
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20);
-
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onClose:)];
+    tap.numberOfTapsRequired = 1;
+    
+    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resize:)];
+    tap2.numberOfTapsRequired = 2;
+    
+    
+    [self.imageView addGestureRecognizer:tap2];
     [self.imageView addGestureRecognizer:tap];
+    self.imageView.userInteractionEnabled = YES;
+}
+
+- (void)resize:(id)sender {
+    if(_scrollView.contentSize.width == self.view.bounds.size.width) {
+        _scrollView.contentSize = _imageView.image.size;
+        _scrollView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20);
+        _imageView.frame = CGRectMake(0, 0, _imageView.image.size.width, _imageView.image.size.height);
+    } else {
+        _scrollView.contentSize = self.view.bounds.size;
+        CGRect frame = _scrollView.frame;
+        _imageView.frame = frame;
+        _scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    }
 }
 
 - (void)onClose:(id)sender {
