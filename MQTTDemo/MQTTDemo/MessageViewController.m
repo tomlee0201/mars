@@ -39,7 +39,7 @@ blue:((float)(rgbValue & 0xFF)) / 255.0                                         
 alpha:1.0]
 
 
-@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate, AVAudioRecorderDelegate>
+@interface MessageViewController () <UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 @property (nonatomic, strong)NSMutableArray<MessageModel *> *modelList;
 @property (nonatomic, strong)NSMutableDictionary<NSNumber *, Class> *cellContentDict;
 @property (nonatomic, assign)BOOL isVoiceInput;
@@ -52,6 +52,8 @@ alpha:1.0]
 @property(nonatomic) NSTimer *updateMeterTimer;
 @property(nonatomic, assign) int seconds;
 @property(nonatomic) BOOL recordCanceled;
+
+@property(nonatomic, assign)long playingMessageId;
 
 @property (nonatomic, strong)VoiceRecordView *recordView;
 @end
@@ -433,6 +435,85 @@ alpha:1.0]
   [self.collectionView reloadData];
     [self scrollToBottom:YES];
 }
+
+- (MessageModel *)modelOfMessage:(long)messageId {
+    if (messageId <= 0) {
+        return nil;
+    }
+    for (MessageModel *model in self.modelList) {
+        if (model.message.messageId == messageId) {
+            return model;
+        }
+    }
+    return nil;
+}
+
+- (void)stopPlayer {
+    if (self.player && [self.player isPlaying]) {
+        [self.player stop];
+        if ([self.playTimer isValid]) {
+            [self.playTimer invalidate];
+            self.playTimer = nil;
+        }
+    }
+    [self modelOfMessage:self.playingMessageId].voicePlaying = NO;
+    self.playingMessageId = 0;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kVoiceMessagePlayStoped object:nil];
+}
+
+-(void)prepardToPlay:(MessageModel *)model {
+
+    if (self.playingMessageId == model.message.messageId) {
+        [self stopPlayer];
+    } else {
+        [self stopPlayer];
+        
+        self.playingMessageId = model.message.messageId;
+        
+        SoundMessageContent *soundContent = (SoundMessageContent *)model.message.content;
+        if (soundContent.localPath.length == 0) {
+            __weak typeof(self) weakSelf = self;
+            model.mediaDownloading = YES;
+            long downloadingId = self.playingMessageId;
+            [[NSNotificationCenter defaultCenter] postNotificationName:kMediaMessageStartDownloading object:@(downloadingId)];
+            dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+                NSData *amrData = [NSData dataWithContentsOfURL:[NSURL URLWithString:soundContent.remoteUrl]];
+                [soundContent updateAmrData:amrData];
+                [NSThread sleepForTimeInterval:10];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    model.mediaDownloading = NO;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kMediaMessageDownloadFinished object:@(downloadingId)];
+                    [weakSelf startPlay:model];
+                });
+            });
+        } else {
+            [self startPlay:model];
+        }
+        
+    }
+}
+
+-(void)startPlay:(MessageModel *)model {
+    
+        // Setup audio session
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        
+        
+        [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker
+                                   error:nil];
+        
+        
+        SoundMessageContent *snc = (SoundMessageContent *)model.message.content;
+        NSError *error = nil;
+        self.player = [[AVAudioPlayer alloc] initWithData:[snc getWavData] error:&error];
+        [self.player setDelegate:self];
+        [self.player prepareToPlay];
+        [self.player play];
+    model.voicePlaying = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kVoiceMessageStartPlaying object:@(self.playingMessageId)];
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
   return self.modelList.count;
@@ -445,6 +526,8 @@ alpha:1.0]
   
    MessageCellBase *cell = [collectionView dequeueReusableCellWithReuseIdentifier:objName forIndexPath:indexPath];
     cell.delegate = self;
+    
+  [[NSNotificationCenter defaultCenter] removeObserver:cell];
   cell.model = model;
   
   return cell;
@@ -477,6 +560,8 @@ alpha:1.0]
         }
         
         [self presentViewController:previewController animated:YES completion:nil];
+    } else if([model.message.content isKindOfClass:[SoundMessageContent class]]) {
+        [self prepardToPlay:model];
     }
 }
 #pragma mark - AVAudioRecorderDelegate
@@ -496,6 +581,18 @@ alpha:1.0]
     }
     [self sendMessage:[SoundMessageContent soundMessageContentForWav:[recorder.url path] duration:self.seconds]];
     [[NSFileManager defaultManager] removeItemAtURL:recorder.url error:nil];
+}
+
+#pragma mark - AVAudioPlayerDelegate
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    NSLog(@"player finished");
+    [self stopPlayer];
+}
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
+    NSLog(@"player decode error");
+    [[[UIAlertView alloc] initWithTitle:@"Warning" message:@"网络错误" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+    [self stopPlayer];
 }
 
 @end

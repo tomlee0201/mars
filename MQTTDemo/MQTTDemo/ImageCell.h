@@ -6,8 +6,8 @@
 //  Copyright © 2017年 tomlee. All rights reserved.
 //
 
-#import "MessageCell.h"
+#import "MediaMessageCell.h"
 
-@interface ImageCell : MessageCell
+@interface ImageCell : MediaMessageCell
 @property (nonatomic, strong)UIImageView *thumbnailView;
 @end

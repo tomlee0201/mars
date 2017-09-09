@@ -6,8 +6,12 @@
 //  Copyright © 2017年 litao. All rights reserved.
 //
 
-#import "MessageCell.h"
+#import "MediaMessageCell.h"
 
-@interface VoiceCell : MessageCell
+#define kVoiceMessageStartPlaying @"kVoiceMessageStartPlaying"
+#define kVoiceMessagePlayStoped @"kVoiceMessagePlayStoped"
+
+
+@interface VoiceCell : MediaMessageCell
 @property (nonatomic, strong)UIButton *voiceBtn;
 @end

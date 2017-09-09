@@ -27,6 +27,7 @@
 @interface MessageCell ()
 @property (nonatomic, strong)UIActivityIndicatorView *activityView;
 @property (nonatomic, strong)UIImageView *failureView;
+@property (nonatomic, strong) UIImageView *maskView;
 @end
 
 @implementation MessageCell
@@ -151,8 +152,23 @@
       self.bubbleView.image = [self.bubbleView.image
                                          resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.8,
                                                                                       image.size.height * 0.2, image.size.width * 0.2)];
+      
   }
+    [self setMaskImage:self.bubbleView.image];
     [self updateStatus];
+}
+
+- (void)setMaskImage:(UIImage *)maskImage{
+    if (_maskView == nil) {
+        _maskView = [[UIImageView alloc] initWithImage:maskImage];
+        
+        _maskView.frame = self.bubbleView.bounds;
+        self.bubbleView.layer.mask = _maskView.layer;
+        self.bubbleView.layer.masksToBounds = YES;
+    } else {
+        _maskView.image = maskImage;
+        _maskView.frame = self.bubbleView.bounds;
+    }
 }
 
 - (UIImageView *)portraitView {

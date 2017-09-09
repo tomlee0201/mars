@@ -14,4 +14,7 @@
 @property (nonatomic, assign)BOOL showTimeLabel;
 @property (nonatomic, assign)BOOL showNameLabel;
 @property (nonatomic, strong)Message *message;
+@property (nonatomic, assign)BOOL mediaDownloading;
+@property (nonatomic, assign)int mediaDownloadProgress;
+@property (nonatomic, assign)BOOL voicePlaying;
 @end

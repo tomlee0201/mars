@@ -15,4 +15,5 @@
 @property (nonatomic, strong)UILabel *nameLabel;
 @property (nonatomic, strong)UIImageView *bubbleView;
 @property (nonatomic, strong)UIView *contentArea;
+- (void)setMaskImage:(UIImage *)maskImage;
 @end

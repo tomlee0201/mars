@@ -86,17 +86,18 @@
 		2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F01F63AF4300578E7D /* interf_dec.h */; };
 		2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F11F63AF4300578E7D /* interf_enc.h */; };
 		2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */; };
-		2EDB87FC1F63AF4300578E7D /* wav_amr.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F31F63AF4300578E7D /* wav_amr.c */; };
+		2EDB87FC1F63AF4300578E7D /* wav_amr.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F31F63AF4300578E7D /* wav_amr.mm */; };
 		2EDB87FD1F63AF4300578E7D /* wav_amr.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F41F63AF4300578E7D /* wav_amr.h */; };
 		2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F51F63AF4300578E7D /* wavreader.c */; };
 		2EDB87FF1F63AF4300578E7D /* wavreader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F61F63AF4300578E7D /* wavreader.h */; };
-		2EDB88001F63AF4300578E7D /* wavwriter.c in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F71F63AF4300578E7D /* wavwriter.c */; };
+		2EDB88001F63AF4300578E7D /* wavwriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB87F71F63AF4300578E7D /* wavwriter.mm */; };
 		2EDB88011F63AF4300578E7D /* wavwriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F81F63AF4300578E7D /* wavwriter.h */; };
 		2EDB88051F63AFEE00578E7D /* VoiceRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */; };
 		2EDB88071F63BCD300578E7D /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EDB88061F63BCD300578E7D /* images.xcassets */; };
 		2EDB880B1F63C37800578E7D /* SoundMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB88091F63C37800578E7D /* SoundMessageContent.h */; };
 		2EDB880D1F63C37800578E7D /* SoundMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB880A1F63C37800578E7D /* SoundMessageContent.m */; };
 		2EDB88101F63D1EF00578E7D /* VoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB880F1F63D1EF00578E7D /* VoiceCell.m */; };
+		2EDB881C1F64004E00578E7D /* MediaMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB881B1F64004E00578E7D /* MediaMessageCell.m */; };
 		2EDD766E1F55542200F1FC8C /* ConversationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */; };
 		2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EDD76701F55545400F1FC8C /* ConversationTableViewCell.m */; };
 		2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDD76721F5557A100F1FC8C /* ConversationInfo.h */; };
@@ -243,11 +244,11 @@
 		2EDB87F01F63AF4300578E7D /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
 		2EDB87F11F63AF4300578E7D /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
 		2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
-		2EDB87F31F63AF4300578E7D /* wav_amr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wav_amr.c; sourceTree = "<group>"; };
+		2EDB87F31F63AF4300578E7D /* wav_amr.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = wav_amr.mm; sourceTree = "<group>"; };
 		2EDB87F41F63AF4300578E7D /* wav_amr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wav_amr.h; sourceTree = "<group>"; };
 		2EDB87F51F63AF4300578E7D /* wavreader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wavreader.c; sourceTree = "<group>"; };
 		2EDB87F61F63AF4300578E7D /* wavreader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wavreader.h; sourceTree = "<group>"; };
-		2EDB87F71F63AF4300578E7D /* wavwriter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wavwriter.c; sourceTree = "<group>"; };
+		2EDB87F71F63AF4300578E7D /* wavwriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = wavwriter.mm; sourceTree = "<group>"; };
 		2EDB87F81F63AF4300578E7D /* wavwriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wavwriter.h; sourceTree = "<group>"; };
 		2EDB88031F63AFEE00578E7D /* VoiceRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceRecordView.h; sourceTree = "<group>"; };
 		2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceRecordView.m; sourceTree = "<group>"; };
@@ -256,6 +257,8 @@
 		2EDB880A1F63C37800578E7D /* SoundMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundMessageContent.m; sourceTree = "<group>"; };
 		2EDB880E1F63D1EF00578E7D /* VoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceCell.h; sourceTree = "<group>"; };
 		2EDB880F1F63D1EF00578E7D /* VoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceCell.m; sourceTree = "<group>"; };
+		2EDB881A1F64004E00578E7D /* MediaMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaMessageCell.h; sourceTree = "<group>"; };
+		2EDB881B1F64004E00578E7D /* MediaMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaMessageCell.m; sourceTree = "<group>"; };
 		2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationTableViewController.h; sourceTree = "<group>"; };
 		2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationTableViewController.m; sourceTree = "<group>"; };
 		2EDD766F1F55545400F1FC8C /* ConversationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationTableViewCell.h; sourceTree = "<group>"; };
@@ -420,6 +423,8 @@
 				2EFEC1BE1F59434C00424902 /* InformationCell.m */,
 				2EDB880E1F63D1EF00578E7D /* VoiceCell.h */,
 				2EDB880F1F63D1EF00578E7D /* VoiceCell.m */,
+				2EDB881A1F64004E00578E7D /* MediaMessageCell.h */,
+				2EDB881B1F64004E00578E7D /* MediaMessageCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -575,11 +580,11 @@
 				2EDB87F01F63AF4300578E7D /* interf_dec.h */,
 				2EDB87F11F63AF4300578E7D /* interf_enc.h */,
 				2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */,
-				2EDB87F31F63AF4300578E7D /* wav_amr.c */,
+				2EDB87F31F63AF4300578E7D /* wav_amr.mm */,
 				2EDB87F41F63AF4300578E7D /* wav_amr.h */,
 				2EDB87F51F63AF4300578E7D /* wavreader.c */,
 				2EDB87F61F63AF4300578E7D /* wavreader.h */,
-				2EDB87F71F63AF4300578E7D /* wavwriter.c */,
+				2EDB87F71F63AF4300578E7D /* wavwriter.mm */,
 				2EDB87F81F63AF4300578E7D /* wavwriter.h */,
 			);
 			path = amr;
@@ -752,6 +757,7 @@
 				2E32E37C1F622527000063A6 /* SDWebImageManager.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2E32E3831F622527000063A6 /* UIImageView+WebCache.m in Sources */,
+				2EDB881C1F64004E00578E7D /* MediaMessageCell.m in Sources */,
 				2E32E3751F622527000063A6 /* NSImage+WebCache.m in Sources */,
 				2E32E3731F622527000063A6 /* MKAnnotationView+WebCache.m in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
@@ -785,14 +791,14 @@
 				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,
 				2EC51B741F3EBB49009D60AE /* app_callback.mm in Sources */,
-				2EDB88001F63AF4300578E7D /* wavwriter.c in Sources */,
+				2EDB88001F63AF4300578E7D /* wavwriter.mm in Sources */,
 				2EDB880D1F63C37800578E7D /* SoundMessageContent.m in Sources */,
 				2E3071D91F43D2C300B17DC9 /* TextMessageContent.m in Sources */,
 				2EF9A6BB1F605D330009D908 /* IMUtilities.m in Sources */,
 				2E4995301F43402400C52CA2 /* MessageContent.m in Sources */,
 				2EC51B801F3EBB49009D60AE /* SubscribeTask.mm in Sources */,
 				2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */,
-				2EDB87FC1F63AF4300578E7D /* wav_amr.c in Sources */,
+				2EDB87FC1F63AF4300578E7D /* wav_amr.mm in Sources */,
 				2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */,
 				2EC51B771F3EBB49009D60AE /* NetworkService.mm in Sources */,
 				2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */,

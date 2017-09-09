@@ -44,8 +44,10 @@ void AppCallBack::Release() {
         
     AppCallBack::AppCallBack() {
         
+        
     }
 
+        
         void AppCallBack::SetAccountUserName(const std::string &userName) {
             info.username = userName;
             

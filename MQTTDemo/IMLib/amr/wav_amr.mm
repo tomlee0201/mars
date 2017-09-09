@@ -1,4 +1,5 @@
-#include "wav_amr.h"
+#import "wav_amr.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +9,10 @@
 #include "wavreader.h"
 #include "wavwriter.h"
 
+
 const int sizes[] = { 12, 13, 15, 17, 19, 20, 26, 31, 5, 6, 5, 5, 0, 0, 0, 0 };
-int decode_amr(const char* infile, const char* outfile) {
+
+int decode_amr(const char* infile, NSMutableData *outData) {
 	FILE* in = fopen(infile, "rb");
 	if (!in) {
 		return 1;
@@ -20,8 +23,8 @@ int decode_amr(const char* infile, const char* outfile) {
 		fprintf(stderr, "Bad header\n");
 		return 1;
 	}
-    
-    void* wav = wav_write_open(outfile, 8000, 16, 1);
+    NSMutableData *body = [[NSMutableData alloc] init];
+    void* wav = wav_write_open(outData, body, 8000, 16, 1);
 
 	void* amr = Decoder_Interface_init();
 	while (1) {
@@ -52,6 +55,8 @@ int decode_amr(const char* infile, const char* outfile) {
 	fclose(in);
 	Decoder_Interface_exit(amr);
     wav_write_close(wav);
+    
+    [outData appendData:body];
 	return 0;
 }
 

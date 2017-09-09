@@ -9,6 +9,9 @@
 #import "ImageCell.h"
 #import "ImageMessageContent.h"
 
+@interface ImageCell ()
+@property(nonatomic, strong) UIImageView *shadowMaskView;
+@end
 
 @implementation ImageCell
 
@@ -22,16 +25,30 @@
     [super setModel:model];
     
     ImageMessageContent *imgContent = (ImageMessageContent *)model.message.content;
-    self.thumbnailView.frame = self.contentArea.bounds;
+    self.thumbnailView.frame = self.bubbleView.bounds;
     self.thumbnailView.image = imgContent.thumbnail;
 }
 
 - (UIImageView *)thumbnailView {
     if (!_thumbnailView) {
         _thumbnailView = [[UIImageView alloc] init];
-        [self.contentArea addSubview:_thumbnailView];
-    
+        [self.bubbleView addSubview:_thumbnailView];
     }
     return _thumbnailView;
 }
+
+- (void)setMaskImage:(UIImage *)maskImage{
+    [super setMaskImage:maskImage];
+    if (_shadowMaskView) {
+        [_shadowMaskView removeFromSuperview];
+    }
+    _shadowMaskView = [[UIImageView alloc] initWithImage:maskImage];
+    
+    CGRect frame = CGRectMake(self.bubbleView.frame.origin.x-0.6, self.bubbleView.frame.origin.y - 0.6, self.bubbleView.frame.size.width + 1.2, self.bubbleView.frame.size.height + 1.2);
+    _shadowMaskView.frame = frame;
+    [self addSubview:_shadowMaskView];
+    [self bringSubviewToFront:self.bubbleView];
+    
+}
+
 @end

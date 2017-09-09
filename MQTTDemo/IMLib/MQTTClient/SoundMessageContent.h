@@ -11,4 +11,6 @@
 @interface SoundMessageContent : MediaMessageContent
 + (instancetype)soundMessageContentForWav:(NSString *)wavPath duration:(long)duration;
 @property (nonatomic, assign)long duration;
+- (void)updateAmrData:(NSData *)voiceData;
+- (NSData *)getWavData;
 @end
