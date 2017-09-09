@@ -13,6 +13,7 @@
 
 @protocol MessageCellDelegate <NSObject>
 - (void)didTapMessageCell:(MessageCellBase *)cell withModel:(MessageModel *)model;
+- (void)didTapMessagePortrait:(MessageCellBase *)cell withModel:(MessageModel *)model;
 @end
 
 @interface MessageCellBase : UICollectionViewCell

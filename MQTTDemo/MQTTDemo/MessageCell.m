@@ -201,6 +201,8 @@
     if (!_bubbleView) {
         _bubbleView = [[UIImageView alloc] init];
         [self addSubview:_bubbleView];
+        [_bubbleView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTaped:)]];
+        [_bubbleView setUserInteractionEnabled:YES];
     }
     return _bubbleView;
 }

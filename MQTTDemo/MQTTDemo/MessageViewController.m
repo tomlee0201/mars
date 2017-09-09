@@ -91,6 +91,7 @@ alpha:1.0]
     [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
   }
   [self initializedSubViews];
+    self.voiceBtn.hidden = YES;
   [self.collectionView reloadData];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
     
@@ -564,6 +565,11 @@ alpha:1.0]
         [self prepardToPlay:model];
     }
 }
+
+- (void)didTapMessagePortrait:(MessageCellBase *)cell withModel:(MessageModel *)model {
+    
+}
+
 #pragma mark - AVAudioRecorderDelegate
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     NSLog(@"record finish:%d", flag);

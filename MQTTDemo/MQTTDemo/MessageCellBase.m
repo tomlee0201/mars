@@ -43,7 +43,7 @@
 }
 
 - (void)setup {
-    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTaped:)]];
+
 }
 
 - (void)onTaped:(id)sender {

@@ -33,8 +33,10 @@
     if ([_imageUrl rangeOfString:@"http"].location == 0 || [_imageUrl rangeOfString:@"ftp"].location == 0) {
         [_imageView sd_setImageWithURL:[NSURL URLWithString:_imageUrl] placeholderImage:_thumbnail completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-                weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+                [UIView animateWithDuration:0.3 animations:^{
+                    weakSelf.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+                    weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+                }];
             });
         }];
     } else {
@@ -44,9 +46,11 @@
         dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
             UIImage *image = [UIImage imageWithContentsOfFile:_imageUrl];
             dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.imageView.image = image;
-                weakSelf.imageView.frame = CGRectMake(0, 0, _imageView.image.size.width, _imageView.image.size.height);
-                weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+                [UIView animateWithDuration:0.3 animations:^{
+                    weakSelf.imageView.image = image;
+                    weakSelf.imageView.frame = CGRectMake(0, 0, _imageView.image.size.width, _imageView.image.size.height);
+                    weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+                }];
             });
         });
     }
@@ -63,6 +67,7 @@
     UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resize:)];
     tap2.numberOfTapsRequired = 2;
     
+    [tap requireGestureRecognizerToFail:tap2];
     
     [self.imageView addGestureRecognizer:tap2];
     [self.imageView addGestureRecognizer:tap];
@@ -70,16 +75,19 @@
 }
 
 - (void)resize:(id)sender {
-    if(_scrollView.contentSize.width == self.view.bounds.size.width) {
-        _scrollView.contentSize = _imageView.image.size;
-        _scrollView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20);
-        _imageView.frame = CGRectMake(0, 0, _imageView.image.size.width, _imageView.image.size.height);
-    } else {
-        _scrollView.contentSize = self.view.bounds.size;
-        CGRect frame = _scrollView.frame;
-        _imageView.frame = frame;
-        _scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    }
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.3 animations:^{
+        if(weakSelf.scrollView.contentSize.width == weakSelf.view.bounds.size.width) {
+            weakSelf.scrollView.contentSize = weakSelf.imageView.image.size;
+            weakSelf.scrollView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20);
+            weakSelf.imageView.frame = CGRectMake(0, 0, weakSelf.imageView.image.size.width, weakSelf.imageView.image.size.height);
+        } else {
+            weakSelf.scrollView.contentSize = weakSelf.view.bounds.size;
+            CGRect frame = weakSelf.scrollView.frame;
+            weakSelf.imageView.frame = frame;
+            weakSelf.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        }
+    }];
 }
 
 - (void)onClose:(id)sender {
