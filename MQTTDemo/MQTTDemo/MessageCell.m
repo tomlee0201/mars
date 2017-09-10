@@ -16,9 +16,9 @@
 #define Portrait_Padding_Right 4
 #define Portrait_Padding_Buttom 4
 
-#define Client_Arad_Buttom_Padding 5
+#define Client_Arad_Buttom_Padding 8
 
-#define Client_Bubble_Top_Padding  4
+#define Client_Bubble_Top_Padding  6
 #define Client_Bubble_Bottom_Padding  4
 
 #define Bubble_Padding_Arraw 15

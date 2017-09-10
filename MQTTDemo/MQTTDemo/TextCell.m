@@ -10,16 +10,25 @@
 #import "TextMessageContent.h"
 #import "Utilities.h"
 
+#define TEXT_LABEL_TOP_PADDING 2
+#define TEXT_LABEL_BUTTOM_PADDING 6
+
 @implementation TextCell
 + (CGSize)sizeForClientArea:(MessageModel *)msgModel withViewWidth:(CGFloat)width {
   TextMessageContent *txtContent = (TextMessageContent *)msgModel.message.content;
-  return [Utilities getTextDrawingSize:txtContent.text font:[UIFont systemFontOfSize:18] constrainedSize:CGSizeMake(width, 8000)];
+    CGSize size = [Utilities getTextDrawingSize:txtContent.text font:[UIFont systemFontOfSize:18] constrainedSize:CGSizeMake(width, 8000)];
+    size.height += TEXT_LABEL_TOP_PADDING + TEXT_LABEL_BUTTOM_PADDING;
+  return size;
 }
 
 - (void)setModel:(MessageModel *)model {
   [super setModel:model];
     
   TextMessageContent *txtContent = (TextMessageContent *)model.message.content;
+    CGRect frame = self.contentArea.bounds;
+    frame.origin.y -= TEXT_LABEL_TOP_PADDING;
+    frame.size.height -= TEXT_LABEL_TOP_PADDING;
+    frame.size.height -= TEXT_LABEL_BUTTOM_PADDING;
   self.textLabel.frame = self.contentArea.bounds;
   self.textLabel.text = txtContent.text;
 }

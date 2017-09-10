@@ -335,6 +335,7 @@ alpha:1.0]
     [self.collectionView
      setBackgroundColor:RGBCOLOR(235, 235, 235)];
     self.collectionView.showsHorizontalScrollIndicator = NO;
+    self.collectionView.showsVerticalScrollIndicator = NO;
     self.collectionView.alwaysBounceVertical = YES;
     
     [self registerCell:[TextCell class] forContent:[TextMessageContent class]];
