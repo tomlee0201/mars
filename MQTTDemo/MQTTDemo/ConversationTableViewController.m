@@ -22,6 +22,8 @@
 #import "IMService.h"
 #import "TextMessageContent.h"
 
+#import "Utilities.h"
+
 @interface ConversationTableViewController ()
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
 @end
@@ -111,39 +113,8 @@
   cell.targetView.text = info.conversation.target;
   cell.digestView.text = info.lastMessage.content.digest;
     cell.potraitView.layer.cornerRadius = 3.f;
-  NSDate *date = [NSDate dateWithTimeIntervalSince1970:info.timestamp/1000];
-  NSDate *current = [[NSDate alloc] init];
-  NSCalendar *calendar = [NSCalendar currentCalendar];
-  NSInteger days = [calendar component:NSCalendarUnitDay fromDate:date];
-  NSInteger curDays = [calendar component:NSCalendarUnitDay fromDate:current];
-  if (days >= curDays) {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    cell.timeView.text = [formatter stringFromDate:date];
-  } else if(days == curDays -1) {
-    cell.timeView.text = @"昨天";
-  } else {
-    NSInteger weeks = [calendar component:NSCalendarUnitWeekOfYear fromDate:date];
-    NSInteger curWeeks = [calendar component:NSCalendarUnitWeekOfYear fromDate:current];
-    
-    NSInteger weekDays = [calendar component:NSCalendarUnitWeekday fromDate:date];
-    if (weeks == curWeeks) {
-      cell.timeView.text = [NSString stringWithFormat:@"周%ld", (long)weekDays];
-    } else if (weeks == curWeeks - 1) {
-      cell.timeView.text = @"上周";
-    } else {
-      NSInteger month = [calendar component:NSCalendarUnitMonth fromDate:date];
-      NSInteger curMonth = [calendar component:NSCalendarUnitMonth fromDate:current];
-      if (month == curMonth) {
-        cell.timeView.text = @"本月";
-      } else if(month == curMonth - 1) {
-        cell.timeView.text = @"上月";
-      } else {
-        cell.timeView.text = @"2个月之前";
-      }
-    }
-  }
   
+    cell.timeView.text = [Utilities formatTimeLabel:info.timestamp];
   
     return cell;
 }

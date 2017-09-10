@@ -33,7 +33,7 @@
       [self.contentView addSubview:self.timeLabel];
     }
     _timeLabel.hidden = NO;
-    _timeLabel.text = @"20:30";
+    _timeLabel.text = [Utilities formatTimeDetailLabel:model.message.serverTime];
 
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGSize size = [Utilities getTextDrawingSize:_timeLabel.text font:_timeLabel.font constrainedSize:CGSizeMake(screenWidth, 8000)];
