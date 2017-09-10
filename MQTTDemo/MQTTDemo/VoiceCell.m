@@ -18,13 +18,22 @@
 + (CGSize)sizeForClientArea:(MessageModel *)msgModel withViewWidth:(CGFloat)width {
     SoundMessageContent *soundContent = (SoundMessageContent *)msgModel.message.content;
     long duration = soundContent.duration;
-    return CGSizeMake(MAX(40, width * 0.62 * (MIN(duration, 60)/60)), 36);
+    return CGSizeMake(50 + 60 * (MIN(duration, 20)/20.0), 30);
 }
 
 - (void)setModel:(MessageModel *)model {
     [super setModel:model];
     
-    self.voiceBtn.frame = self.contentArea.bounds;
+    CGRect bounds = self.contentArea.bounds;
+    if (model.message.direction == MessageDirection_Send) {
+        self.voiceBtn.frame = CGRectMake(bounds.size.width - 30, 4, 22, 22);
+        self.durationLabel.frame = CGRectMake(bounds.size.width - 48, 19, 18, 9);
+    } else {
+        self.voiceBtn.frame = CGRectMake(4, 4, 22, 22);
+        self.durationLabel.frame = CGRectMake(32, 19, 18, 9);
+    }
+    SoundMessageContent *soundContent = (SoundMessageContent *)model.message.content;
+    self.durationLabel.text = [NSString stringWithFormat:@"%ld''", soundContent.duration];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimationTimer) name:kVoiceMessageStartPlaying object:@(model.message.messageId)];
     
@@ -44,6 +53,14 @@
     return _voiceBtn;
 }
 
+- (UILabel *)durationLabel {
+    if (!_durationLabel) {
+        _durationLabel = [[UILabel alloc] init];
+        _durationLabel.font = [UIFont systemFontOfSize:9];
+        [self.contentArea addSubview:_durationLabel];
+    }
+    return _durationLabel;
+}
 
 - (void)startAnimationTimer {
     [self stopAnimationTimer];
