@@ -353,6 +353,46 @@ namespace mars {
             return false;
         }
         
+        bool MessageDB::updateMessageLocalMediaPath(long messageId, const std::string &localMediaPath) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_cont_local_media_path"}, &where);
+            db->Bind(updateStatementHandle, localMediaPath, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        bool MessageDB::ClearUnreadStatus(int conversationType, const std::string &target, int line) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            db->Bind(updateStatementHandle, Message_Status_Readed, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        
         TGroupInfo MessageDB::GetGroupInfo(const std::string &groupId, int line) {
             DB *db = DB::Instance();
             WCDB::Error error;

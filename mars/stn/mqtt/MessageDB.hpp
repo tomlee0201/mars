@@ -39,6 +39,9 @@ namespace mars {
             
             bool updateMessageStatus(long messageId, MessageStatus status);
             bool updateMessageRemoteMediaUrl(long messageId, const std::string &remoteMediaUrl);
+            bool updateMessageLocalMediaPath(long messageId, const std::string &localMediaPath);
+            
+            bool ClearUnreadStatus(int conversationType, const std::string &target, int line);
             
             TGroupInfo GetGroupInfo(const std::string &groupId, int line);
             long InsertGroupInfo(const TGroupInfo &groupInfo);

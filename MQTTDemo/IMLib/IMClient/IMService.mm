@@ -314,6 +314,10 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     return convertProtoMessageList(messages);
 }
 
+- (void)clearUnreadStatus:(Conversation *)conversation {
+    mars::stn::MessageDB::Instance()->ClearUnreadStatus(conversation.type, [conversation.target UTF8String], conversation.line);
+}
+
 - (void)createGroup:(NSString *)groupId
                line:(int)line
                name:(NSString *)groupName

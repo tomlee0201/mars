@@ -79,7 +79,10 @@ alpha:1.0]
   self.inputTextField.returnKeyType = UIReturnKeySend;
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onResetKeyboard:)];
   [self.collectionView addGestureRecognizer:tap];
+    
   NSArray *messageList = [[IMService sharedIMService] getMessages:self.conversation from:0 count:10];
+    [[IMService sharedIMService] clearUnreadStatus:self.conversation];
+    
   self.modelList = [[NSMutableArray alloc] init];
   Message *lastMsg = nil;
   BOOL showTime = YES;
@@ -356,8 +359,7 @@ alpha:1.0]
   [self.inputTextField resignFirstResponder];
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification
-{
+- (void)keyboardWillShow:(NSNotification *)notification {
   NSDictionary *userInfo = [notification userInfo];
   NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
   CGRect keyboardRect = [value CGRectValue];
@@ -369,8 +371,12 @@ alpha:1.0]
     
     if (self.modelList.count < 5) {
         frame = self.view.bounds;
-        frame.origin.y = 64;
-        frame.size.height -= height;
+        
+        CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
+        CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
+        
+        frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height + height;
+        frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputTextField.bounds.size.height;
         self.collectionView.frame = frame;
     }
 
@@ -387,6 +393,15 @@ alpha:1.0]
   if (frame.origin.y < 0) {
     frame.origin.y = 0;
     self.view.frame = frame;
+      frame = self.collectionView.frame;
+      CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
+      CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
+      
+      if (frame.origin.y > rectOfStatusbar.size.height + rectOfNavigationbar.size.height) {
+          frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height;
+          frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputTextField.bounds.size.height;
+          self.collectionView.frame = frame;
+      }
   }
 }
 

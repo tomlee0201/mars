@@ -18,7 +18,7 @@
 + (CGSize)sizeForClientArea:(MessageModel *)msgModel withViewWidth:(CGFloat)width {
     SoundMessageContent *soundContent = (SoundMessageContent *)msgModel.message.content;
     long duration = soundContent.duration;
-    return CGSizeMake(50 + 60 * (MIN(duration, 20)/20.0), 30);
+    return CGSizeMake(50 + 30 * (MIN(MAX(0, duration-5), 20)/20.0), 30);
 }
 
 - (void)setModel:(MessageModel *)model {

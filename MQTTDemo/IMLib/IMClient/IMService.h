@@ -19,6 +19,8 @@
 - (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *> *)lines;
 - (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count;
 
+- (void)clearUnreadStatus:(Conversation *)conversation;
+
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 
