@@ -44,8 +44,9 @@ public:
             delete this;
         });
     }
-    void onPrepared(long messageId) {
+    void onPrepared(long messageId, int64_t savedTime) {
         m_message.messageId = messageId;
+        m_message.serverTime = savedTime;
     }
     void onMediaUploaded(std::string remoteUrl) {
         if ([m_message.content isKindOfClass:[MediaMessageContent class]]) {
@@ -79,9 +80,7 @@ public:
         }
         delete this;
     }
-    void onPrepared(long messageId) {
-        
-    }
+
     virtual ~IMCreateGroupCallback() {
         m_successBlock = nil;
         m_errorBlock = nil;
@@ -129,7 +128,7 @@ public:
                 gi.type = (GroupType)tgi.type;
                 gi.name = [NSString stringWithUTF8String:tgi.name.c_str()];
                 gi.owner = [NSString stringWithUTF8String:tgi.owner.c_str()];
-                gi.extra = [NSData dataWithBytes:(const void *)tgi.extraData length:tgi.extraLen];
+                gi.extra = [NSData dataWithBytes:(const void *)tgi.extra.c_str() length:tgi.extra.length()];
                 [ret addObject:gi];
             }
             m_successBlock(ret);
@@ -215,7 +214,7 @@ NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &me
     for (std::list<mars::stn::TMessage>::const_iterator it = messageList.begin(); it != messageList.end(); it++) {
         const mars::stn::TMessage &tmsg = *it;
         Message *msg = convertProtoMessage(&tmsg);
-        [messages addObject:msg];
+        [messages insertObject:msg atIndex:0];
         
     }
     return messages;
@@ -405,8 +404,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         tInfo.owner = [groupInfo.owner UTF8String];
     }
     if (groupInfo.extra) {
-        tInfo.extraData = (unsigned char *)groupInfo.extra.bytes;
-        tInfo.extraLen = groupInfo.extra.length;
+        tInfo.extra = std::string((char *)groupInfo.extra.bytes, groupInfo.extra.length);
     }
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;

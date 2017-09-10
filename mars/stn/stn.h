@@ -190,7 +190,7 @@ struct DnsProfile;
       
     class SendMessageCallback {
     public:
-        virtual void onPrepared(long messageId) = 0;
+        virtual void onPrepared(long messageId, int64_t savedTime) = 0;
         virtual void onMediaUploaded(std::string remoteUrl) = 0;
         virtual void onSuccess(long messageUid, long long timestamp) = 0;
         virtual void onFalure(int errorCode) = 0;

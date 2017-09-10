@@ -56,6 +56,8 @@ alpha:1.0]
 @property(nonatomic, assign)long playingMessageId;
 
 @property (nonatomic, strong)VoiceRecordView *recordView;
+
+@property(nonatomic, assign)BOOL loadingMore;
 @end
 
 @implementation MessageViewController
@@ -77,7 +79,7 @@ alpha:1.0]
   self.inputTextField.returnKeyType = UIReturnKeySend;
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onResetKeyboard:)];
   [self.collectionView addGestureRecognizer:tap];
-  NSArray *messageList = [[[IMService sharedIMService] getMessages:self.conversation from:0 count:10] mutableCopy];
+  NSArray *messageList = [[IMService sharedIMService] getMessages:self.conversation from:0 count:10];
   self.modelList = [[NSMutableArray alloc] init];
   Message *lastMsg = nil;
   BOOL showTime = YES;
@@ -88,7 +90,7 @@ alpha:1.0]
       showTime = NO;
     }
     lastMsg = message;
-    [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
+    [self.modelList insertObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime] atIndex:0];
   }
   [self initializedSubViews];
     self.voiceBtn.hidden = YES;
@@ -363,10 +365,14 @@ alpha:1.0]
 
   frame.origin.y = -height;
   self.view.frame = frame;
-    frame = self.collectionView.frame;
-    frame.origin.y += height;
-    frame.size.height -= height;
-    self.collectionView.frame = frame;
+    
+    if (self.modelList.count < 5) {
+        frame = self.view.bounds;
+        frame.origin.y = 64;
+        frame.size.height -= height;
+        self.collectionView.frame = frame;
+    }
+
     [self scrollToBottom:NO];
 }
 
@@ -416,25 +422,50 @@ alpha:1.0]
     } error:^(int error_code) {
         
     }];
-    [self appendNewMessage:@[message]];
+    [self appendMessages:@[message] newMessage:YES];
 }
 - (void)onReceiveMessages:(NSNotification *)notification {
     NSArray<Message *> *messages = notification.object;
-    [self appendNewMessage:messages];
+    [self appendMessages:messages newMessage:YES];
 }
 
-- (void)appendNewMessage:(NSArray<Message *> *)messages {
-  BOOL showTime = YES;
-    for (Message *message in messages) {
-        if (self.modelList.count > 0 && (message.serverTime -  (self.modelList[self.modelList.count - 1]).message.serverTime < 60 * 1000)) {
-            showTime = NO;
+- (void)appendMessages:(NSArray<Message *> *)messages newMessage:(BOOL)newMessage {
+    if (messages.count == 0) {
+        return;
+    }
+    
+    if (newMessage) {
+        for (Message *message in messages) {
+            BOOL showTime = YES;
+            if (self.modelList.count > 0 && (message.serverTime -  (self.modelList[self.modelList.count - 1]).message.serverTime < 60 * 1000)) {
+                showTime = NO;
+            }
             
+            [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
         }
-        [self.modelList addObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:showTime]];
+    } else {
+        for (Message *message in messages) {
+            if (self.modelList.count > 0 && (self.modelList[0].message.serverTime - message.serverTime < 60 * 1000)) {
+                self.modelList[0].showTimeLabel = NO;
+            }
+            
+            [self.modelList insertObject:[MessageModel modelOf:message showName:message.direction == MessageDirection_Receive showTime:YES] atIndex:0];
+        }
+
     }
   
   [self.collectionView reloadData];
-    [self scrollToBottom:YES];
+    if (newMessage || self.modelList.count == messages.count) {
+        [self scrollToBottom:YES];
+    } else {
+        NSIndexPath *indexPath =
+        [NSIndexPath indexPathForRow:messages.count inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        
+        NSIndexPath *indexPath1 =
+        [NSIndexPath indexPathForRow:messages.count - 1 inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+    }
 }
 
 - (MessageModel *)modelOfMessage:(long)messageId {
@@ -599,6 +630,38 @@ alpha:1.0]
     NSLog(@"player decode error");
     [[[UIAlertView alloc] initWithTitle:@"Warning" message:@"网络错误" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
     [self stopPlayer];
+}
+#pragma mark - UIScrollViewDelegate<NSObject>
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSLog(@"scrollView.contentOffset.y %f", scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y < 5 && !_loadingMore) {
+        _loadingMore = YES;
+        long lastIndex = 0;
+        if (self.modelList.count) {
+            lastIndex = [self.modelList firstObject].message.messageId;
+        }
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+            NSArray *messageList = [[IMService sharedIMService] getMessages:self.conversation from:lastIndex count:10];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf appendMessages:messageList newMessage:NO];
+                _loadingMore = NO;
+            });
+        });
+    }
+
 }
 
 @end

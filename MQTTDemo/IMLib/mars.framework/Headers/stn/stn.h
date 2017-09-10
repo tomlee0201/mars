@@ -74,15 +74,16 @@ struct TaskProfile;
 struct DnsProfile;
         class TGroupInfo {
         public:
-            TGroupInfo() : extraData(NULL), type(0), extraLen(NULL){}
+            TGroupInfo() : type(0), line(0) {}
             std::string target;
+            int line;
             std::string name;
             std::string portrait;
             std::string owner;
             int type;
-            unsigned char *extraData;
-            size_t extraLen;
-            virtual ~TGroupInfo(){if(extraData != NULL) {delete [] extraData; extraData = NULL; extraLen = 0;}}
+            std::string extra;
+            int64_t updateDt;
+            virtual ~TGroupInfo() {}
         };
         
         class TMessageContent {
@@ -189,7 +190,7 @@ struct DnsProfile;
       
     class SendMessageCallback {
     public:
-        virtual void onPrepared(long messageId) = 0;
+        virtual void onPrepared(long messageId, int64_t savedTime) = 0;
         virtual void onMediaUploaded(std::string remoteUrl) = 0;
         virtual void onSuccess(long messageUid, long long timestamp) = 0;
         virtual void onFalure(int errorCode) = 0;
@@ -279,10 +280,11 @@ public:
 };
         class UploadTask : public Task {
         public:
-            UploadTask(const std::string &data, const std::string &token, UPloadCallback *callback);
+            UploadTask(const std::string &data, const std::string &token, int mediaType, UPloadCallback *callback);
         public:
             std::string mData;
             std::string mToken;
+            unsigned char mMediaType;
             UPloadCallback *mCallback;
             virtual ~UploadTask() {}
         };

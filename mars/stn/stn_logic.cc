@@ -491,10 +491,10 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     
 int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
 = [](TMessage &tmsg, SendMessageCallback *callback) {
-  
+    tmsg.timestamp = time(NULL)*1000;
   long id = MessageDB::Instance()->InsertMessage(tmsg);
   MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.line, tmsg.timestamp);
-  callback->onPrepared(id);
+  callback->onPrepared(id, tmsg.timestamp);
   
   
 
