@@ -13,5 +13,5 @@
 
 
 @interface VoiceCell : MediaMessageCell
-@property (nonatomic, strong)UIButton *voiceBtn;
+@property (nonatomic, strong)UIImageView *voiceBtn;
 @end

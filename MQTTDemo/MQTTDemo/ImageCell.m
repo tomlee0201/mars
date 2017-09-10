@@ -46,8 +46,8 @@
     
     CGRect frame = CGRectMake(self.bubbleView.frame.origin.x - 1, self.bubbleView.frame.origin.y - 1, self.bubbleView.frame.size.width + 2, self.bubbleView.frame.size.height + 2);
     _shadowMaskView.frame = frame;
-    [self addSubview:_shadowMaskView];
-    [self bringSubviewToFront:self.bubbleView];
+    [self.contentView addSubview:_shadowMaskView];
+    [self.contentView bringSubviewToFront:self.bubbleView];
     
 }
 

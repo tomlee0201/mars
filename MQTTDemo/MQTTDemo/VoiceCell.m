@@ -36,10 +36,9 @@
     }
 }
 
-- (UIButton *)voiceBtn {
+- (UIImageView *)voiceBtn {
     if (!_voiceBtn) {
-        _voiceBtn = [[UIButton alloc] init];
-        [_voiceBtn addTarget:self action:@selector(startPlay:) forControlEvents:UIControlEventTouchDown];
+        _voiceBtn = [[UIImageView alloc] init];
         [self.contentArea addSubview:_voiceBtn];
     }
     return _voiceBtn;
@@ -58,7 +57,6 @@
 
 
 - (void)scheduleAnimation:(id)sender {
- 
     NSString *_playingImg;
     
     if (MessageDirection_Send == self.model.message.direction) {
@@ -66,8 +64,8 @@
     } else {
         _playingImg = [NSString stringWithFormat:@"received_voice_%d", (self.animationIndex++ % 3) + 1];
     }
-    
-    [self.voiceBtn setImage:[UIImage imageNamed:_playingImg] forState:UIControlStateNormal];
+
+    [self.voiceBtn setImage:[UIImage imageNamed:_playingImg]];
 }
 
 - (void)stopAnimationTimer {
@@ -78,9 +76,9 @@
     }
     
     if (self.model.message.direction == MessageDirection_Send) {
-        [self.voiceBtn setImage:[UIImage imageNamed:@"sent_voice"] forState:UIControlStateNormal];
+        [self.voiceBtn setImage:[UIImage imageNamed:@"sent_voice"]];
     } else {
-        [self.voiceBtn setImage:[UIImage imageNamed:@"received_voice"] forState:UIControlStateNormal];
+        [self.voiceBtn setImage:[UIImage imageNamed:@"received_voice"]];
     }
 }
 

@@ -19,33 +19,6 @@
   }
   return 5;
 }
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self setup];
-    }
-    return self;
-}
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self setup];
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setup];
-    }
-    return self;
-}
-
-- (void)setup {
-
-}
-
 - (void)onTaped:(id)sender {
     [self.delegate didTapMessageCell:self withModel:self.model];
 }
@@ -57,7 +30,7 @@
       self.timeLabel = [[UILabel alloc] init];
       _timeLabel.font = [UIFont systemFontOfSize:12.f];
       
-      [self addSubview:self.timeLabel];
+      [self.contentView addSubview:self.timeLabel];
     }
     _timeLabel.hidden = NO;
     _timeLabel.text = @"20:30";

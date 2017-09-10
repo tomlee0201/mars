@@ -177,7 +177,7 @@
     _portraitView.clipsToBounds = YES;
     _portraitView.layer.cornerRadius = 3.f;
     [_portraitView setImage:[UIImage imageNamed:@"head"]];
-    [self addSubview:_portraitView];
+    [self.contentView addSubview:_portraitView];
   }
   return _portraitView;
 }
@@ -185,7 +185,7 @@
 - (UILabel *)nameLabel {
   if (!_nameLabel) {
     _nameLabel = [[UILabel alloc] init];
-    [self addSubview:_nameLabel];
+    [self.contentView addSubview:_nameLabel];
   }
   return _nameLabel;
 }
@@ -200,7 +200,7 @@
 - (UIImageView *)bubbleView {
     if (!_bubbleView) {
         _bubbleView = [[UIImageView alloc] init];
-        [self addSubview:_bubbleView];
+        [self.contentView addSubview:_bubbleView];
         [_bubbleView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTaped:)]];
         [_bubbleView setUserInteractionEnabled:YES];
     }
@@ -209,7 +209,7 @@
 - (UIActivityIndicatorView *)activityView {
     if (!_activityView) {
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self addSubview:_activityView];
+        [self.contentView addSubview:_activityView];
     }
     return _activityView;
 }
@@ -217,7 +217,7 @@
     if (!_failureView) {
         _failureView = [[UIImageView alloc] init];
         _failureView.image = [UIImage imageNamed:@"failure"];
-        [self addSubview:_failureView];
+        [self.contentView addSubview:_failureView];
     }
     return _failureView;
 }
