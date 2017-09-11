@@ -83,6 +83,7 @@ include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
+
 include $(LOCAL_PATH)/../../../mk_template/flags.mk
 
 LOCAL_MODULE := marsstn

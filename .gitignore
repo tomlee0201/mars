@@ -96,3 +96,7 @@ MQTTDemo/MQTTDemo/IMClient/Proto/Message.pbobjc.h
 MQTTDemo/MQTTDemo/IMClient/Proto/Message.pbobjc.m
 MQTTDemo/MQTTDemo/IMClient/Proto/Messagecontent.pbobjc.h
 MQTTDemo/MQTTDemo/IMClient/Proto/Messagecontent.pbobjc.m
+*.lib
+*.pdb
+mars/win32proj/Debug/mars.lastbuildstate
+mars/win32proj/Debug/mars.unsuccessfulbuild

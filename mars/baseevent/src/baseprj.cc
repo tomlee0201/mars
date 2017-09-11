@@ -18,8 +18,8 @@
  */
 
 #include "mars/baseevent/baseprjevent.h"
+#include "mars/baseevent/base_logic.h"
 
-#include "mars/comm/compiler_util.h"
 #include "mars/comm/bootregister.h"
 #include "mars/comm/platform_comm.h"
 #include "mars/comm/thread/lock.h"
@@ -31,7 +31,7 @@
 
 namespace mars{
     namespace baseevent{
-        
+
         void OnCreate()
         {
             mqtt_init(app::GetDeviceInfo().devicename.c_str());
