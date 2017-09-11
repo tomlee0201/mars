@@ -48,7 +48,7 @@
 		2E32E3881F622839000063A6 /* ImagePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E3871F622839000063A6 /* ImagePreviewViewController.m */; };
 		2E32E38E1F622A17000063A6 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38B1F622A17000063A6 /* FLAnimatedImage.m */; };
 		2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */; };
-		2E3504141F5C1EEC00E97BC0 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3504131F5C1EEC00E97BC0 /* WCDB.framework */; };
+		2E3F9FBA1F661EC900EE62D4 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3504131F5C1EEC00E97BC0 /* WCDB.framework */; };
 		2E4995301F43402400C52CA2 /* MessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E49952D1F43402400C52CA2 /* MessageContent.m */; };
 		2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */; };
 		2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA801F5AA0870079B516 /* ImageCell.m */; };
@@ -201,6 +201,7 @@
 		2E32E38C1F622A17000063A6 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
 		2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		2E3504131F5C1EEC00E97BC0 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../../DerivedData/mars-mqtt-workspace-amhznbukkfwyxlhfqyagqiomyscc/Build/Products/Debug-iphoneos/WCDB.framework"; sourceTree = "<group>"; };
+		2E3F9FB71F66096000EE62D4 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = "../wcdb/apple/build/Debug-iphoneos/WCDB.framework"; sourceTree = "<group>"; };
 		2E49952D1F43402400C52CA2 /* MessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.m; sourceTree = "<group>"; };
 		2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageMessageContent.h; sourceTree = "<group>"; };
 		2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageMessageContent.m; sourceTree = "<group>"; };
@@ -304,7 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E3504141F5C1EEC00E97BC0 /* WCDB.framework in Frameworks */,
+				2E3F9FBA1F661EC900EE62D4 /* WCDB.framework in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
 				2E30C9851F3EBFD900DB259A /* libmars-open-iphone.a in Frameworks */,
 				2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */,
@@ -516,6 +517,7 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E3F9FB71F66096000EE62D4 /* WCDB.framework */,
 				2E3504131F5C1EEC00E97BC0 /* WCDB.framework */,
 				2E1482141F4D0CC80077EBEA /* sqlcipher.framework */,
 				2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */,

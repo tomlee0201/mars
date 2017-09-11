@@ -527,7 +527,6 @@ alpha:1.0]
             dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
                 NSData *amrData = [NSData dataWithContentsOfURL:[NSURL URLWithString:soundContent.remoteUrl]];
                 [soundContent updateAmrData:amrData];
-                [NSThread sleepForTimeInterval:10];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     model.mediaDownloading = NO;
                     [[NSNotificationCenter defaultCenter] postNotificationName:kMediaMessageDownloadFinished object:@(downloadingId)];
@@ -661,7 +660,6 @@ alpha:1.0]
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    NSLog(@"scrollView.contentOffset.y %f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y < 5 && !_loadingMore) {
         _loadingMore = YES;
         long lastIndex = 0;

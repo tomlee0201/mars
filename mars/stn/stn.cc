@@ -25,6 +25,7 @@
 #include "mars/stn/stn_logic.h"
 #include "mars/baseevent/base_logic.h"
 #include "mars/stn/mqtt/DB.hpp"
+#include "mars/stn/mqtt/MessageDB.hpp"
 #include "mars/stn/mqtt/stn_callback.h"
 namespace mars{
     namespace stn{
@@ -91,11 +92,11 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
       MQTTDisconnectTask::MQTTDisconnectTask() : MQTTTask(MQTT_MSG_DISCONNECT) {
         cmdid = MQTT_DISCONNECT_CMDID;
       }
-     
         
       void login(std::string &userName, std::string &passwd) {
           DB::Instance()->Open();
           DB::Instance()->Upgrade();
+          MessageDB::Instance()->FailSendingMessages();
           StnCallBack::Instance()->onDBOpened();
         mqtt_init_auth(userName.c_str(), passwd.c_str());
         MakesureLonglinkConnected();

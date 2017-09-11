@@ -91,109 +91,114 @@ void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, c
   _packed.Seek(0, AutoBuffer::ESeekStart);
 };
 
-static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension) {
-
-  size_t _body_len = 0;
-  
-  if (_packed_len < 2) {
-    return LONGLINK_UNPACK_CONTINUE;
-  }
-  const unsigned char *data = ( unsigned char *)_packed;
-    int packLen = mqtt_parse_rem_len(data);
-    int remainHeaderBytes = mqtt_num_rem_len_bytes(data);
-    
-  if ((size_t)(packLen + 1 + remainHeaderBytes) > _packed_len) {
-    return LONGLINK_UNPACK_CONTINUE;
-  }
-  
-  _package_len = packLen + 1 + remainHeaderBytes;
-  _body_len = _packed_len;
-  
-  if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
-  if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
-  
-  
-  switch (MQTTParseMessageType(( unsigned char *)_packed)) {
-    case MQTT_MSG_CONNACK:
-      _cmdid = MQTT_CONNECT_CMDID;
-      _seq = Task::kLongLinkIdentifyCheckerTaskID;
-      _body_len = _packed_len - 1 - remainHeaderBytes;
-      break;
-      
-    case MQTT_MSG_PUBLISH:
-    {
-      _cmdid = PUSH_DATA_TASKID;
-      _seq = 0;
-      _body_len = _package_len -  1 - remainHeaderBytes;
-      uint8_t buffer[4096];
-      uint16_t length = mqtt_parse_pub_topic((const uint8_t*)_packed, buffer);
-      _body.AllocWrite(length);
-      _body.Write(buffer, length);
-      
-      length = mqtt_parse_publish_msg((const uint8_t*)_packed, buffer);
-      _extension.AllocWrite(length);
-      _extension.Write(buffer, length);
-      
-      int messageId = mqtt_parse_msg_id((const uint8_t*)_packed);
-      int qos = MQTTParseMessageQos((const uint8_t*)_packed);
-      if (qos == 0) {
-        //no need response
-      } else if (qos == 1) {
-        MQTTPubAckTask *ackTask = new MQTTPubAckTask(messageId);
-        StartTask(*ackTask);
-      } else if (qos == 2) {
-        //not support
-      }
-      return LONGLINK_UNPACK_OK;
-    }
-      break;
-    case MQTT_MSG_PUBACK:
-      _cmdid = MQTT_SEND_OUT_CMDID;
-      _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 1 - remainHeaderBytes - 2;
-      break;
-      
-    case MQTT_MSG_PUBREC:
-    case MQTT_MSG_PUBREL:
-    case MQTT_MSG_PUBCOMP:
-      break;
-    case MQTT_MSG_SUBACK:
-      _cmdid = MQTT_SUBSCRIBE_CMDID;
-      _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 1 - remainHeaderBytes - 2;
-      break;
-    case MQTT_MSG_UNSUBACK:
-      _cmdid = MQTT_UNSUBSCRIBE_CMDID;
-      _seq = mqtt_parse_msg_id((const uint8_t*)_packed);
-      _body_len = _packed_len - 1 - remainHeaderBytes - 2;
-      break;
-      
-    case MQTT_MSG_PINGRESP:
-      _cmdid = NOOP_CMDID;
-      _seq = Task::kNoopTaskID;
-      break;
-      
-    case MQTT_MSG_SUBSCRIBE:
-    case MQTT_MSG_UNSUBSCRIBE:
-    case MQTT_MSG_PINGREQ:
-    case MQTT_MSG_CONNECT:
-    case MQTT_MSG_DISCONNECT:
-      //can not receive
-      break;
-      
-    default:
-      break;
-  }
-  
-  _body.Write(AutoBuffer::ESeekStart, (const unsigned char*)_packed + (_package_len-_body_len), _body_len);
-  
-  return LONGLINK_UNPACK_OK;
-}
-  
 int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker)
 = [](const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker) {
 
-   return __unpack_test(_packed.Ptr(), _packed.Length(), _cmdid,  _seq, _package_len, _body, _extension);
+    size_t _body_len = 0;
+    
+    if (_packed.Length() < 2) {
+        return LONGLINK_UNPACK_CONTINUE;
+    }
+    
+    unsigned char *p = (unsigned char *)_packed.Ptr();
+    p++;
+    if (*p & 0x80) {
+        if (_packed.Length() < 4) {
+            return LONGLINK_UNPACK_CONTINUE;
+        }
+    }
+    
+    const unsigned char *data = ( unsigned char *)_packed.Ptr();
+    int packLen = mqtt_parse_rem_len(data);
+    int remainHeaderBytes = mqtt_num_rem_len_bytes(data);
+    
+    if ((size_t)(packLen + 1 + remainHeaderBytes) > _packed.Length()) {
+        return LONGLINK_UNPACK_CONTINUE;
+    }
+    
+    _package_len = packLen + 1 + remainHeaderBytes;
+    _body_len = _packed.Length();
+    
+    if (_package_len > 4 * 1024*1024) { return LONGLINK_UNPACK_FALSE; }
+    if (_package_len > _packed.Length()) { return LONGLINK_UNPACK_CONTINUE; }
+    
+    
+    switch (MQTTParseMessageType(( unsigned char *)_packed.Ptr())) {
+        case MQTT_MSG_CONNACK:
+            _cmdid = MQTT_CONNECT_CMDID;
+            _seq = Task::kLongLinkIdentifyCheckerTaskID;
+            _body_len = _packed.Length() - 1 - remainHeaderBytes;
+            break;
+            
+        case MQTT_MSG_PUBLISH:
+        {
+            _cmdid = PUSH_DATA_TASKID;
+            _seq = 0;
+            _body_len = _package_len -  1 - remainHeaderBytes;
+            uint8_t buffer[4 * 1024*1024];
+            uint16_t length = mqtt_parse_pub_topic((const uint8_t*)_packed.Ptr(), buffer);
+            _body.AllocWrite(length);
+            _body.Write(buffer, length);
+            
+            length = mqtt_parse_publish_msg((const uint8_t*)_packed.Ptr(), buffer);
+            _extension.AllocWrite(length);
+            _extension.Write(buffer, length);
+            
+            int messageId = mqtt_parse_msg_id((const uint8_t*)_packed.Ptr());
+            int qos = MQTTParseMessageQos((const uint8_t*)_packed.Ptr());
+            if (qos == 0) {
+                //no need response
+            } else if (qos == 1) {
+                MQTTPubAckTask *ackTask = new MQTTPubAckTask(messageId);
+                StartTask(*ackTask);
+            } else if (qos == 2) {
+                //not support
+            }
+            return LONGLINK_UNPACK_OK;
+        }
+            break;
+        case MQTT_MSG_PUBACK:
+            _cmdid = MQTT_SEND_OUT_CMDID;
+            _seq = mqtt_parse_msg_id((const uint8_t*)_packed.Ptr());
+            _body_len = _packed.Length() - 1 - remainHeaderBytes - 2;
+            break;
+            
+        case MQTT_MSG_PUBREC:
+        case MQTT_MSG_PUBREL:
+        case MQTT_MSG_PUBCOMP:
+            break;
+        case MQTT_MSG_SUBACK:
+            _cmdid = MQTT_SUBSCRIBE_CMDID;
+            _seq = mqtt_parse_msg_id((const uint8_t*)_packed.Ptr());
+            _body_len = _packed.Length() - 1 - remainHeaderBytes - 2;
+            break;
+        case MQTT_MSG_UNSUBACK:
+            _cmdid = MQTT_UNSUBSCRIBE_CMDID;
+            _seq = mqtt_parse_msg_id((const uint8_t*)_packed.Ptr());
+            _body_len = _packed.Length() - 1 - remainHeaderBytes - 2;
+            break;
+            
+        case MQTT_MSG_PINGRESP:
+            _cmdid = NOOP_CMDID;
+            _seq = Task::kNoopTaskID;
+            break;
+            
+        case MQTT_MSG_SUBSCRIBE:
+        case MQTT_MSG_UNSUBSCRIBE:
+        case MQTT_MSG_PINGREQ:
+        case MQTT_MSG_CONNECT:
+        case MQTT_MSG_DISCONNECT:
+            //can not receive
+            break;
+            
+        default:
+            break;
+    }
+    
+    _body.Write(AutoBuffer::ESeekStart, (const unsigned char*)_packed.Ptr() + (_package_len-_body_len), _body_len);
+    
+    return LONGLINK_UNPACK_OK;
+
 };
 
 

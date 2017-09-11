@@ -25,9 +25,9 @@
 #define Bubble_Padding_Another_Side 5
 
 @interface MessageCell ()
-@property (nonatomic, strong)UIActivityIndicatorView *activityView;
+@property (nonatomic, strong)UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong)UIImageView *failureView;
-@property (nonatomic, strong) UIImageView *maskView;
+@property (nonatomic, strong)UIImageView *maskView;
 @end
 
 @implementation MessageCell
@@ -75,11 +75,12 @@
             frame.origin.y = frame.origin.y + frame.size.height - 24;
             frame.size.width = 20;
             frame.size.height = 20;
-            self.activityView.frame = frame;
-            [self.activityView startAnimating];
+            self.activityIndicatorView.hidden = NO;
+            self.activityIndicatorView.frame = frame;
+            [self.activityIndicatorView startAnimating];
         } else {
-            [_activityView stopAnimating];
-            _activityView.hidden = YES;
+            [_activityIndicatorView stopAnimating];
+            _activityIndicatorView.hidden = YES;
         }
         
         if (self.model.message.status == Message_Status_Send_Failure) {
@@ -94,8 +95,8 @@
             _failureView.hidden = YES;
         }
     } else {
-        [_activityView stopAnimating];
-        _activityView.hidden = YES;
+        [_activityIndicatorView stopAnimating];
+        _activityIndicatorView.hidden = YES;
         _failureView.hidden = YES;
     }
 }
@@ -206,12 +207,12 @@
     }
     return _bubbleView;
 }
-- (UIActivityIndicatorView *)activityView {
-    if (!_activityView) {
-        _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.contentView addSubview:_activityView];
+- (UIActivityIndicatorView *)activityIndicatorView {
+    if (!_activityIndicatorView) {
+        _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.contentView addSubview:_activityIndicatorView];
     }
-    return _activityView;
+    return _activityIndicatorView;
 }
 - (UIImageView *)failureView {
     if (!_failureView) {

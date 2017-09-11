@@ -238,8 +238,29 @@ namespace mars {
                     conv.lastMessage = *lastMessages.begin();
                 }
             }
+            
+            conv.unreadCount = GetUnreadCount(conversationType, target, line);
+            
             return conv;
         }
+        int MessageDB::GetUnreadCount(int conversationType, const std::string &target, int line) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+
+            if (!db->isOpened()) {
+                return 0;
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message", {"count(*)"}, error, &where);
+            
+            if (statementHandle->step()) {
+                return db->getIntValue(statementHandle, 0);
+            }
+            
+            return 0;
+        }
+        
         std::list<TMessage> MessageDB::GetMessages(int conversationType, const std::string &target, int line, bool old, int count, long startPoint) {
             DB *db = DB::Instance();
             WCDB::Error error;
@@ -384,6 +405,26 @@ namespace mars {
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
             WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
             db->Bind(updateStatementHandle, Message_Status_Readed, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        bool MessageDB::FailSendingMessages() {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Sending);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            db->Bind(updateStatementHandle, Message_Status_Send_Failure, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
             if (count > 0) {

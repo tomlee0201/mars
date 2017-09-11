@@ -108,7 +108,7 @@ uint8_t mqtt_num_rem_len_bytes(const uint8_t* buf);
  *
  * @retval remaining length
  */
-uint16_t mqtt_parse_rem_len(const uint8_t* buf);
+uint32_t mqtt_parse_rem_len(const uint8_t* buf);
 
 /** Parse packet buffer for message id.
  *

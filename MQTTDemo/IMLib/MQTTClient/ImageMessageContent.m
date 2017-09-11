@@ -25,7 +25,7 @@
     [imgData writeToFile:path atomically:YES];
     
     content.localPath = path;
-    content.thumbnail = [IMUtilities generateThumbnail:image withWidth:240 withHeight:240];
+    content.thumbnail = [IMUtilities generateThumbnail:image withWidth:120 withHeight:120];
     
     return content;
 }
@@ -33,7 +33,7 @@
     MediaMessagePayload *payload = [[MediaMessagePayload alloc] init];
     payload.contentType = [self.class getContentType];
     payload.searchableContent = @"[图片]";
-    payload.binaryContent = UIImageJPEGRepresentation(self.thumbnail, 0.92);
+    payload.binaryContent = UIImageJPEGRepresentation(self.thumbnail, 0.67);
     payload.mediaType = Media_Type_IMAGE;
     payload.remoteMediaUrl = self.remoteUrl;
     payload.localMediaPath = self.localPath;
@@ -52,7 +52,7 @@
 - (UIImage *)thumbnail {
     if (!_thumbnail) {
         UIImage *image = [UIImage imageWithContentsOfFile:self.localPath];
-        _thumbnail = [IMUtilities generateThumbnail:image withWidth:240 withHeight:240];
+        _thumbnail = [IMUtilities generateThumbnail:image withWidth:120 withHeight:120];
     }
     return _thumbnail;
 }

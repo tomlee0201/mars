@@ -62,9 +62,9 @@ uint8_t mqtt_num_rem_len_bytes(const uint8_t* buf) {
 	return num_bytes;
 }
 
-uint16_t mqtt_parse_rem_len(const uint8_t* buf) {
-	uint16_t multiplier = 1;
-	uint16_t value = 0;
+uint32_t mqtt_parse_rem_len(const uint8_t* buf) {
+	uint32_t multiplier = 1;
+	uint32_t value = 0;
 	uint8_t digit;
 	
 	//printf("mqtt_parse_rem_len\n");

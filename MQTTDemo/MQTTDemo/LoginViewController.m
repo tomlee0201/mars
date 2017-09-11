@@ -21,6 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    srand((int)time(NULL));
     if (rand()%2) {
         self.userNameField.text = @"user1";
         self.passwordField.text = @"jqO1RBqPweQMQ2fhLFs91ZoblwlOSnregkl4PyooJG8=";
