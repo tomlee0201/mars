@@ -448,9 +448,7 @@
 		2F395A4A1F04727D000F2C79 /* libemqtt.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libemqtt.cc; sourceTree = "<group>"; };
 		2F395A4B1F04727D000F2C79 /* libemqtt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libemqtt.h; sourceTree = "<group>"; };
 		2F395A4E1F04727D000F2C79 /* longlink_packer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = longlink_packer.cc; sourceTree = "<group>"; };
-		2F395A4F1F04727D000F2C79 /* longlink_packer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = longlink_packer.h; sourceTree = "<group>"; };
 		2F395A501F04727D000F2C79 /* shortlink_packer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shortlink_packer.cc; sourceTree = "<group>"; };
-		2F395A511F04727D000F2C79 /* shortlink_packer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shortlink_packer.h; sourceTree = "<group>"; };
 		2F395A521F04727D000F2C79 /* stn_callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stn_callback.h; sourceTree = "<group>"; };
 		2F395A531F04727D000F2C79 /* stn_callback.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stn_callback.cc; sourceTree = "<group>"; };
 		2F395A541F04727D000F2C79 /* stnproto_logic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stnproto_logic.h; sourceTree = "<group>"; };
@@ -934,9 +932,7 @@
 				2F395A4A1F04727D000F2C79 /* libemqtt.cc */,
 				2F395A4B1F04727D000F2C79 /* libemqtt.h */,
 				2F395A4E1F04727D000F2C79 /* longlink_packer.cc */,
-				2F395A4F1F04727D000F2C79 /* longlink_packer.h */,
 				2F395A501F04727D000F2C79 /* shortlink_packer.cc */,
-				2F395A511F04727D000F2C79 /* shortlink_packer.h */,
 				2F395A521F04727D000F2C79 /* stn_callback.h */,
 				2F395A531F04727D000F2C79 /* stn_callback.cc */,
 				2F395A541F04727D000F2C79 /* stnproto_logic.h */,

@@ -313,6 +313,22 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     std::list<mars::stn::TMessage> messages = mars::stn::MessageDB::Instance()->GetMessages(conversation.type, [conversation.target UTF8String], conversation.line, true, (int)count, fromIndex);
     return convertProtoMessageList(messages);
 }
+- (int)getUnreadCount:(Conversation *)conversation {
+    return mars::stn::MessageDB::Instance()->GetUnreadCount(conversation.type, [conversation.target UTF8String], conversation.line);
+}
+
+- (int)getUnreadCount:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *>*)lines {
+    std::list<int> types;
+    std::list<int> ls;
+    for (NSNumber *type in conversationTypes) {
+        types.insert(types.end(), type.intValue);
+    }
+    
+    for (NSNumber *line in lines) {
+        ls.insert(ls.end(), line.intValue);
+    }
+    return mars::stn::MessageDB::Instance()->GetUnreadCount(types, ls);
+}
 
 - (void)clearUnreadStatus:(Conversation *)conversation {
     mars::stn::MessageDB::Instance()->ClearUnreadStatus(conversation.type, [conversation.target UTF8String], conversation.line);

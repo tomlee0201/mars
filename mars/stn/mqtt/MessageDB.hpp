@@ -42,6 +42,8 @@ namespace mars {
             bool updateMessageLocalMediaPath(long messageId, const std::string &localMediaPath);
             
             int GetUnreadCount(int conversationType, const std::string &target, int line);
+            
+            int GetUnreadCount(const std::list<int> &conversationTypes, const std::list<int> lines);
             bool ClearUnreadStatus(int conversationType, const std::string &target, int line);
             
             bool FailSendingMessages();

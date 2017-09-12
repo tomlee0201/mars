@@ -48,6 +48,7 @@
 		2E32E38E1F622A17000063A6 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38B1F622A17000063A6 /* FLAnimatedImage.m */; };
 		2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */; };
 		2E4995301F43402400C52CA2 /* MessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E49952D1F43402400C52CA2 /* MessageContent.m */; };
+		2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9B61F682438006D31E8 /* BubbleTipView.m */; };
 		2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */; };
 		2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA801F5AA0870079B516 /* ImageCell.m */; };
 		2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */; };
@@ -200,6 +201,8 @@
 		2E32E38C1F622A17000063A6 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
 		2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		2E49952D1F43402400C52CA2 /* MessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.m; sourceTree = "<group>"; };
+		2E79A9B51F682438006D31E8 /* BubbleTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleTipView.h; sourceTree = "<group>"; };
+		2E79A9B61F682438006D31E8 /* BubbleTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleTipView.m; sourceTree = "<group>"; };
 		2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageMessageContent.h; sourceTree = "<group>"; };
 		2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageMessageContent.m; sourceTree = "<group>"; };
 		2E95BA7F1F5AA0870079B516 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
@@ -595,6 +598,8 @@
 			children = (
 				2EDB88031F63AFEE00578E7D /* VoiceRecordView.h */,
 				2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */,
+				2E79A9B51F682438006D31E8 /* BubbleTipView.h */,
+				2E79A9B61F682438006D31E8 /* BubbleTipView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -683,7 +688,7 @@
 				TargetAttributes = {
 					2EC3BD751F04D61A006C6E6F = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = E7EASRPBGU;
+						DevelopmentTeam = NXP2SHDJL7;
 						ProvisioningStyle = Automatic;
 					};
 					2EC519E31F3EBAB6009D60AE = {
@@ -776,6 +781,7 @@
 				2E32E3781F622527000063A6 /* SDWebImageCompat.m in Sources */,
 				2E32E3771F622527000063A6 /* SDImageCacheConfig.m in Sources */,
 				2EDB88101F63D1EF00578E7D /* VoiceCell.m in Sources */,
+				2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */,
 				2EFEC1C21F5943B000424902 /* MessageModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,7 +939,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E7EASRPBGU;
+				DEVELOPMENT_TEAM = NXP2SHDJL7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MQTTDemo",
@@ -943,7 +949,7 @@
 				INFOPLIST_FILE = MQTTDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-v";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = ./mars;
@@ -956,7 +962,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E7EASRPBGU;
+				DEVELOPMENT_TEAM = NXP2SHDJL7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MQTTDemo",
@@ -966,7 +972,7 @@
 				INFOPLIST_FILE = MQTTDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-v";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = ./mars;

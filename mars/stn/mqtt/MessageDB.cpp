@@ -211,6 +211,9 @@ namespace mars {
                 if (lastMessages.size() > 0) {
                     conv.lastMessage = *lastMessages.begin();
                 }
+              
+              conv.unreadCount = GetUnreadCount(conv.conversationType, conv.target, conv.line);
+              
                 convs.push_back(conv);
             }
             return convs;
@@ -252,6 +255,34 @@ namespace mars {
             }
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message", {"count(*)"}, error, &where);
+            
+            if (statementHandle->step()) {
+                return db->getIntValue(statementHandle, 0);
+            }
+            
+            return 0;
+        }
+        
+        int MessageDB::GetUnreadCount(const std::list<int> &conversationTypes, const std::list<int> lines) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            
+            if (!db->isOpened()) {
+                return 0;
+            }
+            
+            std::list<const WCDB::Expr> types;
+            for (std::list<int>::const_iterator it = conversationTypes.begin(); it != conversationTypes.end(); it++) {
+                types.insert(types.end(), WCDB::Expr(*it));
+            }
+            
+            std::list<const WCDB::Expr> ls;
+            for (std::list<int>::const_iterator it = lines.begin(); it != lines.end(); it++) {
+                ls.insert(ls.end(), WCDB::Expr(*it));
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")).in(types)) && (WCDB::Expr(WCDB::Column("_conv_line")).in(ls)) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message", {"count(*)"}, error, &where);
             
             if (statementHandle->step()) {

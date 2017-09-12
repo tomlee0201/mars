@@ -109,12 +109,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ConversationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReuseableConversationCell" forIndexPath:indexPath];
     
-  ConversationInfo *info = self.conversations[indexPath.row];
-  cell.targetView.text = info.conversation.target;
-  cell.digestView.text = info.lastMessage.content.digest;
-    cell.potraitView.layer.cornerRadius = 3.f;
-  
-    cell.timeView.text = [Utilities formatTimeLabel:info.timestamp];
+    cell.info = self.conversations[indexPath.row];
   
     return cell;
 }
