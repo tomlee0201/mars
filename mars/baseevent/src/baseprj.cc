@@ -24,7 +24,7 @@
 #include "mars/comm/platform_comm.h"
 #include "mars/comm/thread/lock.h"
 #include "mars/stn/mqtt/libemqtt.h"
-#include "mars/stn/mqtt/longlink_packer.h"
+#include "mars/stn/proto/longlink_packer.h"
 #include "mars/stn/stn.h"
 #include "mars/app/app.h"
 

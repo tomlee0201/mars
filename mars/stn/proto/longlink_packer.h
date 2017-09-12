@@ -67,7 +67,7 @@ extern void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _
  * _body: business receive buffer
  * return: 0 if unpackage succ
  */
-extern int  (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker);
+extern int  longlink_unpack(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker);
 
 //heartbeat signal to keep longlink network alive
 extern uint32_t (*longlink_noop_cmdid)();

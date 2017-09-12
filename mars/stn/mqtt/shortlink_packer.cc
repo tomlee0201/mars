@@ -17,7 +17,7 @@
  *      Author: yanguoyue
  */
 
-#include "shortlink_packer.h"
+#include "mars/stn/proto/shortlink_packer.h"
 #include "mars/comm/http.h"
 #include "mars/app/app.h"
 #include <sstream>

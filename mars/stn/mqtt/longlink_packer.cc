@@ -18,7 +18,7 @@
  *      Author: yerungui, caoshaokun
  */
 
-#include "longlink_packer.h"
+#include "mars/stn/proto/longlink_packer.h"
 
 #include <arpa/inet.h>
 
@@ -91,8 +91,7 @@ void (*longlink_pack)(uint32_t _cmdid, uint32_t _seq, const AutoBuffer& _body, c
   _packed.Seek(0, AutoBuffer::ESeekStart);
 };
 
-int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker)
-= [](const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker) {
+int longlink_unpack(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, AutoBuffer& _body, AutoBuffer& _extension, longlink_tracker* _tracker) {
 
     size_t _body_len = 0;
     
@@ -119,7 +118,7 @@ int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _s
     _package_len = packLen + 1 + remainHeaderBytes;
     _body_len = _packed.Length();
     
-    if (_package_len > 4 * 1024*1024) { return LONGLINK_UNPACK_FALSE; }
+    if (_package_len > 4* 1024*1024) { return LONGLINK_UNPACK_FALSE; }
     if (_package_len > _packed.Length()) { return LONGLINK_UNPACK_CONTINUE; }
     
     
@@ -135,7 +134,15 @@ int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _s
             _cmdid = PUSH_DATA_TASKID;
             _seq = 0;
             _body_len = _package_len -  1 - remainHeaderBytes;
-            uint8_t buffer[4 * 1024*1024];
+            uint8_t stackBuf[8*1024];
+            uint8_t *buffer;
+            
+            if (_body_len < 8* 1024) {
+                buffer = stackBuf;
+            } else {
+                buffer = new uint8_t[_body_len]();
+            }
+            
             uint16_t length = mqtt_parse_pub_topic((const uint8_t*)_packed.Ptr(), buffer);
             _body.AllocWrite(length);
             _body.Write(buffer, length);
@@ -143,6 +150,10 @@ int (*longlink_unpack)(const AutoBuffer& _packed, uint32_t& _cmdid, uint32_t& _s
             length = mqtt_parse_publish_msg((const uint8_t*)_packed.Ptr(), buffer);
             _extension.AllocWrite(length);
             _extension.Write(buffer, length);
+            
+            if (_body_len > 8* 1024) {
+                delete [] buffer;
+            }
             
             int messageId = mqtt_parse_msg_id((const uint8_t*)_packed.Ptr());
             int qos = MQTTParseMessageQos((const uint8_t*)_packed.Ptr());
