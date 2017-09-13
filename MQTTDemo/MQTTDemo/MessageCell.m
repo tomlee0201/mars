@@ -111,6 +111,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onStatusChanged:) name:@"kMessageStatusChanged" object:
     @(model.message.messageId)];
   [super setModel:model];
+    
+    if (model.message.conversation == Single_Type) {
+        self.portraitView.image = [UIImage imageNamed:@"PersonalChat"];
+    } else {
+        self.portraitView.image = [UIImage imageNamed:@"GroupChat"];
+    }
+    
   if (model.message.direction == MessageDirection_Send) {
     CGFloat top = [MessageCellBase hightForTimeLabel:model];
     CGRect frame = self.frame;
@@ -177,7 +184,7 @@
     _portraitView = [[UIImageView alloc] init];
     _portraitView.clipsToBounds = YES;
     _portraitView.layer.cornerRadius = 3.f;
-    [_portraitView setImage:[UIImage imageNamed:@"head"]];
+    [_portraitView setImage:[UIImage imageNamed:@"PersonalChat"]];
     [self.contentView addSubview:_portraitView];
   }
   return _portraitView;

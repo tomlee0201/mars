@@ -445,6 +445,26 @@ namespace mars {
             return false;
         }
         
+        bool MessageDB::ClearAllUnreadStatus() {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            db->Bind(updateStatementHandle, Message_Status_Readed, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        
         bool MessageDB::FailSendingMessages() {
             DB *db = DB::Instance();
             if (!db->isOpened()) {

@@ -23,6 +23,7 @@
 #import "TextMessageContent.h"
 
 #import "Utilities.h"
+#import "UITabBar+badge.h"
 
 @interface ConversationTableViewController ()
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
@@ -38,6 +39,8 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onClearAllUnread:) name:@"kTabBarClearBadgeNotification" object:nil];
 }
 
 - (void)updateConnectionStatus:(ConnectionStatus)status {
@@ -82,9 +85,23 @@
   [self refreshList];
 }
 
+- (void)onClearAllUnread:(NSNotification *)notification {
+    [[IMService sharedIMService] clearAllUnreadStatus];
+    [self refreshList];
+}
+
 - (void)refreshList {
-  self.conversations = [[[IMService sharedIMService] getConversations:@[@(0), @(1), @(2)] lines:@[@(0)]] mutableCopy];
+  self.conversations = [[[IMService sharedIMService] getConversations:@[@(0), @(1), @(2)] lines:@[@(0), @(1)]] mutableCopy];
+    [self updateBadgeNumber];
   [self.tableView reloadData];
+}
+
+- (void)updateBadgeNumber {
+    int count = 0;
+    for (ConversationInfo *info in self.conversations) {
+        count += info.unreadCount;
+    }
+    [self.tabBarController.tabBar showBadgeOnItemIndex:0 badgeValue:count];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

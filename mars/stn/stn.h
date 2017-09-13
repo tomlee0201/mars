@@ -217,6 +217,12 @@ struct DnsProfile;
         virtual void onSuccess(std::list<std::string> groupMemberList) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
+        
+    class GetMyGroupsCallback {
+    public:
+        virtual void onSuccess(std::list<std::string> groupIdList) = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
 
 
 
@@ -527,6 +533,8 @@ extern void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupI
 extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback);
         
 extern void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback);
+        
+extern void (*getMyGroups)(GetMyGroupsCallback *callback);
 
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

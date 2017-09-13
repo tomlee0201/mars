@@ -77,6 +77,7 @@ const std::string dismissGroupTopic = "GD";
 const std::string modifyGroupInfoTopic = "GMI";
 const std::string getGroupInfoTopic = "GPGI";
 const std::string getGroupMemberTopic = "GPGM";
+const std::string getMyGroupsTopic = "GMG";
     
 const std::string getQiniuUploadTokenTopic = "GQNUT";
 
@@ -773,7 +774,41 @@ void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *cal
     
     publishTask(idBuf, new GetGroupMembersPublishCallback(callback), getGroupMemberTopic);
 };
-    
+    class GetMyGroupsPublishCallback : public MQTTPublishCallback {
+    public:
+        GetMyGroupsPublishCallback(GetMyGroupsCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        GetMyGroupsCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            
+            IDListBuf result;
+            if(result.ParsePartialFromArray(data, (int)len)) {
+                std::list<std::string> retList;
+                
+                for (::google::protobuf::RepeatedPtrField< ::std::string>::const_iterator it = result.id().begin(); it != result.id().end(); it++) {
+                    const std::string &memberId = *it;
+                    retList.push_back(memberId);
+                }
+                callback->onSuccess(retList);
+            } else {
+                callback->onFalure(-1);
+            }
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~GetMyGroupsPublishCallback() {
+            
+        }
+    };
+
+void (*getMyGroups)(GetMyGroupsCallback *callback)
+= [](GetMyGroupsCallback *callback) {
+    IDBuf idBuf;
+    idBuf.set_id("");
+    publishTask(idBuf, new GetMyGroupsPublishCallback(callback), getMyGroupsTopic);
+};
     
 #endif
 

@@ -45,6 +45,7 @@ namespace mars {
             
             int GetUnreadCount(const std::list<int> &conversationTypes, const std::list<int> lines);
             bool ClearUnreadStatus(int conversationType, const std::string &target, int line);
+            bool ClearAllUnreadStatus();
             
             bool FailSendingMessages();
             TGroupInfo GetGroupInfo(const std::string &groupId, int line);

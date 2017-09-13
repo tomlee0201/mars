@@ -178,6 +178,36 @@ public:
     }
 };
 
+class IMGetMyGroupCallback : public mars::stn::GetMyGroupsCallback {
+private:
+    void(^m_successBlock)(NSArray<NSString *> *);
+    void(^m_errorBlock)(int error_code);
+public:
+    IMGetMyGroupCallback(void(^successBlock)(NSArray<NSString *> *), void(^errorBlock)(int error_code)) : mars::stn::GetMyGroupsCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    void onSuccess(std::list<std::string> MyGroupList) {
+        if (m_successBlock) {
+            NSMutableArray *ret = [[NSMutableArray alloc] init];
+            for (std::list<std::string>::iterator it = MyGroupList.begin(); it != MyGroupList.end(); it++) {
+                
+                [ret addObject:[NSString stringWithUTF8String:(*it).c_str()]];
+            }
+            m_successBlock(ret);
+        }
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        if (m_errorBlock) {
+            m_errorBlock(errorCode);
+        }
+        delete this;
+    }
+    
+    virtual ~IMGetMyGroupCallback() {
+        m_successBlock = nil;
+        m_errorBlock = nil;
+    }
+};
+
 
 static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     Message *ret = [[Message alloc] init];
@@ -334,6 +364,10 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::MessageDB::Instance()->ClearUnreadStatus(conversation.type, [conversation.target UTF8String], conversation.line);
 }
 
+- (void)clearAllUnreadStatus {
+    mars::stn::MessageDB::Instance()->ClearAllUnreadStatus();
+}
+
 - (void)createGroup:(NSString *)groupId
                line:(int)line
                name:(NSString *)groupName
@@ -445,6 +479,11 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 - (void)getGroupMembers:(NSString *)groupId success:(void(^)(NSArray<NSString *> *))successBlock error:(void(^)(int error_code))errorBlock {
 
     mars::stn::getGroupMembers([groupId UTF8String], new IMGetGroupMemberCallback(successBlock, errorBlock));
+}
+
+- (void)getMyGroups:(void(^)(NSArray<NSString *> *))successBlock
+              error:(void(^)(int error_code))errorBlock {
+    mars::stn::getMyGroups(new IMGetMyGroupCallback(successBlock, errorBlock));
 }
 
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {

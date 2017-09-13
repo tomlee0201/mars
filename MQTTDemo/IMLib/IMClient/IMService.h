@@ -20,6 +20,7 @@
 - (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count;
 
 - (void)clearUnreadStatus:(Conversation *)conversation;
+- (void)clearAllUnreadStatus;
 
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
@@ -68,4 +69,6 @@
                 success:(void(^)(NSArray<NSString *> *))successBlock
                   error:(void(^)(int error_code))errorBlock;
 
+- (void)getMyGroups:(void(^)(NSArray<NSString *> *))successBlock
+                  error:(void(^)(int error_code))errorBlock;
 @end

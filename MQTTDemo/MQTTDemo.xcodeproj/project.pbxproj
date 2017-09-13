@@ -49,6 +49,10 @@
 		2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */; };
 		2E4995301F43402400C52CA2 /* MessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E49952D1F43402400C52CA2 /* MessageContent.m */; };
 		2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9B61F682438006D31E8 /* BubbleTipView.m */; };
+		2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C21F68A834006D31E8 /* UITabBar+badge.m */; };
+		2E79A9C61F68A8B0006D31E8 /* TabbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C51F68A8B0006D31E8 /* TabbarButton.m */; };
+		2E79A9C91F68BEF8006D31E8 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C81F68BEF8006D31E8 /* GroupTableViewController.m */; };
+		2E79A9CC1F68BF87006D31E8 /* GroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9CB1F68BF87006D31E8 /* GroupTableViewCell.m */; };
 		2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */; };
 		2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA801F5AA0870079B516 /* ImageCell.m */; };
 		2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */; };
@@ -203,6 +207,14 @@
 		2E49952D1F43402400C52CA2 /* MessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.m; sourceTree = "<group>"; };
 		2E79A9B51F682438006D31E8 /* BubbleTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleTipView.h; sourceTree = "<group>"; };
 		2E79A9B61F682438006D31E8 /* BubbleTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleTipView.m; sourceTree = "<group>"; };
+		2E79A9C11F68A834006D31E8 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
+		2E79A9C21F68A834006D31E8 /* UITabBar+badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+badge.m"; sourceTree = "<group>"; };
+		2E79A9C41F68A8B0006D31E8 /* TabbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarButton.h; sourceTree = "<group>"; };
+		2E79A9C51F68A8B0006D31E8 /* TabbarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarButton.m; sourceTree = "<group>"; };
+		2E79A9C71F68BEF8006D31E8 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewController.h; sourceTree = "<group>"; };
+		2E79A9C81F68BEF8006D31E8 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTableViewController.m; sourceTree = "<group>"; };
+		2E79A9CA1F68BF87006D31E8 /* GroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewCell.h; sourceTree = "<group>"; };
+		2E79A9CB1F68BF87006D31E8 /* GroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTableViewCell.m; sourceTree = "<group>"; };
 		2E95BA7A1F5A9DBE0079B516 /* ImageMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageMessageContent.h; sourceTree = "<group>"; };
 		2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageMessageContent.m; sourceTree = "<group>"; };
 		2E95BA7F1F5AA0870079B516 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
@@ -405,6 +417,8 @@
 				2EDD766D1F55542200F1FC8C /* ConversationTableViewController.m */,
 				2E32E3861F622839000063A6 /* ImagePreviewViewController.h */,
 				2E32E3871F622839000063A6 /* ImagePreviewViewController.m */,
+				2E79A9C71F68BEF8006D31E8 /* GroupTableViewController.h */,
+				2E79A9C81F68BEF8006D31E8 /* GroupTableViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -428,6 +442,8 @@
 				2EDB880F1F63D1EF00578E7D /* VoiceCell.m */,
 				2EDB881A1F64004E00578E7D /* MediaMessageCell.h */,
 				2EDB881B1F64004E00578E7D /* MediaMessageCell.m */,
+				2E79A9CA1F68BF87006D31E8 /* GroupTableViewCell.h */,
+				2E79A9CB1F68BF87006D31E8 /* GroupTableViewCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -600,6 +616,10 @@
 				2EDB88041F63AFEE00578E7D /* VoiceRecordView.m */,
 				2E79A9B51F682438006D31E8 /* BubbleTipView.h */,
 				2E79A9B61F682438006D31E8 /* BubbleTipView.m */,
+				2E79A9C11F68A834006D31E8 /* UITabBar+badge.h */,
+				2E79A9C21F68A834006D31E8 /* UITabBar+badge.m */,
+				2E79A9C41F68A8B0006D31E8 /* TabbarButton.h */,
+				2E79A9C51F68A8B0006D31E8 /* TabbarButton.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -746,13 +766,16 @@
 				2E32E37F1F622527000063A6 /* UIImage+GIF.m in Sources */,
 				2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */,
 				2E32E3841F622527000063A6 /* UIView+WebCache.m in Sources */,
+				2E79A9CC1F68BF87006D31E8 /* GroupTableViewCell.m in Sources */,
 				2E32E3761F622527000063A6 /* SDImageCache.m in Sources */,
 				2E32E3851F622527000063A6 /* UIView+WebCacheOperation.m in Sources */,
 				2EDB88051F63AFEE00578E7D /* VoiceRecordView.m in Sources */,
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
 				2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */,
 				2E32E3811F622527000063A6 /* UIImage+WebP.m in Sources */,
+				2E79A9C91F68BEF8006D31E8 /* GroupTableViewController.m in Sources */,
 				2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */,
+				2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */,
 				2EFEC1BF1F59434C00424902 /* InformationCell.m in Sources */,
 				2E32E3721F622527000063A6 /* FLAnimatedImageView+WebCache.m in Sources */,
 				2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */,
@@ -760,6 +783,7 @@
 				2EDD766E1F55542200F1FC8C /* ConversationTableViewController.m in Sources */,
 				2E32E37E1F622527000063A6 /* UIButton+WebCache.m in Sources */,
 				2E32E37C1F622527000063A6 /* SDWebImageManager.m in Sources */,
+				2E79A9C61F68A8B0006D31E8 /* TabbarButton.m in Sources */,
 				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2E32E3831F622527000063A6 /* UIImageView+WebCache.m in Sources */,
 				2EDB881C1F64004E00578E7D /* MediaMessageCell.m in Sources */,
