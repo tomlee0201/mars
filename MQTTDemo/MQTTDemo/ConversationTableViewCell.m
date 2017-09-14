@@ -30,7 +30,13 @@
         [self.bubbleView setBubbleTipNumber:info.unreadCount];
         self.bubbleView.isShowNotificationNumber = YES;
     }
-    
+  
+  if (info.conversation.type == Single_Type) {
+    self.potraitView.image = [UIImage imageNamed:@"PersonalChat"];
+  } else {
+    self.potraitView.image = [UIImage imageNamed:@"GroupChat"];
+  }
+  
     self.targetView.text = info.conversation.target;
     self.digestView.text = info.lastMessage.content.digest;
     self.potraitView.layer.cornerRadius = 3.f;

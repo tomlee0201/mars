@@ -442,7 +442,6 @@
 		2EC9FC1D1F619BDC001C733E /* pull_user_request.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pull_user_request.pb.h; sourceTree = "<group>"; };
 		2EC9FC1E1F619BDC001C733E /* pull_user_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pull_user_request.proto; sourceTree = "<group>"; };
 		2EC9FC1F1F619BF6001C733E /* pull_user_request.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pull_user_request.pb.cc; sourceTree = "<group>"; };
-		2EFAF0E01F6A14EB000FB75F /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = framework/WCDB.framework; sourceTree = "<group>"; };
 		2EFAF0E21F6A14FE000FB75F /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = framework/WCDB.framework; sourceTree = "<group>"; };
 		2EFD82301F4E438200542244 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DB.cpp; sourceTree = "<group>"; };
 		2EFD82311F4E438200542244 /* DB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DB.hpp; sourceTree = "<group>"; };
@@ -972,7 +971,6 @@
 			children = (
 				2EFAF0E21F6A14FE000FB75F /* WCDB.framework */,
 				2E1F1B0C1F3F5F3F000A84E9 /* libpthread.tbd */,
-				2EFAF0E01F6A14EB000FB75F /* WCDB.framework */,
 				3170A02A177887B0004F5DDA /* Foundation.framework */,
 			);
 			name = Frameworks;

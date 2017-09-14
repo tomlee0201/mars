@@ -112,11 +112,9 @@
     @(model.message.messageId)];
   [super setModel:model];
     
-    if (model.message.conversation == Single_Type) {
-        self.portraitView.image = [UIImage imageNamed:@"PersonalChat"];
-    } else {
-        self.portraitView.image = [UIImage imageNamed:@"GroupChat"];
-    }
+
+  self.portraitView.image = [UIImage imageNamed:@"PersonalChat"];
+
     
   if (model.message.direction == MessageDirection_Send) {
     CGFloat top = [MessageCellBase hightForTimeLabel:model];
