@@ -111,7 +111,7 @@
 		2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */; };
 		2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */; };
 		2EFAF0D41F69F47A000FB75F /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0D31F69F47A000FB75F /* CreateGroupViewController.m */; };
-		2EFAF0DF1F6A14A8000FB75F /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFAF0DE1F6A14A8000FB75F /* WCDB.framework */; };
+		2EFAF0E41F6A15DA000FB75F /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFAF0DE1F6A14A8000FB75F /* WCDB.framework */; };
 		2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B51F593E6D00424902 /* TextCell.m */; };
 		2EFEC1B91F593F5700424902 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B81F593F5700424902 /* MessageCell.m */; };
 		2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1BB1F59423B00424902 /* MessageCellBase.m */; };
@@ -325,9 +325,9 @@
 			files = (
 				2EBB78C31F6695A400C53CF3 /* libmars-open-iphone.a in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
-				2EFAF0DF1F6A14A8000FB75F /* WCDB.framework in Frameworks */,
 				2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */,
 				2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */,
+				2EFAF0E41F6A15DA000FB75F /* WCDB.framework in Frameworks */,
 				2E30C9831F3EBF9C00DB259A /* CoreTelephony.framework in Frameworks */,
 				2E30C9821F3EBF9300DB259A /* SystemConfiguration.framework in Frameworks */,
 				2E30C9811F3EBF8C00DB259A /* libresolv.tbd in Frameworks */,
