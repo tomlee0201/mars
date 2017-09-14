@@ -9,6 +9,7 @@
 #import "GroupTableViewController.h"
 #import "GroupTableViewCell.h"
 #import "IMService.h"
+#import "MessageViewController.h"
 
 @interface GroupTableViewController ()
 @property (nonatomic, strong)NSMutableArray<NSString *> *groupIds;
@@ -90,14 +91,19 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.destinationViewController isKindOfClass:[MessageViewController class]]) {
+        MessageViewController *mvc = (MessageViewController *)segue.destinationViewController;
+        NSString *groupId = self.groupIds[self.tableView.indexPathForSelectedRow.row];
+        mvc.conversation = [Conversation conversationWithType:Group_Type target:groupId line:0];
+    }
 }
-*/
+
 
 @end

@@ -556,7 +556,7 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
                     errorCode = (errorCode << 8) + *(p + i);
                 }
                 if (errorCode == 0) {
-                    callback->onSuccess(0);
+                    callback->onSuccess("");
                 } else {
                     callback->onFalure(errorCode);
                 }

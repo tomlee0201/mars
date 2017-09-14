@@ -66,6 +66,7 @@ public:
 
 @interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 @property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
+@property (nonatomic, strong)NSString *userId;
 @end
 
 @implementation NetworkService
@@ -156,9 +157,9 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
     mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
-  [self setLongLinkAddress:@"localhost" port:1883];
+  [self setLongLinkAddress:@"192.168.1.101" port:1883];
     [self setShortLinkPort:80];
-  
+    self.userId = userName;
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
   mars::stn::login(name, pwd);
@@ -168,6 +169,7 @@ static NetworkService * sharedSingleton = nil;
 
 - (void)logout {
   _logined = NO;
+    self.userId = nil;
     self.currentConnectionStatus = kConnectionStatusLogout;
   if (mars::stn::getConnectionStatus() != mars::stn::kConnectionStatusConnected) {
     [self destroyMars];

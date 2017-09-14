@@ -58,7 +58,6 @@
 		2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */; };
 		2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1C41F59498100424902 /* Utilities.m */; };
 		2EB6C1271F58200E00F8ABD7 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */; };
-		2EBB78C11F66955A00C53CF3 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EBB78C01F66955A00C53CF3 /* WCDB.framework */; };
 		2EBB78C31F6695A400C53CF3 /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
@@ -111,6 +110,8 @@
 		2EF9A6BB1F605D330009D908 /* IMUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9A6B91F605D330009D908 /* IMUtilities.m */; };
 		2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */; };
 		2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */; };
+		2EFAF0D41F69F47A000FB75F /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFAF0D31F69F47A000FB75F /* CreateGroupViewController.m */; };
+		2EFAF0DF1F6A14A8000FB75F /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFAF0DE1F6A14A8000FB75F /* WCDB.framework */; };
 		2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B51F593E6D00424902 /* TextCell.m */; };
 		2EFEC1B91F593F5700424902 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1B81F593F5700424902 /* MessageCell.m */; };
 		2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1BB1F59423B00424902 /* MessageCellBase.m */; };
@@ -284,6 +285,9 @@
 		2EF9A6B91F605D330009D908 /* IMUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMUtilities.m; sourceTree = "<group>"; };
 		2EFA8ADF1F5F804700356D30 /* MediaMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaMessageContent.h; path = ../IMClient/MediaMessageContent.h; sourceTree = "<group>"; };
 		2EFA8AE01F5F804700356D30 /* MediaMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaMessageContent.m; path = ../IMClient/MediaMessageContent.m; sourceTree = "<group>"; };
+		2EFAF0D21F69F47A000FB75F /* CreateGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
+		2EFAF0D31F69F47A000FB75F /* CreateGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
+		2EFAF0DE1F6A14A8000FB75F /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
 		2EFEC1B41F593E6D00424902 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
 		2EFEC1B51F593E6D00424902 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
 		2EFEC1B71F593F5700424902 /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
@@ -320,8 +324,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EBB78C31F6695A400C53CF3 /* libmars-open-iphone.a in Frameworks */,
-				2EBB78C11F66955A00C53CF3 /* WCDB.framework in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
+				2EFAF0DF1F6A14A8000FB75F /* WCDB.framework in Frameworks */,
 				2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */,
 				2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */,
 				2E30C9831F3EBF9C00DB259A /* CoreTelephony.framework in Frameworks */,
@@ -419,6 +423,8 @@
 				2E32E3871F622839000063A6 /* ImagePreviewViewController.m */,
 				2E79A9C71F68BEF8006D31E8 /* GroupTableViewController.h */,
 				2E79A9C81F68BEF8006D31E8 /* GroupTableViewController.m */,
+				2EFAF0D21F69F47A000FB75F /* CreateGroupViewController.h */,
+				2EFAF0D31F69F47A000FB75F /* CreateGroupViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -535,6 +541,7 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EFAF0DE1F6A14A8000FB75F /* WCDB.framework */,
 				2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */,
 				2EBB78C01F66955A00C53CF3 /* WCDB.framework */,
 				2E1482141F4D0CC80077EBEA /* sqlcipher.framework */,
@@ -773,6 +780,7 @@
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
 				2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */,
 				2E32E3811F622527000063A6 /* UIImage+WebP.m in Sources */,
+				2EFAF0D41F69F47A000FB75F /* CreateGroupViewController.m in Sources */,
 				2E79A9C91F68BEF8006D31E8 /* GroupTableViewController.m in Sources */,
 				2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */,
 				2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */,

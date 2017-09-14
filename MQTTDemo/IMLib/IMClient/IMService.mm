@@ -384,7 +384,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-    mars::stn::createGroup([groupId UTF8String], [groupName UTF8String], [groupPortrait UTF8String], memberList, tmsg, new IMCreateGroupCallback(successBlock, errorBlock));
+    mars::stn::createGroup(groupId == nil ? "" : [groupId UTF8String], groupName == nil ? "" : [groupName UTF8String], groupPortrait == nil ? "" : [groupPortrait UTF8String], memberList, tmsg, new IMCreateGroupCallback(successBlock, errorBlock));
 }
 
 - (void)addMembers:(NSArray *)members
