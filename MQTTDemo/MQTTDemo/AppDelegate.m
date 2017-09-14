@@ -21,7 +21,7 @@
   [NetworkService sharedInstance].receiveMessageDelegate = self;
   NSString *savedName = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedName"];
   NSString *savedPwd = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedPwd"];
-  if (savedName.length + savedPwd.length > 0) {
+  if (savedName.length > 0 && savedPwd.length > 0) {
     [[NetworkService sharedInstance] login:savedName password:savedPwd];
   } else {
     [self onConnectionStatusChanged:[NetworkService sharedInstance].currentConnectionStatus];
