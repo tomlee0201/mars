@@ -14,8 +14,6 @@
 
 @interface LoginViewController () 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordField;
-
 @end
 
 const NSString *DESKey = @"abcdefgh";
@@ -27,14 +25,7 @@ const NSString *IMKey = @"testim";
     [super viewDidLoad];
     
     srand((int)time(NULL));
-    if (rand()%2) {
-        self.userNameField.text = @"user1";
-        self.passwordField.text = @"jqO1RBqPweQMQ2fhLFs91ZoblwlOSnregkl4PyooJG8=";
-    } else {
-        self.userNameField.text = @"user2";
-        self.passwordField.text = @"jqO1RBqPweRov3/TT5hBgfLYJSq7ShKvkTK5s6WviTM=";
-    }
-    
+    self.userNameField.text = [NSString stringWithFormat:@"user%d", rand()%10];
 }
 
 - (NSString *) encryptUseDES:(NSString *)plainText {
@@ -96,11 +87,10 @@ const NSString *IMKey = @"testim";
 - (IBAction)onLoginButton:(id)sender {
   NSString *user = self.userNameField.text;
   NSString *token = [self encryptUseDES:[NSString stringWithFormat:@"%@|%ld|%@", IMKey, time(NULL), user]];
-  self.passwordField.text = token;
-  
+
       [[NSUserDefaults standardUserDefaults] setObject:self.userNameField.text forKey:@"savedName"];
-      [[NSUserDefaults standardUserDefaults] setObject:self.passwordField.text forKey:@"savedPwd"];
-        [[NetworkService sharedInstance] login:self.userNameField.text password:self.passwordField.text];
+      [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"savedPwd"];
+        [[NetworkService sharedInstance] login:self.userNameField.text password:token];
       UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
       UIViewController *rootVC =  [sb instantiateViewControllerWithIdentifier:@"rootVC"];
       [UIApplication sharedApplication].delegate.window.rootViewController = rootVC;
