@@ -313,6 +313,9 @@ alpha:1.0]
 }
 
 - (void)scrollToBottom:(BOOL)animated {
+  if (self.modelList.count == 0) {
+    return;
+  }
     NSUInteger finalRow = MAX(0, self.modelList.count - 1);
     
     if (0 == finalRow) {
