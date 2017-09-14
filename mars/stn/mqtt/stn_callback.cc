@@ -134,7 +134,11 @@ void StnCallBack::onPullFailure(int errorCode) {
                             tmsg.direction = 0;
                             tmsg.status = Message_Status_Sent;
                         } else {
+                          if(tmsg.conversationType == 0) {
                             tmsg.target = pmsg.from_user();
+                          } else {
+                            tmsg.target = pmsg.conversation().target();
+                          }
                             tmsg.direction = 1;
                             tmsg.status = Message_Status_Unread;
                         }
