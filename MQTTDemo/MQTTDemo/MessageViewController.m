@@ -56,6 +56,7 @@ alpha:1.0]
 @property(nonatomic, assign)long playingMessageId;
 
 @property (nonatomic, strong)VoiceRecordView *recordView;
+@property (weak, nonatomic) IBOutlet UIView *inputBarView;
 
 @property(nonatomic, assign)BOOL loadingMore;
 @end
@@ -313,19 +314,22 @@ alpha:1.0]
 }
 
 - (void)scrollToBottom:(BOOL)animated {
-  if (self.modelList.count == 0) {
-    return;
-  }
-    NSUInteger finalRow = MAX(0, self.modelList.count - 1);
+    __weak typeof(self) ws = self;
     
-    if (0 == finalRow) {
-        return;
-    }
-    
-    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
-    [self.collectionView scrollToItemAtIndexPath:finalIndexPath
-                                atScrollPosition:UICollectionViewScrollPositionBottom
-                                        animated:animated];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSUInteger rowCount = [ws.collectionView numberOfItemsInSection:0];
+        if (rowCount == 0) {
+            return;
+        }
+        NSUInteger finalRow = rowCount - 1;
+        
+        
+        NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:finalIndexPath
+                                    atScrollPosition:UICollectionViewScrollPositionBottom
+                                            animated:animated];
+
+    });
 }
 
 - (void)initializedSubViews {
@@ -372,16 +376,14 @@ alpha:1.0]
   frame.origin.y = -height;
   self.view.frame = frame;
     
-    if (self.modelList.count < 5) {
-        frame = self.view.bounds;
-        
-        CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
-        CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
-        
-        frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height + height;
-        frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputTextField.bounds.size.height;
-        self.collectionView.frame = frame;
-    }
+    frame = self.view.bounds;
+
+    CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
+
+    frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height + height;
+    frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputBarView.bounds.size.height;
+    self.collectionView.frame = frame;
 
     [self scrollToBottom:NO];
 }

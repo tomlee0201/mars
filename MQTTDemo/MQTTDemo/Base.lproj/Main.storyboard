@@ -44,7 +44,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="17r-C0-2So" id="UHA-Pz-C0a">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="55.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PersonalChat" translatesAutoresizingMaskIntoConstraints="NO" id="VQi-ll-Kz7">
@@ -199,6 +199,7 @@
                     <connections>
                         <outlet property="collectionView" destination="0oH-HD-Bj2" id="MAF-6M-62W"/>
                         <outlet property="extendedBtn" destination="7et-ju-T5s" id="f7j-pP-vml"/>
+                        <outlet property="inputBarView" destination="JBl-F2-ohp" id="Mc5-9h-Qb1"/>
                         <outlet property="inputTextField" destination="uio-uA-ISk" id="z0M-FM-2Kb"/>
                         <outlet property="switchBtn" destination="bNQ-ky-BYw" id="gab-9J-fbl"/>
                         <outlet property="voiceBtn" destination="9Za-ei-bzJ" id="zS4-tm-Qva"/>
@@ -341,7 +342,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5je-So-Xr1" id="kbX-GH-rim" customClass="GroupTableViewCell">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SCS-Ae-7PN">
@@ -546,7 +547,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g8n-ts-3Uj" id="nv9-tu-KuI">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -575,7 +576,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Aaa-Pq-RbC" id="Het-Rl-bZ2">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
