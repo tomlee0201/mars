@@ -314,22 +314,19 @@ alpha:1.0]
 }
 
 - (void)scrollToBottom:(BOOL)animated {
-    __weak typeof(self) ws = self;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSUInteger rowCount = [ws.collectionView numberOfItemsInSection:0];
-        if (rowCount == 0) {
-            return;
-        }
-        NSUInteger finalRow = rowCount - 1;
-        
-        
-        NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
-        [self.collectionView scrollToItemAtIndexPath:finalIndexPath
-                                    atScrollPosition:UICollectionViewScrollPositionBottom
-                                            animated:animated];
 
-    });
+    NSUInteger rowCount = [self.collectionView numberOfItemsInSection:0];
+    if (rowCount == 0) {
+        return;
+    }
+    NSUInteger finalRow = rowCount - 1;
+    
+    
+    NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:finalIndexPath
+                                atScrollPosition:UICollectionViewScrollPositionBottom
+                                        animated:animated];
+
 }
 
 - (void)initializedSubViews {
@@ -371,43 +368,36 @@ alpha:1.0]
   NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
   CGRect keyboardRect = [value CGRectValue];
   int height = keyboardRect.size.height;
-  CGRect frame = self.view.frame;
-
-  frame.origin.y = -height;
-  self.view.frame = frame;
     
-    frame = self.view.bounds;
+    CGFloat duration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    [UIView animateWithDuration:duration animations:^{
+        CGRect frame = [UIScreen mainScreen].bounds;
+        frame.size.height -= height;
 
-    CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
-    CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
+        self.view.frame = frame;
 
-    frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height + height;
-    frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputBarView.bounds.size.height;
-    self.collectionView.frame = frame;
+        
+        frame = self.collectionView.frame;
 
-    [self scrollToBottom:NO];
+        CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
+        CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
+
+        frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height;
+        frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputBarView.bounds.size.height;
+        
+        self.collectionView.frame = frame;
+        
+        [self scrollToBottom:NO];
+        
+        frame.origin.y += frame.size.height;
+        frame.size.height = self.inputBarView.bounds.size.height;
+        self.inputBarView.frame = frame;
+    }];
+
 }
 
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-  NSDictionary *userInfo = [notification userInfo];
-  NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-  CGRect frame = self.view.frame;
-  
-  self.view.frame = frame;
-  if (frame.origin.y < 0) {
-    frame.origin.y = 0;
-    self.view.frame = frame;
-      frame = self.collectionView.frame;
-      CGRect rectOfStatusbar = [[UIApplication sharedApplication] statusBarFrame];
-      CGRect rectOfNavigationbar = self.navigationController.navigationBar.frame;
-      
-      if (frame.origin.y > rectOfStatusbar.size.height + rectOfNavigationbar.size.height) {
-          frame.origin.y = rectOfStatusbar.size.height + rectOfNavigationbar.size.height;
-          frame.size.height = self.view.bounds.size.height - frame.origin.y - self.inputTextField.bounds.size.height;
-          self.collectionView.frame = frame;
-      }
-  }
+- (void)keyboardWillHide:(NSNotification *)notification {
+    self.view.frame = [UIScreen mainScreen].bounds;
 }
 
 - (void)didReceiveMemoryWarning {
