@@ -597,21 +597,7 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
         GeneralGroupOperationPublishCallback(GeneralGroupOperationCallback *cb) : MQTTPublishCallback(), callback(cb) {}
         GeneralGroupOperationCallback *callback;
         void onSuccess(const unsigned char* data, size_t len) {
-            int errorCode = 0;
-            if (len == 4) {
-                const unsigned char* p = data;
-                for (int i = 0; i < 4; i++) {
-                    errorCode = (errorCode << 8) + *(p + i);
-                }
-                if (errorCode == 0) {
-                    callback->onSuccess();
-                } else {
-                    callback->onFalure(errorCode);
-                }
-            } else {
-                callback->onFalure(-1);
-            }
-            
+            callback->onSuccess();
             delete this;
         };
         void onFalure(int errorCode) {
