@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2E081CD41F6A7D060046D679 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E081CD31F6A7D060046D679 /* WCDB.framework */; };
 		2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1482141F4D0CC80077EBEA /* sqlcipher.framework */; };
+		2E18FD411F6F3A1D000C2929 /* GroupMemberTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */; };
+		2E18FD441F6F483C000C2929 /* GroupMemberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18FD431F6F483C000C2929 /* GroupMemberTableViewCell.m */; };
 		2E29BFEF1F58FDEF00C97891 /* IMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC519E41F3EBAB6009D60AE /* IMLib.framework */; };
 		2E29BFF01F58FDEF00C97891 /* IMLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC519E41F3EBAB6009D60AE /* IMLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2E3071C41F43C86100B17DC9 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071C21F43C86100B17DC9 /* Message.m */; };
@@ -147,6 +149,10 @@
 /* Begin PBXFileReference section */
 		2E081CD31F6A7D060046D679 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
 		2E1482141F4D0CC80077EBEA /* sqlcipher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlcipher.framework; path = IMLib/sqlcipher.framework; sourceTree = "<group>"; };
+		2E18FD3F1F6F3A1D000C2929 /* GroupMemberTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupMemberTableViewController.h; sourceTree = "<group>"; };
+		2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupMemberTableViewController.m; sourceTree = "<group>"; };
+		2E18FD421F6F483C000C2929 /* GroupMemberTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupMemberTableViewCell.h; sourceTree = "<group>"; };
+		2E18FD431F6F483C000C2929 /* GroupMemberTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupMemberTableViewCell.m; sourceTree = "<group>"; };
 		2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libprotobuf.tbd; path = usr/lib/libprotobuf.tbd; sourceTree = SDKROOT; };
 		2E3071C21F43C86100B17DC9 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		2E3071C61F43C89300B17DC9 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
@@ -424,6 +430,8 @@
 				2E79A9C81F68BEF8006D31E8 /* GroupTableViewController.m */,
 				2EFAF0D21F69F47A000FB75F /* CreateGroupViewController.h */,
 				2EFAF0D31F69F47A000FB75F /* CreateGroupViewController.m */,
+				2E18FD3F1F6F3A1D000C2929 /* GroupMemberTableViewController.h */,
+				2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -449,6 +457,8 @@
 				2EDB881B1F64004E00578E7D /* MediaMessageCell.m */,
 				2E79A9CA1F68BF87006D31E8 /* GroupTableViewCell.h */,
 				2E79A9CB1F68BF87006D31E8 /* GroupTableViewCell.m */,
+				2E18FD421F6F483C000C2929 /* GroupMemberTableViewCell.h */,
+				2E18FD431F6F483C000C2929 /* GroupMemberTableViewCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -713,12 +723,12 @@
 				TargetAttributes = {
 					2EC3BD751F04D61A006C6E6F = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = E7EASRPBGU;
+						DevelopmentTeam = NXP2SHDJL7;
 						ProvisioningStyle = Automatic;
 					};
 					2EC519E31F3EBAB6009D60AE = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = E7EASRPBGU;
+						DevelopmentTeam = NXP2SHDJL7;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -778,6 +788,7 @@
 				2F698A0D1F12489E004B7A80 /* LoginViewController.m in Sources */,
 				2EFEC1B61F593E6D00424902 /* TextCell.m in Sources */,
 				2E32E3811F622527000063A6 /* UIImage+WebP.m in Sources */,
+				2E18FD411F6F3A1D000C2929 /* GroupMemberTableViewController.m in Sources */,
 				2EFAF0D41F69F47A000FB75F /* CreateGroupViewController.m in Sources */,
 				2E79A9C91F68BEF8006D31E8 /* GroupTableViewController.m in Sources */,
 				2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */,
@@ -799,6 +810,7 @@
 				2E32E3741F622527000063A6 /* NSData+ImageContentType.m in Sources */,
 				2E32E3821F622527000063A6 /* UIImageView+HighlightedWebCache.m in Sources */,
 				2E32E38E1F622A17000063A6 /* FLAnimatedImage.m in Sources */,
+				2E18FD441F6F483C000C2929 /* GroupMemberTableViewCell.m in Sources */,
 				2E32E37A1F622527000063A6 /* SDWebImageDownloader.m in Sources */,
 				2E32E37D1F622527000063A6 /* SDWebImagePrefetcher.m in Sources */,
 				2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */,
@@ -969,7 +981,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E7EASRPBGU;
+				DEVELOPMENT_TEAM = NXP2SHDJL7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MQTTDemo",
@@ -979,7 +991,7 @@
 				INFOPLIST_FILE = MQTTDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-v";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = ./mars;
@@ -992,7 +1004,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E7EASRPBGU;
+				DEVELOPMENT_TEAM = NXP2SHDJL7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MQTTDemo",
@@ -1002,7 +1014,7 @@
 				INFOPLIST_FILE = MQTTDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-v";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = ./mars;
@@ -1016,7 +1028,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = E7EASRPBGU;
+				DEVELOPMENT_TEAM = NXP2SHDJL7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1046,7 +1058,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = E7EASRPBGU;
+				DEVELOPMENT_TEAM = NXP2SHDJL7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

@@ -13,6 +13,8 @@
 #import "GroupInfo.h"
 #import "NetworkService.h"
 #import "TextMessageContent.h"
+#import "GroupMemberTableViewController.h"
+
 
 @interface GroupTableViewController ()
 @property (nonatomic, strong)NSMutableArray<NSString *> *groupIds;
@@ -99,7 +101,20 @@
     }];
     
     UITableViewRowAction *kickoff = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"移除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        
+        NSString *groupId = ws.groupIds[indexPath.row];
+        GroupMemberTableViewController *gmtvc = [[GroupMemberTableViewController alloc] init];
+        gmtvc.groupId = groupId;
+        gmtvc.selectable = YES;
+        gmtvc.selectResult = ^(NSString *groupId, NSArray<NSString *> *memberIds) {
+            TextMessageContent *kickoffGroupMessage = [TextMessageContent contentWith:@"对不起，有些事需要你回避一下！"];
+            [[IMService sharedIMService] kickoffMembers:memberIds fromGroup:groupId notifyContent:kickoffGroupMessage success:^{
+                [ws refreshList];
+            } error:^(int error_code) {
+                
+            }];
+        };
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gmtvc];
+        [ws presentViewController:nav animated:YES completion:nil];
     }];
     
     UITableViewRowAction *quit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"退出" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {

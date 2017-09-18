@@ -406,6 +406,7 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
             delete this;
         };
         void onFalure(int errorCode) {
+            MessageDB::Instance()->updateMessageStatus(mId, Message_Status_Send_Failure);
             callback->onFalure(errorCode);
             delete this;
         };
