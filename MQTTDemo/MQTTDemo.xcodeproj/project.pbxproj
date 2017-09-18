@@ -60,6 +60,7 @@
 		2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA801F5AA0870079B516 /* ImageCell.m */; };
 		2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */; };
 		2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1C41F59498100424902 /* Utilities.m */; };
+		2E9A57AC1F700DF4006FEF85 /* InviteGroupMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */; };
 		2EB6C1271F58200E00F8ABD7 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */; };
 		2EBB78C31F6695A400C53CF3 /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
@@ -227,6 +228,8 @@
 		2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageMessageContent.m; sourceTree = "<group>"; };
 		2E95BA7F1F5AA0870079B516 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		2E95BA801F5AA0870079B516 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
+		2E9A57AA1F700DF4006FEF85 /* InviteGroupMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteGroupMemberViewController.h; sourceTree = "<group>"; };
+		2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteGroupMemberViewController.m; sourceTree = "<group>"; };
 		2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../../../../Workspace/DerivedData/mars-mqtt-workspace-ekrhhxtcfrwydhetbuznykxwrnxr/Build/Products/Debug-iphoneos/libmars-open-iphone.a"; sourceTree = "<group>"; };
@@ -432,6 +435,8 @@
 				2EFAF0D31F69F47A000FB75F /* CreateGroupViewController.m */,
 				2E18FD3F1F6F3A1D000C2929 /* GroupMemberTableViewController.h */,
 				2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */,
+				2E9A57AA1F700DF4006FEF85 /* InviteGroupMemberViewController.h */,
+				2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -807,6 +812,7 @@
 				2E32E3751F622527000063A6 /* NSImage+WebCache.m in Sources */,
 				2E32E3731F622527000063A6 /* MKAnnotationView+WebCache.m in Sources */,
 				2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */,
+				2E9A57AC1F700DF4006FEF85 /* InviteGroupMemberViewController.m in Sources */,
 				2E32E3741F622527000063A6 /* NSData+ImageContentType.m in Sources */,
 				2E32E3821F622527000063A6 /* UIImageView+HighlightedWebCache.m in Sources */,
 				2E32E38E1F622A17000063A6 /* FLAnimatedImage.m in Sources */,

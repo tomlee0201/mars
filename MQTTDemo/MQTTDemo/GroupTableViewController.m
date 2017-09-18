@@ -14,6 +14,7 @@
 #import "NetworkService.h"
 #import "TextMessageContent.h"
 #import "GroupMemberTableViewController.h"
+#import "InviteGroupMemberViewController.h"
 
 
 @interface GroupTableViewController ()
@@ -97,7 +98,20 @@
     NSString *groupId = self.groupIds[indexPath.row];
     __weak typeof(self) ws = self;
     UITableViewRowAction *invite = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"邀请" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSString *groupId = ws.groupIds[indexPath.row];
+        InviteGroupMemberViewController *igmvc = [[InviteGroupMemberViewController alloc] init];
+        igmvc.groupId = groupId;
         
+        igmvc.inviteMember = ^(NSString *groupId, NSArray<NSString *> *memberIds) {
+            TextMessageContent *inviteGroupMessage = [TextMessageContent contentWith:@"请您加入我们的聊天吧"];
+            [[IMService sharedIMService] addMembers:memberIds toGroup:groupId notifyContent:inviteGroupMessage success:^{
+                [ws refreshList];
+            } error:^(int error_code) {
+                
+            }];
+        };
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:igmvc];
+        [ws presentViewController:nav animated:YES completion:nil];
     }];
     
     UITableViewRowAction *kickoff = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"移除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
