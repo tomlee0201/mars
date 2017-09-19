@@ -19,10 +19,12 @@
 #import "TextCell.h"
 #import "ImageCell.h"
 #import "VoiceCell.h"
+#import "InformationCell.h"
 
 #import "IMService.h"
 
 #import "SoundMessageContent.h"
+#import "CreateGroupNotificationContent.h"
 
 #define IOS_SYSTEM_VERSION_LESS_THAN(v)                                     \
 ([[[UIDevice currentDevice] systemVersion]                                   \
@@ -348,6 +350,7 @@ alpha:1.0]
     [self registerCell:[TextCell class] forContent:[TextMessageContent class]];
     [self registerCell:[ImageCell class] forContent:[ImageMessageContent class]];
     [self registerCell:[VoiceCell class] forContent:[SoundMessageContent class]];
+    [self registerCell:[InformationCell class] forContent:[CreateGroupNotificationContent class]];
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;

@@ -9,6 +9,8 @@
 #import "CreateGroupViewController.h"
 #import "IMService.h"
 #import "TextMessageContent.h"
+#import "CreateGroupNotificationContent.h"
+#import "NetworkService.h"
 
 @interface CreateGroupViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -53,15 +55,18 @@
         [membes addObject:self.member5Field.text];
     }
     
-    TextMessageContent *tmc = [[TextMessageContent alloc] init];
-    tmc.text = @"我刚刚创建了群组，快来聊啊";
-    [[IMService sharedIMService] createGroup:nil line:0 name:self.nameField.text portrait:nil members:membes notifyContent:tmc success:^(NSString *groupId) {
+    CreateGroupNotificationContent *notifyContent = [[CreateGroupNotificationContent alloc] init];
+    notifyContent.creator = [NetworkService sharedInstance].userId;
+    notifyContent.groupName = self.nameField.text;
+    
+    [[IMService sharedIMService] createGroup:nil line:0 name:self.nameField.text portrait:nil members:membes notifyContent:notifyContent success:^(NSString *groupId) {
         NSLog(@"create group success");
     } error:^(int error_code) {
         NSLog(@"create group failure");
     }];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (IBAction)onCancel:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }

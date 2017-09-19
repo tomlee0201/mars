@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2E081CD41F6A7D060046D679 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E081CD31F6A7D060046D679 /* WCDB.framework */; };
+		2E0A9EB51F714B140028E8B7 /* NotificationMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */; };
+		2E0A9EB71F714B140028E8B7 /* NotificationMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */; };
+		2E0A9EBA1F71579C0028E8B7 /* CreateGroupNotificationContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0A9EB81F71579C0028E8B7 /* CreateGroupNotificationContent.h */; };
+		2E0A9EBC1F71579C0028E8B7 /* CreateGroupNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A9EB91F71579C0028E8B7 /* CreateGroupNotificationContent.m */; };
 		2E1482161F4D0CC80077EBEA /* sqlcipher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E1482141F4D0CC80077EBEA /* sqlcipher.framework */; };
 		2E18FD411F6F3A1D000C2929 /* GroupMemberTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */; };
 		2E18FD441F6F483C000C2929 /* GroupMemberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E18FD431F6F483C000C2929 /* GroupMemberTableViewCell.m */; };
@@ -149,6 +153,10 @@
 
 /* Begin PBXFileReference section */
 		2E081CD31F6A7D060046D679 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
+		2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationMessageContent.h; sourceTree = "<group>"; };
+		2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationMessageContent.m; sourceTree = "<group>"; };
+		2E0A9EB81F71579C0028E8B7 /* CreateGroupNotificationContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupNotificationContent.h; sourceTree = "<group>"; };
+		2E0A9EB91F71579C0028E8B7 /* CreateGroupNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupNotificationContent.m; sourceTree = "<group>"; };
 		2E1482141F4D0CC80077EBEA /* sqlcipher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlcipher.framework; path = IMLib/sqlcipher.framework; sourceTree = "<group>"; };
 		2E18FD3F1F6F3A1D000C2929 /* GroupMemberTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupMemberTableViewController.h; sourceTree = "<group>"; };
 		2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupMemberTableViewController.m; sourceTree = "<group>"; };
@@ -498,6 +506,10 @@
 				2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */,
 				2EDB88091F63C37800578E7D /* SoundMessageContent.h */,
 				2EDB880A1F63C37800578E7D /* SoundMessageContent.m */,
+				2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */,
+				2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */,
+				2E0A9EB81F71579C0028E8B7 /* CreateGroupNotificationContent.h */,
+				2E0A9EB91F71579C0028E8B7 /* CreateGroupNotificationContent.m */,
 			);
 			name = Message;
 			path = ../MQTTClient;
@@ -652,6 +664,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EC51B751F3EBB49009D60AE /* NetworkService.h in Headers */,
+				2E0A9EB51F714B140028E8B7 /* NotificationMessageContent.h in Headers */,
 				2EDD76741F5557A100F1FC8C /* ConversationInfo.h in Headers */,
 				2E3071D71F43D2C300B17DC9 /* TextMessageContent.h in Headers */,
 				2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */,
@@ -671,6 +684,7 @@
 				2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */,
 				2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */,
 				2EC51B811F3EBB49009D60AE /* UnsubscribeTask.h in Headers */,
+				2E0A9EBA1F71579C0028E8B7 /* CreateGroupNotificationContent.h in Headers */,
 				2EC51B721F3EBB49009D60AE /* app_callback.h in Headers */,
 				2E3071D41F43CF0D00B17DC9 /* MessageContent.h in Headers */,
 				2EC519E81F3EBAB6009D60AE /* IMLib.h in Headers */,
@@ -844,6 +858,7 @@
 				2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */,
 				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,
+				2E0A9EB71F714B140028E8B7 /* NotificationMessageContent.m in Sources */,
 				2EC51B741F3EBB49009D60AE /* app_callback.mm in Sources */,
 				2EDB88001F63AF4300578E7D /* wavwriter.mm in Sources */,
 				2EDB880D1F63C37800578E7D /* SoundMessageContent.m in Sources */,
@@ -858,6 +873,7 @@
 				2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */,
 				2E3071C41F43C86100B17DC9 /* Message.m in Sources */,
 				2EC51A881F3EBB3D009D60AE /* IMService.mm in Sources */,
+				2E0A9EBC1F71579C0028E8B7 /* CreateGroupNotificationContent.m in Sources */,
 				2EDD76761F5557A100F1FC8C /* ConversationInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
