@@ -55,6 +55,18 @@
 		2E32E38E1F622A17000063A6 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38B1F622A17000063A6 /* FLAnimatedImage.m */; };
 		2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */; };
 		2E4995301F43402400C52CA2 /* MessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E49952D1F43402400C52CA2 /* MessageContent.m */; };
+		2E4C68861F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4C68841F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h */; };
+		2E4C68881F71DC0C008336A8 /* AddGroupeMemberNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68851F71DC0C008336A8 /* AddGroupeMemberNotificationContent.m */; };
+		2E4C688B1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4C68891F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.h */; };
+		2E4C688C1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C688A1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m */; };
+		2E4C688D1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C688A1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m */; };
+		2E4C68901F71DC4B008336A8 /* QuitGroupNotificationContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4C688E1F71DC4B008336A8 /* QuitGroupNotificationContent.h */; };
+		2E4C68921F71DC4B008336A8 /* QuitGroupNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C688F1F71DC4B008336A8 /* QuitGroupNotificationContent.m */; };
+		2E4C68951F71DC63008336A8 /* DismissGroupNotificationContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4C68931F71DC63008336A8 /* DismissGroupNotificationContent.h */; };
+		2E4C68971F71DC63008336A8 /* DismissGroupNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68941F71DC63008336A8 /* DismissGroupNotificationContent.m */; };
+		2E4C689A1F71E875008336A8 /* TransferGroupOwnerNotificationContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4C68981F71E875008336A8 /* TransferGroupOwnerNotificationContent.h */; };
+		2E4C689B1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */; };
+		2E4C689C1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */; };
 		2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9B61F682438006D31E8 /* BubbleTipView.m */; };
 		2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C21F68A834006D31E8 /* UITabBar+badge.m */; };
 		2E79A9C61F68A8B0006D31E8 /* TabbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C51F68A8B0006D31E8 /* TabbarButton.m */; };
@@ -222,6 +234,16 @@
 		2E32E38C1F622A17000063A6 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
 		2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		2E49952D1F43402400C52CA2 /* MessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageContent.m; sourceTree = "<group>"; };
+		2E4C68841F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddGroupeMemberNotificationContent.h; sourceTree = "<group>"; };
+		2E4C68851F71DC0C008336A8 /* AddGroupeMemberNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddGroupeMemberNotificationContent.m; sourceTree = "<group>"; };
+		2E4C68891F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KickoffGroupMemberNotificaionContent.h; sourceTree = "<group>"; };
+		2E4C688A1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KickoffGroupMemberNotificaionContent.m; sourceTree = "<group>"; };
+		2E4C688E1F71DC4B008336A8 /* QuitGroupNotificationContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuitGroupNotificationContent.h; sourceTree = "<group>"; };
+		2E4C688F1F71DC4B008336A8 /* QuitGroupNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuitGroupNotificationContent.m; sourceTree = "<group>"; };
+		2E4C68931F71DC63008336A8 /* DismissGroupNotificationContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissGroupNotificationContent.h; sourceTree = "<group>"; };
+		2E4C68941F71DC63008336A8 /* DismissGroupNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissGroupNotificationContent.m; sourceTree = "<group>"; };
+		2E4C68981F71E875008336A8 /* TransferGroupOwnerNotificationContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferGroupOwnerNotificationContent.h; sourceTree = "<group>"; };
+		2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferGroupOwnerNotificationContent.m; sourceTree = "<group>"; };
 		2E79A9B51F682438006D31E8 /* BubbleTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleTipView.h; sourceTree = "<group>"; };
 		2E79A9B61F682438006D31E8 /* BubbleTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleTipView.m; sourceTree = "<group>"; };
 		2E79A9C11F68A834006D31E8 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
@@ -510,6 +532,16 @@
 				2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */,
 				2E0A9EB81F71579C0028E8B7 /* CreateGroupNotificationContent.h */,
 				2E0A9EB91F71579C0028E8B7 /* CreateGroupNotificationContent.m */,
+				2E4C68841F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h */,
+				2E4C68851F71DC0C008336A8 /* AddGroupeMemberNotificationContent.m */,
+				2E4C68891F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.h */,
+				2E4C688A1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m */,
+				2E4C688E1F71DC4B008336A8 /* QuitGroupNotificationContent.h */,
+				2E4C688F1F71DC4B008336A8 /* QuitGroupNotificationContent.m */,
+				2E4C68931F71DC63008336A8 /* DismissGroupNotificationContent.h */,
+				2E4C68941F71DC63008336A8 /* DismissGroupNotificationContent.m */,
+				2E4C68981F71E875008336A8 /* TransferGroupOwnerNotificationContent.h */,
+				2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */,
 			);
 			name = Message;
 			path = ../MQTTClient;
@@ -669,13 +701,16 @@
 				2E3071D71F43D2C300B17DC9 /* TextMessageContent.h in Headers */,
 				2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */,
 				2EDB880B1F63C37800578E7D /* SoundMessageContent.h in Headers */,
+				2E4C688B1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.h in Headers */,
 				2EC51A861F3EBB3D009D60AE /* IMService.h in Headers */,
+				2E4C689A1F71E875008336A8 /* TransferGroupOwnerNotificationContent.h in Headers */,
 				2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */,
 				2EDB87FF1F63AF4300578E7D /* wavreader.h in Headers */,
 				2EC51B7E1F3EBB49009D60AE /* SubscribeTask.h in Headers */,
 				2E3071D01F43CEA600B17DC9 /* Conversation.h in Headers */,
 				2EDB87FD1F63AF4300578E7D /* wav_amr.h in Headers */,
 				2E3071D21F43CEB500B17DC9 /* GroupInfo.h in Headers */,
+				2E4C68901F71DC4B008336A8 /* QuitGroupNotificationContent.h in Headers */,
 				2EC51B7B1F3EBB49009D60AE /* PublishTask.h in Headers */,
 				2EDB88011F63AF4300578E7D /* wavwriter.h in Headers */,
 				2E3071CE1F43CE9400B17DC9 /* Message.h in Headers */,
@@ -684,6 +719,8 @@
 				2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */,
 				2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */,
 				2EC51B811F3EBB49009D60AE /* UnsubscribeTask.h in Headers */,
+				2E4C68951F71DC63008336A8 /* DismissGroupNotificationContent.h in Headers */,
+				2E4C68861F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h in Headers */,
 				2E0A9EBA1F71579C0028E8B7 /* CreateGroupNotificationContent.h in Headers */,
 				2EC51B721F3EBB49009D60AE /* app_callback.h in Headers */,
 				2E3071D41F43CF0D00B17DC9 /* MessageContent.h in Headers */,
@@ -810,6 +847,8 @@
 				2E18FD411F6F3A1D000C2929 /* GroupMemberTableViewController.m in Sources */,
 				2EFAF0D41F69F47A000FB75F /* CreateGroupViewController.m in Sources */,
 				2E79A9C91F68BEF8006D31E8 /* GroupTableViewController.m in Sources */,
+				2E4C689B1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */,
+				2E4C688C1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m in Sources */,
 				2E95BA811F5AA0870079B516 /* ImageCell.m in Sources */,
 				2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */,
 				2EFEC1BF1F59434C00424902 /* InformationCell.m in Sources */,
@@ -861,16 +900,21 @@
 				2E0A9EB71F714B140028E8B7 /* NotificationMessageContent.m in Sources */,
 				2EC51B741F3EBB49009D60AE /* app_callback.mm in Sources */,
 				2EDB88001F63AF4300578E7D /* wavwriter.mm in Sources */,
+				2E4C68971F71DC63008336A8 /* DismissGroupNotificationContent.m in Sources */,
 				2EDB880D1F63C37800578E7D /* SoundMessageContent.m in Sources */,
 				2E3071D91F43D2C300B17DC9 /* TextMessageContent.m in Sources */,
 				2EF9A6BB1F605D330009D908 /* IMUtilities.m in Sources */,
+				2E4C68881F71DC0C008336A8 /* AddGroupeMemberNotificationContent.m in Sources */,
+				2E4C688D1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m in Sources */,
 				2E4995301F43402400C52CA2 /* MessageContent.m in Sources */,
 				2EC51B801F3EBB49009D60AE /* SubscribeTask.mm in Sources */,
+				2E4C689C1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */,
 				2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */,
 				2EDB87FC1F63AF4300578E7D /* wav_amr.mm in Sources */,
 				2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */,
 				2EC51B771F3EBB49009D60AE /* NetworkService.mm in Sources */,
 				2E3071CC1F43CA2600B17DC9 /* GroupInfo.m in Sources */,
+				2E4C68921F71DC4B008336A8 /* QuitGroupNotificationContent.m in Sources */,
 				2E3071C41F43C86100B17DC9 /* Message.m in Sources */,
 				2EC51A881F3EBB3D009D60AE /* IMService.mm in Sources */,
 				2E0A9EBC1F71579C0028E8B7 /* CreateGroupNotificationContent.m in Sources */,

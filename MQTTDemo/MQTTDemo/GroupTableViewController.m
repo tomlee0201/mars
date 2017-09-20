@@ -16,6 +16,12 @@
 #import "GroupMemberTableViewController.h"
 #import "InviteGroupMemberViewController.h"
 
+#import "AddGroupeMemberNotificationContent.h"
+#import "KickoffGroupMemberNotificaionContent.h"
+#import "QuitGroupNotificationContent.h"
+#import "DismissGroupNotificationContent.h"
+#import "TransferGroupOwnerNotificationContent.h"
+
 
 @interface GroupTableViewController ()
 @property (nonatomic, strong)NSMutableArray<NSString *> *groupIds;
@@ -103,8 +109,10 @@
         igmvc.groupId = groupId;
         
         igmvc.inviteMember = ^(NSString *groupId, NSArray<NSString *> *memberIds) {
-            TextMessageContent *inviteGroupMessage = [TextMessageContent contentWith:@"请您加入我们的聊天吧"];
-            [[IMService sharedIMService] addMembers:memberIds toGroup:groupId notifyContent:inviteGroupMessage success:^{
+            AddGroupeMemberNotificationContent *content = [[AddGroupeMemberNotificationContent alloc] init];
+            content.invitor = [NetworkService sharedInstance].userId;
+            content.invitees = memberIds;
+            [[IMService sharedIMService] addMembers:memberIds toGroup:groupId notifyContent:content success:^{
                 [ws refreshList];
             } error:^(int error_code) {
                 
@@ -120,8 +128,10 @@
         gmtvc.groupId = groupId;
         gmtvc.selectable = YES;
         gmtvc.selectResult = ^(NSString *groupId, NSArray<NSString *> *memberIds) {
-            TextMessageContent *kickoffGroupMessage = [TextMessageContent contentWith:@"对不起，有些事需要你回避一下！"];
-            [[IMService sharedIMService] kickoffMembers:memberIds fromGroup:groupId notifyContent:kickoffGroupMessage success:^{
+            KickoffGroupMemberNotificaionContent *content = [[KickoffGroupMemberNotificaionContent alloc] init];
+            content.operateUser = [NetworkService sharedInstance].userId;
+            content.kickedMembers = memberIds;
+            [[IMService sharedIMService] kickoffMembers:memberIds fromGroup:groupId notifyContent:content success:^{
                 [ws refreshList];
             } error:^(int error_code) {
                 
@@ -134,10 +144,10 @@
     UITableViewRowAction *quit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"退出" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         
-        TextMessageContent *quitGroupMessage = [TextMessageContent contentWith:@"哥有事先撤了，大家慢慢聊～"];
-        
+        QuitGroupNotificationContent *content = [[QuitGroupNotificationContent alloc] init];
+        content.quitMember = [NetworkService sharedInstance].userId;
         //Todo: add animination here
-        [[IMService sharedIMService] quitGroup:groupId notifyContent:quitGroupMessage success:^{
+        [[IMService sharedIMService] quitGroup:groupId notifyContent:content success:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [ws refreshList];
             });
@@ -148,10 +158,11 @@
     
     UITableViewRowAction *dismiss = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"解散" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
-        TextMessageContent *dismissGroupMessage = [TextMessageContent contentWith:@"大伙散了吧！"];
+        DismissGroupNotificationContent *content = [[DismissGroupNotificationContent alloc] init];
+        content.operateUser = [NetworkService sharedInstance].userId;
         
         //Todo: add animination here
-        [[IMService sharedIMService] dismissGroup:groupId notifyContent:dismissGroupMessage success:^{
+        [[IMService sharedIMService] dismissGroup:groupId notifyContent:content success:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [ws refreshList];
             });

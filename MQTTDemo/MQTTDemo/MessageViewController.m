@@ -25,6 +25,11 @@
 
 #import "SoundMessageContent.h"
 #import "CreateGroupNotificationContent.h"
+#import "AddGroupeMemberNotificationContent.h"
+#import "KickoffGroupMemberNotificaionContent.h"
+#import "QuitGroupNotificationContent.h"
+#import "DismissGroupNotificationContent.h"
+#import "TransferGroupOwnerNotificationContent.h"
 
 #define IOS_SYSTEM_VERSION_LESS_THAN(v)                                     \
 ([[[UIDevice currentDevice] systemVersion]                                   \
@@ -351,6 +356,11 @@ alpha:1.0]
     [self registerCell:[ImageCell class] forContent:[ImageMessageContent class]];
     [self registerCell:[VoiceCell class] forContent:[SoundMessageContent class]];
     [self registerCell:[InformationCell class] forContent:[CreateGroupNotificationContent class]];
+    [self registerCell:[InformationCell class] forContent:[AddGroupeMemberNotificationContent class]];
+    [self registerCell:[InformationCell class] forContent:[KickoffGroupMemberNotificaionContent class]];
+    [self registerCell:[InformationCell class] forContent:[QuitGroupNotificationContent class]];
+    [self registerCell:[InformationCell class] forContent:[DismissGroupNotificationContent class]];
+    [self registerCell:[InformationCell class] forContent:[TransferGroupOwnerNotificationContent class]];
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
