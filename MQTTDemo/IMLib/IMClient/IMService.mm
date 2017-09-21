@@ -486,6 +486,18 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::getMyGroups(new IMGetMyGroupCallback(successBlock, errorBlock));
 }
 
+- (void)transferGroup:(NSString *)groupId
+                   to:(NSString *)newOwner
+        notifyContent:(MessageContent *)notifyContent
+              success:(void(^)())successBlock
+                error:(void(^)(int error_code))errorBlock {
+    MessagePayload *payload = [notifyContent encode];
+    mars::stn::TMessage tmsg;
+    fillTMessage(tmsg, nil, payload);
+    
+    mars::stn::transferGroup([groupId UTF8String], [newOwner UTF8String], tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+}
+
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
     int contenttype = payload.contentType;
     Class contentClass = self.MessageContentMaps[@(contenttype)];

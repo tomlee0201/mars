@@ -71,4 +71,10 @@
 
 - (void)getMyGroups:(void(^)(NSArray<NSString *> *))successBlock
                   error:(void(^)(int error_code))errorBlock;
+
+- (void)transferGroup:(NSString *)groupId
+                   to:(NSString *)newOwner
+        notifyContent:(MessageContent *)notifyContent
+              success:(void(^)())successBlock
+                error:(void(^)(int error_code))errorBlock;
 @end

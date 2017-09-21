@@ -65,8 +65,13 @@
     } else {
         formatMsg = [NSString stringWithFormat:@"%@邀请", self.invitor];
     }
+    
     for (NSString *member in self.invitees) {
-        formatMsg = [formatMsg stringByAppendingFormat:@" %@", member];
+        if ([member isEqualToString:[NetworkService sharedInstance].userId]) {
+            formatMsg = [formatMsg stringByAppendingString:@" 你"];
+        } else {
+            formatMsg = [formatMsg stringByAppendingFormat:@" %@", member];
+        }
     }
     formatMsg = [formatMsg stringByAppendingString:@"加入了群聊"];
     return formatMsg;

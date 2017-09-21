@@ -65,8 +65,13 @@
     } else {
         formatMsg = [NSString stringWithFormat:@"%@把", self.operateUser];
     }
+    
     for (NSString *member in self.kickedMembers) {
-        formatMsg = [formatMsg stringByAppendingFormat:@" %@", member];
+        if ([member isEqualToString:[NetworkService sharedInstance].userId]) {
+            formatMsg = [formatMsg stringByAppendingString:@" 你"];
+        } else {
+            formatMsg = [formatMsg stringByAppendingFormat:@" %@", member];
+        }
     }
     formatMsg = [formatMsg stringByAppendingString:@"移出群聊"];
     return formatMsg;

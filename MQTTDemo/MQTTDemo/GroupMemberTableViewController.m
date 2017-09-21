@@ -95,6 +95,9 @@
     if ([self.selectedMembers containsObject:member]) {
         [self.selectedMembers removeObject:member];
     } else {
+        if (self.multiSelect) {
+            [self.selectedMembers removeAllObjects];
+        }
         [self.selectedMembers addObject:member];
     }
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

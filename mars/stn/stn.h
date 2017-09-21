@@ -535,6 +535,8 @@ extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &gro
 extern void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback);
         
 extern void (*getMyGroups)(GetMyGroupsCallback *callback);
+        
+extern void (*transferGroup)(const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback);
 
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

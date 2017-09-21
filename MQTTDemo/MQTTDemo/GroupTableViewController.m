@@ -127,6 +127,7 @@
         GroupMemberTableViewController *gmtvc = [[GroupMemberTableViewController alloc] init];
         gmtvc.groupId = groupId;
         gmtvc.selectable = YES;
+        gmtvc.multiSelect = YES;
         gmtvc.selectResult = ^(NSString *groupId, NSArray<NSString *> *memberIds) {
             KickoffGroupMemberNotificaionContent *content = [[KickoffGroupMemberNotificaionContent alloc] init];
             content.operateUser = [NetworkService sharedInstance].userId;
@@ -140,6 +141,30 @@
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gmtvc];
         [ws presentViewController:nav animated:YES completion:nil];
     }];
+    
+    UITableViewRowAction *transfer = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"转让" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSString *groupId = ws.groupIds[indexPath.row];
+        GroupMemberTableViewController *gmtvc = [[GroupMemberTableViewController alloc] init];
+        gmtvc.groupId = groupId;
+        gmtvc.selectable = YES;
+        gmtvc.multiSelect = NO;
+        gmtvc.selectResult = ^(NSString *groupId, NSArray<NSString *> *memberIds) {
+            if (memberIds.count == 0) {
+                return;
+            }
+            TransferGroupOwnerNotificationContent *content = [[TransferGroupOwnerNotificationContent alloc] init];
+            content.operateUser = [NetworkService sharedInstance].userId;
+            content.owner = memberIds[0];
+            [[IMService sharedIMService] transferGroup:groupId to:memberIds[0] notifyContent:content success:^{
+                [ws refreshList];
+            } error:^(int error_code) {
+                
+            }];
+        };
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:gmtvc];
+        [ws presentViewController:nav animated:YES completion:nil];
+    }];
+
     
     UITableViewRowAction *quit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"退出" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
@@ -173,7 +198,7 @@
     }];
     
     kickoff.backgroundColor = [UIColor purpleColor];
-    
+    transfer.backgroundColor = [UIColor orangeColor];
     
     GroupInfo *groupInfo = self.groupInfoDict[groupId];
     if (groupInfo == nil) {
@@ -186,7 +211,7 @@
                 
             case GroupType_Normal:
                 if ([groupInfo.owner isEqualToString:[NetworkService sharedInstance].userId]) {
-                    return @[dismiss,kickoff,invite];
+                    return @[dismiss, transfer, kickoff, invite];
                 } else {
                     return @[quit, invite];
                 }
@@ -194,7 +219,7 @@
                 
             case GroupType_Restricted:
                 if ([groupInfo.owner isEqualToString:[NetworkService sharedInstance].userId]) {
-                    return @[dismiss,kickoff,invite];
+                    return @[dismiss, transfer, kickoff, invite];
                 } else {
                     return @[quit];
                 }

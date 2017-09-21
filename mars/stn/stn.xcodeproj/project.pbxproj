@@ -107,6 +107,7 @@
 		2E1F1B0A1F3F5E04000A84E9 /* wire_format_lite.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA01F3F5E04000A84E9 /* wire_format_lite.cc */; };
 		2E1F1B0B1F3F5E04000A84E9 /* wrappers.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */; };
 		2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */; };
+		2E4C68A01F71F692008336A8 /* transfer_group_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C689E1F71F692008336A8 /* transfer_group_request.pb.cc */; };
 		2E8D662A1F5D2D2F009BDBCB /* get_upload_token_result.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */; };
 		2EC9FC161F6198C8001C733E /* user.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC141F6198C8001C733E /* user.pb.cc */; };
 		2EC9FC1B1F619B27001C733E /* pull_user_response.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC191F619B27001C733E /* pull_user_response.pb.cc */; };
@@ -430,6 +431,9 @@
 		2E1F1B0C1F3F5F3F000A84E9 /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = usr/lib/libpthread.tbd; sourceTree = SDKROOT; };
 		2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDB.cpp; sourceTree = "<group>"; };
 		2E3FB83D1F516DF100D8F8E3 /* MessageDB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageDB.hpp; sourceTree = "<group>"; };
+		2E4C689D1F71F63A008336A8 /* transfer_group_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = transfer_group_request.proto; sourceTree = "<group>"; };
+		2E4C689E1F71F692008336A8 /* transfer_group_request.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transfer_group_request.pb.cc; sourceTree = "<group>"; };
+		2E4C689F1F71F692008336A8 /* transfer_group_request.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transfer_group_request.pb.h; sourceTree = "<group>"; };
 		2E8D66271F5D2C8F009BDBCB /* get_upload_token_result.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = get_upload_token_result.proto; sourceTree = "<group>"; };
 		2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = get_upload_token_result.pb.cc; sourceTree = "<group>"; };
 		2E8D66291F5D2D2F009BDBCB /* get_upload_token_result.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = get_upload_token_result.pb.h; sourceTree = "<group>"; };
@@ -633,6 +637,9 @@
 				2EC9FC1F1F619BF6001C733E /* pull_user_request.pb.cc */,
 				2EC9FC1D1F619BDC001C733E /* pull_user_request.pb.h */,
 				2EC9FC1E1F619BDC001C733E /* pull_user_request.proto */,
+				2E4C689E1F71F692008336A8 /* transfer_group_request.pb.cc */,
+				2E4C689F1F71F692008336A8 /* transfer_group_request.pb.h */,
+				2E4C689D1F71F63A008336A8 /* transfer_group_request.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -1079,6 +1086,7 @@
 				1F25B32F1CD33BEC00AC1003 /* stn_logic.cc in Sources */,
 				2E1F1AB61F3F5E04000A84E9 /* field_mask.pb.cc in Sources */,
 				2E1F1AF41F3F5E04000A84E9 /* json_objectwriter.cc in Sources */,
+				2E4C68A01F71F692008336A8 /* transfer_group_request.pb.cc in Sources */,
 				2E1F1AD91F3F5E04000A84E9 /* statusor.cc in Sources */,
 				2E1F1AE61F3F5E04000A84E9 /* type.pb.cc in Sources */,
 				4B07F3131C4F8F0700FD1B8D /* longlink_speed_test.cc in Sources */,

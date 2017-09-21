@@ -59,6 +59,7 @@
 #include "mars/stn/mqtt/Proto/pull_group_info_result.pb.h"
 #include "mars/stn/mqtt/Proto/pull_group_member_result.pb.h"
 #include "mars/stn/mqtt/Proto/get_upload_token_result.pb.h"
+#include "mars/stn/mqtt/Proto/transfer_group_request.pb.h"
 #include "stn/src/proxy_test.h"
 
 namespace mars {
@@ -78,6 +79,7 @@ const std::string modifyGroupInfoTopic = "GMI";
 const std::string getGroupInfoTopic = "GPGI";
 const std::string getGroupMemberTopic = "GPGM";
 const std::string getMyGroupsTopic = "GMG";
+const std::string transferGroupTopic = "GTG";
     
 const std::string getQiniuUploadTokenTopic = "GQNUT";
 
@@ -796,6 +798,17 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
     idBuf.set_id("");
     publishTask(idBuf, new GetMyGroupsPublishCallback(callback), getMyGroupsTopic);
 };
+    
+    void (*transferGroup)(const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+    = [](const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+        TransferGroupRequest request;
+        request.set_group_id(groupId);
+        request.set_new_owner(newOwner);
+        
+        fillMessageContent(tmsg, request.mutable_notify_content());
+        
+        publishTask(request, new GeneralGroupOperationPublishCallback(callback), transferGroupTopic);
+    };
     
 #endif
 

@@ -451,6 +451,7 @@ alpha:1.0]
 - (void)onReceiveMessages:(NSNotification *)notification {
     NSArray<Message *> *messages = notification.object;
     [self appendMessages:messages newMessage:YES];
+    [[IMService sharedIMService] clearUnreadStatus:self.conversation];
 }
 
 - (void)appendMessages:(NSArray<Message *> *)messages newMessage:(BOOL)newMessage {

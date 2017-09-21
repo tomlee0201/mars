@@ -1,0 +1,16 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "TransferGroupRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+import "message_content.proto";
+
+message TransferGroupRequest {
+  string group_id = 1;
+  string new_owner = 2;
+  MessageContent notify_content = 3;
+}

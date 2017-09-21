@@ -10,5 +10,5 @@
 
 @interface TransferGroupOwnerNotificationContent : NotificationMessageContent
 @property (nonatomic, strong)NSString *operateUser;
-@property (nonatomic, strong)NSString *newOwner;
+@property (nonatomic, strong)NSString *owner;
 @end

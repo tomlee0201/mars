@@ -20,8 +20,8 @@
     if (self.operateUser) {
         [dataDict setObject:self.operateUser forKey:@"m"];
     }
-    if (self.newOwner) {
-        [dataDict setObject:self.newOwner forKey:@"o"];
+    if (self.owner) {
+        [dataDict setObject:self.owner forKey:@"o"];
     }
     
     
@@ -39,7 +39,7 @@
                                                                  error:&__error];
     if (!__error) {
         self.operateUser = dictionary[@"m"];
-        self.newOwner = dictionary[@"o"];
+        self.owner = dictionary[@"o"];
     }
 }
 
@@ -63,13 +63,13 @@
 - (NSString *)formatNotification {
     NSString *formatMsg;
     if ([[NetworkService sharedInstance].userId isEqualToString:self.operateUser]) {
-        formatMsg = [NSString stringWithFormat:@"你把群主转让给了%@", self.newOwner];
+        formatMsg = [NSString stringWithFormat:@"你把群主转让给了%@", self.owner];
     } else {
         formatMsg = [NSString stringWithFormat:@"%@把群主转让给了", self.operateUser];
-        if ([[NetworkService sharedInstance].userId isEqualToString:self.newOwner]) {
+        if ([[NetworkService sharedInstance].userId isEqualToString:self.owner]) {
             formatMsg = [formatMsg stringByAppendingString:@"你"];
         } else {
-            formatMsg = [formatMsg stringByAppendingString:self.newOwner];
+            formatMsg = [formatMsg stringByAppendingString:self.owner];
         }
     }
     
