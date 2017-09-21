@@ -22,6 +22,8 @@
 - (void)clearUnreadStatus:(Conversation *)conversation;
 - (void)clearAllUnreadStatus;
 
+- (void)removeConversation:(Conversation *)conversation clearMessage:(BOOL)clearMessage;
+
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 

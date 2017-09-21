@@ -35,6 +35,8 @@ namespace mars {
             TConversation GetConversation(int conversationType, const std::string &target, int line);
             std::list<TConversation> GetConversationList(const std::list<int> &conversationTypes, const std::list<int> &lines);
             
+            bool RemoveConversation(int conversationType, const std::string &target, int line, bool clearMessage = false);
+            
             std::list<TMessage> GetMessages(int conversationType, const std::string &target, int line, bool desc, int count, long startPoint);
             
             bool updateMessageStatus(long messageId, MessageStatus status);
@@ -44,7 +46,6 @@ namespace mars {
             int GetUnreadCount(int conversationType, const std::string &target, int line);
             
             int GetUnreadCount(const std::list<int> &conversationTypes, const std::list<int> lines);
-            
             bool ClearUnreadStatus(int conversationType, const std::string &target, int line);
             bool ClearAllUnreadStatus();
             

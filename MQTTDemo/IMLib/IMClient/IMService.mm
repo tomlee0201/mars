@@ -368,6 +368,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::MessageDB::Instance()->ClearAllUnreadStatus();
 }
 
+- (void)removeConversation:(Conversation *)conversation clearMessage:(BOOL)clearMessage {
+    
+}
 - (void)createGroup:(NSString *)groupId
                line:(int)line
                name:(NSString *)groupName

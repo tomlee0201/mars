@@ -218,6 +218,9 @@ namespace mars {
             }
             return convs;
         }
+        bool MessageDB::RemoveConversation(int conversationType, const std::string &target, int line, bool clearMessage) {
+            return false;
+        }
         TConversation MessageDB::GetConversation(int conversationType, const std::string &target, int line) {
             DB *db = DB::Instance();
             WCDB::Error error;
