@@ -219,8 +219,32 @@ namespace mars {
             return convs;
         }
         bool MessageDB::RemoveConversation(int conversationType, const std::string &target, int line, bool clearMessage) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            std::list<const WCDB::Expr> exprsType;
+            
+            
+            
+            WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
+            
+            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement("conversation", &where);
+            
+            if (db->ExecuteDelete(statementHandle) > 0) {
+                if (clearMessage) {
+                    statementHandle = db->GetDeleteStatement("message", &where);
+                    db->ExecuteDelete(statementHandle);
+                }
+                
+                return true;
+            }
+            
             return false;
         }
+        
         TConversation MessageDB::GetConversation(int conversationType, const std::string &target, int line) {
             DB *db = DB::Instance();
             WCDB::Error error;

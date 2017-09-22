@@ -40,8 +40,14 @@ namespace mars {
             WCDB::RecyclableStatement GetInsertStatement(const std::string &table, const std::list<const std::string> &columns, bool replace = false);
             bool ExecuteInsert(WCDB::RecyclableStatement statementHandle, long *rowId = NULL);
             
+            WCDB::RecyclableStatement GetDeleteStatement(const std::string &table, const WCDB::Expr *where = NULL);
+            int ExecuteDelete(WCDB::RecyclableStatement &statementHandle);
+            
+            
             WCDB::RecyclableStatement GetUpdateStatement(const std::string &table, const std::list<const std::string> &columns, const WCDB::Expr *where = NULL);
             int ExecuteUpdate(WCDB::RecyclableStatement &statementHandle);
+            
+            
             
             void Bind(WCDB::RecyclableStatement &statementHandle, float value, int index);
             void Bind(WCDB::RecyclableStatement &statementHandle, int value, int index);

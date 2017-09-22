@@ -369,8 +369,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 }
 
 - (void)removeConversation:(Conversation *)conversation clearMessage:(BOOL)clearMessage {
-    
+    mars::stn::MessageDB::Instance()->RemoveConversation(conversation.type, [conversation.target UTF8String], conversation.line, clearMessage);
 }
+
 - (void)createGroup:(NSString *)groupId
                line:(int)line
                name:(NSString *)groupName

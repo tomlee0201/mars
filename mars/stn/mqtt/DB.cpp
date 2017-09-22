@@ -121,6 +121,24 @@ namespace mars {
             return error.isOK();
         }
         
+        WCDB::RecyclableStatement DB::GetDeleteStatement(const std::string &table, const WCDB::Expr *where) {
+            Error error;
+            WCDB::StatementDelete _statement;
+            _statement.deleteFrom(table);
+            if (where) {
+                _statement.where(*where);
+            }
+            WCDB::RecyclableStatement statementHandle = _database->prepare(_statement, error);
+            return statementHandle;
+        }
+        
+        int DB::ExecuteDelete(WCDB::RecyclableStatement &statementHandle) {
+            statementHandle->step();
+            
+            int changes = statementHandle->getChanges();
+            return changes;
+        }
+        
         WCDB::RecyclableStatement DB::GetUpdateStatement(const std::string &table, const std::list<const std::string> &columns, const WCDB::Expr *where) {
             std::list<const std::pair<const Column, const Expr>> columnList;
             for (std::list<const std::string>::const_iterator it = columns.begin(); it != columns.end(); ++it) {
