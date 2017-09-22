@@ -25,6 +25,13 @@ namespace mars {
         public:
             static MessageDB* Instance();
             long InsertMessage(TMessage &msg);
+            
+            bool UpdateMessageContent(long messageId, TMessageContent &msgConstnet);
+            bool DeleteMessage(long messageId);
+            
+            bool UpdateMessageContentByUid(int64_t messageUid, TMessageContent &msgConstnet);
+            bool DeleteMessageByUid(int64_t messageUid);
+            
             bool UpdateMessageTimeline(int64_t timeline);
             int64_t GetMessageTimeline();
             

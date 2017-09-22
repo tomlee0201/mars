@@ -519,6 +519,10 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     return nil;
 }
 
+- (BOOL)deleteMessage:(long)messageId {
+    return mars::stn::MessageDB::Instance()->DeleteMessage(messageId);
+}
+
 - (void)registerMessageContent:(Class)contentClass {
     int contenttype;
     if (class_getClassMethod(contentClass, @selector(getContentType))) {

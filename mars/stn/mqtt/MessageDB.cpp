@@ -74,6 +74,105 @@ namespace mars {
             return msg.messageId;
         }
         
+        bool MessageDB::UpdateMessageContent(long messageId, TMessageContent &content) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
+            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement("message", {"_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path"}, &where);
+            
+            db->Bind(statementHandle, content.type, 5);
+            db->Bind(statementHandle, content.searchableContent, 6);
+            db->Bind(statementHandle, content.pushContent, 7);
+            db->Bind(statementHandle, content.content, 8);
+            db->Bind(statementHandle, (const void *)content.binaryContent.c_str(), (int)content.binaryContent.length(), 9);
+            db->Bind(statementHandle, content.localContent, 10);
+            db->Bind(statementHandle, content.mediaType, 11);
+            db->Bind(statementHandle, content.remoteMediaUrl, 12);
+            db->Bind(statementHandle, content.localMediaPath, 13);
+            
+            int count = db->ExecuteUpdate(statementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+
+        }
+        bool MessageDB::DeleteMessage(long messageId) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            std::list<const WCDB::Expr> exprsType;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
+            
+            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement("message", &where);
+            
+            if (db->ExecuteDelete(statementHandle) > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        bool MessageDB::UpdateMessageContentByUid(int64_t messageUid, TMessageContent &content) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == messageUid);
+            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement("message", {"_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path"}, &where);
+            
+            db->Bind(statementHandle, content.type, 5);
+            db->Bind(statementHandle, content.searchableContent, 6);
+            db->Bind(statementHandle, content.pushContent, 7);
+            db->Bind(statementHandle, content.content, 8);
+            db->Bind(statementHandle, (const void *)content.binaryContent.c_str(), (int)content.binaryContent.length(), 9);
+            db->Bind(statementHandle, content.localContent, 10);
+            db->Bind(statementHandle, content.mediaType, 11);
+            db->Bind(statementHandle, content.remoteMediaUrl, 12);
+            db->Bind(statementHandle, content.localMediaPath, 13);
+            
+            int count = db->ExecuteUpdate(statementHandle);
+            
+            if (count > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        bool MessageDB::DeleteMessageByUid(int64_t messageUid) {
+            DB *db = DB::Instance();
+            if (!db->isOpened()) {
+                return false;
+            }
+            
+            WCDB::Error error;
+            std::list<const WCDB::Expr> exprsType;
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == messageUid);
+            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement("message", &where);
+            
+            if (db->ExecuteDelete(statementHandle) > 0) {
+                return true;
+            }
+            
+            return false;
+        }
+        
         bool MessageDB::UpdateMessageTimeline(int64_t timeline) {
             DB *db = DB::Instance();
             if (!db->isOpened()) {
