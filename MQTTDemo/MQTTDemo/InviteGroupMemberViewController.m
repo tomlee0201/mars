@@ -22,10 +22,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStyleDone target:self action:@selector(onDone:)];
     
     CGRect rect = self.view.bounds;
-    self.memberField = [[UITextField alloc] initWithFrame:CGRectMake(20, 80, rect.size.width - 40, 20)];
-    [self.memberField setBackgroundColor:[UIColor blackColor]];
+    self.memberField = [[UITextField alloc] initWithFrame:CGRectMake(20, 120, rect.size.width - 40, 40)];
+    [self.memberField setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.memberField];
     [self.view setBackgroundColor:[UIColor grayColor]];
+    [self.memberField becomeFirstResponder];
 }
 
 
