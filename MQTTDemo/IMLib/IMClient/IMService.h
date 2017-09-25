@@ -24,6 +24,8 @@
 
 - (void)removeConversation:(Conversation *)conversation clearMessage:(BOOL)clearMessage;
 
+- (void)setConversation:(Conversation *)conversation top:(BOOL)top;
+
 - (BOOL)deleteMessage:(long)messageId;
 
 - (void)registerMessageContent:(Class)contentClass;

@@ -293,7 +293,7 @@ namespace mars {
 
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")).in(exprsType)) && WCDB::Expr(WCDB::Column("_conv_line")).in(exprsLine);
-            std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
+            std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_istop")), WCDB::OrderTerm::DESC), WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_draft",  "_istop", "_timestamp"}, error, &where, &orderBy);
             
             std::list<TConversation> convs;

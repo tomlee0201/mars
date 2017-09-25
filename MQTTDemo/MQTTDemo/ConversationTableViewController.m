@@ -142,20 +142,35 @@
     return YES;
 }
 
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [[IMService sharedIMService] removeConversation:self.conversations[indexPath.row].conversation clearMessage:YES];
-        [self.conversations removeObjectAtIndex:indexPath.row];
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak typeof(self) ws = self;
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        [[IMService sharedIMService] removeConversation:ws.conversations[indexPath.row].conversation clearMessage:YES];
+        [ws.conversations removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-
-
+    }];
+    
+    UITableViewRowAction *setTop = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"置顶" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        [[IMService sharedIMService] setConversation:ws.conversations[indexPath.row].conversation top:YES];
+        [self refreshList];
+    }];
+    
+    UITableViewRowAction *setUntop = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"取消置顶" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        [[IMService sharedIMService] setConversation:ws.conversations[indexPath.row].conversation top:NO];
+        [self refreshList];
+    }];
+    
+   
+    
+    setTop.backgroundColor = [UIColor purpleColor];
+    setUntop.backgroundColor = [UIColor orangeColor];
+    
+    if (self.conversations[indexPath.row].isTop) {
+        return @[delete, setUntop ];
+    } else {
+        return @[delete, setTop];
+    }
+};
 /*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {

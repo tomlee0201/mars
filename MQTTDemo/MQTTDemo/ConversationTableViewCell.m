@@ -42,6 +42,12 @@
     self.potraitView.layer.cornerRadius = 3.f;
     
     self.timeView.text = [Utilities formatTimeLabel:info.timestamp];
+    
+    if (info.isTop) {
+        [self.contentView setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.f]];
+    } else {
+        [self.contentView setBackgroundColor:[UIColor whiteColor]];
+    }
 }
 
 - (BubbleTipView *)bubbleView {

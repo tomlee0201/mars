@@ -372,6 +372,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::MessageDB::Instance()->RemoveConversation(conversation.type, [conversation.target UTF8String], conversation.line, clearMessage);
 }
 
+- (void)setConversation:(Conversation *)conversation top:(BOOL)top {
+    mars::stn::MessageDB::Instance()->updateConversationIsTop(conversation.type, [conversation.target UTF8String], conversation.line, top);
+}
 - (void)createGroup:(NSString *)groupId
                line:(int)line
                name:(NSString *)groupName
