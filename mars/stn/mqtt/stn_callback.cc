@@ -154,10 +154,13 @@ void StnCallBack::onPullFailure(int errorCode) {
                         tmsg.content.mediaType = pmsg.content().mediatype();
                         tmsg.content.remoteMediaUrl = pmsg.content().remotemediaurl();
                         
-                        messageList.push_back(tmsg);
+                        
                         
                         long id = MessageDB::Instance()->InsertMessage(tmsg);
                         tmsg.messageId = id;
+                        
+                        messageList.push_back(tmsg);
+                        
                         MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.line, tmsg.timestamp);
                     }
 
