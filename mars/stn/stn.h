@@ -86,6 +86,23 @@ struct DnsProfile;
             virtual ~TGroupInfo() {}
         };
         
+        class TUserInfo {
+        public:
+            TUserInfo()  {}
+            std::string uid;
+            std::string name;
+            std::string displayName;
+            std::string portrait;
+            std::string mobile;
+            std::string email;
+            std::string address;
+            std::string company;
+            std::string social;
+            std::string extra;
+            int64_t updateDt;
+            virtual ~TUserInfo() {}
+        };
+
         class TMessageContent {
         public:
             TMessageContent() : type(0) {}
@@ -212,6 +229,13 @@ struct DnsProfile;
         virtual void onSuccess(std::list<TGroupInfo> groupInfoList) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
+        
+        class GetUserInfoCallback {
+        public:
+            virtual void onSuccess(const std::list<const TUserInfo> &userInfoList) = 0;
+            virtual void onFalure(int errorCode) = 0;
+        };
+        
     class GetGroupMembersCallback {
     public:
         virtual void onSuccess(std::list<std::string> groupMemberList) = 0;
@@ -538,5 +562,9 @@ extern void (*getMyGroups)(GetMyGroupsCallback *callback);
         
 extern void (*transferGroup)(const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback);
 
+        extern void (*getUserInfo)(const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback);
+        
+        extern std::list<TGroupInfo> getGroupInfoEx(const std::list<std::string> &groupIdList);
+        extern std::list<TUserInfo> getUserInfoEx(const std::list<std::string> &userIdList);
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

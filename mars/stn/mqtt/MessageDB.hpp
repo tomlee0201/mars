@@ -57,8 +57,13 @@ namespace mars {
             bool ClearAllUnreadStatus();
             
             bool FailSendingMessages();
+            
+            
             TGroupInfo GetGroupInfo(const std::string &groupId, int line);
             long InsertGroupInfo(const TGroupInfo &groupInfo);
+            
+            TUserInfo getUserInfo(const std::string &userId);
+            long InsertUserInfoOrReplace(const TUserInfo &userInfo);
         private:
             static MessageDB* instance_;
         };

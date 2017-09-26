@@ -635,11 +635,13 @@ namespace mars {
                 gi.extra = db->getStringValue(statementHandle, 4);
                 gi.updateDt = db->getBigIntValue(statementHandle, 5);
                 
+            } else {
+                gi.target = "";//empty
             }
             return gi;
         }
         
-        long InsertGroupInfo(const TGroupInfo &groupInfo) {
+        long MessageDB::InsertGroupInfo(const TGroupInfo &groupInfo) {
             DB *db = DB::Instance();
             if (!db->isOpened()) {
                 return -1;
@@ -660,6 +662,61 @@ namespace mars {
             db->ExecuteInsert(statementHandle, &ret);
             return ret;
 
+        }
+        
+        TUserInfo MessageDB::getUserInfo(const std::string &userId) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            TUserInfo ui;
+            if (!db->isOpened()) {
+                return ui;
+            }
+
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == userId);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("user", {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, error, &where);
+            
+            if (statementHandle->step()) {
+                ui.uid = db->getStringValue(statementHandle, 0);
+                ui.name = db->getStringValue(statementHandle, 1);
+                ui.displayName = db->getStringValue(statementHandle, 2);
+                ui.portrait = db->getStringValue(statementHandle, 3);
+                ui.mobile = db->getStringValue(statementHandle, 4);
+                ui.email = db->getStringValue(statementHandle, 5);
+                ui.address = db->getStringValue(statementHandle, 6);
+                ui.company = db->getStringValue(statementHandle, 7);
+                ui.social = db->getStringValue(statementHandle, 8);
+                ui.extra = db->getStringValue(statementHandle, 9);
+                ui.updateDt = db->getBigIntValue(statementHandle, 10);
+            }
+            return ui;
+        }
+        
+        long MessageDB::InsertUserInfoOrReplace(const TUserInfo &userInfo) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            if (!db->isOpened()) {
+                return 0L;
+            }
+            
+            
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("user", {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, true);
+            db->Bind(statementHandle, userInfo.uid, 1);
+            db->Bind(statementHandle, userInfo.name, 2);
+            db->Bind(statementHandle, userInfo.displayName, 3);
+            db->Bind(statementHandle, userInfo.portrait, 4);
+            
+            db->Bind(statementHandle, userInfo.mobile, 5);
+            db->Bind(statementHandle, userInfo.email, 6);
+            db->Bind(statementHandle, userInfo.address, 7);
+            db->Bind(statementHandle, userInfo.company, 8);
+            db->Bind(statementHandle, userInfo.social, 9);
+
+            db->Bind(statementHandle, userInfo.extra, 10);
+            db->Bind(statementHandle, userInfo.updateDt, 11);
+            
+            long ret = 0;
+            db->ExecuteInsert(statementHandle, &ret);
+            return ret;
         }
     }
 }

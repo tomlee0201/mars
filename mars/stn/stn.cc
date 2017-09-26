@@ -102,5 +102,52 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         MakesureLonglinkConnected();
         mars::baseevent::OnForeground(true);
       }
+        
+        std::list<TGroupInfo> getGroupInfoEx(const std::list<std::string> &groupIdList) {
+            std::list<TGroupInfo> result;
+            for (std::list<std::string>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); ++it) {
+                TGroupInfo info = MessageDB::Instance()->GetGroupInfo(*it, 0);
+                if (!info.target.empty()) {
+                    result.push_back(info);
+                }
+            }
+            return result;
+        };
+        
+        class RefreshUserInfoCallback : public GetUserInfoCallback {
+        
+        public:
+            RefreshUserInfoCallback() {};
+            void onSuccess(const std::list<const TUserInfo> &userInfoList) {
+                
+                for (std::list<const TUserInfo>::const_iterator it = userInfoList.begin(); it != userInfoList.end(); ++it) {
+                    MessageDB::Instance()->InsertUserInfoOrReplace(*it);
+                }
+                delete this;
+            }
+            void onFalure(int errorCode) {
+                delete this;
+            }
+            
+            virtual ~RefreshUserInfoCallback() {}
+        };
+        
+        
+        std::list<TUserInfo> getUserInfoEx(const std::list<std::string> &userIdList) {
+            std::list<TUserInfo> result;
+            std::list<std::pair<std::string, int64_t>> userReqList;
+            for (std::list<std::string>::const_iterator it = userIdList.begin(); it != userIdList.end(); ++it) {
+                TUserInfo info = MessageDB::Instance()->getUserInfo(*it);
+                if (!info.uid.empty()) {
+                    result.push_back(info);
+                    userReqList.push_back(std::pair<std::string, int64_t>(info.uid, info.updateDt));
+                } else {
+                    userReqList.push_back(std::pair<std::string, int64_t>(*it, 0));
+                }
+            }
+            getUserInfo(userReqList, new RefreshUserInfoCallback());
+            return result;
+        };
+
     }
 }

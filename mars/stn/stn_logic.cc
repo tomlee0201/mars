@@ -810,6 +810,10 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
         publishTask(request, new GeneralGroupOperationPublishCallback(callback), transferGroupTopic);
     };
     
+    void (*getUserInfo)(const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback)
+    =[](const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback) {
+        
+    };
 #endif
 
 }
