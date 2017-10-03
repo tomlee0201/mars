@@ -74,7 +74,7 @@ struct TaskProfile;
 struct DnsProfile;
         class TGroupInfo {
         public:
-            TGroupInfo() : type(0), line(0) {}
+            TGroupInfo() : target(""), line(0), type(0) {}
             std::string target;
             int line;
             std::string name;
