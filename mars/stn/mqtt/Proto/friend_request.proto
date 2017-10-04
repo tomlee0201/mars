@@ -1,0 +1,25 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "FriendRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+enum RequestStatus {
+  sent = 0; 
+  accepted = 1;
+  rejected = 2;
+}
+
+message FriendRequest {
+  string from_uid = 1;
+  string to_uid = 2;
+  string reason = 3;
+  RequestStatus status = 4;
+  int64 update_dt = 5;
+  bool from_read_status = 6;
+  bool to_read_status = 7;
+}
+
