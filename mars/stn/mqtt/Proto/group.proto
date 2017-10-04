@@ -23,7 +23,8 @@ message GroupInfo {
   string portrait = 4;
   string owner = 5;
   GroupType type = 6;
-  bytes extra = 7;
+  string extra = 7;
+  int64 update_dt = 8;
 }
 
 message Group {
