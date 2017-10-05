@@ -24,4 +24,6 @@ SRC := $(wildcard $(TEMP_LOCAL_PATH)/*.cc)
 SRC := $(SRC:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES += $(SRC)
 
+LOCAL_CFLAGS += -I$(TEMP_LOCAL_PATH)/mqtt/Proto/protobuf/src/
+LOCAL_CFLAGS += -std=c++11
 LOCAL_C_INCLUDES += $(TEMP_LOCAL_PATH)/ $(TEMP_LOCAL_PATH)/src $(TEMP_LOCAL_PATH)/../../
