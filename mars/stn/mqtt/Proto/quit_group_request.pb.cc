@@ -52,7 +52,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(QuitGroupRequest, group_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(QuitGroupRequest, line_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(QuitGroupRequest, to_line_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(QuitGroupRequest, notify_content_),
 };
 
@@ -110,14 +110,14 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\030quit_group_request.proto\022\010mars.stn\032\025me"
-      "ssage_content.proto\"d\n\020QuitGroupRequest\022"
-      "\020\n\010group_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\0220\n\016notif"
-      "y_content\030\003 \001(\0132\030.mars.stn.MessageConten"
-      "tB2\n\024win.liyufan.im.protoB\032QuitGroupRequ"
-      "estOuterClassb\006proto3"
+      "ssage_content.proto\"g\n\020QuitGroupRequest\022"
+      "\020\n\010group_id\030\001 \001(\t\022\017\n\007to_line\030\002 \003(\005\0220\n\016no"
+      "tify_content\030\003 \001(\0132\030.mars.stn.MessageCon"
+      "tentB2\n\024win.liyufan.im.protoB\032QuitGroupR"
+      "equestOuterClassb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 221);
+      descriptor, 224);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "quit_group_request.proto", &protobuf_RegisterTypes);
   ::mars::stn::protobuf_message_5fcontent_2eproto::AddDescriptors();
@@ -142,7 +142,7 @@ struct StaticDescriptorInitializer {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int QuitGroupRequest::kGroupIdFieldNumber;
-const int QuitGroupRequest::kLineFieldNumber;
+const int QuitGroupRequest::kToLineFieldNumber;
 const int QuitGroupRequest::kNotifyContentFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -157,6 +157,7 @@ QuitGroupRequest::QuitGroupRequest()
 QuitGroupRequest::QuitGroupRequest(const QuitGroupRequest& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
+      to_line_(from.to_line_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   group_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -168,14 +169,12 @@ QuitGroupRequest::QuitGroupRequest(const QuitGroupRequest& from)
   } else {
     notify_content_ = NULL;
   }
-  line_ = from.line_;
   // @@protoc_insertion_point(copy_constructor:mars.stn.QuitGroupRequest)
 }
 
 void QuitGroupRequest::SharedCtor() {
   group_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&notify_content_, 0, reinterpret_cast<char*>(&line_) -
-    reinterpret_cast<char*>(&notify_content_) + sizeof(line_));
+  notify_content_ = NULL;
   _cached_size_ = 0;
 }
 
@@ -216,12 +215,12 @@ QuitGroupRequest* QuitGroupRequest::New(::google::protobuf::Arena* arena) const 
 
 void QuitGroupRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:mars.stn.QuitGroupRequest)
+  to_line_.Clear();
   group_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == NULL && notify_content_ != NULL) {
     delete notify_content_;
   }
   notify_content_ = NULL;
-  line_ = 0;
 }
 
 bool QuitGroupRequest::MergePartialFromCodedStream(
@@ -250,14 +249,18 @@ bool QuitGroupRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 line = 2;
+      // repeated int32 to_line = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+            static_cast< ::google::protobuf::uint8>(18u)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &line_)));
+                 input, this->mutable_to_line())));
+        } else if (static_cast< ::google::protobuf::uint8>(tag) ==
+                   static_cast< ::google::protobuf::uint8>(16u)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 18u, input, this->mutable_to_line())));
         } else {
           goto handle_unusual;
         }
@@ -313,9 +316,14 @@ void QuitGroupRequest::SerializeWithCachedSizes(
       1, this->group_id(), output);
   }
 
-  // int32 line = 2;
-  if (this->line() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->line(), output);
+  // repeated int32 to_line = 2;
+  if (this->to_line_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(2, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(_to_line_cached_byte_size_);
+  }
+  for (int i = 0, n = this->to_line_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->to_line(i), output);
   }
 
   // .mars.stn.MessageContent notify_content = 3;
@@ -344,9 +352,16 @@ void QuitGroupRequest::SerializeWithCachedSizes(
         1, this->group_id(), target);
   }
 
-  // int32 line = 2;
-  if (this->line() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->line(), target);
+  // repeated int32 to_line = 2;
+  if (this->to_line_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      2,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+      _to_line_cached_byte_size_, target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->to_line_, target);
   }
 
   // .mars.stn.MessageContent notify_content = 3;
@@ -364,6 +379,21 @@ size_t QuitGroupRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:mars.stn.QuitGroupRequest)
   size_t total_size = 0;
 
+  // repeated int32 to_line = 2;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->to_line_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(data_size);
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _to_line_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
   // string group_id = 1;
   if (this->group_id().size() > 0) {
     total_size += 1 +
@@ -376,13 +406,6 @@ size_t QuitGroupRequest::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
         *this->notify_content_);
-  }
-
-  // int32 line = 2;
-  if (this->line() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->line());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -414,15 +437,13 @@ void QuitGroupRequest::MergeFrom(const QuitGroupRequest& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  to_line_.MergeFrom(from.to_line_);
   if (from.group_id().size() > 0) {
 
     group_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.group_id_);
   }
   if (from.has_notify_content()) {
     mutable_notify_content()->::mars::stn::MessageContent::MergeFrom(from.notify_content());
-  }
-  if (from.line() != 0) {
-    set_line(from.line());
   }
 }
 
@@ -449,9 +470,9 @@ void QuitGroupRequest::Swap(QuitGroupRequest* other) {
   InternalSwap(other);
 }
 void QuitGroupRequest::InternalSwap(QuitGroupRequest* other) {
+  to_line_.InternalSwap(&other->to_line_);
   group_id_.Swap(&other->group_id_);
   std::swap(notify_content_, other->notify_content_);
-  std::swap(line_, other->line_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -516,18 +537,34 @@ void QuitGroupRequest::set_allocated_group_id(::std::string* group_id) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.QuitGroupRequest.group_id)
 }
 
-// int32 line = 2;
-void QuitGroupRequest::clear_line() {
-  line_ = 0;
+// repeated int32 to_line = 2;
+int QuitGroupRequest::to_line_size() const {
+  return to_line_.size();
 }
-::google::protobuf::int32 QuitGroupRequest::line() const {
-  // @@protoc_insertion_point(field_get:mars.stn.QuitGroupRequest.line)
-  return line_;
+void QuitGroupRequest::clear_to_line() {
+  to_line_.Clear();
 }
-void QuitGroupRequest::set_line(::google::protobuf::int32 value) {
-  
-  line_ = value;
-  // @@protoc_insertion_point(field_set:mars.stn.QuitGroupRequest.line)
+::google::protobuf::int32 QuitGroupRequest::to_line(int index) const {
+  // @@protoc_insertion_point(field_get:mars.stn.QuitGroupRequest.to_line)
+  return to_line_.Get(index);
+}
+void QuitGroupRequest::set_to_line(int index, ::google::protobuf::int32 value) {
+  to_line_.Set(index, value);
+  // @@protoc_insertion_point(field_set:mars.stn.QuitGroupRequest.to_line)
+}
+void QuitGroupRequest::add_to_line(::google::protobuf::int32 value) {
+  to_line_.Add(value);
+  // @@protoc_insertion_point(field_add:mars.stn.QuitGroupRequest.to_line)
+}
+const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+QuitGroupRequest::to_line() const {
+  // @@protoc_insertion_point(field_list:mars.stn.QuitGroupRequest.to_line)
+  return to_line_;
+}
+::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+QuitGroupRequest::mutable_to_line() {
+  // @@protoc_insertion_point(field_mutable_list:mars.stn.QuitGroupRequest.to_line)
+  return &to_line_;
 }
 
 // .mars.stn.MessageContent notify_content = 3;

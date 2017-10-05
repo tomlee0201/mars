@@ -11,7 +11,7 @@ import "message_content.proto";
 
 message TransferGroupRequest {
   string group_id = 1;
-  int32 line = 2;
-  string new_owner = 3;
+  string new_owner = 2;
+  repeated int32 to_line = 3;
   MessageContent notify_content = 4;
 }

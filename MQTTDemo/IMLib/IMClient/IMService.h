@@ -29,44 +29,49 @@
 
 - (BOOL)deleteMessage:(long)messageId;
 
-- (GroupInfo *)getGroupInfo:(NSString *)groupId line:(int)line refresh:(BOOL)refresh;
+- (GroupInfo *)getGroupInfo:(NSString *)groupId refresh:(BOOL)refresh;
 - (UserInfo *)getUserInfo:(NSString *)userId refresh:(BOOL)refresh;
 
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 
 - (void)createGroup:(NSString *)groupId
-               line:(int)line
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait
             members:(NSArray *)groupMembers
+        notifyLines:(NSArray<NSNumber *> *)notifyLines
       notifyContent:(MessageContent *)notifyContent
             success:(void(^)(NSString *groupId))successBlock
               error:(void(^)(int error_code))errorBlock;
 
 - (void)addMembers:(NSArray *)members
            toGroup:(NSString *)groupId
+       notifyLines:(NSArray<NSNumber *> *)notifyLines
      notifyContent:(MessageContent *)notifyContent
            success:(void(^)())successBlock
              error:(void(^)(int error_code))errorBlock;
 
 - (void)kickoffMembers:(NSArray *)members
              fromGroup:(NSString *)groupId
+           notifyLines:(NSArray<NSNumber *> *)notifyLines
          notifyContent:(MessageContent *)notifyContent
                success:(void(^)())successBlock
                  error:(void(^)(int error_code))errorBlock;
 
 - (void)quitGroup:(NSString *)groupId
+      notifyLines:(NSArray<NSNumber *> *)notifyLines
     notifyContent:(MessageContent *)notifyContent
           success:(void(^)())successBlock
             error:(void(^)(int error_code))errorBlock;
 
 - (void)dismissGroup:(NSString *)groupId
+         notifyLines:(NSArray<NSNumber *> *)notifyLines
        notifyContent:(MessageContent *)notifyContent
              success:(void(^)())successBlock
                error:(void(^)(int error_code))errorBlock;
 
 - (void)modifyGroupInfo:(GroupInfo *)groupInfo
+            notifyLines:(NSArray<NSNumber *> *)notifyLines
           notifyContent:(MessageContent *)notifyContent
                 success:(void(^)())successBlock
                   error:(void(^)(int error_code))errorBlock;
@@ -84,6 +89,7 @@
 
 - (void)transferGroup:(NSString *)groupId
                    to:(NSString *)newOwner
+          notifyLines:(NSArray<NSNumber *> *)notifyLines
         notifyContent:(MessageContent *)notifyContent
               success:(void(^)())successBlock
                 error:(void(^)(int error_code))errorBlock;

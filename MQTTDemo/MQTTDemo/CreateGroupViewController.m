@@ -59,7 +59,7 @@
     notifyContent.creator = [NetworkService sharedInstance].userId;
     notifyContent.groupName = self.nameField.text;
     
-    [[IMService sharedIMService] createGroup:nil line:0 name:self.nameField.text portrait:nil members:membes notifyContent:notifyContent success:^(NSString *groupId) {
+    [[IMService sharedIMService] createGroup:nil name:self.nameField.text portrait:nil members:membes notifyLines:@[@(0)] notifyContent:notifyContent success:^(NSString *groupId) {
         NSLog(@"create group success");
     } error:^(int error_code) {
         NSLog(@"create group failure");

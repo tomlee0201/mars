@@ -11,6 +11,6 @@ import "message_content.proto";
 
 message QuitGroupRequest {
   string group_id = 1;
-  int32 line = 2;
+  repeated int32 to_line = 2;
   MessageContent notify_content = 3;
 }

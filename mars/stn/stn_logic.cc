@@ -581,8 +581,8 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
         }
     };
    
-void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, TMessage &tmsg, CreateGroupCallback *callback)
-= [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, TMessage &tmsg, CreateGroupCallback *callback) {
+void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback)
+= [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback) {
     CreateGroupRequest request;
     request.mutable_group()->mutable_group_info()->set_target_id(groupId);
     request.mutable_group()->mutable_group_info()->set_portrait(groupPortrait);
@@ -593,6 +593,10 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
         GroupMember *gm = request.mutable_group()->mutable_members()->Add();
         gm->set_member_id(*it);
         gm->set_type(0);
+    }
+    
+    for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+        request.mutable_to_line()->Add(*it);
     }
     
     fillMessageContent(tmsg, request.mutable_notify_content());
@@ -617,8 +621,8 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
         }
     };
     
-void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     AddGroupMemberRequest request;
     request.set_group_id(groupId);
     request.mutable_added_member()->Reserve((int)members.size());
@@ -628,13 +632,18 @@ void (*addMembers)(const std::string &groupId, const std::list<std::string> &mem
         gm->set_member_id(*it);
         gm->set_type(0);
     }
+    
+    for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+        request.mutable_to_line()->Add(*it);
+    }
+    
     fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), addGroupMemberTopic);
 };
 
-void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<std::string> &members, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     RemoveGroupMemberRequest request;
     request.set_group_id(groupId);
     request.mutable_removed_member()->Reserve((int)members.size());
@@ -643,25 +652,37 @@ void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> 
         request.mutable_removed_member()->AddAllocated(new std::string(*it));
     }
     
+    for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+        request.mutable_to_line()->Add(*it);
+    }
+    
     fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), kickoffGroupMemberTopic);
 };
 
-void (*quitGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*quitGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     QuitGroupRequest request;
     request.set_group_id(groupId);
+    
+    for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+        request.mutable_to_line()->Add(*it);
+    }
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
     publishTask(request, new GeneralGroupOperationPublishCallback(callback), quitGroupTopic);
 };
 
-void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     DismissGroupRequest request;
     request.set_group_id(groupId);
+    
+    for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+        request.mutable_to_line()->Add(*it);
+    }
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
@@ -705,19 +726,17 @@ void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOpe
 
 void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback)
 = [](const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback) {
-    GroupTargetListBuf listBuf;
-    listBuf.mutable_target()->Reserve((int)groupIdList.size());
+    IDListBuf listBuf;
+    listBuf.mutable_id()->Reserve((int)groupIdList.size());
     for (std::list<std::pair<std::string, int64_t>>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); it++) {
-        GroupTarget *groupTarget = listBuf.mutable_target()->Add();
-        groupTarget->set_target_id((*it).first);
-        groupTarget->set_line(0);
+        listBuf.mutable_id()->AddAllocated(new std::string((*it).first));
     }
     
     publishTask(listBuf, new GetGroupInfoPublishCallback(callback), getGroupInfoTopic);
 };
 
-void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+= [](const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
     ModifyGroupInfoRequest request;
     request.mutable_group_info()->set_target_id(groupId);
     
@@ -731,6 +750,10 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
         request.mutable_group_info()->set_type((GroupType)groupInfo.type);
     if (!groupInfo.extra.empty()) {
         request.mutable_group_info()->set_extra(groupInfo.extra);
+    }
+    
+    for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+        request.mutable_to_line()->Add(*it);
     }
     
     fillMessageContent(tmsg, request.mutable_notify_content());
@@ -767,9 +790,8 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
     };
 void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback)
 = [](const std::string &groupId, GetGroupMembersCallback *callback) {
-    GroupTarget idBuf;
-    idBuf.set_target_id(groupId);
-    idBuf.set_line(0);
+    IDBuf idBuf;
+    idBuf.set_id(groupId);
     
     publishTask(idBuf, new GetGroupMembersPublishCallback(callback), getGroupMemberTopic);
 };
@@ -809,11 +831,16 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
     publishTask(idBuf, new GetMyGroupsPublishCallback(callback), getMyGroupsTopic);
 };
     
-    void (*transferGroup)(const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-    = [](const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+    void (*transferGroup)(const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
+    = [](const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
         TransferGroupRequest request;
         request.set_group_id(groupId);
         request.set_new_owner(newOwner);
+        
+        for(std::list<int>::const_iterator it = notifyLines.begin(); it != notifyLines.end(); it++) {
+            request.mutable_to_line()->Add(*it);
+        }
+        
         
         fillMessageContent(tmsg, request.mutable_notify_content());
         

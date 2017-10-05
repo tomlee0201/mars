@@ -52,8 +52,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RemoveGroupMemberRequest, group_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RemoveGroupMemberRequest, line_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RemoveGroupMemberRequest, removed_member_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RemoveGroupMemberRequest, to_line_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(RemoveGroupMemberRequest, notify_content_),
 };
 
@@ -111,15 +111,15 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n!remove_group_member_request.proto\022\010mar"
-      "s.stn\032\025message_content.proto\"\204\001\n\030RemoveG"
-      "roupMemberRequest\022\020\n\010group_id\030\001 \001(\t\022\014\n\004l"
-      "ine\030\002 \001(\005\022\026\n\016removed_member\030\003 \003(\t\0220\n\016not"
-      "ify_content\030\004 \001(\0132\030.mars.stn.MessageCont"
-      "entB:\n\024win.liyufan.im.protoB\"RemoveGroup"
-      "MemberRequestOuterClassb\006proto3"
+      "s.stn\032\025message_content.proto\"\207\001\n\030RemoveG"
+      "roupMemberRequest\022\020\n\010group_id\030\001 \001(\t\022\026\n\016r"
+      "emoved_member\030\002 \003(\t\022\017\n\007to_line\030\003 \003(\005\0220\n\016"
+      "notify_content\030\004 \001(\0132\030.mars.stn.MessageC"
+      "ontentB:\n\024win.liyufan.im.protoB\"RemoveGr"
+      "oupMemberRequestOuterClassb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 271);
+      descriptor, 274);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "remove_group_member_request.proto", &protobuf_RegisterTypes);
   ::mars::stn::protobuf_message_5fcontent_2eproto::AddDescriptors();
@@ -144,8 +144,8 @@ struct StaticDescriptorInitializer {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RemoveGroupMemberRequest::kGroupIdFieldNumber;
-const int RemoveGroupMemberRequest::kLineFieldNumber;
 const int RemoveGroupMemberRequest::kRemovedMemberFieldNumber;
+const int RemoveGroupMemberRequest::kToLineFieldNumber;
 const int RemoveGroupMemberRequest::kNotifyContentFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -161,6 +161,7 @@ RemoveGroupMemberRequest::RemoveGroupMemberRequest(const RemoveGroupMemberReques
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       removed_member_(from.removed_member_),
+      to_line_(from.to_line_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   group_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -172,14 +173,12 @@ RemoveGroupMemberRequest::RemoveGroupMemberRequest(const RemoveGroupMemberReques
   } else {
     notify_content_ = NULL;
   }
-  line_ = from.line_;
   // @@protoc_insertion_point(copy_constructor:mars.stn.RemoveGroupMemberRequest)
 }
 
 void RemoveGroupMemberRequest::SharedCtor() {
   group_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&notify_content_, 0, reinterpret_cast<char*>(&line_) -
-    reinterpret_cast<char*>(&notify_content_) + sizeof(line_));
+  notify_content_ = NULL;
   _cached_size_ = 0;
 }
 
@@ -221,12 +220,12 @@ RemoveGroupMemberRequest* RemoveGroupMemberRequest::New(::google::protobuf::Aren
 void RemoveGroupMemberRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:mars.stn.RemoveGroupMemberRequest)
   removed_member_.Clear();
+  to_line_.Clear();
   group_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == NULL && notify_content_ != NULL) {
     delete notify_content_;
   }
   notify_content_ = NULL;
-  line_ = 0;
 }
 
 bool RemoveGroupMemberRequest::MergePartialFromCodedStream(
@@ -255,24 +254,10 @@ bool RemoveGroupMemberRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // int32 line = 2;
+      // repeated string removed_member = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &line_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated string removed_member = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u)) {
+            static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->add_removed_member()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
@@ -280,6 +265,24 @@ bool RemoveGroupMemberRequest::MergePartialFromCodedStream(
             this->removed_member(this->removed_member_size() - 1).length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "mars.stn.RemoveGroupMemberRequest.removed_member"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated int32 to_line = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_to_line())));
+        } else if (static_cast< ::google::protobuf::uint8>(tag) ==
+                   static_cast< ::google::protobuf::uint8>(24u)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 26u, input, this->mutable_to_line())));
         } else {
           goto handle_unusual;
         }
@@ -335,19 +338,24 @@ void RemoveGroupMemberRequest::SerializeWithCachedSizes(
       1, this->group_id(), output);
   }
 
-  // int32 line = 2;
-  if (this->line() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->line(), output);
-  }
-
-  // repeated string removed_member = 3;
+  // repeated string removed_member = 2;
   for (int i = 0, n = this->removed_member_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->removed_member(i).data(), this->removed_member(i).length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "mars.stn.RemoveGroupMemberRequest.removed_member");
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      3, this->removed_member(i), output);
+      2, this->removed_member(i), output);
+  }
+
+  // repeated int32 to_line = 3;
+  if (this->to_line_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(3, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(_to_line_cached_byte_size_);
+  }
+  for (int i = 0, n = this->to_line_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->to_line(i), output);
   }
 
   // .mars.stn.MessageContent notify_content = 4;
@@ -376,19 +384,26 @@ void RemoveGroupMemberRequest::SerializeWithCachedSizes(
         1, this->group_id(), target);
   }
 
-  // int32 line = 2;
-  if (this->line() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->line(), target);
-  }
-
-  // repeated string removed_member = 3;
+  // repeated string removed_member = 2;
   for (int i = 0, n = this->removed_member_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->removed_member(i).data(), this->removed_member(i).length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "mars.stn.RemoveGroupMemberRequest.removed_member");
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteStringToArray(3, this->removed_member(i), target);
+      WriteStringToArray(2, this->removed_member(i), target);
+  }
+
+  // repeated int32 to_line = 3;
+  if (this->to_line_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      3,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+      _to_line_cached_byte_size_, target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->to_line_, target);
   }
 
   // .mars.stn.MessageContent notify_content = 4;
@@ -406,12 +421,27 @@ size_t RemoveGroupMemberRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:mars.stn.RemoveGroupMemberRequest)
   size_t total_size = 0;
 
-  // repeated string removed_member = 3;
+  // repeated string removed_member = 2;
   total_size += 1 *
       ::google::protobuf::internal::FromIntSize(this->removed_member_size());
   for (int i = 0, n = this->removed_member_size(); i < n; i++) {
     total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
       this->removed_member(i));
+  }
+
+  // repeated int32 to_line = 3;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->to_line_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(data_size);
+    }
+    int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _to_line_cached_byte_size_ = cached_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
   }
 
   // string group_id = 1;
@@ -426,13 +456,6 @@ size_t RemoveGroupMemberRequest::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
         *this->notify_content_);
-  }
-
-  // int32 line = 2;
-  if (this->line() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->line());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -465,15 +488,13 @@ void RemoveGroupMemberRequest::MergeFrom(const RemoveGroupMemberRequest& from) {
   (void) cached_has_bits;
 
   removed_member_.MergeFrom(from.removed_member_);
+  to_line_.MergeFrom(from.to_line_);
   if (from.group_id().size() > 0) {
 
     group_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.group_id_);
   }
   if (from.has_notify_content()) {
     mutable_notify_content()->::mars::stn::MessageContent::MergeFrom(from.notify_content());
-  }
-  if (from.line() != 0) {
-    set_line(from.line());
   }
 }
 
@@ -501,9 +522,9 @@ void RemoveGroupMemberRequest::Swap(RemoveGroupMemberRequest* other) {
 }
 void RemoveGroupMemberRequest::InternalSwap(RemoveGroupMemberRequest* other) {
   removed_member_.InternalSwap(&other->removed_member_);
+  to_line_.InternalSwap(&other->to_line_);
   group_id_.Swap(&other->group_id_);
   std::swap(notify_content_, other->notify_content_);
-  std::swap(line_, other->line_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
@@ -568,21 +589,7 @@ void RemoveGroupMemberRequest::set_allocated_group_id(::std::string* group_id) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.RemoveGroupMemberRequest.group_id)
 }
 
-// int32 line = 2;
-void RemoveGroupMemberRequest::clear_line() {
-  line_ = 0;
-}
-::google::protobuf::int32 RemoveGroupMemberRequest::line() const {
-  // @@protoc_insertion_point(field_get:mars.stn.RemoveGroupMemberRequest.line)
-  return line_;
-}
-void RemoveGroupMemberRequest::set_line(::google::protobuf::int32 value) {
-  
-  line_ = value;
-  // @@protoc_insertion_point(field_set:mars.stn.RemoveGroupMemberRequest.line)
-}
-
-// repeated string removed_member = 3;
+// repeated string removed_member = 2;
 int RemoveGroupMemberRequest::removed_member_size() const {
   return removed_member_.size();
 }
@@ -649,6 +656,36 @@ RemoveGroupMemberRequest::removed_member() const {
 RemoveGroupMemberRequest::mutable_removed_member() {
   // @@protoc_insertion_point(field_mutable_list:mars.stn.RemoveGroupMemberRequest.removed_member)
   return &removed_member_;
+}
+
+// repeated int32 to_line = 3;
+int RemoveGroupMemberRequest::to_line_size() const {
+  return to_line_.size();
+}
+void RemoveGroupMemberRequest::clear_to_line() {
+  to_line_.Clear();
+}
+::google::protobuf::int32 RemoveGroupMemberRequest::to_line(int index) const {
+  // @@protoc_insertion_point(field_get:mars.stn.RemoveGroupMemberRequest.to_line)
+  return to_line_.Get(index);
+}
+void RemoveGroupMemberRequest::set_to_line(int index, ::google::protobuf::int32 value) {
+  to_line_.Set(index, value);
+  // @@protoc_insertion_point(field_set:mars.stn.RemoveGroupMemberRequest.to_line)
+}
+void RemoveGroupMemberRequest::add_to_line(::google::protobuf::int32 value) {
+  to_line_.Add(value);
+  // @@protoc_insertion_point(field_add:mars.stn.RemoveGroupMemberRequest.to_line)
+}
+const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+RemoveGroupMemberRequest::to_line() const {
+  // @@protoc_insertion_point(field_list:mars.stn.RemoveGroupMemberRequest.to_line)
+  return to_line_;
+}
+::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+RemoveGroupMemberRequest::mutable_to_line() {
+  // @@protoc_insertion_point(field_mutable_list:mars.stn.RemoveGroupMemberRequest.to_line)
+  return &to_line_;
 }
 
 // .mars.stn.MessageContent notify_content = 4;

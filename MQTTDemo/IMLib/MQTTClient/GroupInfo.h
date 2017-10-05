@@ -20,7 +20,6 @@ typedef enum : NSUInteger {
 @interface GroupInfo : NSObject
 @property (nonatomic, assign)GroupType type;
 @property (nonatomic, strong)NSString *target;
-@property (nonatomic, assign)int line;
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, strong)NSString *portrait;
 @property (nonatomic, strong)NSString *owner;

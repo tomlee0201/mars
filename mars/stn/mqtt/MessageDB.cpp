@@ -632,7 +632,7 @@ namespace mars {
             virtual ~TGetGroupInfoCallback() {}
         };
         
-        TGroupInfo MessageDB::GetGroupInfo(const std::string &groupId, int line, bool refresh) {
+        TGroupInfo MessageDB::GetGroupInfo(const std::string &groupId, bool refresh) {
             DB *db = DB::Instance();
             WCDB::Error error;
             TGroupInfo gi;
@@ -641,11 +641,10 @@ namespace mars {
             }
            
             
-            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == groupId) && (WCDB::Expr(WCDB::Column("_line")) == line);
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == groupId);
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("group", {"_name",  "_portrait", "_owner", "_type", "_extra", "_update_dt"}, error, &where);
             
             gi.target = groupId;
-            gi.line = line;
             
             if (statementHandle->step()) {
                 gi.name = db->getStringValue(statementHandle, 0);
@@ -673,16 +672,15 @@ namespace mars {
             }
             
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("group", {"_uid", "_line", "_name", "_portrait", "_owner", "_type", "_extra", "_update_dt"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("group", {"_uid", "_name", "_portrait", "_owner", "_type", "_extra", "_update_dt"}, true);
             db->Bind(statementHandle, groupInfo.target, 1);
-            db->Bind(statementHandle, groupInfo.line, 2);
-            db->Bind(statementHandle, groupInfo.name, 3);
-            db->Bind(statementHandle, groupInfo.portrait, 4);
+            db->Bind(statementHandle, groupInfo.name, 2);
+            db->Bind(statementHandle, groupInfo.portrait, 3);
             
-            db->Bind(statementHandle, groupInfo.owner, 5);
-            db->Bind(statementHandle, groupInfo.type, 6);
-            db->Bind(statementHandle, groupInfo.extra, 7);
-            db->Bind(statementHandle, groupInfo.updateDt, 8);
+            db->Bind(statementHandle, groupInfo.owner, 4);
+            db->Bind(statementHandle, groupInfo.type, 5);
+            db->Bind(statementHandle, groupInfo.extra, 6);
+            db->Bind(statementHandle, groupInfo.updateDt, 7);
             long ret = 0;
             db->ExecuteInsert(statementHandle, &ret);
             return ret;

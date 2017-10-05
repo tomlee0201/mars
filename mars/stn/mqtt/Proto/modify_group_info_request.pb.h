@@ -43,12 +43,6 @@ extern GroupInfoDefaultTypeInternal _GroupInfo_default_instance_;
 class GroupMember;
 class GroupMemberDefaultTypeInternal;
 extern GroupMemberDefaultTypeInternal _GroupMember_default_instance_;
-class GroupTarget;
-class GroupTargetDefaultTypeInternal;
-extern GroupTargetDefaultTypeInternal _GroupTarget_default_instance_;
-class GroupTargetListBuf;
-class GroupTargetListBufDefaultTypeInternal;
-extern GroupTargetListBufDefaultTypeInternal _GroupTargetListBuf_default_instance_;
 class MessageContent;
 class MessageContentDefaultTypeInternal;
 extern MessageContentDefaultTypeInternal _MessageContent_default_instance_;
@@ -141,6 +135,18 @@ class ModifyGroupInfoRequest : public ::google::protobuf::Message /* @@protoc_in
 
   // accessors -------------------------------------------------------
 
+  // repeated int32 to_line = 2;
+  int to_line_size() const;
+  void clear_to_line();
+  static const int kToLineFieldNumber = 2;
+  ::google::protobuf::int32 to_line(int index) const;
+  void set_to_line(int index, ::google::protobuf::int32 value);
+  void add_to_line(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      to_line() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_to_line();
+
   // .mars.stn.GroupInfo group_info = 1;
   bool has_group_info() const;
   void clear_group_info();
@@ -150,10 +156,10 @@ class ModifyGroupInfoRequest : public ::google::protobuf::Message /* @@protoc_in
   ::mars::stn::GroupInfo* release_group_info();
   void set_allocated_group_info(::mars::stn::GroupInfo* group_info);
 
-  // .mars.stn.MessageContent notify_content = 2;
+  // .mars.stn.MessageContent notify_content = 3;
   bool has_notify_content() const;
   void clear_notify_content();
-  static const int kNotifyContentFieldNumber = 2;
+  static const int kNotifyContentFieldNumber = 3;
   const ::mars::stn::MessageContent& notify_content() const;
   ::mars::stn::MessageContent* mutable_notify_content();
   ::mars::stn::MessageContent* release_notify_content();
@@ -163,6 +169,8 @@ class ModifyGroupInfoRequest : public ::google::protobuf::Message /* @@protoc_in
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > to_line_;
+  mutable int _to_line_cached_byte_size_;
   ::mars::stn::GroupInfo* group_info_;
   ::mars::stn::MessageContent* notify_content_;
   mutable int _cached_size_;
@@ -215,7 +223,37 @@ inline void ModifyGroupInfoRequest::set_allocated_group_info(::mars::stn::GroupI
   // @@protoc_insertion_point(field_set_allocated:mars.stn.ModifyGroupInfoRequest.group_info)
 }
 
-// .mars.stn.MessageContent notify_content = 2;
+// repeated int32 to_line = 2;
+inline int ModifyGroupInfoRequest::to_line_size() const {
+  return to_line_.size();
+}
+inline void ModifyGroupInfoRequest::clear_to_line() {
+  to_line_.Clear();
+}
+inline ::google::protobuf::int32 ModifyGroupInfoRequest::to_line(int index) const {
+  // @@protoc_insertion_point(field_get:mars.stn.ModifyGroupInfoRequest.to_line)
+  return to_line_.Get(index);
+}
+inline void ModifyGroupInfoRequest::set_to_line(int index, ::google::protobuf::int32 value) {
+  to_line_.Set(index, value);
+  // @@protoc_insertion_point(field_set:mars.stn.ModifyGroupInfoRequest.to_line)
+}
+inline void ModifyGroupInfoRequest::add_to_line(::google::protobuf::int32 value) {
+  to_line_.Add(value);
+  // @@protoc_insertion_point(field_add:mars.stn.ModifyGroupInfoRequest.to_line)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+ModifyGroupInfoRequest::to_line() const {
+  // @@protoc_insertion_point(field_list:mars.stn.ModifyGroupInfoRequest.to_line)
+  return to_line_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+ModifyGroupInfoRequest::mutable_to_line() {
+  // @@protoc_insertion_point(field_mutable_list:mars.stn.ModifyGroupInfoRequest.to_line)
+  return &to_line_;
+}
+
+// .mars.stn.MessageContent notify_content = 3;
 inline bool ModifyGroupInfoRequest::has_notify_content() const {
   return this != internal_default_instance() && notify_content_ != NULL;
 }

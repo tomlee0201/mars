@@ -16,24 +16,14 @@ enum GroupType {
   GroupType_Restricted = 2;
 }
 
-message GroupTarget {
-  string target_id = 1;
-  int32 line = 2;
-}
-
-message GroupTargetListBuf {
-repeated GroupTarget target = 1;
-}
-
 message GroupInfo {
   string target_id = 1;
-  int32 line = 2;
-  string name = 3;
-  string portrait = 4;
-  string owner = 5;
-  GroupType type = 6;
-  string extra = 7;
-  int64 update_dt = 8;
+  string name = 2;
+  string portrait = 3;
+  string owner = 4;
+  GroupType type = 5;
+  string extra = 6;
+  int64 update_dt = 7;
 }
 
 message GroupMember {

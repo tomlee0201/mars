@@ -59,7 +59,7 @@ namespace mars {
             bool FailSendingMessages();
             
             
-            TGroupInfo GetGroupInfo(const std::string &groupId, int line, bool refresh);
+            TGroupInfo GetGroupInfo(const std::string &groupId, bool refresh);
             long InsertGroupInfo(const TGroupInfo &groupInfo);
             
             TUserInfo getUserInfo(const std::string &userId, bool refresh);

@@ -112,7 +112,7 @@
             AddGroupeMemberNotificationContent *content = [[AddGroupeMemberNotificationContent alloc] init];
             content.invitor = [NetworkService sharedInstance].userId;
             content.invitees = memberIds;
-            [[IMService sharedIMService] addMembers:memberIds toGroup:groupId notifyContent:content success:^{
+            [[IMService sharedIMService] addMembers:memberIds toGroup:groupId notifyLines:@[@(0)] notifyContent:content success:^{
                 [ws refreshList];
             } error:^(int error_code) {
                 
@@ -132,7 +132,7 @@
             KickoffGroupMemberNotificaionContent *content = [[KickoffGroupMemberNotificaionContent alloc] init];
             content.operateUser = [NetworkService sharedInstance].userId;
             content.kickedMembers = memberIds;
-            [[IMService sharedIMService] kickoffMembers:memberIds fromGroup:groupId notifyContent:content success:^{
+            [[IMService sharedIMService] kickoffMembers:memberIds fromGroup:groupId notifyLines:@[@(0)] notifyContent:content success:^{
                 [ws refreshList];
             } error:^(int error_code) {
                 
@@ -155,7 +155,7 @@
             TransferGroupOwnerNotificationContent *content = [[TransferGroupOwnerNotificationContent alloc] init];
             content.operateUser = [NetworkService sharedInstance].userId;
             content.owner = memberIds[0];
-            [[IMService sharedIMService] transferGroup:groupId to:memberIds[0] notifyContent:content success:^{
+            [[IMService sharedIMService] transferGroup:groupId to:memberIds[0] notifyLines:@[@(0)] notifyContent:content success:^{
                 [ws refreshList];
             } error:^(int error_code) {
                 
@@ -172,7 +172,7 @@
         QuitGroupNotificationContent *content = [[QuitGroupNotificationContent alloc] init];
         content.quitMember = [NetworkService sharedInstance].userId;
         //Todo: add animination here
-        [[IMService sharedIMService] quitGroup:groupId notifyContent:content success:^{
+        [[IMService sharedIMService] quitGroup:groupId notifyLines:@[@(0)] notifyContent:content success:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [ws refreshList];
             });
@@ -187,7 +187,7 @@
         content.operateUser = [NetworkService sharedInstance].userId;
         
         //Todo: add animination here
-        [[IMService sharedIMService] dismissGroup:groupId notifyContent:content success:^{
+        [[IMService sharedIMService] dismissGroup:groupId notifyLines:@[@(0)] notifyContent:content success:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [ws refreshList];
             });

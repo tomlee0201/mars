@@ -376,10 +376,10 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::MessageDB::Instance()->updateConversationIsTop(conversation.type, [conversation.target UTF8String], conversation.line, top);
 }
 - (void)createGroup:(NSString *)groupId
-               line:(int)line
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait
             members:(NSArray *)groupMembers
+        notifyLines:(NSArray<NSNumber *> *)notifyLines
       notifyContent:(MessageContent *)notifyContent
             success:(void(^)(NSString *groupId))successBlock
               error:(void(^)(int error_code))errorBlock {
@@ -391,11 +391,17 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-    mars::stn::createGroup(groupId == nil ? "" : [groupId UTF8String], groupName == nil ? "" : [groupName UTF8String], groupPortrait == nil ? "" : [groupPortrait UTF8String], memberList, tmsg, new IMCreateGroupCallback(successBlock, errorBlock));
+    
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    mars::stn::createGroup(groupId == nil ? "" : [groupId UTF8String], groupName == nil ? "" : [groupName UTF8String], groupPortrait == nil ? "" : [groupPortrait UTF8String], memberList, lines, tmsg, new IMCreateGroupCallback(successBlock, errorBlock));
 }
 
 - (void)addMembers:(NSArray *)members
            toGroup:(NSString *)groupId
+       notifyLines:(NSArray<NSNumber *> *)notifyLines
      notifyContent:(MessageContent *)notifyContent
            success:(void(^)())successBlock
              error:(void(^)(int error_code))errorBlock {
@@ -407,11 +413,18 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-    mars::stn::addMembers([groupId UTF8String], memberList, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    
+    mars::stn::addMembers([groupId UTF8String], memberList, lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)kickoffMembers:(NSArray *)members
              fromGroup:(NSString *)groupId
+           notifyLines:(NSArray<NSNumber *> *)notifyLines
          notifyContent:(MessageContent *)notifyContent
                success:(void(^)())successBlock
                  error:(void(^)(int error_code))errorBlock {
@@ -423,10 +436,17 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-    mars::stn::kickoffMembers([groupId UTF8String], memberList, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    
+    mars::stn::kickoffMembers([groupId UTF8String], memberList, lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)quitGroup:(NSString *)groupId
+      notifyLines:(NSArray<NSNumber *> *)notifyLines
     notifyContent:(MessageContent *)notifyContent
           success:(void(^)())successBlock
             error:(void(^)(int error_code))errorBlock {
@@ -434,10 +454,17 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-        mars::stn::quitGroup([groupId UTF8String], tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    
+    mars::stn::quitGroup([groupId UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)dismissGroup:(NSString *)groupId
+         notifyLines:(NSArray<NSNumber *> *)notifyLines
        notifyContent:(MessageContent *)notifyContent
              success:(void(^)())successBlock
                error:(void(^)(int error_code))errorBlock {
@@ -445,10 +472,17 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-    mars::stn::dismissGroup([groupId UTF8String], tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    
+    mars::stn::dismissGroup([groupId UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)modifyGroupInfo:(GroupInfo *)groupInfo
+            notifyLines:(NSArray<NSNumber *> *)notifyLines
           notifyContent:(MessageContent *)notifyContent
                 success:(void(^)())successBlock
                   error:(void(^)(int error_code))errorBlock {
@@ -470,7 +504,13 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     MessagePayload *payload = [notifyContent encode];
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
-    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    
+    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {
@@ -495,6 +535,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 
 - (void)transferGroup:(NSString *)groupId
                    to:(NSString *)newOwner
+          notifyLines:(NSArray<NSNumber *> *)notifyLines
         notifyContent:(MessageContent *)notifyContent
               success:(void(^)())successBlock
                 error:(void(^)(int error_code))errorBlock {
@@ -502,7 +543,12 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, nil, payload);
     
-    mars::stn::transferGroup([groupId UTF8String], [newOwner UTF8String], tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    std::list<int> lines;
+    for (NSNumber *number in notifyLines) {
+        lines.push_back([number intValue]);
+    }
+    
+    mars::stn::transferGroup([groupId UTF8String], [newOwner UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
@@ -526,13 +572,12 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     return mars::stn::MessageDB::Instance()->DeleteMessage(messageId);
 }
 
-- (GroupInfo *)getGroupInfo:(NSString *)groupId line:(int)line refresh:(BOOL)refresh {
-    mars::stn::TGroupInfo tgi = mars::stn::MessageDB::Instance()->GetGroupInfo([groupId UTF8String], line, refresh);
+- (GroupInfo *)getGroupInfo:(NSString *)groupId refresh:(BOOL)refresh {
+    mars::stn::TGroupInfo tgi = mars::stn::MessageDB::Instance()->GetGroupInfo([groupId UTF8String], refresh);
     if (!tgi.target.empty()) {
         GroupInfo *groupInfo = [[GroupInfo alloc] init];
         groupInfo.type = (GroupType)tgi.type;
         groupInfo.target = [NSString stringWithUTF8String:tgi.target.c_str()];
-        groupInfo.line = tgi.line;
         groupInfo.name = [NSString stringWithUTF8String:tgi.name.c_str()];
         groupInfo.extra = [NSData dataWithBytes:tgi.extra.c_str() length:tgi.extra.length()];
         groupInfo.portrait = [NSString stringWithUTF8String:tgi.portrait.c_str()];

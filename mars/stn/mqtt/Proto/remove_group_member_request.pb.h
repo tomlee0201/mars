@@ -125,10 +125,10 @@ class RemoveGroupMemberRequest : public ::google::protobuf::Message /* @@protoc_
 
   // accessors -------------------------------------------------------
 
-  // repeated string removed_member = 3;
+  // repeated string removed_member = 2;
   int removed_member_size() const;
   void clear_removed_member();
-  static const int kRemovedMemberFieldNumber = 3;
+  static const int kRemovedMemberFieldNumber = 2;
   const ::std::string& removed_member(int index) const;
   ::std::string* mutable_removed_member(int index);
   void set_removed_member(int index, const ::std::string& value);
@@ -146,6 +146,18 @@ class RemoveGroupMemberRequest : public ::google::protobuf::Message /* @@protoc_
   void add_removed_member(const char* value, size_t size);
   const ::google::protobuf::RepeatedPtrField< ::std::string>& removed_member() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_removed_member();
+
+  // repeated int32 to_line = 3;
+  int to_line_size() const;
+  void clear_to_line();
+  static const int kToLineFieldNumber = 3;
+  ::google::protobuf::int32 to_line(int index) const;
+  void set_to_line(int index, ::google::protobuf::int32 value);
+  void add_to_line(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      to_line() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_to_line();
 
   // string group_id = 1;
   void clear_group_id();
@@ -170,20 +182,15 @@ class RemoveGroupMemberRequest : public ::google::protobuf::Message /* @@protoc_
   ::mars::stn::MessageContent* release_notify_content();
   void set_allocated_notify_content(::mars::stn::MessageContent* notify_content);
 
-  // int32 line = 2;
-  void clear_line();
-  static const int kLineFieldNumber = 2;
-  ::google::protobuf::int32 line() const;
-  void set_line(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:mars.stn.RemoveGroupMemberRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::std::string> removed_member_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > to_line_;
+  mutable int _to_line_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr group_id_;
   ::mars::stn::MessageContent* notify_content_;
-  ::google::protobuf::int32 line_;
   mutable int _cached_size_;
   friend struct protobuf_remove_5fgroup_5fmember_5frequest_2eproto::TableStruct;
 };
@@ -248,21 +255,7 @@ inline void RemoveGroupMemberRequest::set_allocated_group_id(::std::string* grou
   // @@protoc_insertion_point(field_set_allocated:mars.stn.RemoveGroupMemberRequest.group_id)
 }
 
-// int32 line = 2;
-inline void RemoveGroupMemberRequest::clear_line() {
-  line_ = 0;
-}
-inline ::google::protobuf::int32 RemoveGroupMemberRequest::line() const {
-  // @@protoc_insertion_point(field_get:mars.stn.RemoveGroupMemberRequest.line)
-  return line_;
-}
-inline void RemoveGroupMemberRequest::set_line(::google::protobuf::int32 value) {
-  
-  line_ = value;
-  // @@protoc_insertion_point(field_set:mars.stn.RemoveGroupMemberRequest.line)
-}
-
-// repeated string removed_member = 3;
+// repeated string removed_member = 2;
 inline int RemoveGroupMemberRequest::removed_member_size() const {
   return removed_member_.size();
 }
@@ -329,6 +322,36 @@ inline ::google::protobuf::RepeatedPtrField< ::std::string>*
 RemoveGroupMemberRequest::mutable_removed_member() {
   // @@protoc_insertion_point(field_mutable_list:mars.stn.RemoveGroupMemberRequest.removed_member)
   return &removed_member_;
+}
+
+// repeated int32 to_line = 3;
+inline int RemoveGroupMemberRequest::to_line_size() const {
+  return to_line_.size();
+}
+inline void RemoveGroupMemberRequest::clear_to_line() {
+  to_line_.Clear();
+}
+inline ::google::protobuf::int32 RemoveGroupMemberRequest::to_line(int index) const {
+  // @@protoc_insertion_point(field_get:mars.stn.RemoveGroupMemberRequest.to_line)
+  return to_line_.Get(index);
+}
+inline void RemoveGroupMemberRequest::set_to_line(int index, ::google::protobuf::int32 value) {
+  to_line_.Set(index, value);
+  // @@protoc_insertion_point(field_set:mars.stn.RemoveGroupMemberRequest.to_line)
+}
+inline void RemoveGroupMemberRequest::add_to_line(::google::protobuf::int32 value) {
+  to_line_.Add(value);
+  // @@protoc_insertion_point(field_add:mars.stn.RemoveGroupMemberRequest.to_line)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+RemoveGroupMemberRequest::to_line() const {
+  // @@protoc_insertion_point(field_list:mars.stn.RemoveGroupMemberRequest.to_line)
+  return to_line_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+RemoveGroupMemberRequest::mutable_to_line() {
+  // @@protoc_insertion_point(field_mutable_list:mars.stn.RemoveGroupMemberRequest.to_line)
+  return &to_line_;
 }
 
 // .mars.stn.MessageContent notify_content = 4;

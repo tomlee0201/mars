@@ -125,6 +125,18 @@ class QuitGroupRequest : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
+  // repeated int32 to_line = 2;
+  int to_line_size() const;
+  void clear_to_line();
+  static const int kToLineFieldNumber = 2;
+  ::google::protobuf::int32 to_line(int index) const;
+  void set_to_line(int index, ::google::protobuf::int32 value);
+  void add_to_line(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      to_line() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_to_line();
+
   // string group_id = 1;
   void clear_group_id();
   static const int kGroupIdFieldNumber = 1;
@@ -148,19 +160,14 @@ class QuitGroupRequest : public ::google::protobuf::Message /* @@protoc_insertio
   ::mars::stn::MessageContent* release_notify_content();
   void set_allocated_notify_content(::mars::stn::MessageContent* notify_content);
 
-  // int32 line = 2;
-  void clear_line();
-  static const int kLineFieldNumber = 2;
-  ::google::protobuf::int32 line() const;
-  void set_line(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:mars.stn.QuitGroupRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > to_line_;
+  mutable int _to_line_cached_byte_size_;
   ::google::protobuf::internal::ArenaStringPtr group_id_;
   ::mars::stn::MessageContent* notify_content_;
-  ::google::protobuf::int32 line_;
   mutable int _cached_size_;
   friend struct protobuf_quit_5fgroup_5frequest_2eproto::TableStruct;
 };
@@ -225,18 +232,34 @@ inline void QuitGroupRequest::set_allocated_group_id(::std::string* group_id) {
   // @@protoc_insertion_point(field_set_allocated:mars.stn.QuitGroupRequest.group_id)
 }
 
-// int32 line = 2;
-inline void QuitGroupRequest::clear_line() {
-  line_ = 0;
+// repeated int32 to_line = 2;
+inline int QuitGroupRequest::to_line_size() const {
+  return to_line_.size();
 }
-inline ::google::protobuf::int32 QuitGroupRequest::line() const {
-  // @@protoc_insertion_point(field_get:mars.stn.QuitGroupRequest.line)
-  return line_;
+inline void QuitGroupRequest::clear_to_line() {
+  to_line_.Clear();
 }
-inline void QuitGroupRequest::set_line(::google::protobuf::int32 value) {
-  
-  line_ = value;
-  // @@protoc_insertion_point(field_set:mars.stn.QuitGroupRequest.line)
+inline ::google::protobuf::int32 QuitGroupRequest::to_line(int index) const {
+  // @@protoc_insertion_point(field_get:mars.stn.QuitGroupRequest.to_line)
+  return to_line_.Get(index);
+}
+inline void QuitGroupRequest::set_to_line(int index, ::google::protobuf::int32 value) {
+  to_line_.Set(index, value);
+  // @@protoc_insertion_point(field_set:mars.stn.QuitGroupRequest.to_line)
+}
+inline void QuitGroupRequest::add_to_line(::google::protobuf::int32 value) {
+  to_line_.Add(value);
+  // @@protoc_insertion_point(field_add:mars.stn.QuitGroupRequest.to_line)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+QuitGroupRequest::to_line() const {
+  // @@protoc_insertion_point(field_list:mars.stn.QuitGroupRequest.to_line)
+  return to_line_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+QuitGroupRequest::mutable_to_line() {
+  // @@protoc_insertion_point(field_mutable_list:mars.stn.QuitGroupRequest.to_line)
+  return &to_line_;
 }
 
 // .mars.stn.MessageContent notify_content = 3;

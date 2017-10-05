@@ -46,7 +46,7 @@
             self.targetView.text = [NSString stringWithFormat:@"user<%@>", info.conversation.target];
         }
     } else if (info.conversation.type == Group_Type) {
-        GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:info.conversation.target line:info.conversation.line refresh:NO];
+        GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:info.conversation.target refresh:NO];
         if(groupInfo.name.length > 0) {
             self.targetView.text = groupInfo.name;
         } else {

@@ -12,5 +12,6 @@ import "message_content.proto";
 
 message ModifyGroupInfoRequest {
   GroupInfo group_info = 1;
-  MessageContent notify_content = 2;
+  repeated int32 to_line = 2;
+  MessageContent notify_content = 3;
 }

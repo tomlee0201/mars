@@ -11,7 +11,7 @@ import "message_content.proto";
 
 message RemoveGroupMemberRequest {
   string group_id = 1;
-  int32 line = 2;
-  repeated string removed_member = 3;
+  repeated string removed_member = 2;
+  repeated int32 to_line = 3;
   MessageContent notify_content = 4;
 }
