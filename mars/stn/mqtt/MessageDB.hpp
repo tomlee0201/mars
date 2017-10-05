@@ -59,10 +59,10 @@ namespace mars {
             bool FailSendingMessages();
             
             
-            TGroupInfo GetGroupInfo(const std::string &groupId, int line);
+            TGroupInfo GetGroupInfo(const std::string &groupId, int line, bool refresh);
             long InsertGroupInfo(const TGroupInfo &groupInfo);
             
-            TUserInfo getUserInfo(const std::string &userId);
+            TUserInfo getUserInfo(const std::string &userId, bool refresh);
             long InsertUserInfoOrReplace(const TUserInfo &userInfo);
         private:
             static MessageDB* instance_;

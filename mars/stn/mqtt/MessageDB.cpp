@@ -15,6 +15,7 @@
 #include <WCDB/expr.hpp>
 #include <WCDB/order.hpp>
 #include <WCDB/column_type.hpp>
+#include "mars/stn/mqtt/stn_callback.h"
 
 namespace mars {
     namespace stn {
@@ -611,14 +612,33 @@ namespace mars {
             return false;
         }
         
-        TGroupInfo MessageDB::GetGroupInfo(const std::string &groupId, int line) {
+        class TGetGroupInfoCallback : public GetGroupInfoCallback {
+            void onSuccess(std::list<TGroupInfo> groupInfoList) {
+                if(StnCallBack::Instance()->m_getGroupInfoCB) {
+                    StnCallBack::Instance()->m_getGroupInfoCB->onSuccess(groupInfoList);
+                }
+                
+                for (std::list<TGroupInfo>::iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {
+                    MessageDB::Instance()->InsertGroupInfo(*it);
+                }
+                delete this;
+            }
+            void onFalure(int errorCode) {
+                if(StnCallBack::Instance()->m_getGroupInfoCB) {
+                    StnCallBack::Instance()->m_getGroupInfoCB->onFalure(errorCode);
+                }
+                delete this;
+            }
+            virtual ~TGetGroupInfoCallback() {}
+        };
+        
+        TGroupInfo MessageDB::GetGroupInfo(const std::string &groupId, int line, bool refresh) {
             DB *db = DB::Instance();
             WCDB::Error error;
             TGroupInfo gi;
             if (!db->isOpened()) {
                 return gi;
             }
-            
            
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == groupId) && (WCDB::Expr(WCDB::Column("_line")) == line);
@@ -637,6 +657,11 @@ namespace mars {
                 
             } else {
                 gi.target = "";//empty
+                gi.updateDt = 0;
+            }
+            
+            if (refresh) {
+                getGroupInfo({std::pair<std::string, int64_t>(groupId, gi.updateDt)}, new TGetGroupInfoCallback());
             }
             return gi;
         }
@@ -664,7 +689,7 @@ namespace mars {
 
         }
         
-        TUserInfo MessageDB::getUserInfo(const std::string &userId) {
+        TUserInfo MessageDB::getUserInfo(const std::string &userId, bool refresh) {
             DB *db = DB::Instance();
             WCDB::Error error;
             TUserInfo ui;
@@ -674,6 +699,8 @@ namespace mars {
 
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == userId);
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("user", {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, error, &where);
+            
+            std::list<std::pair<std::string, int64_t>> refreshReqList;
             
             if (statementHandle->step()) {
                 ui.uid = db->getStringValue(statementHandle, 0);
@@ -687,6 +714,12 @@ namespace mars {
                 ui.social = db->getStringValue(statementHandle, 8);
                 ui.extra = db->getStringValue(statementHandle, 9);
                 ui.updateDt = db->getBigIntValue(statementHandle, 10);
+            } else {
+                ui.updateDt = 0;
+            }
+            
+            if (refresh) {
+                reloadUserInfoFromRemote({std::pair<std::string, int64_t>(userId, ui.updateDt)});
             }
             return ui;
         }

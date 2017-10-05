@@ -10,6 +10,7 @@
 #import "Message.h"
 #import "GroupInfo.h"
 #import "ConversationInfo.h"
+#import "UserInfo.h"
 
 @interface IMService : NSObject
 + (IMService*)sharedIMService;
@@ -27,6 +28,9 @@
 - (void)setConversation:(Conversation *)conversation top:(BOOL)top;
 
 - (BOOL)deleteMessage:(long)messageId;
+
+- (GroupInfo *)getGroupInfo:(NSString *)groupId line:(int)line refresh:(BOOL)refresh;
+- (UserInfo *)getUserInfo:(NSString *)userId refresh:(BOOL)refresh;
 
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;

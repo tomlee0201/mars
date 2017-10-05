@@ -86,6 +86,23 @@ struct DnsProfile;
             virtual ~TGroupInfo() {}
         };
         
+        class TUserInfo {
+        public:
+            TUserInfo()  {}
+            std::string uid;
+            std::string name;
+            std::string displayName;
+            std::string portrait;
+            std::string mobile;
+            std::string email;
+            std::string address;
+            std::string company;
+            std::string social;
+            std::string extra;
+            int64_t updateDt;
+            virtual ~TUserInfo() {}
+        };
+
         class TMessageContent {
         public:
             TMessageContent() : type(0) {}
@@ -212,6 +229,13 @@ struct DnsProfile;
         virtual void onSuccess(std::list<TGroupInfo> groupInfoList) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
+        
+        class GetUserInfoCallback {
+        public:
+            virtual void onSuccess(const std::list<const TUserInfo> &userInfoList) = 0;
+            virtual void onFalure(int errorCode) = 0;
+        };
+        
     class GetGroupMembersCallback {
     public:
         virtual void onSuccess(std::list<std::string> groupMemberList) = 0;
@@ -358,7 +382,6 @@ public:
       public:
         virtual void onReceiveMessage(const std::list<TMessage> &messageList, bool hasMore) = 0;
       };
-      
         
 enum TaskFailHandleType {
 	kTaskFailHandleNormal = 0,
@@ -528,7 +551,7 @@ extern void (*quitGroup)(const std::string &groupId, TMessage &tmsg, GeneralGrou
 
 extern void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback);
   
-extern void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback);
+extern void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback);
 
 extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback);
         
@@ -538,5 +561,9 @@ extern void (*getMyGroups)(GetMyGroupsCallback *callback);
         
 extern void (*transferGroup)(const std::string &groupId, const std::string &newOwner, TMessage &tmsg, GeneralGroupOperationCallback *callback);
 
+        extern void (*getUserInfo)(const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback);
+        
+        extern void reloadGroupInfoFromRemote(const std::list<std::pair<std::string, int64_t>> &groupReqList);
+        extern void reloadUserInfoFromRemote(const std::list<std::pair<std::string, int64_t>> &userReqList);
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

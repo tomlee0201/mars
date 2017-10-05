@@ -25,6 +25,8 @@
 #import "NetworkStatus.h"
 #import "Message.h"
 #import "ConversationInfo.h"
+#import "GroupInfo.h"
+#import "UserInfo.h"
 
 @class CGITask;
 @class ViewController;
@@ -46,12 +48,25 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)onReceiveMessage:(NSArray<Message *> *)messages hasMore:(BOOL)hasMore;
 @end
 
+@protocol UserInfoChangDelegate <NSObject>
+- (void)onUserInfoChanged:(NSArray<GroupInfo *> *)userInfos;
+@end
+
+@protocol GroupInfoChangDelegate <NSObject>
+- (void)onGroupInfoChanged:(NSArray<UserInfo *> *)userInfos;
+@end
+
 @interface NetworkService : NSObject<NetworkStatusDelegate>
 
 
 + (NetworkService *)sharedInstance;
 @property(nonatomic, weak) id<ConnectionStatusDelegate> connectionStatusDelegate;
 @property(nonatomic, weak) id<ReceiveMessageDelegate> receiveMessageDelegate;
+
+@property(nonatomic, weak) id<UserInfoChangDelegate> userInfoChangeDelegate;
+@property(nonatomic, weak) id<GroupInfoChangDelegate> groupInfoChangeDelegate;
+
+
 @property(nonatomic, assign, getter=isLogined, readonly)BOOL logined;
 @property(nonatomic, assign, readonly)ConnectionStatus currentConnectionStatus;
 @property (nonatomic, strong, readonly)NSString *userId;

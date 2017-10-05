@@ -382,7 +382,6 @@ public:
       public:
         virtual void onReceiveMessage(const std::list<TMessage> &messageList, bool hasMore) = 0;
       };
-      
         
 enum TaskFailHandleType {
 	kTaskFailHandleNormal = 0,
@@ -552,7 +551,7 @@ extern void (*quitGroup)(const std::string &groupId, TMessage &tmsg, GeneralGrou
 
 extern void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOperationCallback *callback);
   
-extern void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback);
+extern void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback);
 
 extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, TMessage &tmsg, GeneralGroupOperationCallback *callback);
         
@@ -564,7 +563,7 @@ extern void (*transferGroup)(const std::string &groupId, const std::string &newO
 
         extern void (*getUserInfo)(const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback);
         
-        extern std::list<TGroupInfo> getGroupInfoEx(const std::list<std::string> &groupIdList);
-        extern std::list<TUserInfo> getUserInfoEx(const std::list<std::string> &userIdList);
+        extern void reloadGroupInfoFromRemote(const std::list<std::pair<std::string, int64_t>> &groupReqList);
+        extern void reloadUserInfoFromRemote(const std::list<std::pair<std::string, int64_t>> &userReqList);
 }}
 #endif // NETWORK_SRC_NET_COMM_H_

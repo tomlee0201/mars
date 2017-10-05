@@ -480,7 +480,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         idList.push_back([groupId UTF8String]);
     }
     
-    mars::stn::getGroupInfo(idList, new IMGetGroupInfoCallback(successBlock, errorBlock));
+   // mars::stn::getGroupInfo(idList, new IMGetGroupInfoCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupMembers:(NSString *)groupId success:(void(^)(NSArray<NSString *> *))successBlock error:(void(^)(int error_code))errorBlock {
@@ -524,6 +524,43 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 
 - (BOOL)deleteMessage:(long)messageId {
     return mars::stn::MessageDB::Instance()->DeleteMessage(messageId);
+}
+
+- (GroupInfo *)getGroupInfo:(NSString *)groupId line:(int)line refresh:(BOOL)refresh {
+    mars::stn::TGroupInfo tgi = mars::stn::MessageDB::Instance()->GetGroupInfo([groupId UTF8String], line, refresh);
+    if (!tgi.target.empty()) {
+        GroupInfo *groupInfo = [[GroupInfo alloc] init];
+        groupInfo.type = (GroupType)tgi.type;
+        groupInfo.target = [NSString stringWithUTF8String:tgi.target.c_str()];
+        groupInfo.line = tgi.line;
+        groupInfo.name = [NSString stringWithUTF8String:tgi.name.c_str()];
+        groupInfo.extra = [NSData dataWithBytes:tgi.extra.c_str() length:tgi.extra.length()];
+        groupInfo.portrait = [NSString stringWithUTF8String:tgi.portrait.c_str()];
+        groupInfo.owner = [NSString stringWithUTF8String:tgi.owner.c_str()];
+        return groupInfo;
+    }
+    return nil;
+}
+
+- (UserInfo *)getUserInfo:(NSString *)userId refresh:(BOOL)refresh {
+    mars::stn::TUserInfo tui = mars::stn::MessageDB::Instance()->getUserInfo([userId UTF8String], refresh);
+    if (!tui.uid.empty()) {
+        UserInfo *userInfo = [[UserInfo alloc] init];
+        userInfo.userId = [NSString stringWithUTF8String:tui.uid.c_str()];
+        userInfo.name = [NSString stringWithUTF8String:tui.name.c_str()];
+        userInfo.portrait = [NSString stringWithUTF8String:tui.portrait.c_str()];
+        
+        userInfo.displayName = [NSString stringWithUTF8String:tui.displayName.c_str()];
+        userInfo.mobile = [NSString stringWithUTF8String:tui.mobile.c_str()];
+        userInfo.email = [NSString stringWithUTF8String:tui.email.c_str()];
+        userInfo.address = [NSString stringWithUTF8String:tui.address.c_str()];
+        userInfo.company = [NSString stringWithUTF8String:tui.company.c_str()];
+        userInfo.social = [NSString stringWithUTF8String:tui.social.c_str()];
+        userInfo.extra = [NSString stringWithUTF8String:tui.extra.c_str()];
+        userInfo.updateDt = tui.updateDt;
+        return userInfo;
+    }
+    return nil;
 }
 
 - (void)registerMessageContent:(Class)contentClass {

@@ -102,16 +102,27 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         MakesureLonglinkConnected();
         mars::baseevent::OnForeground(true);
       }
-        
-        std::list<TGroupInfo> getGroupInfoEx(const std::list<std::string> &groupIdList) {
-            std::list<TGroupInfo> result;
-            for (std::list<std::string>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); ++it) {
-                TGroupInfo info = MessageDB::Instance()->GetGroupInfo(*it, 0);
-                if (!info.target.empty()) {
-                    result.push_back(info);
+        class RefreshGroupInfoCallback : public GetGroupInfoCallback {
+            
+        public:
+            RefreshGroupInfoCallback() {};
+            void onSuccess(std::list<TGroupInfo> groupInfoList) {
+                
+                for (std::list<TGroupInfo>::iterator it = groupInfoList.begin(); it != groupInfoList.end(); ++it) {
+                    MessageDB::Instance()->InsertGroupInfo(*it);
                 }
+                delete this;
             }
-            return result;
+            void onFalure(int errorCode) {
+                delete this;
+            }
+            
+            virtual ~RefreshGroupInfoCallback() {}
+        };
+
+        
+        void reloadGroupInfoFromRemote(const std::list<std::pair<std::string, int64_t>> &groupReqList) {
+            getGroupInfo(groupReqList, new RefreshGroupInfoCallback());
         };
         
         class RefreshUserInfoCallback : public GetUserInfoCallback {
@@ -133,20 +144,8 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
         };
         
         
-        std::list<TUserInfo> getUserInfoEx(const std::list<std::string> &userIdList) {
-            std::list<TUserInfo> result;
-            std::list<std::pair<std::string, int64_t>> userReqList;
-            for (std::list<std::string>::const_iterator it = userIdList.begin(); it != userIdList.end(); ++it) {
-                TUserInfo info = MessageDB::Instance()->getUserInfo(*it);
-                if (!info.uid.empty()) {
-                    result.push_back(info);
-                    userReqList.push_back(std::pair<std::string, int64_t>(info.uid, info.updateDt));
-                } else {
-                    userReqList.push_back(std::pair<std::string, int64_t>(*it, 0));
-                }
-            }
-            getUserInfo(userReqList, new RefreshUserInfoCallback());
-            return result;
+        void reloadUserInfoFromRemote(const std::list<std::pair<std::string, int64_t>> &reqList) {
+            getUserInfo(reqList, new RefreshUserInfoCallback());
         };
 
     }

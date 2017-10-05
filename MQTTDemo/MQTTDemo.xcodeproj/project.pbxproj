@@ -107,6 +107,9 @@
 		2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */; };
 		2EC51B851F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
 		2EC51B861F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
+		2ED386261F7DC0AE00DC4C98 /* UserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2ED386241F7DC0AE00DC4C98 /* UserInfo.h */; };
+		2ED386271F7DC0AE00DC4C98 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED386251F7DC0AE00DC4C98 /* UserInfo.m */; };
+		2ED386281F7DC0AE00DC4C98 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED386251F7DC0AE00DC4C98 /* UserInfo.m */; };
 		2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F01F63AF4300578E7D /* interf_dec.h */; };
 		2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F11F63AF4300578E7D /* interf_enc.h */; };
 		2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */; };
@@ -296,6 +299,8 @@
 		2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
 		2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
 		2EC51B841F3EBB98009D60AE /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = IMLib/mars.framework; sourceTree = "<group>"; };
+		2ED386241F7DC0AE00DC4C98 /* UserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		2ED386251F7DC0AE00DC4C98 /* UserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		2EDB87F01F63AF4300578E7D /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
 		2EDB87F11F63AF4300578E7D /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
 		2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
@@ -542,6 +547,8 @@
 				2E4C68941F71DC63008336A8 /* DismissGroupNotificationContent.m */,
 				2E4C68981F71E875008336A8 /* TransferGroupOwnerNotificationContent.h */,
 				2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */,
+				2ED386241F7DC0AE00DC4C98 /* UserInfo.h */,
+				2ED386251F7DC0AE00DC4C98 /* UserInfo.m */,
 			);
 			name = Message;
 			path = ../MQTTClient;
@@ -718,6 +725,7 @@
 				2EC51B781F3EBB49009D60AE /* NetworkStatus.h in Headers */,
 				2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */,
 				2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */,
+				2ED386261F7DC0AE00DC4C98 /* UserInfo.h in Headers */,
 				2EC51B811F3EBB49009D60AE /* UnsubscribeTask.h in Headers */,
 				2E4C68951F71DC63008336A8 /* DismissGroupNotificationContent.h in Headers */,
 				2E4C68861F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h in Headers */,
@@ -835,6 +843,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E32E37F1F622527000063A6 /* UIImage+GIF.m in Sources */,
+				2ED386271F7DC0AE00DC4C98 /* UserInfo.m in Sources */,
 				2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */,
 				2E32E3841F622527000063A6 /* UIView+WebCache.m in Sources */,
 				2E79A9CC1F68BF87006D31E8 /* GroupTableViewCell.m in Sources */,
@@ -897,6 +906,7 @@
 				2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */,
 				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,
+				2ED386281F7DC0AE00DC4C98 /* UserInfo.m in Sources */,
 				2E0A9EB71F714B140028E8B7 /* NotificationMessageContent.m in Sources */,
 				2EC51B741F3EBB49009D60AE /* app_callback.mm in Sources */,
 				2EDB88001F63AF4300578E7D /* wavwriter.mm in Sources */,

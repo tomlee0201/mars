@@ -75,6 +75,15 @@ void StnCallBack::Release() {
         m_receiveMessageCB = callback;
       }
       
+        void StnCallBack::setGetUserInfoCallback(GetUserInfoCallback *callback) {
+            m_getUserInfoCB = callback;
+        }
+        void StnCallBack::setGetGroupInfoCallback(GetGroupInfoCallback *callback) {
+            m_getGroupInfoCB = callback;
+        }
+        
+        
+      
       void StnCallBack::updateConnectionStatus(ConnectionStatus newStatus) {
         m_connectionStatus = newStatus;
         if(m_connectionStatusCB) {

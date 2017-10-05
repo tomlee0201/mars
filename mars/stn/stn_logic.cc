@@ -60,6 +60,8 @@
 #include "mars/stn/mqtt/Proto/pull_group_member_result.pb.h"
 #include "mars/stn/mqtt/Proto/get_upload_token_result.pb.h"
 #include "mars/stn/mqtt/Proto/transfer_group_request.pb.h"
+#include "mars/stn/mqtt/Proto/pull_user_response.pb.h"
+#include "mars/stn/mqtt/Proto/pull_user_request.pb.h"
 #include "stn/src/proxy_test.h"
 
 namespace mars {
@@ -77,6 +79,7 @@ const std::string quitGroupTopic = "GQ";
 const std::string dismissGroupTopic = "GD";
 const std::string modifyGroupInfoTopic = "GMI";
 const std::string getGroupInfoTopic = "GPGI";
+const std::string getUserInfoTopic = "UPUI";
 const std::string getGroupMemberTopic = "GPGM";
 const std::string getMyGroupsTopic = "GMG";
 const std::string transferGroupTopic = "GTG";
@@ -696,12 +699,12 @@ void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOpe
         }
     };
 
-void (*getGroupInfo)(const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback)
-= [](const std::list<std::string> &groupIdList, GetGroupInfoCallback *callback) {
+void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback)
+= [](const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback) {
     IDListBuf listBuf;
     listBuf.mutable_id()->Reserve((int)groupIdList.size());
-    for (std::list<std::string>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); it++) {
-        listBuf.mutable_id()->AddAllocated(new std::string(*it));
+    for (std::list<std::pair<std::string, int64_t>>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); it++) {
+        listBuf.mutable_id()->AddAllocated(new std::string(it->first));
     }
     
     publishTask(listBuf, new GetGroupInfoPublishCallback(callback), getGroupInfoTopic);
@@ -810,9 +813,68 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
         publishTask(request, new GeneralGroupOperationPublishCallback(callback), transferGroupTopic);
     };
     
+    class GetUserInfoPublishCallback : public MQTTPublishCallback {
+    public:
+        GetUserInfoPublishCallback(GetUserInfoCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+        GetUserInfoCallback *callback;
+        void onSuccess(const unsigned char* data, size_t len) {
+            
+            PullUserResult result;
+            if(result.ParsePartialFromArray(data, (int)len)) {
+                std::list<const TUserInfo> retList;
+                
+                for (::google::protobuf::RepeatedPtrField<const ::mars::stn::UserResult>::iterator it = result.result().begin(); it != result.result().end(); it++) {
+                    const ::mars::stn::UserResult &userResult = *it;
+                    
+                    
+                    const ::mars::stn::User &info = userResult.user();
+                    
+                    if (userResult.code() == 0) {
+                        TUserInfo tInfo;
+                        
+                        tInfo.uid = info.uid();
+                        tInfo.name = info.name();
+                        tInfo.displayName = info.display_name();
+                        tInfo.portrait = info.portrait();
+                        tInfo.mobile = info.mobile();
+                        tInfo.email = info.email();
+                        tInfo.address = info.address();
+                        tInfo.company = info.company();
+                        
+                        tInfo.extra = info.extra();
+                        tInfo.updateDt = info.update_dt();
+                        
+                        retList.push_back(tInfo);
+                    }
+                    
+                }
+                callback->onSuccess(retList);
+            } else {
+                callback->onFalure(-1);
+            }
+            delete this;
+        };
+        void onFalure(int errorCode) {
+            callback->onFalure(errorCode);
+            delete this;
+        };
+        virtual ~GetUserInfoPublishCallback() {
+            
+        }
+    };
+    
+    
     void (*getUserInfo)(const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback)
     =[](const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback) {
+        PullUserRequest request;
         
+        for (std::list<std::pair<std::string, int64_t>>::const_iterator it = userReqList.begin(); it != userReqList.end(); it++) {
+            ::mars::stn::UserRequest* item = request.mutable_request()->Add();
+            item->set_uid((*it).first);
+            item->set_update_dt((*it).second);
+        }
+        
+        publishTask(request, new GetUserInfoPublishCallback(callback), getUserInfoTopic);
     };
 #endif
 
