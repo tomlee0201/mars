@@ -20,9 +20,6 @@
 namespace mars {
     namespace stn {
         
-        static const std::string DB_NAME = "data";
-        static const std::string VERSION_TABLE_NAME = "version";
-        static const std::string VERSION_COLUMN_VERSION = "_version";
         MessageDB* MessageDB::instance_ = NULL;
         
         MessageDB* MessageDB::Instance() {
@@ -49,7 +46,7 @@ namespace mars {
             }
             
 
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("message", {"_conv_type","_conv_target","_conv_line","_from","_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path","_direction","_status","_uid","_timestamp"});
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(MESSAGE_TABLE_NAME, {"_conv_type","_conv_target","_conv_line","_from","_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path","_direction","_status","_uid","_timestamp"});
             db->Bind(statementHandle, msg.conversationType, 1);
             db->Bind(statementHandle, msg.target, 2);
             db->Bind(statementHandle, msg.line, 3);
@@ -84,7 +81,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
-            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement("message", {"_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path"}, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path"}, &where);
             
             db->Bind(statementHandle, content.type, 5);
             db->Bind(statementHandle, content.searchableContent, 6);
@@ -117,7 +114,7 @@ namespace mars {
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
             
-            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement("message", &where);
+            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement(MESSAGE_TABLE_NAME, &where);
             
             if (db->ExecuteDelete(statementHandle) > 0) {
                 return true;
@@ -135,7 +132,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == messageUid);
-            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement("message", {"_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path"}, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_cont_type","_cont_searchable","_cont_push","_cont","_cont_data","_cont_local","_cont_media_type","_cont_remote_media_url","_cont_local_media_path"}, &where);
             
             db->Bind(statementHandle, content.type, 5);
             db->Bind(statementHandle, content.searchableContent, 6);
@@ -165,7 +162,7 @@ namespace mars {
             std::list<const WCDB::Expr> exprsType;
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == messageUid);
-            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement("message", &where);
+            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement(MESSAGE_TABLE_NAME, &where);
             
             if (db->ExecuteDelete(statementHandle) > 0) {
                 return true;
@@ -179,7 +176,7 @@ namespace mars {
             if (!db->isOpened()) {
               return false;
             }
-            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement("timeline", {"_head"});
+            WCDB::RecyclableStatement statementHandle = db->GetUpdateStatement(TIMELINE_TABLE_NAME, {"_head"});
             db->Bind(statementHandle, timeline, 1);
             return db->ExecuteUpdate(statementHandle) > 0;
         }
@@ -191,7 +188,7 @@ namespace mars {
             }
           
             WCDB::Error error;
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("timeline", {"_head"}, error);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(TIMELINE_TABLE_NAME, {"_head"}, error);
             if (statementHandle->step()) {
                 int64_t head = db->getBigIntValue(statementHandle, 0);
                 return head;
@@ -209,7 +206,7 @@ namespace mars {
             WCDB::Error error;
             
             WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_timestamp"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(CONVERSATION_TABLE_NAME, {"_timestamp"}, &where);
             db->Bind(updateStatementHandle, timestamp, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -217,7 +214,7 @@ namespace mars {
                 return true;
             }
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_timestamp"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(CONVERSATION_TABLE_NAME, {"_conv_type", "_conv_target", "_conv_line", "_timestamp"}, true);
             db->Bind(statementHandle, conversationType, 1);
             db->Bind(statementHandle, target, 2);
             db->Bind(statementHandle, line, 3);
@@ -234,7 +231,7 @@ namespace mars {
             
             
             WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_istop"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(CONVERSATION_TABLE_NAME, {"_istop"}, &where);
             db->Bind(updateStatementHandle, istop, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -242,7 +239,7 @@ namespace mars {
                 return true;
             }
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_istop"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(CONVERSATION_TABLE_NAME, {"_conv_type", "_conv_target", "_conv_line", "_istop"}, true);
             db->Bind(statementHandle, conversationType, 1);
             db->Bind(statementHandle, target, 2);
             db->Bind(statementHandle, line, 3);
@@ -259,7 +256,7 @@ namespace mars {
             
             
             WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("conversation", {"_draft"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(CONVERSATION_TABLE_NAME, {"_draft"}, &where);
             db->Bind(updateStatementHandle, draft, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -268,7 +265,7 @@ namespace mars {
             }
             
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_draft"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(CONVERSATION_TABLE_NAME, {"_conv_type", "_conv_target", "_conv_line", "_draft"}, true);
             db->Bind(statementHandle, conversationType, 1);
             db->Bind(statementHandle, target, 2);
             db->Bind(statementHandle, line, 3);
@@ -295,7 +292,7 @@ namespace mars {
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")).in(exprsType)) && WCDB::Expr(WCDB::Column("_conv_line")).in(exprsLine);
             std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_istop")), WCDB::OrderTerm::DESC), WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_conv_type", "_conv_target", "_conv_line", "_draft",  "_istop", "_timestamp"}, error, &where, &orderBy);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(CONVERSATION_TABLE_NAME, {"_conv_type", "_conv_target", "_conv_line", "_draft",  "_istop", "_timestamp"}, error, &where, &orderBy);
             
             std::list<TConversation> convs;
           while(statementHandle->step()) {
@@ -331,11 +328,11 @@ namespace mars {
             
             WCDB::Expr where = ((WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line));
             
-            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement("conversation", &where);
+            WCDB::RecyclableStatement statementHandle = db->GetDeleteStatement(CONVERSATION_TABLE_NAME, &where);
             
             if (db->ExecuteDelete(statementHandle) > 0) {
                 if (clearMessage) {
-                    statementHandle = db->GetDeleteStatement("message", &where);
+                    statementHandle = db->GetDeleteStatement(MESSAGE_TABLE_NAME, &where);
                     db->ExecuteDelete(statementHandle);
                 }
                 
@@ -354,7 +351,7 @@ namespace mars {
             }
           
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line);
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("conversation", {"_draft",  "_istop", "_timestamp"}, error, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(CONVERSATION_TABLE_NAME, {"_draft",  "_istop", "_timestamp"}, error, &where);
             
             conv.target = target;
             conv.conversationType = conversationType;
@@ -382,7 +379,7 @@ namespace mars {
             }
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message", {"count(*)"}, error, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(MESSAGE_TABLE_NAME, {"count(*)"}, error, &where);
             
             if (statementHandle->step()) {
                 return db->getIntValue(statementHandle, 0);
@@ -410,7 +407,7 @@ namespace mars {
             }
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")).in(types)) && (WCDB::Expr(WCDB::Column("_conv_line")).in(ls)) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message", {"count(*)"}, error, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(MESSAGE_TABLE_NAME, {"count(*)"}, error, &where);
             
             if (statementHandle->step()) {
                 return db->getIntValue(statementHandle, 0);
@@ -437,7 +434,7 @@ namespace mars {
             }
             
           std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), old ? WCDB::OrderTerm::DESC : WCDB::OrderTerm::ASC)};
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("message",
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(MESSAGE_TABLE_NAME,
                 {
                     "_id",
                     "_conv_type",
@@ -502,7 +499,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_status"}, &where);
             db->Bind(updateStatementHandle, status, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -521,7 +518,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_cont_remote_media_url"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_cont_remote_media_url"}, &where);
             db->Bind(updateStatementHandle, remoteMediaUrl, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -541,7 +538,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_id")) == messageId);
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_cont_local_media_path"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_cont_local_media_path"}, &where);
             db->Bind(updateStatementHandle, localMediaPath, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -561,7 +558,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_status"}, &where);
             db->Bind(updateStatementHandle, Message_Status_Readed, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -581,7 +578,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Unread);
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_status"}, &where);
             db->Bind(updateStatementHandle, Message_Status_Readed, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -601,7 +598,7 @@ namespace mars {
             
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_status")) == Message_Status_Sending);
-            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement("message", {"_status"}, &where);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_status"}, &where);
             db->Bind(updateStatementHandle, Message_Status_Send_Failure, 1);
             int count = db->ExecuteUpdate(updateStatementHandle);
             
@@ -642,7 +639,7 @@ namespace mars {
            
             
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == groupId);
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("group", {"_name",  "_portrait", "_owner", "_type", "_extra", "_update_dt"}, error, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(GROUP_TABLE_NAME, {"_name",  "_portrait", "_owner", "_type", "_extra", "_update_dt"}, error, &where);
             
             gi.target = groupId;
             
@@ -659,7 +656,7 @@ namespace mars {
                 gi.updateDt = 0;
             }
             
-            if (refresh) {
+            if (refresh || gi.target.empty()) {
                 getGroupInfo({std::pair<std::string, int64_t>(groupId, gi.updateDt)}, new TGetGroupInfoCallback());
             }
             return gi;
@@ -672,7 +669,7 @@ namespace mars {
             }
             
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("group", {"_uid", "_name", "_portrait", "_owner", "_type", "_extra", "_update_dt"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(GROUP_TABLE_NAME, {"_uid", "_name", "_portrait", "_owner", "_type", "_extra", "_update_dt"}, true);
             db->Bind(statementHandle, groupInfo.target, 1);
             db->Bind(statementHandle, groupInfo.name, 2);
             db->Bind(statementHandle, groupInfo.portrait, 3);
@@ -696,7 +693,7 @@ namespace mars {
             }
 
             WCDB::Expr where = (WCDB::Expr(WCDB::Column("_uid")) == userId);
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement("user", {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, error, &where);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(USER_TABLE_NAME, {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, error, &where);
             
             std::list<std::pair<std::string, int64_t>> refreshReqList;
             
@@ -730,7 +727,7 @@ namespace mars {
             }
             
             
-            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement("user", {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, true);
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(USER_TABLE_NAME, {"_uid",  "_name", "_display_name", "_portrait", "_mobile", "_email", "_address", "_company", "_social", "_extra", "_update_dt"}, true);
             db->Bind(statementHandle, userInfo.uid, 1);
             db->Bind(statementHandle, userInfo.name, 2);
             db->Bind(statementHandle, userInfo.displayName, 3);

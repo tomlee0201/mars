@@ -17,8 +17,18 @@ namespace mars {
     namespace stn {
         
         static const std::string DB_NAME = "data";
-        static const std::string VERSION_TABLE_NAME = "version";
-        static const std::string VERSION_COLUMN_VERSION = "_version";
+        
+        const std::string VERSION_TABLE_NAME = "t_version";
+        const std::string VERSION_COLUMN_VERSION = "_version";
+        
+        const std::string MESSAGE_TABLE_NAME = "t_message";
+        const std::string USER_TABLE_NAME = "t_user";
+        const std::string GROUP_TABLE_NAME = "t_group";
+        const std::string GROUP_MEMBER_TABLE_NAME = "t_group_member";
+        const std::string TIMELINE_TABLE_NAME = "t_timeline";
+        const std::string CONVERSATION_TABLE_NAME = "t_conversation";
+        
+        
         DB* DB::instance_ = NULL;
         
         DB* DB::Instance() {
@@ -260,7 +270,7 @@ namespace mars {
                 WCDB::ColumnDef(Column("_uid"), ColumnType::Integer64).makeDefault(0),
                 WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
             };
-            _database->exec(WCDB::StatementCreateTable().create("message", messageDefList, true),
+            _database->exec(WCDB::StatementCreateTable().create(MESSAGE_TABLE_NAME, messageDefList, true),
                             error);
 
             
@@ -279,7 +289,7 @@ namespace mars {
                 WCDB::ColumnDef(Column("_extra"), ColumnType::Text),
                 WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
             };
-            _database->exec(WCDB::StatementCreateTable().create("user", userDefList, true),
+            _database->exec(WCDB::StatementCreateTable().create(USER_TABLE_NAME, userDefList, true),
                             error);
             
             
@@ -294,7 +304,9 @@ namespace mars {
                 WCDB::ColumnDef(Column("_extra"), ColumnType::Text),
                 WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
             };
-            _database->exec(WCDB::StatementCreateTable().create("group", groupDefList, true),
+            
+        
+            _database->exec(WCDB::StatementCreateTable().create(GROUP_TABLE_NAME, groupDefList, true),
                             error);
             
             
@@ -306,7 +318,7 @@ namespace mars {
                 WCDB::ColumnDef(Column("_type"), ColumnType::Text),
                 WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
             };
-            _database->exec(WCDB::StatementCreateTable().create("groupMember", groupMemberDefList, true),
+            _database->exec(WCDB::StatementCreateTable().create(GROUP_MEMBER_TABLE_NAME, groupMemberDefList, true),
                             error);
 
             
@@ -314,10 +326,10 @@ namespace mars {
             std::list<const WCDB::ColumnDef> timelineDefList = {
                 WCDB::ColumnDef(Column("_head"), ColumnType::Integer64).makeDefault(0),
             };
-            _database->exec(WCDB::StatementCreateTable().create("timeline", timelineDefList, true),
+            _database->exec(WCDB::StatementCreateTable().create(TIMELINE_TABLE_NAME, timelineDefList, true),
                             error);
             //set timeline to 0;
-            WCDB::RecyclableStatement statementHandleTimeline = GetInsertStatement("timeline", {"_head"});
+            WCDB::RecyclableStatement statementHandleTimeline = GetInsertStatement(TIMELINE_TABLE_NAME, {"_head"});
             Bind(statementHandleTimeline, 0, 1);
             ExecuteInsert(statementHandleTimeline);
 
@@ -330,7 +342,7 @@ namespace mars {
                 WCDB::ColumnDef(Column("_istop"), ColumnType::Integer32).makeDefault(0),
                 WCDB::ColumnDef(Column("_timestamp"), ColumnType::Integer64).makeDefault(0)
             };
-            _database->exec(WCDB::StatementCreateTable().create("conversation", convDefList, true),
+            _database->exec(WCDB::StatementCreateTable().create(CONVERSATION_TABLE_NAME, convDefList, true),
                             error);
             
             //create conversation index table
@@ -341,7 +353,7 @@ namespace mars {
             };
             _database->exec(WCDB::StatementCreateIndex()
                         .create("conv_index", true, true)
-                        .on("conversation", convIndexList),
+                        .on(CONVERSATION_TABLE_NAME, convIndexList),
                         error);
             
             

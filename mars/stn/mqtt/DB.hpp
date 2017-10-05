@@ -25,6 +25,17 @@ class Database;
 }
 namespace mars {
     namespace stn {
+        
+        extern const std::string VERSION_TABLE_NAME;
+        extern const std::string VERSION_COLUMN_VERSION;
+        
+        extern const std::string MESSAGE_TABLE_NAME;
+        extern const std::string USER_TABLE_NAME;
+        extern const std::string GROUP_TABLE_NAME;
+        extern const std::string GROUP_MEMBER_TABLE_NAME;
+        extern const std::string TIMELINE_TABLE_NAME;
+        extern const std::string CONVERSATION_TABLE_NAME;
+        
         class DB {
             
         private:
