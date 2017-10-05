@@ -36,6 +36,8 @@
 - (IBAction)logout:(id)sender {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedName"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedPwd"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedToken"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedUserId"];
   [[NetworkService sharedInstance] logout];
 }
 

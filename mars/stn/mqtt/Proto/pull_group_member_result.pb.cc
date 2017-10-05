@@ -94,6 +94,7 @@ void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
+  ::mars::stn::protobuf_group_2eproto::InitDefaults();
   _PullGroupMemberResult_default_instance_.DefaultConstruct();
 }
 
@@ -105,14 +106,16 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\036pull_group_member_result.proto\022\010mars.s"
-      "tn\"\'\n\025PullGroupMemberResult\022\016\n\006member\030\001 "
-      "\003(\tB7\n\024win.liyufan.im.protoB\037PullGroupMe"
-      "mberResultOuterClassb\006proto3"
+      "tn\032\013group.proto\">\n\025PullGroupMemberResult"
+      "\022%\n\006member\030\001 \003(\0132\025.mars.stn.GroupMemberB"
+      "7\n\024win.liyufan.im.protoB\037PullGroupMember"
+      "ResultOuterClassb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 148);
+      descriptor, 184);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "pull_group_member_result.proto", &protobuf_RegisterTypes);
+  ::mars::stn::protobuf_group_2eproto::AddDescriptors();
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
 
@@ -203,17 +206,12 @@ bool PullGroupMemberResult::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated string member = 1;
+      // repeated .mars.stn.GroupMember member = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->add_member()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->member(this->member_size() - 1).data(),
-            this->member(this->member_size() - 1).length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "mars.stn.PullGroupMemberResult.member"));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_member()));
         } else {
           goto handle_unusual;
         }
@@ -247,13 +245,9 @@ void PullGroupMemberResult::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated string member = 1;
-  for (int i = 0, n = this->member_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->member(i).data(), this->member(i).length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "mars.stn.PullGroupMemberResult.member");
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+  // repeated .mars.stn.GroupMember member = 1;
+  for (unsigned int i = 0, n = this->member_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->member(i), output);
   }
 
@@ -266,14 +260,11 @@ void PullGroupMemberResult::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated string member = 1;
-  for (int i = 0, n = this->member_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->member(i).data(), this->member(i).length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "mars.stn.PullGroupMemberResult.member");
+  // repeated .mars.stn.GroupMember member = 1;
+  for (unsigned int i = 0, n = this->member_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteStringToArray(1, this->member(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->member(i), deterministic, target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:mars.stn.PullGroupMemberResult)
@@ -284,12 +275,15 @@ size_t PullGroupMemberResult::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:mars.stn.PullGroupMemberResult)
   size_t total_size = 0;
 
-  // repeated string member = 1;
-  total_size += 1 *
-      ::google::protobuf::internal::FromIntSize(this->member_size());
-  for (int i = 0, n = this->member_size(); i < n; i++) {
-    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
-      this->member(i));
+  // repeated .mars.stn.GroupMember member = 1;
+  {
+    unsigned int count = this->member_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->member(i));
+    }
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -359,73 +353,34 @@ void PullGroupMemberResult::InternalSwap(PullGroupMemberResult* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // PullGroupMemberResult
 
-// repeated string member = 1;
+// repeated .mars.stn.GroupMember member = 1;
 int PullGroupMemberResult::member_size() const {
   return member_.size();
 }
 void PullGroupMemberResult::clear_member() {
   member_.Clear();
 }
-const ::std::string& PullGroupMemberResult::member(int index) const {
+const ::mars::stn::GroupMember& PullGroupMemberResult::member(int index) const {
   // @@protoc_insertion_point(field_get:mars.stn.PullGroupMemberResult.member)
   return member_.Get(index);
 }
-::std::string* PullGroupMemberResult::mutable_member(int index) {
+::mars::stn::GroupMember* PullGroupMemberResult::mutable_member(int index) {
   // @@protoc_insertion_point(field_mutable:mars.stn.PullGroupMemberResult.member)
   return member_.Mutable(index);
 }
-void PullGroupMemberResult::set_member(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:mars.stn.PullGroupMemberResult.member)
-  member_.Mutable(index)->assign(value);
-}
-#if LANG_CXX11
-void PullGroupMemberResult::set_member(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:mars.stn.PullGroupMemberResult.member)
-  member_.Mutable(index)->assign(std::move(value));
-}
-#endif
-void PullGroupMemberResult::set_member(int index, const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  member_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:mars.stn.PullGroupMemberResult.member)
-}
-void PullGroupMemberResult::set_member(int index, const char* value, size_t size) {
-  member_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:mars.stn.PullGroupMemberResult.member)
-}
-::std::string* PullGroupMemberResult::add_member() {
-  // @@protoc_insertion_point(field_add_mutable:mars.stn.PullGroupMemberResult.member)
+::mars::stn::GroupMember* PullGroupMemberResult::add_member() {
+  // @@protoc_insertion_point(field_add:mars.stn.PullGroupMemberResult.member)
   return member_.Add();
 }
-void PullGroupMemberResult::add_member(const ::std::string& value) {
-  member_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:mars.stn.PullGroupMemberResult.member)
-}
-#if LANG_CXX11
-void PullGroupMemberResult::add_member(::std::string&& value) {
-  member_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:mars.stn.PullGroupMemberResult.member)
-}
-#endif
-void PullGroupMemberResult::add_member(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  member_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:mars.stn.PullGroupMemberResult.member)
-}
-void PullGroupMemberResult::add_member(const char* value, size_t size) {
-  member_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:mars.stn.PullGroupMemberResult.member)
-}
-const ::google::protobuf::RepeatedPtrField< ::std::string>&
-PullGroupMemberResult::member() const {
-  // @@protoc_insertion_point(field_list:mars.stn.PullGroupMemberResult.member)
-  return member_;
-}
-::google::protobuf::RepeatedPtrField< ::std::string>*
+::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember >*
 PullGroupMemberResult::mutable_member() {
   // @@protoc_insertion_point(field_mutable_list:mars.stn.PullGroupMemberResult.member)
   return &member_;
+}
+const ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember >&
+PullGroupMemberResult::member() const {
+  // @@protoc_insertion_point(field_list:mars.stn.PullGroupMemberResult.member)
+  return member_;
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

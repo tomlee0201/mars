@@ -110,6 +110,17 @@
 		2ED386261F7DC0AE00DC4C98 /* UserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2ED386241F7DC0AE00DC4C98 /* UserInfo.h */; };
 		2ED386271F7DC0AE00DC4C98 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED386251F7DC0AE00DC4C98 /* UserInfo.m */; };
 		2ED386281F7DC0AE00DC4C98 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED386251F7DC0AE00DC4C98 /* UserInfo.m */; };
+		2ED476A21F865A9000360D0D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476A11F865A9000360D0D /* MobileCoreServices.framework */; };
+		2ED476A41F865A9E00360D0D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476A31F865A9E00360D0D /* CoreGraphics.framework */; };
+		2ED476A61F865AD100360D0D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476A51F865AD100360D0D /* libc++.tbd */; };
+		2ED476A71F865BA500360D0D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476A51F865AD100360D0D /* libc++.tbd */; };
+		2ED476A81F865C2300360D0D /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED476951F86596000360D0D /* AFHTTPSessionManager.m */; };
+		2ED476A91F865C2600360D0D /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED476981F86596000360D0D /* AFNetworkReachabilityManager.m */; };
+		2ED476AA1F865C2800360D0D /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4769A1F86596000360D0D /* AFSecurityPolicy.m */; };
+		2ED476AB1F865C2A00360D0D /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4769C1F86596000360D0D /* AFURLRequestSerialization.m */; };
+		2ED476AC1F865C2D00360D0D /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4769E1F86596000360D0D /* AFURLResponseSerialization.m */; };
+		2ED476AD1F865C2F00360D0D /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED476A01F86596000360D0D /* AFURLSessionManager.m */; };
+		2ED476AF1F865C3A00360D0D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476AE1F865C3900360D0D /* Security.framework */; };
 		2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F01F63AF4300578E7D /* interf_dec.h */; };
 		2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F11F63AF4300578E7D /* interf_enc.h */; };
 		2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */; };
@@ -301,6 +312,24 @@
 		2EC51B841F3EBB98009D60AE /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = IMLib/mars.framework; sourceTree = "<group>"; };
 		2ED386241F7DC0AE00DC4C98 /* UserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		2ED386251F7DC0AE00DC4C98 /* UserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		2ED476921F8656C700360D0D /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		2ED476941F86596000360D0D /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		2ED476951F86596000360D0D /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		2ED476961F86596000360D0D /* AFNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		2ED476971F86596000360D0D /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		2ED476981F86596000360D0D /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		2ED476991F86596000360D0D /* AFSecurityPolicy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		2ED4769A1F86596000360D0D /* AFSecurityPolicy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		2ED4769B1F86596000360D0D /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		2ED4769C1F86596000360D0D /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		2ED4769D1F86596000360D0D /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		2ED4769E1F86596000360D0D /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		2ED4769F1F86596000360D0D /* AFURLSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		2ED476A01F86596000360D0D /* AFURLSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		2ED476A11F865A9000360D0D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		2ED476A31F865A9E00360D0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2ED476A51F865AD100360D0D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		2ED476AE1F865C3900360D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2EDB87F01F63AF4300578E7D /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
 		2EDB87F11F63AF4300578E7D /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
 		2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
@@ -352,11 +381,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ED476AF1F865C3A00360D0D /* Security.framework in Frameworks */,
+				2ED476A61F865AD100360D0D /* libc++.tbd in Frameworks */,
+				2EC3BE0D1F04E62F006C6E6F /* SystemConfiguration.framework in Frameworks */,
+				2ED476A41F865A9E00360D0D /* CoreGraphics.framework in Frameworks */,
+				2ED476A21F865A9000360D0D /* MobileCoreServices.framework in Frameworks */,
 				2E29BFEF1F58FDEF00C97891 /* IMLib.framework in Frameworks */,
 				2EC3BE131F04E658006C6E6F /* UIKit.framework in Frameworks */,
 				2EC3BE111F04E653006C6E6F /* libz.tbd in Frameworks */,
 				2EC3BE0F1F04E64A006C6E6F /* libresolv.9.tbd in Frameworks */,
-				2EC3BE0D1F04E62F006C6E6F /* SystemConfiguration.framework in Frameworks */,
 				2EC51B851F3EBB98009D60AE /* mars.framework in Frameworks */,
 				2EC3BE0B1F04E62A006C6E6F /* CoreTelephony.framework in Frameworks */,
 			);
@@ -366,6 +399,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ED476A71F865BA500360D0D /* libc++.tbd in Frameworks */,
 				2EBB78C31F6695A400C53CF3 /* libmars-open-iphone.a in Frameworks */,
 				2E30C9861F3EC01D00DB259A /* UIKit.framework in Frameworks */,
 				2E081CD41F6A7D060046D679 /* WCDB.framework in Frameworks */,
@@ -576,6 +610,7 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2ED476931F86596000360D0D /* AFNetworking */,
 				2EDB88021F63AFD200578E7D /* View */,
 				2E32E3461F622527000063A6 /* SDWebImage */,
 				2E8A324B1F60BDFE00A25131 /* Model */,
@@ -585,6 +620,7 @@
 				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */,
 				2EFEC1C31F59498100424902 /* Utilities.h */,
 				2EFEC1C41F59498100424902 /* Utilities.m */,
+				2ED476921F8656C700360D0D /* Config.h */,
 				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
 			);
 			path = MQTTDemo;
@@ -606,6 +642,10 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2ED476AE1F865C3900360D0D /* Security.framework */,
+				2ED476A51F865AD100360D0D /* libc++.tbd */,
+				2ED476A31F865A9E00360D0D /* CoreGraphics.framework */,
+				2ED476A11F865A9000360D0D /* MobileCoreServices.framework */,
 				2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */,
 				2E1482141F4D0CC80077EBEA /* sqlcipher.framework */,
 				2E1F15F31F3F58BF000A84E9 /* libprotobuf.tbd */,
@@ -662,6 +702,27 @@
 				2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */,
 			);
 			path = MQTTClient;
+			sourceTree = "<group>";
+		};
+		2ED476931F86596000360D0D /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				2ED476941F86596000360D0D /* AFHTTPSessionManager.h */,
+				2ED476951F86596000360D0D /* AFHTTPSessionManager.m */,
+				2ED476961F86596000360D0D /* AFNetworking.h */,
+				2ED476971F86596000360D0D /* AFNetworkReachabilityManager.h */,
+				2ED476981F86596000360D0D /* AFNetworkReachabilityManager.m */,
+				2ED476991F86596000360D0D /* AFSecurityPolicy.h */,
+				2ED4769A1F86596000360D0D /* AFSecurityPolicy.m */,
+				2ED4769B1F86596000360D0D /* AFURLRequestSerialization.h */,
+				2ED4769C1F86596000360D0D /* AFURLRequestSerialization.m */,
+				2ED4769D1F86596000360D0D /* AFURLResponseSerialization.h */,
+				2ED4769E1F86596000360D0D /* AFURLResponseSerialization.m */,
+				2ED4769F1F86596000360D0D /* AFURLSessionManager.h */,
+				2ED476A01F86596000360D0D /* AFURLSessionManager.m */,
+			);
+			name = AFNetworking;
+			path = "../../../../Downloads/AFNetworking-master/AFNetworking";
 			sourceTree = "<group>";
 		};
 		2EDB87EF1F63AF4300578E7D /* amr */ = {
@@ -842,8 +903,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ED476A81F865C2300360D0D /* AFHTTPSessionManager.m in Sources */,
 				2E32E37F1F622527000063A6 /* UIImage+GIF.m in Sources */,
 				2ED386271F7DC0AE00DC4C98 /* UserInfo.m in Sources */,
+				2ED476AB1F865C2A00360D0D /* AFURLRequestSerialization.m in Sources */,
+				2ED476AA1F865C2800360D0D /* AFSecurityPolicy.m in Sources */,
+				2ED476AC1F865C2D00360D0D /* AFURLResponseSerialization.m in Sources */,
+				2ED476AD1F865C2F00360D0D /* AFURLSessionManager.m in Sources */,
+				2ED476A91F865C2600360D0D /* AFNetworkReachabilityManager.m in Sources */,
 				2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */,
 				2E32E3841F622527000063A6 /* UIView+WebCache.m in Sources */,
 				2E79A9CC1F68BF87006D31E8 /* GroupTableViewCell.m in Sources */,
@@ -1066,7 +1133,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = MQTTDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-v";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1089,7 +1156,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = MQTTDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-v";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tomlee0201.MQTTDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -671,9 +671,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mzM-0y-3ZC">
+                                <rect key="frame" x="16" y="178" width="343" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ive-Y6-vhT"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="mzM-0y-3ZC" firstAttribute="top" secondItem="akq-Fw-zPh" secondAttribute="bottom" constant="8" id="9vF-GA-wd3"/>
+                            <constraint firstItem="mzM-0y-3ZC" firstAttribute="leading" secondItem="VHy-kO-onr" secondAttribute="leadingMargin" id="Dny-63-xhJ"/>
+                            <constraint firstItem="mzM-0y-3ZC" firstAttribute="trailing" secondItem="VHy-kO-onr" secondAttribute="trailingMargin" id="Frw-Rz-x9k"/>
                             <constraint firstItem="akq-Fw-zPh" firstAttribute="trailing" secondItem="VHy-kO-onr" secondAttribute="trailingMargin" id="dHo-mF-2Ez"/>
                             <constraint firstItem="3R0-kd-jpW" firstAttribute="centerX" secondItem="VHy-kO-onr" secondAttribute="centerX" id="fDk-mC-ZmQ"/>
                             <constraint firstItem="akq-Fw-zPh" firstAttribute="leading" secondItem="VHy-kO-onr" secondAttribute="leadingMargin" id="hKc-DF-zpY"/>
@@ -683,12 +695,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="vK1-gs-tFJ"/>
                     <connections>
+                        <outlet property="passwordField" destination="mzM-0y-3ZC" id="JjF-YX-3Yn"/>
                         <outlet property="userNameField" destination="akq-Fw-zPh" id="sQL-WE-NqR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DqI-4X-kVP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1370" y="798"/>
+            <point key="canvasLocation" x="1368.8" y="797.45127436281871"/>
         </scene>
         <!--消息-->
         <scene sceneID="Pka-fc-nio">

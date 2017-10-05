@@ -718,7 +718,7 @@ namespace mars {
                 ui.updateDt = 0;
             }
             
-            if (refresh) {
+            if (refresh || ui.uid.empty()) {
                 reloadUserInfoFromRemote({std::pair<std::string, int64_t>(userId, ui.updateDt)});
             }
             return ui;

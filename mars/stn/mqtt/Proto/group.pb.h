@@ -39,6 +39,15 @@ extern GroupDefaultTypeInternal _Group_default_instance_;
 class GroupInfo;
 class GroupInfoDefaultTypeInternal;
 extern GroupInfoDefaultTypeInternal _GroupInfo_default_instance_;
+class GroupMember;
+class GroupMemberDefaultTypeInternal;
+extern GroupMemberDefaultTypeInternal _GroupMember_default_instance_;
+class GroupTarget;
+class GroupTargetDefaultTypeInternal;
+extern GroupTargetDefaultTypeInternal _GroupTarget_default_instance_;
+class GroupTargetListBuf;
+class GroupTargetListBufDefaultTypeInternal;
+extern GroupTargetListBufDefaultTypeInternal _GroupTargetListBuf_default_instance_;
 }  // namespace stn
 }  // namespace mars
 
@@ -83,6 +92,187 @@ inline bool GroupType_Parse(
 }
 // ===================================================================
 
+class GroupTarget : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:mars.stn.GroupTarget) */ {
+ public:
+  GroupTarget();
+  virtual ~GroupTarget();
+
+  GroupTarget(const GroupTarget& from);
+
+  inline GroupTarget& operator=(const GroupTarget& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GroupTarget& default_instance();
+
+  static inline const GroupTarget* internal_default_instance() {
+    return reinterpret_cast<const GroupTarget*>(
+               &_GroupTarget_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    0;
+
+  void Swap(GroupTarget* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GroupTarget* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  GroupTarget* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const GroupTarget& from);
+  void MergeFrom(const GroupTarget& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(GroupTarget* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string target_id = 1;
+  void clear_target_id();
+  static const int kTargetIdFieldNumber = 1;
+  const ::std::string& target_id() const;
+  void set_target_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_target_id(::std::string&& value);
+  #endif
+  void set_target_id(const char* value);
+  void set_target_id(const char* value, size_t size);
+  ::std::string* mutable_target_id();
+  ::std::string* release_target_id();
+  void set_allocated_target_id(::std::string* target_id);
+
+  // int32 line = 2;
+  void clear_line();
+  static const int kLineFieldNumber = 2;
+  ::google::protobuf::int32 line() const;
+  void set_line(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:mars.stn.GroupTarget)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr target_id_;
+  ::google::protobuf::int32 line_;
+  mutable int _cached_size_;
+  friend struct protobuf_group_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class GroupTargetListBuf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:mars.stn.GroupTargetListBuf) */ {
+ public:
+  GroupTargetListBuf();
+  virtual ~GroupTargetListBuf();
+
+  GroupTargetListBuf(const GroupTargetListBuf& from);
+
+  inline GroupTargetListBuf& operator=(const GroupTargetListBuf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GroupTargetListBuf& default_instance();
+
+  static inline const GroupTargetListBuf* internal_default_instance() {
+    return reinterpret_cast<const GroupTargetListBuf*>(
+               &_GroupTargetListBuf_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    1;
+
+  void Swap(GroupTargetListBuf* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GroupTargetListBuf* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  GroupTargetListBuf* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const GroupTargetListBuf& from);
+  void MergeFrom(const GroupTargetListBuf& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(GroupTargetListBuf* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .mars.stn.GroupTarget target = 1;
+  int target_size() const;
+  void clear_target();
+  static const int kTargetFieldNumber = 1;
+  const ::mars::stn::GroupTarget& target(int index) const;
+  ::mars::stn::GroupTarget* mutable_target(int index);
+  ::mars::stn::GroupTarget* add_target();
+  ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupTarget >*
+      mutable_target();
+  const ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupTarget >&
+      target() const;
+
+  // @@protoc_insertion_point(class_scope:mars.stn.GroupTargetListBuf)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupTarget > target_;
+  mutable int _cached_size_;
+  friend struct protobuf_group_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:mars.stn.GroupInfo) */ {
  public:
   GroupInfo();
@@ -103,7 +293,7 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
                &_GroupInfo_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
+    2;
 
   void Swap(GroupInfo* other);
 
@@ -203,7 +393,7 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::std::string* release_owner();
   void set_allocated_owner(::std::string* owner);
 
-  // bytes extra = 7;
+  // string extra = 7;
   void clear_extra();
   static const int kExtraFieldNumber = 7;
   const ::std::string& extra() const;
@@ -212,7 +402,7 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   void set_extra(::std::string&& value);
   #endif
   void set_extra(const char* value);
-  void set_extra(const void* value, size_t size);
+  void set_extra(const char* value, size_t size);
   ::std::string* mutable_extra();
   ::std::string* release_extra();
   void set_allocated_extra(::std::string* extra);
@@ -229,6 +419,12 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::mars::stn::GroupType type() const;
   void set_type(::mars::stn::GroupType value);
 
+  // int64 update_dt = 8;
+  void clear_update_dt();
+  static const int kUpdateDtFieldNumber = 8;
+  ::google::protobuf::int64 update_dt() const;
+  void set_update_dt(::google::protobuf::int64 value);
+
   // @@protoc_insertion_point(class_scope:mars.stn.GroupInfo)
  private:
 
@@ -240,6 +436,124 @@ class GroupInfo : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::internal::ArenaStringPtr extra_;
   ::google::protobuf::int32 line_;
   int type_;
+  ::google::protobuf::int64 update_dt_;
+  mutable int _cached_size_;
+  friend struct protobuf_group_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class GroupMember : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:mars.stn.GroupMember) */ {
+ public:
+  GroupMember();
+  virtual ~GroupMember();
+
+  GroupMember(const GroupMember& from);
+
+  inline GroupMember& operator=(const GroupMember& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GroupMember& default_instance();
+
+  static inline const GroupMember* internal_default_instance() {
+    return reinterpret_cast<const GroupMember*>(
+               &_GroupMember_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    3;
+
+  void Swap(GroupMember* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GroupMember* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  GroupMember* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const GroupMember& from);
+  void MergeFrom(const GroupMember& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(GroupMember* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string member_id = 1;
+  void clear_member_id();
+  static const int kMemberIdFieldNumber = 1;
+  const ::std::string& member_id() const;
+  void set_member_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_member_id(::std::string&& value);
+  #endif
+  void set_member_id(const char* value);
+  void set_member_id(const char* value, size_t size);
+  ::std::string* mutable_member_id();
+  ::std::string* release_member_id();
+  void set_allocated_member_id(::std::string* member_id);
+
+  // string alias = 2;
+  void clear_alias();
+  static const int kAliasFieldNumber = 2;
+  const ::std::string& alias() const;
+  void set_alias(const ::std::string& value);
+  #if LANG_CXX11
+  void set_alias(::std::string&& value);
+  #endif
+  void set_alias(const char* value);
+  void set_alias(const char* value, size_t size);
+  ::std::string* mutable_alias();
+  ::std::string* release_alias();
+  void set_allocated_alias(::std::string* alias);
+
+  // int64 update_dt = 4;
+  void clear_update_dt();
+  static const int kUpdateDtFieldNumber = 4;
+  ::google::protobuf::int64 update_dt() const;
+  void set_update_dt(::google::protobuf::int64 value);
+
+  // int32 type = 3;
+  void clear_type();
+  static const int kTypeFieldNumber = 3;
+  ::google::protobuf::int32 type() const;
+  void set_type(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:mars.stn.GroupMember)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr member_id_;
+  ::google::protobuf::internal::ArenaStringPtr alias_;
+  ::google::protobuf::int64 update_dt_;
+  ::google::protobuf::int32 type_;
   mutable int _cached_size_;
   friend struct protobuf_group_2eproto::TableStruct;
 };
@@ -265,7 +579,7 @@ class Group : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
                &_Group_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    4;
 
   void Swap(Group* other);
 
@@ -309,27 +623,17 @@ class Group : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 
   // accessors -------------------------------------------------------
 
-  // repeated string members = 2;
+  // repeated .mars.stn.GroupMember members = 2;
   int members_size() const;
   void clear_members();
   static const int kMembersFieldNumber = 2;
-  const ::std::string& members(int index) const;
-  ::std::string* mutable_members(int index);
-  void set_members(int index, const ::std::string& value);
-  #if LANG_CXX11
-  void set_members(int index, ::std::string&& value);
-  #endif
-  void set_members(int index, const char* value);
-  void set_members(int index, const char* value, size_t size);
-  ::std::string* add_members();
-  void add_members(const ::std::string& value);
-  #if LANG_CXX11
-  void add_members(::std::string&& value);
-  #endif
-  void add_members(const char* value);
-  void add_members(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& members() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_members();
+  const ::mars::stn::GroupMember& members(int index) const;
+  ::mars::stn::GroupMember* mutable_members(int index);
+  ::mars::stn::GroupMember* add_members();
+  ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember >*
+      mutable_members();
+  const ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember >&
+      members() const;
 
   // .mars.stn.GroupInfo group_info = 1;
   bool has_group_info() const;
@@ -344,7 +648,7 @@ class Group : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> members_;
+  ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember > members_;
   ::mars::stn::GroupInfo* group_info_;
   mutable int _cached_size_;
   friend struct protobuf_group_2eproto::TableStruct;
@@ -355,6 +659,111 @@ class Group : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
+// GroupTarget
+
+// string target_id = 1;
+inline void GroupTarget::clear_target_id() {
+  target_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GroupTarget::target_id() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupTarget.target_id)
+  return target_id_.GetNoArena();
+}
+inline void GroupTarget::set_target_id(const ::std::string& value) {
+  
+  target_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:mars.stn.GroupTarget.target_id)
+}
+#if LANG_CXX11
+inline void GroupTarget::set_target_id(::std::string&& value) {
+  
+  target_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:mars.stn.GroupTarget.target_id)
+}
+#endif
+inline void GroupTarget::set_target_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  target_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:mars.stn.GroupTarget.target_id)
+}
+inline void GroupTarget::set_target_id(const char* value, size_t size) {
+  
+  target_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:mars.stn.GroupTarget.target_id)
+}
+inline ::std::string* GroupTarget::mutable_target_id() {
+  
+  // @@protoc_insertion_point(field_mutable:mars.stn.GroupTarget.target_id)
+  return target_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GroupTarget::release_target_id() {
+  // @@protoc_insertion_point(field_release:mars.stn.GroupTarget.target_id)
+  
+  return target_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GroupTarget::set_allocated_target_id(::std::string* target_id) {
+  if (target_id != NULL) {
+    
+  } else {
+    
+  }
+  target_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), target_id);
+  // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupTarget.target_id)
+}
+
+// int32 line = 2;
+inline void GroupTarget::clear_line() {
+  line_ = 0;
+}
+inline ::google::protobuf::int32 GroupTarget::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupTarget.line)
+  return line_;
+}
+inline void GroupTarget::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.GroupTarget.line)
+}
+
+// -------------------------------------------------------------------
+
+// GroupTargetListBuf
+
+// repeated .mars.stn.GroupTarget target = 1;
+inline int GroupTargetListBuf::target_size() const {
+  return target_.size();
+}
+inline void GroupTargetListBuf::clear_target() {
+  target_.Clear();
+}
+inline const ::mars::stn::GroupTarget& GroupTargetListBuf::target(int index) const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupTargetListBuf.target)
+  return target_.Get(index);
+}
+inline ::mars::stn::GroupTarget* GroupTargetListBuf::mutable_target(int index) {
+  // @@protoc_insertion_point(field_mutable:mars.stn.GroupTargetListBuf.target)
+  return target_.Mutable(index);
+}
+inline ::mars::stn::GroupTarget* GroupTargetListBuf::add_target() {
+  // @@protoc_insertion_point(field_add:mars.stn.GroupTargetListBuf.target)
+  return target_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupTarget >*
+GroupTargetListBuf::mutable_target() {
+  // @@protoc_insertion_point(field_mutable_list:mars.stn.GroupTargetListBuf.target)
+  return &target_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupTarget >&
+GroupTargetListBuf::target() const {
+  // @@protoc_insertion_point(field_list:mars.stn.GroupTargetListBuf.target)
+  return target_;
+}
+
+// -------------------------------------------------------------------
+
 // GroupInfo
 
 // string target_id = 1;
@@ -597,7 +1006,7 @@ inline void GroupInfo::set_type(::mars::stn::GroupType value) {
   // @@protoc_insertion_point(field_set:mars.stn.GroupInfo.type)
 }
 
-// bytes extra = 7;
+// string extra = 7;
 inline void GroupInfo::clear_extra() {
   extra_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -624,7 +1033,7 @@ inline void GroupInfo::set_extra(const char* value) {
   extra_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:mars.stn.GroupInfo.extra)
 }
-inline void GroupInfo::set_extra(const void* value, size_t size) {
+inline void GroupInfo::set_extra(const char* value, size_t size) {
   
   extra_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -648,6 +1057,158 @@ inline void GroupInfo::set_allocated_extra(::std::string* extra) {
   }
   extra_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), extra);
   // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupInfo.extra)
+}
+
+// int64 update_dt = 8;
+inline void GroupInfo::clear_update_dt() {
+  update_dt_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 GroupInfo::update_dt() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupInfo.update_dt)
+  return update_dt_;
+}
+inline void GroupInfo::set_update_dt(::google::protobuf::int64 value) {
+  
+  update_dt_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.GroupInfo.update_dt)
+}
+
+// -------------------------------------------------------------------
+
+// GroupMember
+
+// string member_id = 1;
+inline void GroupMember::clear_member_id() {
+  member_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GroupMember::member_id() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupMember.member_id)
+  return member_id_.GetNoArena();
+}
+inline void GroupMember::set_member_id(const ::std::string& value) {
+  
+  member_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:mars.stn.GroupMember.member_id)
+}
+#if LANG_CXX11
+inline void GroupMember::set_member_id(::std::string&& value) {
+  
+  member_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:mars.stn.GroupMember.member_id)
+}
+#endif
+inline void GroupMember::set_member_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  member_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:mars.stn.GroupMember.member_id)
+}
+inline void GroupMember::set_member_id(const char* value, size_t size) {
+  
+  member_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:mars.stn.GroupMember.member_id)
+}
+inline ::std::string* GroupMember::mutable_member_id() {
+  
+  // @@protoc_insertion_point(field_mutable:mars.stn.GroupMember.member_id)
+  return member_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GroupMember::release_member_id() {
+  // @@protoc_insertion_point(field_release:mars.stn.GroupMember.member_id)
+  
+  return member_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GroupMember::set_allocated_member_id(::std::string* member_id) {
+  if (member_id != NULL) {
+    
+  } else {
+    
+  }
+  member_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), member_id);
+  // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupMember.member_id)
+}
+
+// string alias = 2;
+inline void GroupMember::clear_alias() {
+  alias_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GroupMember::alias() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupMember.alias)
+  return alias_.GetNoArena();
+}
+inline void GroupMember::set_alias(const ::std::string& value) {
+  
+  alias_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:mars.stn.GroupMember.alias)
+}
+#if LANG_CXX11
+inline void GroupMember::set_alias(::std::string&& value) {
+  
+  alias_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:mars.stn.GroupMember.alias)
+}
+#endif
+inline void GroupMember::set_alias(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  alias_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:mars.stn.GroupMember.alias)
+}
+inline void GroupMember::set_alias(const char* value, size_t size) {
+  
+  alias_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:mars.stn.GroupMember.alias)
+}
+inline ::std::string* GroupMember::mutable_alias() {
+  
+  // @@protoc_insertion_point(field_mutable:mars.stn.GroupMember.alias)
+  return alias_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GroupMember::release_alias() {
+  // @@protoc_insertion_point(field_release:mars.stn.GroupMember.alias)
+  
+  return alias_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GroupMember::set_allocated_alias(::std::string* alias) {
+  if (alias != NULL) {
+    
+  } else {
+    
+  }
+  alias_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), alias);
+  // @@protoc_insertion_point(field_set_allocated:mars.stn.GroupMember.alias)
+}
+
+// int32 type = 3;
+inline void GroupMember::clear_type() {
+  type_ = 0;
+}
+inline ::google::protobuf::int32 GroupMember::type() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupMember.type)
+  return type_;
+}
+inline void GroupMember::set_type(::google::protobuf::int32 value) {
+  
+  type_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.GroupMember.type)
+}
+
+// int64 update_dt = 4;
+inline void GroupMember::clear_update_dt() {
+  update_dt_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 GroupMember::update_dt() const {
+  // @@protoc_insertion_point(field_get:mars.stn.GroupMember.update_dt)
+  return update_dt_;
+}
+inline void GroupMember::set_update_dt(::google::protobuf::int64 value) {
+  
+  update_dt_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.GroupMember.update_dt)
 }
 
 // -------------------------------------------------------------------
@@ -693,76 +1254,43 @@ inline void Group::set_allocated_group_info(::mars::stn::GroupInfo* group_info) 
   // @@protoc_insertion_point(field_set_allocated:mars.stn.Group.group_info)
 }
 
-// repeated string members = 2;
+// repeated .mars.stn.GroupMember members = 2;
 inline int Group::members_size() const {
   return members_.size();
 }
 inline void Group::clear_members() {
   members_.Clear();
 }
-inline const ::std::string& Group::members(int index) const {
+inline const ::mars::stn::GroupMember& Group::members(int index) const {
   // @@protoc_insertion_point(field_get:mars.stn.Group.members)
   return members_.Get(index);
 }
-inline ::std::string* Group::mutable_members(int index) {
+inline ::mars::stn::GroupMember* Group::mutable_members(int index) {
   // @@protoc_insertion_point(field_mutable:mars.stn.Group.members)
   return members_.Mutable(index);
 }
-inline void Group::set_members(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:mars.stn.Group.members)
-  members_.Mutable(index)->assign(value);
-}
-#if LANG_CXX11
-inline void Group::set_members(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:mars.stn.Group.members)
-  members_.Mutable(index)->assign(std::move(value));
-}
-#endif
-inline void Group::set_members(int index, const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  members_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:mars.stn.Group.members)
-}
-inline void Group::set_members(int index, const char* value, size_t size) {
-  members_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:mars.stn.Group.members)
-}
-inline ::std::string* Group::add_members() {
-  // @@protoc_insertion_point(field_add_mutable:mars.stn.Group.members)
+inline ::mars::stn::GroupMember* Group::add_members() {
+  // @@protoc_insertion_point(field_add:mars.stn.Group.members)
   return members_.Add();
 }
-inline void Group::add_members(const ::std::string& value) {
-  members_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:mars.stn.Group.members)
-}
-#if LANG_CXX11
-inline void Group::add_members(::std::string&& value) {
-  members_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:mars.stn.Group.members)
-}
-#endif
-inline void Group::add_members(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  members_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:mars.stn.Group.members)
-}
-inline void Group::add_members(const char* value, size_t size) {
-  members_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:mars.stn.Group.members)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-Group::members() const {
-  // @@protoc_insertion_point(field_list:mars.stn.Group.members)
-  return members_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember >*
 Group::mutable_members() {
   // @@protoc_insertion_point(field_mutable_list:mars.stn.Group.members)
   return &members_;
 }
+inline const ::google::protobuf::RepeatedPtrField< ::mars::stn::GroupMember >&
+Group::members() const {
+  // @@protoc_insertion_point(field_list:mars.stn.Group.members)
+  return members_;
+}
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

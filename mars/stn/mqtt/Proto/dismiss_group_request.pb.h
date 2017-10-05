@@ -139,14 +139,20 @@ class DismissGroupRequest : public ::google::protobuf::Message /* @@protoc_inser
   ::std::string* release_group_id();
   void set_allocated_group_id(::std::string* group_id);
 
-  // .mars.stn.MessageContent notify_content = 2;
+  // .mars.stn.MessageContent notify_content = 3;
   bool has_notify_content() const;
   void clear_notify_content();
-  static const int kNotifyContentFieldNumber = 2;
+  static const int kNotifyContentFieldNumber = 3;
   const ::mars::stn::MessageContent& notify_content() const;
   ::mars::stn::MessageContent* mutable_notify_content();
   ::mars::stn::MessageContent* release_notify_content();
   void set_allocated_notify_content(::mars::stn::MessageContent* notify_content);
+
+  // int32 line = 2;
+  void clear_line();
+  static const int kLineFieldNumber = 2;
+  ::google::protobuf::int32 line() const;
+  void set_line(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:mars.stn.DismissGroupRequest)
  private:
@@ -154,6 +160,7 @@ class DismissGroupRequest : public ::google::protobuf::Message /* @@protoc_inser
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr group_id_;
   ::mars::stn::MessageContent* notify_content_;
+  ::google::protobuf::int32 line_;
   mutable int _cached_size_;
   friend struct protobuf_dismiss_5fgroup_5frequest_2eproto::TableStruct;
 };
@@ -218,7 +225,21 @@ inline void DismissGroupRequest::set_allocated_group_id(::std::string* group_id)
   // @@protoc_insertion_point(field_set_allocated:mars.stn.DismissGroupRequest.group_id)
 }
 
-// .mars.stn.MessageContent notify_content = 2;
+// int32 line = 2;
+inline void DismissGroupRequest::clear_line() {
+  line_ = 0;
+}
+inline ::google::protobuf::int32 DismissGroupRequest::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.DismissGroupRequest.line)
+  return line_;
+}
+inline void DismissGroupRequest::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.DismissGroupRequest.line)
+}
+
+// .mars.stn.MessageContent notify_content = 3;
 inline bool DismissGroupRequest::has_notify_content() const {
   return this != internal_default_instance() && notify_content_ != NULL;
 }

@@ -590,7 +590,9 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
     request.mutable_group()->mutable_members()->Reserve((int)groupMembers.size());
     
     for (std::list<std::string>::const_iterator it = groupMembers.begin(); it != groupMembers.end(); it++) {
-        request.mutable_group()->mutable_members()->AddAllocated(new std::string(*it));
+        GroupMember *gm = request.mutable_group()->mutable_members()->Add();
+        gm->set_member_id(*it);
+        gm->set_type(0);
     }
     
     fillMessageContent(tmsg, request.mutable_notify_content());
@@ -622,7 +624,9 @@ void (*addMembers)(const std::string &groupId, const std::list<std::string> &mem
     request.mutable_added_member()->Reserve((int)members.size());
     
     for (std::list<std::string>::const_iterator it = members.begin(); it != members.end(); it++) {
-        request.mutable_added_member()->AddAllocated(new std::string(*it));
+        GroupMember *gm = request.mutable_added_member()->Add();
+        gm->set_member_id(*it);
+        gm->set_type(0);
     }
     fillMessageContent(tmsg, request.mutable_notify_content());
     
@@ -701,10 +705,12 @@ void (*dismissGroup)(const std::string &groupId, TMessage &tmsg, GeneralGroupOpe
 
 void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback)
 = [](const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback) {
-    IDListBuf listBuf;
-    listBuf.mutable_id()->Reserve((int)groupIdList.size());
+    GroupTargetListBuf listBuf;
+    listBuf.mutable_target()->Reserve((int)groupIdList.size());
     for (std::list<std::pair<std::string, int64_t>>::const_iterator it = groupIdList.begin(); it != groupIdList.end(); it++) {
-        listBuf.mutable_id()->AddAllocated(new std::string(it->first));
+        GroupTarget *groupTarget = listBuf.mutable_target()->Add();
+        groupTarget->set_target_id((*it).first);
+        groupTarget->set_line(0);
     }
     
     publishTask(listBuf, new GetGroupInfoPublishCallback(callback), getGroupInfoTopic);
@@ -741,9 +747,9 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
             if(result.ParsePartialFromArray(data, (int)len)) {
                 std::list<std::string> retList;
                 
-                for (::google::protobuf::RepeatedPtrField< ::std::string>::const_iterator it = result.member().begin(); it != result.member().end(); it++) {
-                    const std::string &memberId = *it;
-                    retList.push_back(memberId);
+                for (::google::protobuf::RepeatedPtrField<GroupMember>::const_iterator it = result.member().begin(); it != result.member().end(); it++) {
+                    const GroupMember member = *it;
+                    retList.push_back(member.member_id());
                 }
                 callback->onSuccess(retList);
             } else {
@@ -761,8 +767,9 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
     };
 void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback)
 = [](const std::string &groupId, GetGroupMembersCallback *callback) {
-    IDBuf idBuf;
-    idBuf.set_id(groupId);
+    GroupTarget idBuf;
+    idBuf.set_target_id(groupId);
+    idBuf.set_line(0);
     
     publishTask(idBuf, new GetGroupMembersPublishCallback(callback), getGroupMemberTopic);
 };

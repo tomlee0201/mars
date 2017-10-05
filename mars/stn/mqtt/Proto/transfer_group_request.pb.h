@@ -139,9 +139,9 @@ class TransferGroupRequest : public ::google::protobuf::Message /* @@protoc_inse
   ::std::string* release_group_id();
   void set_allocated_group_id(::std::string* group_id);
 
-  // string new_owner = 2;
+  // string new_owner = 3;
   void clear_new_owner();
-  static const int kNewOwnerFieldNumber = 2;
+  static const int kNewOwnerFieldNumber = 3;
   const ::std::string& new_owner() const;
   void set_new_owner(const ::std::string& value);
   #if LANG_CXX11
@@ -153,14 +153,20 @@ class TransferGroupRequest : public ::google::protobuf::Message /* @@protoc_inse
   ::std::string* release_new_owner();
   void set_allocated_new_owner(::std::string* new_owner);
 
-  // .mars.stn.MessageContent notify_content = 3;
+  // .mars.stn.MessageContent notify_content = 4;
   bool has_notify_content() const;
   void clear_notify_content();
-  static const int kNotifyContentFieldNumber = 3;
+  static const int kNotifyContentFieldNumber = 4;
   const ::mars::stn::MessageContent& notify_content() const;
   ::mars::stn::MessageContent* mutable_notify_content();
   ::mars::stn::MessageContent* release_notify_content();
   void set_allocated_notify_content(::mars::stn::MessageContent* notify_content);
+
+  // int32 line = 2;
+  void clear_line();
+  static const int kLineFieldNumber = 2;
+  ::google::protobuf::int32 line() const;
+  void set_line(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:mars.stn.TransferGroupRequest)
  private:
@@ -169,6 +175,7 @@ class TransferGroupRequest : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::internal::ArenaStringPtr group_id_;
   ::google::protobuf::internal::ArenaStringPtr new_owner_;
   ::mars::stn::MessageContent* notify_content_;
+  ::google::protobuf::int32 line_;
   mutable int _cached_size_;
   friend struct protobuf_transfer_5fgroup_5frequest_2eproto::TableStruct;
 };
@@ -233,7 +240,21 @@ inline void TransferGroupRequest::set_allocated_group_id(::std::string* group_id
   // @@protoc_insertion_point(field_set_allocated:mars.stn.TransferGroupRequest.group_id)
 }
 
-// string new_owner = 2;
+// int32 line = 2;
+inline void TransferGroupRequest::clear_line() {
+  line_ = 0;
+}
+inline ::google::protobuf::int32 TransferGroupRequest::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.TransferGroupRequest.line)
+  return line_;
+}
+inline void TransferGroupRequest::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.TransferGroupRequest.line)
+}
+
+// string new_owner = 3;
 inline void TransferGroupRequest::clear_new_owner() {
   new_owner_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -286,7 +307,7 @@ inline void TransferGroupRequest::set_allocated_new_owner(::std::string* new_own
   // @@protoc_insertion_point(field_set_allocated:mars.stn.TransferGroupRequest.new_owner)
 }
 
-// .mars.stn.MessageContent notify_content = 3;
+// .mars.stn.MessageContent notify_content = 4;
 inline bool TransferGroupRequest::has_notify_content() const {
   return this != internal_default_instance() && notify_content_ != NULL;
 }

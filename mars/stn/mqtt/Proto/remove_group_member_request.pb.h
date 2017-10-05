@@ -125,10 +125,10 @@ class RemoveGroupMemberRequest : public ::google::protobuf::Message /* @@protoc_
 
   // accessors -------------------------------------------------------
 
-  // repeated string removed_member = 2;
+  // repeated string removed_member = 3;
   int removed_member_size() const;
   void clear_removed_member();
-  static const int kRemovedMemberFieldNumber = 2;
+  static const int kRemovedMemberFieldNumber = 3;
   const ::std::string& removed_member(int index) const;
   ::std::string* mutable_removed_member(int index);
   void set_removed_member(int index, const ::std::string& value);
@@ -161,14 +161,20 @@ class RemoveGroupMemberRequest : public ::google::protobuf::Message /* @@protoc_
   ::std::string* release_group_id();
   void set_allocated_group_id(::std::string* group_id);
 
-  // .mars.stn.MessageContent notify_content = 3;
+  // .mars.stn.MessageContent notify_content = 4;
   bool has_notify_content() const;
   void clear_notify_content();
-  static const int kNotifyContentFieldNumber = 3;
+  static const int kNotifyContentFieldNumber = 4;
   const ::mars::stn::MessageContent& notify_content() const;
   ::mars::stn::MessageContent* mutable_notify_content();
   ::mars::stn::MessageContent* release_notify_content();
   void set_allocated_notify_content(::mars::stn::MessageContent* notify_content);
+
+  // int32 line = 2;
+  void clear_line();
+  static const int kLineFieldNumber = 2;
+  ::google::protobuf::int32 line() const;
+  void set_line(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:mars.stn.RemoveGroupMemberRequest)
  private:
@@ -177,6 +183,7 @@ class RemoveGroupMemberRequest : public ::google::protobuf::Message /* @@protoc_
   ::google::protobuf::RepeatedPtrField< ::std::string> removed_member_;
   ::google::protobuf::internal::ArenaStringPtr group_id_;
   ::mars::stn::MessageContent* notify_content_;
+  ::google::protobuf::int32 line_;
   mutable int _cached_size_;
   friend struct protobuf_remove_5fgroup_5fmember_5frequest_2eproto::TableStruct;
 };
@@ -241,7 +248,21 @@ inline void RemoveGroupMemberRequest::set_allocated_group_id(::std::string* grou
   // @@protoc_insertion_point(field_set_allocated:mars.stn.RemoveGroupMemberRequest.group_id)
 }
 
-// repeated string removed_member = 2;
+// int32 line = 2;
+inline void RemoveGroupMemberRequest::clear_line() {
+  line_ = 0;
+}
+inline ::google::protobuf::int32 RemoveGroupMemberRequest::line() const {
+  // @@protoc_insertion_point(field_get:mars.stn.RemoveGroupMemberRequest.line)
+  return line_;
+}
+inline void RemoveGroupMemberRequest::set_line(::google::protobuf::int32 value) {
+  
+  line_ = value;
+  // @@protoc_insertion_point(field_set:mars.stn.RemoveGroupMemberRequest.line)
+}
+
+// repeated string removed_member = 3;
 inline int RemoveGroupMemberRequest::removed_member_size() const {
   return removed_member_.size();
 }
@@ -310,7 +331,7 @@ RemoveGroupMemberRequest::mutable_removed_member() {
   return &removed_member_;
 }
 
-// .mars.stn.MessageContent notify_content = 3;
+// .mars.stn.MessageContent notify_content = 4;
 inline bool RemoveGroupMemberRequest::has_notify_content() const {
   return this != internal_default_instance() && notify_content_ != NULL;
 }

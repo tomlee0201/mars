@@ -8,6 +8,7 @@
 
 #import "ConversationTableViewCell.h"
 #import "Utilities.h"
+#import "IMService.h"
 
 @implementation ConversationTableViewCell
 
@@ -37,7 +38,24 @@
     self.potraitView.image = [UIImage imageNamed:@"GroupChat"];
   }
   
-    self.targetView.text = info.conversation.target;
+    if(info.conversation.type == Single_Type) {
+        UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:info.conversation.target refresh:NO];
+        if(userInfo.displayName.length > 0) {
+            self.targetView.text = userInfo.displayName;
+        } else {
+            self.targetView.text = [NSString stringWithFormat:@"user<%@>", info.conversation.target];
+        }
+    } else if (info.conversation.type == Group_Type) {
+        GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:info.conversation.target line:info.conversation.line refresh:NO];
+        if(groupInfo.name.length > 0) {
+            self.targetView.text = groupInfo.name;
+        } else {
+            self.targetView.text = [NSString stringWithFormat:@"group<%@>", info.conversation.target];
+        }
+    } else {
+        self.targetView.text = [NSString stringWithFormat:@"chatroom<%@>", info.conversation.target];
+    }
+    
     self.digestView.text = info.lastMessage.content.digest;
     self.potraitView.layer.cornerRadius = 3.f;
     
