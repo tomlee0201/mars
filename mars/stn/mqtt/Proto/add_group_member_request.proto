@@ -8,9 +8,11 @@ option java_outer_classname = "AddGroupMemberRequestOuterClass";
 //option objc_class_prefix = "LYF";
 
 import "message_content.proto";
+import "group.proto";
 
 message AddGroupMemberRequest {
   string group_id = 1;
-  repeated string added_member = 2;
-  MessageContent notify_content = 3;
+  int32 line = 2;
+  repeated GroupMember added_member = 3;
+  MessageContent notify_content = 4;
 }
