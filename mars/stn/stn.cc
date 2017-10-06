@@ -134,9 +134,16 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
                 for (std::list<const TUserInfo>::const_iterator it = userInfoList.begin(); it != userInfoList.end(); ++it) {
                     MessageDB::Instance()->InsertUserInfoOrReplace(*it);
                 }
+                
+                if(StnCallBack::Instance()->m_getUserInfoCB) {
+                    StnCallBack::Instance()->m_getUserInfoCB->onSuccess(userInfoList);
+                }
                 delete this;
             }
             void onFalure(int errorCode) {
+                if(StnCallBack::Instance()->m_getUserInfoCB) {
+                    StnCallBack::Instance()->m_getUserInfoCB->onFalure(errorCode);
+                }
                 delete this;
             }
             

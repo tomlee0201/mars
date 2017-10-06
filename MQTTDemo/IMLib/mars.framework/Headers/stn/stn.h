@@ -536,6 +536,10 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
 
       extern void setConnectionStatusCallback(ConnectionStatusCallback *callback);
       extern void setReceiveMessageCallback(ReceiveMessageCallback *callback);
+        
+        extern void setRefreshUserInfoCallback(GetUserInfoCallback *callback);
+        extern void setRefreshGroupInfoCallback(GetGroupInfoCallback *callback);
+        
       extern ConnectionStatus getConnectionStatus();
         
 extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);

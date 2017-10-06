@@ -39,6 +39,15 @@ namespace mars {
         StnCallBack::Instance()->setReceiveMessageCallback(callback);
       }
       
+        void setRefreshUserInfoCallback(GetUserInfoCallback *callback) {
+            StnCallBack::Instance()->setGetUserInfoCallback(callback);
+        }
+        
+        void setRefreshGroupInfoCallback(GetGroupInfoCallback *callback) {
+            StnCallBack::Instance()->setGetGroupInfoCallback(callback);
+        }
+
+        
       ConnectionStatus getConnectionStatus() {
         return StnCallBack::Instance()->getConnectionStatus();
       }

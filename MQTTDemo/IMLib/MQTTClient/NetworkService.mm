@@ -150,6 +150,7 @@ static NetworkService * sharedSingleton = nil;
   mars::app::SetCallback(mars::app::AppCallBack::Instance());
   mars::stn::setConnectionStatusCallback(new CSCB(self));
   mars::stn::setReceiveMessageCallback(new RPCB(self));
+
   mars::baseevent::OnCreate();
 }
 

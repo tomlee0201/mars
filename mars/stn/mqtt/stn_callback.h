@@ -36,6 +36,7 @@ namespace mars {
 
         
         class TGetGroupInfoCallback;
+        class RefreshUserInfoCallback;
 class StnCallBack : public Callback,  PullingMessageCallback {
     
 private:
@@ -88,6 +89,7 @@ public:
     void onDBOpened();
 
     friend class TGetGroupInfoCallback;
+    friend class RefreshUserInfoCallback;
 private:
     static StnCallBack* instance_;
     void PullMessage(int64_t head);

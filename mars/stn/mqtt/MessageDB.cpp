@@ -611,12 +611,11 @@ namespace mars {
         
         class TGetGroupInfoCallback : public GetGroupInfoCallback {
             void onSuccess(std::list<TGroupInfo> groupInfoList) {
-                if(StnCallBack::Instance()->m_getGroupInfoCB) {
-                    StnCallBack::Instance()->m_getGroupInfoCB->onSuccess(groupInfoList);
-                }
-                
                 for (std::list<TGroupInfo>::iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {
                     MessageDB::Instance()->InsertGroupInfo(*it);
+                }
+                if(StnCallBack::Instance()->m_getGroupInfoCB) {
+                    StnCallBack::Instance()->m_getGroupInfoCB->onSuccess(groupInfoList);
                 }
                 delete this;
             }
