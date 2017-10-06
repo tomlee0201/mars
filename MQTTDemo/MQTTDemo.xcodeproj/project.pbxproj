@@ -13,6 +13,8 @@
 		2E0009041F87778A00955A66 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0008FC1F87776900955A66 /* AFURLRequestSerialization.m */; };
 		2E0009051F87778C00955A66 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0008FE1F87776900955A66 /* AFURLResponseSerialization.m */; };
 		2E0009061F87778E00955A66 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0009001F87776900955A66 /* AFURLSessionManager.m */; };
+		2E00090D1F87CA9A00955A66 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E00090C1F87CA9A00955A66 /* SettingTableViewController.m */; };
+		2E0009101F87CAD000955A66 /* MyPortraitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E00090F1F87CAD000955A66 /* MyPortraitViewController.m */; };
 		2E081CD41F6A7D060046D679 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E081CD31F6A7D060046D679 /* WCDB.framework */; };
 		2E0A9EB51F714B140028E8B7 /* NotificationMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */; };
 		2E0A9EB71F714B140028E8B7 /* NotificationMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */; };
@@ -191,6 +193,10 @@
 		2E0008FE1F87776900955A66 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		2E0008FF1F87776900955A66 /* AFURLSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		2E0009001F87776900955A66 /* AFURLSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		2E00090B1F87CA9A00955A66 /* SettingTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingTableViewController.h; sourceTree = "<group>"; };
+		2E00090C1F87CA9A00955A66 /* SettingTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
+		2E00090E1F87CAD000955A66 /* MyPortraitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyPortraitViewController.h; sourceTree = "<group>"; };
+		2E00090F1F87CAD000955A66 /* MyPortraitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyPortraitViewController.m; sourceTree = "<group>"; };
 		2E081CD31F6A7D060046D679 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
 		2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationMessageContent.h; sourceTree = "<group>"; };
 		2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationMessageContent.m; sourceTree = "<group>"; };
@@ -526,6 +532,10 @@
 				2E18FD401F6F3A1D000C2929 /* GroupMemberTableViewController.m */,
 				2E9A57AA1F700DF4006FEF85 /* InviteGroupMemberViewController.h */,
 				2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */,
+				2E00090B1F87CA9A00955A66 /* SettingTableViewController.h */,
+				2E00090C1F87CA9A00955A66 /* SettingTableViewController.m */,
+				2E00090E1F87CAD000955A66 /* MyPortraitViewController.h */,
+				2E00090F1F87CAD000955A66 /* MyPortraitViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -908,6 +918,7 @@
 				2ED386271F7DC0AE00DC4C98 /* UserInfo.m in Sources */,
 				2E0009031F87778800955A66 /* AFSecurityPolicy.m in Sources */,
 				2E0009041F87778A00955A66 /* AFURLRequestSerialization.m in Sources */,
+				2E0009101F87CAD000955A66 /* MyPortraitViewController.m in Sources */,
 				2E0009051F87778C00955A66 /* AFURLResponseSerialization.m in Sources */,
 				2E0009061F87778E00955A66 /* AFURLSessionManager.m in Sources */,
 				2EDD76711F55545400F1FC8C /* ConversationTableViewCell.m in Sources */,
@@ -956,6 +967,7 @@
 				2E32E3801F622527000063A6 /* UIImage+MultiFormat.m in Sources */,
 				2E32E3781F622527000063A6 /* SDWebImageCompat.m in Sources */,
 				2E32E3771F622527000063A6 /* SDImageCacheConfig.m in Sources */,
+				2E00090D1F87CA9A00955A66 /* SettingTableViewController.m in Sources */,
 				2EDB88101F63D1EF00578E7D /* VoiceCell.m in Sources */,
 				2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */,
 				2EFEC1C21F5943B000424902 /* MessageModel.m in Sources */,

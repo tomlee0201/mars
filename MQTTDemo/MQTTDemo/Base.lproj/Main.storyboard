@@ -566,7 +566,7 @@
         <!--Root View Controller-->
         <scene sceneID="R4K-hn-oDs">
             <objects>
-                <tableViewController id="Nu0-Qp-UEl" sceneMemberID="viewController">
+                <tableViewController id="Nu0-Qp-UEl" customClass="SettingTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="146" sectionHeaderHeight="28" sectionFooterHeight="28" id="OLt-hb-R98">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -574,11 +574,11 @@
                         <sections>
                             <tableViewSection headerTitle="" id="EaD-W4-BCP">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="u75-AX-rWw" detailTextLabel="duE-o8-bjS" imageView="r8I-wA-Iry" rowHeight="146" style="IBUITableViewCellStyleSubtitle" id="Aaa-Pq-RbC">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="u75-AX-rWw" detailTextLabel="duE-o8-bjS" imageView="r8I-wA-Iry" rowHeight="146" style="IBUITableViewCellStyleSubtitle" id="Aaa-Pq-RbC">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="146"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Aaa-Pq-RbC" id="Het-Rl-bZ2">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="145.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="145.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="u75-AX-rWw">
@@ -601,6 +601,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="9Dn-5m-Z4H" kind="push" id="2l5-0s-EcY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -653,10 +656,54 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="Rdd-TJ-hZ8"/>
+                    <connections>
+                        <outlet property="myDisplayNameLabel" destination="u75-AX-rWw" id="w7s-s6-bRG"/>
+                        <outlet property="myNameLabel" destination="duE-o8-bjS" id="nqH-hb-EEr"/>
+                        <outlet property="myPortraitView" destination="r8I-wA-Iry" id="INi-gY-nbm"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ea-aJ-df7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3144.8000000000002" y="2810.6446776611697"/>
+        </scene>
+        <!--My Portrait View Controller-->
+        <scene sceneID="EFQ-es-Wbb">
+            <objects>
+                <viewController id="9Dn-5m-Z4H" customClass="MyPortraitViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1R4-Ob-Olr"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZZL-sG-vo1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MYu-V5-ACE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9vU-JH-ZPe">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="9vU-JH-ZPe" secondAttribute="trailing" id="3EL-dq-vjD"/>
+                            <constraint firstAttribute="bottom" secondItem="9vU-JH-ZPe" secondAttribute="bottom" id="QJs-Xw-aSx"/>
+                            <constraint firstItem="9vU-JH-ZPe" firstAttribute="top" secondItem="1R4-Ob-Olr" secondAttribute="bottom" id="chB-UX-Q67"/>
+                            <constraint firstItem="9vU-JH-ZPe" firstAttribute="leading" secondItem="MYu-V5-ACE" secondAttribute="leading" id="iOQ-kf-xgd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="aOP-zI-Gl6">
+                        <barButtonItem key="rightBarButtonItem" title="Modify" id="cNx-nO-1ic">
+                            <connections>
+                                <action selector="onModify:" destination="9Dn-5m-Z4H" id="DwF-Um-Xmy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="portraitView" destination="9vU-JH-ZPe" id="xV4-Mz-g28"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CWs-ie-nlw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3917.5999999999999" y="2806.1469265367318"/>
         </scene>
         <!--设置-->
         <scene sceneID="O5a-jG-B7w">

@@ -111,5 +111,7 @@ typedef enum : NSUInteger {
             success:(void(^)(NSString *remoteUrl))successBlock
               error:(void(^)(int error_code))errorBlock;
   
-  -(void)modifyMyInfo:(NSDictionary<NSNumber */*ModifyMyInfoType*/, NSString *> *)values;
+  -(void)modifyMyInfo:(NSDictionary<NSNumber */*ModifyMyInfoType*/, NSString *> *)values
+              success:(void(^)())successBlock
+                error:(void(^)(int error_code))errorBlock;
 @end

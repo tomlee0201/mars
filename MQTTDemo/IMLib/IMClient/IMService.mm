@@ -87,12 +87,12 @@ public:
     }
 };
 
-class IMGeneralGroupOperationCallback : public mars::stn::GeneralOperationCallback {
+class IMGeneralOperationCallback : public mars::stn::GeneralOperationCallback {
 private:
     void(^m_successBlock)();
     void(^m_errorBlock)(int error_code);
 public:
-    IMGeneralGroupOperationCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::GeneralOperationCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    IMGeneralOperationCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::GeneralOperationCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
     void onSuccess() {
         if (m_successBlock) {
             m_successBlock();
@@ -106,7 +106,7 @@ public:
         delete this;
     }
 
-    virtual ~IMGeneralGroupOperationCallback() {
+    virtual ~IMGeneralOperationCallback() {
         m_successBlock = nil;
         m_errorBlock = nil;
     }
@@ -441,7 +441,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         lines.push_back([number intValue]);
     }
     
-    mars::stn::addMembers([groupId UTF8String], memberList, lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::addMembers([groupId UTF8String], memberList, lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
 - (void)kickoffMembers:(NSArray *)members
@@ -464,7 +464,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         lines.push_back([number intValue]);
     }
     
-    mars::stn::kickoffMembers([groupId UTF8String], memberList, lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::kickoffMembers([groupId UTF8String], memberList, lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
 - (void)quitGroup:(NSString *)groupId
@@ -482,7 +482,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         lines.push_back([number intValue]);
     }
     
-    mars::stn::quitGroup([groupId UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::quitGroup([groupId UTF8String], lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
 - (void)dismissGroup:(NSString *)groupId
@@ -500,7 +500,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         lines.push_back([number intValue]);
     }
     
-    mars::stn::dismissGroup([groupId UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::dismissGroup([groupId UTF8String], lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
 - (void)modifyGroupInfo:(GroupInfo *)groupInfo
@@ -532,7 +532,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         lines.push_back([number intValue]);
     }
     
-    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
 - (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {
@@ -570,15 +570,21 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
         lines.push_back([number intValue]);
     }
     
-    mars::stn::transferGroup([groupId UTF8String], [newOwner UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
+    mars::stn::transferGroup([groupId UTF8String], [newOwner UTF8String], lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
 - (void)uploadMedia:(NSData *)mediaData mediaType:(MediaType)mediaType success:(void(^)(NSString *remoteUrl))successBlock error:(void(^)(int error_code))errorBlock {
   mars::stn::uploadGeneralMedia(std::string((char *)mediaData.bytes, mediaData.length), mediaType, new GeneralUpdateMediaCallback(successBlock, errorBlock));
 }
   
-  -(void)modifyMyInfo:(NSDictionary<NSNumber */*ModifyMyInfoType*/, NSString *> *)values {
-    
+  -(void)modifyMyInfo:(NSDictionary<NSNumber */*ModifyMyInfoType*/, NSString *> *)values
+              success:(void(^)())successBlock
+                error:(void(^)(int error_code))errorBlock {
+    std::list<std::pair<int, std::string>> infos;
+    for(NSNumber *key in values.allKeys) {
+      infos.push_back(std::pair<int, std::string>([key intValue], [values[key] UTF8String]));
+    }
+    mars::stn::modifyMyInfo(infos, new IMGeneralOperationCallback(successBlock, errorBlock));
   }
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
     int contenttype = payload.contentType;
