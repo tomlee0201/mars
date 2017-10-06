@@ -66,6 +66,9 @@ alpha:1.0]
 @property (weak, nonatomic) IBOutlet UIView *inputBarView;
 
 @property(nonatomic, assign)BOOL loadingMore;
+  
+@property(nonatomic, strong)UserInfo *targetUser;
+@property(nonatomic, strong)GroupInfo *targetGroup;
 @end
 
 @implementation MessageViewController
@@ -107,8 +110,16 @@ alpha:1.0]
     self.voiceBtn.hidden = YES;
   [self.collectionView reloadData];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReceiveMessages:) name:@"kReceiveMessages" object:nil];
-    
-    self.title = self.conversation.target;
+  if(self.conversation.type == Single_Type) {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoUpdated:) name:kUserInfoUpdated object:self.conversation.target];
+    UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:self.conversation.target refresh:YES];
+    self.targetUser = userInfo;
+  } else if(self.conversation.type == Group_Type) {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onGroupInfoUpdated:) name:kGroupInfoUpdated object:self.conversation.target];
+    GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:self.conversation.target refresh:YES];
+    self.targetGroup = groupInfo;
+  }
+  
     
     [self.extendedBtn addTarget:self action:@selector(onExtendedBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.switchBtn addTarget:self action:@selector(onSwitchBtn:) forControlEvents:UIControlEventTouchUpInside];
@@ -122,7 +133,33 @@ alpha:1.0]
     [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
     [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchCancel];
 }
-
+  
+- (void)setTargetUser:(UserInfo *)targetUser {
+  _targetUser = targetUser;
+  if(targetUser.displayName.length == 0) {
+    self.title = [NSString stringWithFormat:@"User<%@>", self.conversation.target];
+  } else {
+    self.title = targetUser.displayName;
+  }
+}
+  
+- (void)setTargetGroup:(GroupInfo *)targetGroup {
+  _targetGroup = targetGroup;
+  if(targetGroup.name.length == 0) {
+    self.title = [NSString stringWithFormat:@"Group<%@>", self.conversation.target];
+  } else {
+    self.title = targetGroup.name;
+  }
+}
+  
+- (void)onUserInfoUpdated:(NSNotification *)notification {
+  self.targetUser = notification.userInfo[@"userInfo"];
+}
+  
+- (void)onGroupInfoUpdated:(NSNotification *)notification {
+  self.targetGroup = notification.userInfo[@"groupInfo"];
+}
+  
 - (void)onTouchDown:(id)sender {
     if ([self canRecord]) {
         _recordView = [[VoiceRecordView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2 - 70, self.view.bounds.size.height/2 - 70, 140, 140)];
@@ -686,5 +723,8 @@ alpha:1.0]
     }
 
 }
-
+  
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end
