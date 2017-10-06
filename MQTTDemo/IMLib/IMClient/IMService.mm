@@ -87,12 +87,12 @@ public:
     }
 };
 
-class IMGeneralGroupOperationCallback : public mars::stn::GeneralGroupOperationCallback {
+class IMGeneralGroupOperationCallback : public mars::stn::GeneralOperationCallback {
 private:
     void(^m_successBlock)();
     void(^m_errorBlock)(int error_code);
 public:
-    IMGeneralGroupOperationCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::GeneralGroupOperationCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
+    IMGeneralGroupOperationCallback(void(^successBlock)(), void(^errorBlock)(int error_code)) : mars::stn::GeneralOperationCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
     void onSuccess() {
         if (m_successBlock) {
             m_successBlock();
@@ -577,6 +577,9 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
   mars::stn::uploadGeneralMedia(std::string((char *)mediaData.bytes, mediaData.length), mediaType, new GeneralUpdateMediaCallback(successBlock, errorBlock));
 }
   
+  -(void)modifyMyInfo:(NSDictionary<NSNumber */*ModifyMyInfoType*/, NSString *> *)values {
+    
+  }
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
     int contenttype = payload.contentType;
     Class contentClass = self.MessageContentMaps[@(contenttype)];

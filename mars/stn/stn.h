@@ -225,7 +225,7 @@ struct DnsProfile;
         virtual void onFalure(int errorCode) = 0;
     };
         
-    class GeneralGroupOperationCallback {
+    class GeneralOperationCallback {
     public:
         virtual void onSuccess() = 0;
         virtual void onFalure(int errorCode) = 0;
@@ -552,26 +552,28 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
 extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);
       
 extern int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaCallback *callback);
+
+      extern int modifyMyInfo(const std::list<std::pair<int, std::string>> &infos, GeneralOperationCallback *callback);
       
         extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback);
         
-extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);
+extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);
 
-extern void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);
+extern void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);
      
-extern void (*quitGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);
+extern void (*quitGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);
 
-extern void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);
+extern void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);
   
 extern void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdList, GetGroupInfoCallback *callback);
 
-extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);
+extern void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);
         
 extern void (*getGroupMembers)(const std::string &groupId, GetGroupMembersCallback *callback);
         
 extern void (*getMyGroups)(GetMyGroupsCallback *callback);
         
-extern void (*transferGroup)(const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);
+extern void (*transferGroup)(const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);
 
         extern void (*getUserInfo)(const std::list<std::pair<std::string, int64_t>> &userReqList, GetUserInfoCallback *callback);
         

@@ -12,6 +12,18 @@
 #import "ConversationInfo.h"
 #import "UserInfo.h"
 
+typedef enum : NSUInteger {
+  Modify_DisplayName = 0,
+  Modify_Portrait = 1,
+  Modify_Mobile = 2,
+  Modify_Email = 3,
+  Modify_Address = 4,
+  Modify_Company = 5,
+  Modify_Social = 6,
+  Modify_Extra = 7
+} ModifyMyInfoType;
+
+
 @interface IMService : NSObject
 + (IMService*)sharedIMService;
 
@@ -94,5 +106,10 @@
               success:(void(^)())successBlock
                 error:(void(^)(int error_code))errorBlock;
   
-- (void)uploadMedia:(NSData *)mediaData mediaType:(MediaType)mediaType success:(void(^)(NSString *remoteUrl))successBlock error:(void(^)(int error_code))errorBlock;
+- (void)uploadMedia:(NSData *)mediaData
+          mediaType:(MediaType)mediaType
+            success:(void(^)(NSString *remoteUrl))successBlock
+              error:(void(^)(int error_code))errorBlock;
+  
+  -(void)modifyMyInfo:(NSDictionary<NSNumber */*ModifyMyInfoType*/, NSString *> *)values;
 @end

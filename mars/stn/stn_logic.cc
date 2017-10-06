@@ -62,6 +62,7 @@
 #include "mars/stn/mqtt/Proto/transfer_group_request.pb.h"
 #include "mars/stn/mqtt/Proto/pull_user_response.pb.h"
 #include "mars/stn/mqtt/Proto/pull_user_request.pb.h"
+#include "mars/stn/mqtt/Proto/modify_my_info_request.pb.h"
 #include "stn/src/proxy_test.h"
 
 namespace mars {
@@ -86,6 +87,7 @@ const std::string transferGroupTopic = "GTG";
     
 const std::string getQiniuUploadTokenTopic = "GQNUT";
 
+const std::string modifyMyInfoTopic = "MMI";
     
 #define STN_WEAK_CALL(func) \
     boost::shared_ptr<NetCore> stn_ptr = NetCore::Singleton::Instance_Weak().lock();\
@@ -386,7 +388,25 @@ void (*ReportTaskLimited)(int _check_type, const Task& _task, unsigned int& _par
 void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
 = [](const DnsProfile& _dns_profile) {
 };
-    
+  
+  class GeneralOperationPublishCallback : public MQTTPublishCallback {
+    public:
+    GeneralOperationPublishCallback(GeneralOperationCallback *cb) : MQTTPublishCallback(), callback(cb) {}
+    GeneralOperationCallback *callback;
+    void onSuccess(const unsigned char* data, size_t len) {
+      callback->onSuccess();
+      delete this;
+    };
+    void onFalure(int errorCode) {
+      callback->onFalure(errorCode);
+      delete this;
+    };
+    virtual ~GeneralOperationPublishCallback() {
+      
+    }
+  };
+  
+  
     class MessagePublishCallback : public MQTTPublishCallback {
     public:
         MessagePublishCallback(long messageId, SendMessageCallback *cb) : MQTTPublishCallback(), callback(cb), mId(messageId) {}
@@ -573,8 +593,20 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
     publishTask->body = new unsigned char[publishTask->length];
     memcpy(publishTask->body, &mediaType, publishTask->length);
     mars::stn::StartTask(*publishTask);
+    return 0;
   }
   
+  int modifyMyInfo(const std::list<std::pair<int, std::string>> &infos, GeneralOperationCallback *callback) {
+    ModifyMyInfoRequest request;
+    for (std::list<std::pair<int, std::string>>::const_iterator it = infos.begin(); it != infos.end(); it++) {
+      InfoEntry *entry = request.add_entry();
+      entry->set_type(it->first);
+      entry->set_value(it->second);
+    }
+    
+    publishTask(request, new GeneralOperationPublishCallback(callback), modifyMyInfoTopic);
+    return 0;
+  }
     class CreateGroupPublishCallback : public MQTTPublishCallback {
     public:
         CreateGroupPublishCallback(CreateGroupCallback *cb) : MQTTPublishCallback(), callback(cb) {}
@@ -629,25 +661,9 @@ void (*createGroup)(const std::string &groupId, const std::string &groupName, co
     publishTask(request, new CreateGroupPublishCallback(callback), createGroupTopic);
 };
     
-    class GeneralGroupOperationPublishCallback : public MQTTPublishCallback {
-    public:
-        GeneralGroupOperationPublishCallback(GeneralGroupOperationCallback *cb) : MQTTPublishCallback(), callback(cb) {}
-        GeneralGroupOperationCallback *callback;
-        void onSuccess(const unsigned char* data, size_t len) {
-            callback->onSuccess();
-            delete this;
-        };
-        void onFalure(int errorCode) {
-            callback->onFalure(errorCode);
-            delete this;
-        };
-        virtual ~GeneralGroupOperationPublishCallback() {
-            
-        }
-    };
-    
-void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+
+void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback) {
     AddGroupMemberRequest request;
     request.set_group_id(groupId);
     request.mutable_added_member()->Reserve((int)members.size());
@@ -664,11 +680,11 @@ void (*addMembers)(const std::string &groupId, const std::list<std::string> &mem
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
-    publishTask(request, new GeneralGroupOperationPublishCallback(callback), addGroupMemberTopic);
+    publishTask(request, new GeneralOperationPublishCallback(callback), addGroupMemberTopic);
 };
 
-void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback)
+= [](const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback) {
     RemoveGroupMemberRequest request;
     request.set_group_id(groupId);
     request.mutable_removed_member()->Reserve((int)members.size());
@@ -683,11 +699,11 @@ void (*kickoffMembers)(const std::string &groupId, const std::list<std::string> 
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
-    publishTask(request, new GeneralGroupOperationPublishCallback(callback), kickoffGroupMemberTopic);
+    publishTask(request, new GeneralOperationPublishCallback(callback), kickoffGroupMemberTopic);
 };
 
-void (*quitGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*quitGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback)
+= [](const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback) {
     QuitGroupRequest request;
     request.set_group_id(groupId);
     
@@ -697,11 +713,11 @@ void (*quitGroup)(const std::string &groupId, const std::list<int> &notifyLines,
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
-    publishTask(request, new GeneralGroupOperationPublishCallback(callback), quitGroupTopic);
+    publishTask(request, new GeneralOperationPublishCallback(callback), quitGroupTopic);
 };
 
-void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback)
+= [](const std::string &groupId, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback) {
     DismissGroupRequest request;
     request.set_group_id(groupId);
     
@@ -711,7 +727,7 @@ void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLin
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
-    publishTask(request, new GeneralGroupOperationPublishCallback(callback), dismissGroupTopic);
+    publishTask(request, new GeneralOperationPublishCallback(callback), dismissGroupTopic);
 
 };
     class GetGroupInfoPublishCallback : public MQTTPublishCallback {
@@ -760,8 +776,8 @@ void (*getGroupInfo)(const std::list<std::pair<std::string, int64_t>> &groupIdLi
     publishTask(listBuf, new GetGroupInfoPublishCallback(callback), getGroupInfoTopic);
 };
 
-void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-= [](const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback)
+= [](const std::string &groupId, const TGroupInfo &groupInfo, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback) {
     ModifyGroupInfoRequest request;
     request.mutable_group_info()->set_target_id(groupId);
     
@@ -783,7 +799,7 @@ void (*modifyGroupInfo)(const std::string &groupId, const TGroupInfo &groupInfo,
     
     fillMessageContent(tmsg, request.mutable_notify_content());
     
-    publishTask(request, new GeneralGroupOperationPublishCallback(callback), modifyGroupInfoTopic);
+    publishTask(request, new GeneralOperationPublishCallback(callback), modifyGroupInfoTopic);
 };
     class GetGroupMembersPublishCallback : public MQTTPublishCallback {
     public:
@@ -856,8 +872,8 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
     publishTask(idBuf, new GetMyGroupsPublishCallback(callback), getMyGroupsTopic);
 };
     
-    void (*transferGroup)(const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback)
-    = [](const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback) {
+    void (*transferGroup)(const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback)
+    = [](const std::string &groupId, const std::string &newOwner, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback) {
         TransferGroupRequest request;
         request.set_group_id(groupId);
         request.set_new_owner(newOwner);
@@ -869,7 +885,7 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
         
         fillMessageContent(tmsg, request.mutable_notify_content());
         
-        publishTask(request, new GeneralGroupOperationPublishCallback(callback), transferGroupTopic);
+        publishTask(request, new GeneralOperationPublishCallback(callback), transferGroupTopic);
     };
     
     class GetUserInfoPublishCallback : public MQTTPublishCallback {
