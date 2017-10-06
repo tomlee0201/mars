@@ -8,6 +8,10 @@
 
 #import "MessageCell.h"
 #import "Utilities.h"
+#import "UserInfo.h"
+#import "SDWebImage.h"
+#import "IMService.h"
+#import "NetworkService.h"
 
 #define Portrait_Size 48
 #define Name_Label_Height  18
@@ -105,15 +109,35 @@
     self.model.message.status = newStatus;
     [self updateStatus];
 }
-
+  
+- (void)onUserInfoUpdated:(NSNotification *)notification {
+  UserInfo *userInfo = notification.userInfo[@"userInfo"];
+  if([userInfo.userId isEqualToString:self.model.message.fromUser]) {
+    [self updateUserInfo:userInfo];
+  }
+}
+  
+- (void)updateUserInfo:(UserInfo *)userInfo {
+  if([userInfo.userId isEqualToString:self.model.message.fromUser]) {
+    [self.portraitView sd_setImageWithURL:[NSURL URLWithString:userInfo.portrait] placeholderImage:[UIImage imageNamed:@"PersonalChat"]];
+    if(self.model.showNameLabel) {
+      if(userInfo.displayName.length > 0) {
+        self.nameLabel.text = userInfo.displayName;
+      } else {
+        self.nameLabel.text = [NSString stringWithFormat:@"User<%@>", self.model.message.fromUser];
+      }
+    }
+  }
+}
+  
 - (void)setModel:(MessageModel *)model {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onStatusChanged:) name:@"kMessageStatusChanged" object:
     @(model.message.messageId)];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoUpdated:) name:kUserInfoUpdated object:
+   model.message.fromUser];
+  
   [super setModel:model];
-    
-
-  self.portraitView.image = [UIImage imageNamed:@"PersonalChat"];
 
     
   if (model.message.direction == MessageDirection_Send) {
@@ -124,7 +148,6 @@
       self.nameLabel.frame = CGRectMake(frame.size.width - Portrait_Size - Portrait_Padding_Right -Portrait_Padding_Left - 200, top, 200, Name_Label_Height);
       self.nameLabel.hidden = NO;
       self.nameLabel.textAlignment = NSTextAlignmentRight;
-      self.nameLabel.text = model.message.fromUser;
     } else {
       self.nameLabel.hidden = YES;
     }
@@ -144,7 +167,6 @@
       self.nameLabel.frame = CGRectMake(Portrait_Padding_Left + Portrait_Size + Portrait_Padding_Right, top, 200, Name_Label_Height);
       self.nameLabel.hidden = NO;
       self.nameLabel.textAlignment = NSTextAlignmentLeft;
-      self.nameLabel.text = model.message.fromUser;
     } else {
       self.nameLabel.hidden = YES;
     }
@@ -160,8 +182,16 @@
                                                                                       image.size.height * 0.2, image.size.width * 0.2)];
       
   }
-    [self setMaskImage:self.bubbleView.image];
-    [self updateStatus];
+  
+  UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:model.message.fromUser refresh:NO];
+  if(userInfo.userId.length == 0) {
+    userInfo = [[UserInfo alloc] init];
+    userInfo.userId = model.message.fromUser;
+  }
+  
+  [self updateUserInfo:userInfo];
+  [self setMaskImage:self.bubbleView.image];
+  [self updateStatus];
 }
 
 - (void)setMaskImage:(UIImage *)maskImage{

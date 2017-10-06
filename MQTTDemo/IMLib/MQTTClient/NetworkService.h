@@ -31,6 +31,9 @@
 @class CGITask;
 @class ViewController;
 
+//When group and user info update, post notification with follow name.
+extern NSString *kGroupInfoUpdated;
+extern NSString *kUserInfoUpdated;
 
 typedef NS_ENUM(NSInteger, ConnectionStatus) {
   kConnectionStatusRejected = -3,

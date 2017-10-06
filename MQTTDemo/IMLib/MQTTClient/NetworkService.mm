@@ -36,6 +36,18 @@
 
 extern NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList);
 
+NSString *kGroupInfoUpdated = @"kGroupInfoUpdated";
+NSString *kUserInfoUpdated = @"kGroupInfoUpdated";
+
+@protocol RefreshGroupInfoDelegate <NSObject>
+- (void)onGroupInfoUpdated:(NSArray<GroupInfo *> *)updatedGroupInfo;
+@end
+
+@protocol RefreshUserInfoDelegate <NSObject>
+- (void)onUserInfoUpdated:(NSArray<UserInfo *> *)updatedUserInfo;
+@end
+
+
 class CSCB : public mars::stn::ConnectionStatusCallback {
 public:
   CSCB(id<ConnectionStatusDelegate> delegate) : m_delegate(delegate) {
@@ -64,7 +76,31 @@ public:
 };
 
 
-@interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate>
+class GUCB : public mars::stn::GetUserInfoCallback {
+  public:
+  GUCB(id<RefreshUserInfoDelegate> delegate) : m_delegate(delegate) {}
+  
+  void onSuccess(const std::list<const mars::stn::TUserInfo> &userInfoList) {
+    
+  }
+  void onFalure(int errorCode) {
+    
+  }
+  id<RefreshUserInfoDelegate> m_delegate;
+};
+
+class GGCB : public mars::stn::GetGroupInfoCallback {
+  public:
+  GGCB(id<RefreshGroupInfoDelegate> delegate) : m_delegate(delegate) {}
+  
+  void onSuccess(std::list<mars::stn::TGroupInfo> groupInfoList) {
+  }
+  void onFalure(int errorCode) {
+  }
+  id<RefreshGroupInfoDelegate> m_delegate;
+};
+
+@interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate, RefreshUserInfoDelegate, RefreshGroupInfoDelegate>
 @property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
 @property (nonatomic, strong)NSString *userId;
 @end
@@ -150,7 +186,8 @@ static NetworkService * sharedSingleton = nil;
   mars::app::SetCallback(mars::app::AppCallBack::Instance());
   mars::stn::setConnectionStatusCallback(new CSCB(self));
   mars::stn::setReceiveMessageCallback(new RPCB(self));
-
+  mars::stn::setRefreshUserInfoCallback(new GUCB(self));
+  mars::stn::setRefreshGroupInfoCallback(new GGCB(self));
   mars::baseevent::OnCreate();
 }
 
@@ -216,7 +253,21 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnForeground(isForeground);
 }
 
-
+- (void)onGroupInfoUpdated:(NSArray<GroupInfo *> *)updatedGroupInfo {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    for (GroupInfo *groupInfo in updatedGroupInfo) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:kGroupInfoUpdated object:groupInfo.target userInfo:@{@"groupInfo":groupInfo}];
+    }
+  });
+}
+  
+- (void)onUserInfoUpdated:(NSArray<UserInfo *> *)updatedUserInfo {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    for (UserInfo *userInfo in updatedUserInfo) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdated object:userInfo.userId userInfo:@{@"userInfo":userInfo}];
+    }
+  });
+}
 #pragma mark NetworkStatusDelegate
 -(void) ReachabilityChange:(UInt32)uiFlags {
     if ((uiFlags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {
