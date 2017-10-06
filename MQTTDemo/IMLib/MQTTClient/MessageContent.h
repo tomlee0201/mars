@@ -20,6 +20,7 @@
 #define MESSAGE_CONTENT_TYPE_TRANSFER_GROUP_OWNER 9
 
 typedef enum : NSUInteger {
+  Media_Type_GENERAL = 0,
     Media_Type_IMAGE = 1,
     Media_Type_VOICE = 2,
     Media_Type_File = 3

@@ -460,22 +460,20 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     
     class UploadQiniuCallback : public UPloadCallback {
         TMessage mMsg;
-        SendMessageCallback *mCallback;
+        UpdateMediaCallback *mCallback;
         std::string mDomain;
         long mMid;
     public:
-        UploadQiniuCallback(TMessage tmsg, SendMessageCallback *callback, std::string domain, long messageId) : mMsg(tmsg), mCallback(callback), mDomain(domain), mMid(messageId) {
+        UploadQiniuCallback(UpdateMediaCallback *callback, std::string domain) : mCallback(callback), mDomain(domain) {
             
         }
         void onSuccess(std::string key) {
             std::string fileUrl = mDomain + "/" + key;
-            MessageDB::Instance()->updateMessageRemoteMediaUrl(mMid, fileUrl);
-            mMsg.content.remoteMediaUrl = fileUrl;
-            mCallback->onMediaUploaded(key);
-            sendSavedMsg(mMid, mMsg, mCallback);
+          mCallback->onSuccess(fileUrl);
             delete this;
         }
         void onFalure(int errorCode) {
+          mCallback->onFalure(errorCode);
             delete this;
         }
         virtual ~UploadQiniuCallback() {
@@ -484,18 +482,20 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     };
     class GetUploadTokenCallback : public MQTTPublishCallback {
     public:
-        GetUploadTokenCallback(SendMessageCallback *cb, const TMessage &tmsg, const std::string md, long messageId) : MQTTPublishCallback(), callback(cb), msg(tmsg), mediaData(md), mMid(messageId) {}
+        GetUploadTokenCallback(UpdateMediaCallback *cb, const std::string md) : MQTTPublishCallback(), callback(cb), mediaData(md) {}
         TMessage msg;
         std::string mediaData;
-        SendMessageCallback *callback;
+        UpdateMediaCallback *callback;
         long mMid;
         void onSuccess(const unsigned char* data, size_t len) {
             GetUploadTokenResult result;
             if(result.ParseFromArray((const void*)data, (int)len)) {
-                UploadTask *uploadTask = new UploadTask(mediaData, result.token(), msg.content.mediaType, new UploadQiniuCallback(msg, callback, result.domain(), mMid));
+                UploadTask *uploadTask = new UploadTask(mediaData, result.token(), msg.content.mediaType, new UploadQiniuCallback(callback, result.domain()));
                 uploadTask->cgi = result.server();
                 uploadTask->shortlink_host_list.push_back("up.qbox.me"); 
                 StartTask(*uploadTask);
+            } else {
+              callback->onFalure(-1);
             }
             
             delete this;
@@ -509,11 +509,29 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         }
     };
 
-
- 
+  class UploadMediaForSendCallback : public UpdateMediaCallback {
+  public:
+    TMessage mMsg;
+    SendMessageCallback *mCallback;
+    long mMid;
     
-// conversation.type, [conversation.target UTF8String], payload.contentType, [payload.searchableContent UTF8String], [payload.pushContent UTF8String], [payload.content UTF8String], [payload.localContent UTF8String], (const unsigned char *)payload.binaryContent.bytes, payload.binaryContent.length, new IMSendMessageCallback(message, successBlock, errorBlock), mediaPayload.mediaType, [mediaPayload.remoteMediaUrl UTF8String], [mediaPayload.localMediaPath UTF8String]
+    UploadMediaForSendCallback(SendMessageCallback *cb, const TMessage &tmsg, long messageId) : mMsg(tmsg), mCallback(cb), mMid(messageId) {}
     
+    void onSuccess(const std::string &remoteUrl) {
+      MessageDB::Instance()->updateMessageRemoteMediaUrl(mMid, remoteUrl);
+      mMsg.content.remoteMediaUrl = remoteUrl;
+      mCallback->onMediaUploaded(remoteUrl);
+      sendSavedMsg(mMid, mMsg, mCallback);
+      delete this;
+    }
+    
+    void onFalure(int errorCode) {
+      mCallback->onFalure(errorCode);
+      delete this;
+    }
+    ~UploadMediaForSendCallback() {}
+  };
+  
 int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
 = [](TMessage &tmsg, SendMessageCallback *callback) {
     tmsg.timestamp = time(NULL)*1000;
@@ -521,9 +539,6 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
   MessageDB::Instance()->updateConversationTimestamp(tmsg.conversationType, tmsg.target, tmsg.line, tmsg.timestamp);
   callback->onPrepared(id, tmsg.timestamp);
   
-  
-
-    
     if(!tmsg.content.localMediaPath.empty() && tmsg.content.mediaType > 0) {
         
         char * buffer;
@@ -539,7 +554,7 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
         
         delete [] buffer;
         
-        mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new GetUploadTokenCallback(callback, tmsg, md, id));
+        mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new GetUploadTokenCallback(new UploadMediaForSendCallback(callback, tmsg, id), md));
         publishTask->topic = getQiniuUploadTokenTopic;
         publishTask->length = sizeof(int);
         publishTask->body = new unsigned char[publishTask->length];
@@ -550,6 +565,16 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
     }
     return 0;
 };
+  
+  int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaCallback *callback) {
+    mars::stn::MQTTPublishTask *publishTask = new mars::stn::MQTTPublishTask(new GetUploadTokenCallback(callback, mediaData));
+    publishTask->topic = getQiniuUploadTokenTopic;
+    publishTask->length = sizeof(int);
+    publishTask->body = new unsigned char[publishTask->length];
+    memcpy(publishTask->body, &mediaType, publishTask->length);
+    mars::stn::StartTask(*publishTask);
+  }
+  
     class CreateGroupPublishCallback : public MQTTPublishCallback {
     public:
         CreateGroupPublishCallback(CreateGroupCallback *cb) : MQTTPublishCallback(), callback(cb) {}

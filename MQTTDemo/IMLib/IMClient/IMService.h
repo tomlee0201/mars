@@ -93,4 +93,6 @@
         notifyContent:(MessageContent *)notifyContent
               success:(void(^)())successBlock
                 error:(void(^)(int error_code))errorBlock;
+  
+- (void)uploadMedia:(NSData *)mediaData mediaType:(MediaType)mediaType success:(void(^)(NSString *remoteUrl))successBlock error:(void(^)(int error_code))errorBlock;
 @end

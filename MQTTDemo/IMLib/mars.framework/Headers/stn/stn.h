@@ -211,6 +211,13 @@ struct DnsProfile;
         virtual void onSuccess(long messageUid, long long timestamp) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
+      
+      class UpdateMediaCallback {
+        public:
+        virtual void onSuccess(const std::string &remoteUrl) = 0;
+        virtual void onFalure(int errorCode) = 0;
+      };
+
 
     class CreateGroupCallback {
     public:
@@ -543,7 +550,9 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
       extern ConnectionStatus getConnectionStatus();
         
 extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);
-        
+      
+extern int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaCallback *callback);
+      
         extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback);
         
 extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralGroupOperationCallback *callback);

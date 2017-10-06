@@ -208,6 +208,28 @@ public:
     }
 };
 
+class GeneralUpdateMediaCallback : public mars::stn::UpdateMediaCallback {
+public:
+  void(^m_successBlock)(NSString *remoteUrl);
+  void(^m_errorBlock)(int error_code);
+  
+  GeneralUpdateMediaCallback(void(^successBlock)(NSString *remoteUrl), void(^errorBlock)(int error_code)) : mars::stn::UpdateMediaCallback(), m_successBlock(successBlock) {}
+  
+  void onSuccess(const std::string &remoteUrl) {
+    m_successBlock([NSString stringWithUTF8String:remoteUrl.c_str()]);
+    delete this;
+  }
+  
+  void onFalure(int errorCode) {
+    m_errorBlock(errorCode);
+    delete this;
+  }
+  
+  ~GeneralUpdateMediaCallback() {
+    m_successBlock = nil;
+    m_errorBlock = nil;
+  }
+};
 
 static Message *convertProtoMessage(const mars::stn::TMessage *tMessage) {
     Message *ret = [[Message alloc] init];
@@ -551,6 +573,10 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::transferGroup([groupId UTF8String], [newOwner UTF8String], lines, tmsg, new IMGeneralGroupOperationCallback(successBlock, errorBlock));
 }
 
+- (void)uploadMedia:(NSData *)mediaData mediaType:(MediaType)mediaType success:(void(^)(NSString *remoteUrl))successBlock error:(void(^)(int error_code))errorBlock {
+  mars::stn::uploadGeneralMedia(std::string((char *)mediaData.bytes, mediaData.length), mediaType, new GeneralUpdateMediaCallback(successBlock, errorBlock));
+}
+  
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload {
     int contenttype = payload.contentType;
     Class contentClass = self.MessageContentMaps[@(contenttype)];

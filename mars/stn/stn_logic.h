@@ -69,8 +69,7 @@ namespace stn{
         
     };
 
-    void SetCallback(Callback* const callback);
-    
+   extern  void SetCallback(Callback* const callback);
 
 //    extern void SetLonglinkSvrAddr(const std::string& host, const std::vector<uint16_t> ports);
 //    extern void SetShortlinkSvrAddr(const uint16_t port);
