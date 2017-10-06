@@ -30,17 +30,7 @@ namespace mars {
 //        extern const std::string sendMessageTopic;
         const std::string pullMessageTopic = "MP";
         const std::string notifyMessageTopic = "MN";
-        
-//        extern const std::string createGroupTopic;
-//        extern const std::string addGroupMemberTopic;
-//        extern const std::string kickoffGroupMemberTopic;
-//        extern const std::string quitGroupTopic;
-//        extern const std::string dismissGroupTopic;
-//        extern const std::string modifyGroupInfoTopic;
-//        extern const std::string getGroupInfoTopic;
-//        extern const std::string getGroupMemberTopic;
-//
-        
+                
       void setConnectionStatusCallback(ConnectionStatusCallback *callback) {
         StnCallBack::Instance()->setConnectionStatusCallback(callback);
       }
