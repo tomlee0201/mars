@@ -13,7 +13,7 @@
 //#import <CommonCrypto/CommonCryptor.h>
 #import "AFNetworking.h"
 #import "Config.h"
-
+#import "MBProgressHUD.h"
 
 @interface LoginViewController () 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -114,7 +114,11 @@ const NSString *IMKey = @"testim";
 - (IBAction)onLoginButton:(id)sender {
     NSString *user = self.userNameField.text;
     NSString *password = self.passwordField.text;
-    
+  
+  MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  hud.label.text = @"登陆中...";
+  [hud showAnimated:YES];
+  
     [self.class login:user password:password success:^(NSString *userId, NSString *token) {
         [[NSUserDefaults standardUserDefaults] setObject:user forKey:@"savedName"];
         [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"savedPwd"];
@@ -124,12 +128,22 @@ const NSString *IMKey = @"testim";
         [[NetworkService sharedInstance] login:userId password:token];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+          [hud hideAnimated:YES];
             UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
             UIViewController *rootVC =  [sb instantiateViewControllerWithIdentifier:@"rootVC"];
             [UIApplication sharedApplication].delegate.window.rootViewController = rootVC;
         });
     } error:^(int errCode, NSString *message) {
         NSLog(@"login error with code %d, message %@", errCode, message);
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [hud hideAnimated:YES];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text = @"登陆失败";
+        hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
+        [hud hideAnimated:YES afterDelay:1.f];
+      });
     }];
 }
 @end

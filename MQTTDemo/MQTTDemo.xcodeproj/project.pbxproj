@@ -15,6 +15,7 @@
 		2E0009061F87778E00955A66 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0009001F87776900955A66 /* AFURLSessionManager.m */; };
 		2E00090D1F87CA9A00955A66 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E00090C1F87CA9A00955A66 /* SettingTableViewController.m */; };
 		2E0009101F87CAD000955A66 /* MyPortraitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E00090F1F87CAD000955A66 /* MyPortraitViewController.m */; };
+		2E0009171F87D82100955A66 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0009161F87D5B900955A66 /* MBProgressHUD.m */; };
 		2E081CD41F6A7D060046D679 /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E081CD31F6A7D060046D679 /* WCDB.framework */; };
 		2E0A9EB51F714B140028E8B7 /* NotificationMessageContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */; };
 		2E0A9EB71F714B140028E8B7 /* NotificationMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */; };
@@ -197,6 +198,8 @@
 		2E00090C1F87CA9A00955A66 /* SettingTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
 		2E00090E1F87CAD000955A66 /* MyPortraitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyPortraitViewController.h; sourceTree = "<group>"; };
 		2E00090F1F87CAD000955A66 /* MyPortraitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyPortraitViewController.m; sourceTree = "<group>"; };
+		2E0009151F87D5B900955A66 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		2E0009161F87D5B900955A66 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		2E081CD31F6A7D060046D679 /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = IMLib/WCDB.framework; sourceTree = "<group>"; };
 		2E0A9EB31F714B140028E8B7 /* NotificationMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationMessageContent.h; sourceTree = "<group>"; };
 		2E0A9EB41F714B140028E8B7 /* NotificationMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationMessageContent.m; sourceTree = "<group>"; };
@@ -442,6 +445,15 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		2E0009141F87D5B900955A66 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				2E0009151F87D5B900955A66 /* MBProgressHUD.h */,
+				2E0009161F87D5B900955A66 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		2E32E3461F622527000063A6 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,6 +652,7 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2E0009141F87D5B900955A66 /* MBProgressHUD */,
 				2E0008F31F87776900955A66 /* AFNetworking */,
 				2EDB88021F63AFD200578E7D /* View */,
 				2E32E3461F622527000063A6 /* SDWebImage */,
@@ -913,6 +926,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E32E37F1F622527000063A6 /* UIImage+GIF.m in Sources */,
+				2E0009171F87D82100955A66 /* MBProgressHUD.m in Sources */,
 				2E0009011F87778300955A66 /* AFHTTPSessionManager.m in Sources */,
 				2E0009021F87778600955A66 /* AFNetworkReachabilityManager.m in Sources */,
 				2ED386271F7DC0AE00DC4C98 /* UserInfo.m in Sources */,

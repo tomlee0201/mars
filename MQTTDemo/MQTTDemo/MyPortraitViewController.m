@@ -10,6 +10,9 @@
 #import "IMService.h"
 #import "SDWebImage.h"
 #import "NetworkService.h"
+#import "MBProgressHUD.h"
+
+
 
 @interface MyPortraitViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
   @property (weak, nonatomic) IBOutlet UIImageView *portraitView;
@@ -90,18 +93,42 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   
   UIImage *previousImage = self.portraitView.image;
   __weak typeof(self) ws = self;
+  MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  hud.label.text = @"更新中...";
+  [hud showAnimated:YES];
+  
   [[IMService sharedIMService] uploadMedia:data mediaType:0 success:^(NSString *remoteUrl) {
     [[IMService sharedIMService] modifyMyInfo:@{@(Modify_Portrait):remoteUrl} success:^{
       dispatch_async(dispatch_get_main_queue(), ^{
         [ws.portraitView sd_setImageWithURL:[NSURL URLWithString:remoteUrl] placeholderImage:previousImage];
+        [hud showAnimated:NO];
+        [ws showHud:@"更新成功"];
       });
     } error:^(int error_code) {
-      
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [hud showAnimated:NO];
+        [ws showHud:@"更新失败"];
+      });
     }];
   } error:^(int error_code) {
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [hud showAnimated:NO];
+      [ws showHud:@"更新失败"];
+    });
   }];
 }
+  
+  - (void)showHud:(NSString *)text {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    // Set the text mode to show only text.
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = text;
+    // Move to bottm center.
+    hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
+    [hud hideAnimated:YES afterDelay:1.f];
+  }
+  
   + (UIImage *)thumbnailWithImage:(UIImage *)originalImage maxSize:(CGSize)size {
     CGSize originalsize = [originalImage size];
     //原图长宽均小于标准长宽的，不作处理返回原图
