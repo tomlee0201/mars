@@ -27,7 +27,10 @@
   
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoUpdated:) name:kUserInfoUpdated object:[NetworkService sharedInstance].userId];
-  
+    
+    self.title = @"设置";
+    
+    self.myPortraitView.autoresizingMask = UIViewAutoresizingNone;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,7 +54,24 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 80;
+    } else {
+        return 48;
+    }
+}
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 2) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedName"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedPwd"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedToken"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"savedUserId"];
+        [[NetworkService sharedInstance] logout];
+
+    }
+}
 //#pragma mark - Table view data source
 //
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -25,7 +25,7 @@
     NSString *savedUserId = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedUserId"];
     
   if (savedName.length > 0 && savedPwd.length > 0 && savedToken.length > 0 && savedUserId.length > 0) {
-    [[NetworkService sharedInstance] login:savedUserId password:savedPwd];
+    [[NetworkService sharedInstance] login:savedUserId password:savedToken];
       [LoginViewController login:savedName password:savedPwd success:^(NSString *userId, NSString *token) {
           
       } error:^(int errCode, NSString *message) {
