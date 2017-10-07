@@ -33,7 +33,7 @@
 
 - (void)onGroupInfoUpdated:(NSNotification *)notification {
   GroupInfo *groupInfo = notification.userInfo[@"groupInfo"];
-    if (self.info.conversation.type == Single_Type && [self.info.conversation.target isEqualToString:groupInfo.target]) {
+    if (self.info.conversation.type == Group_Type && [self.info.conversation.target isEqualToString:groupInfo.target]) {
       [self updateGroupInfo:groupInfo];
     }
 }
