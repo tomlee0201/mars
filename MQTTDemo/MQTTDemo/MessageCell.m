@@ -182,7 +182,7 @@
                                                                                       image.size.height * 0.2, image.size.width * 0.2)];
       
   }
-  
+    
   UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:model.message.fromUser refresh:NO];
   if(userInfo.userId.length == 0) {
     userInfo = [[UserInfo alloc] init];

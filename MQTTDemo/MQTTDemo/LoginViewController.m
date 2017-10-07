@@ -28,8 +28,11 @@ const NSString *IMKey = @"testim";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    srand((int)time(NULL));
-    self.userNameField.text = [NSString stringWithFormat:@"user%d", rand()%10];
+    NSString *savedName = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedName"];
+    NSString *savedPwd = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedPwd"];
+    
+    self.userNameField.text = savedName;
+    self.passwordField.text = savedPwd;
 }
 
 //- (NSString *) encryptUseDES:(NSString *)plainText {

@@ -100,6 +100,25 @@ NSArray<UserInfo *>* converUserInfos(const std::list<const mars::stn::TUserInfo>
     return out;
 }
 
+GroupInfo* convertGroupInfo(const mars::stn::TGroupInfo &tgi) {
+    GroupInfo *groupInfo = [[GroupInfo alloc] init];
+    groupInfo.type = (GroupType)tgi.type;
+    groupInfo.target = [NSString stringWithUTF8String:tgi.target.c_str()];
+    groupInfo.name = [NSString stringWithUTF8String:tgi.name.c_str()];
+    groupInfo.extra = [NSData dataWithBytes:tgi.extra.c_str() length:tgi.extra.length()];
+    groupInfo.portrait = [NSString stringWithUTF8String:tgi.portrait.c_str()];
+    groupInfo.owner = [NSString stringWithUTF8String:tgi.owner.c_str()];
+    return groupInfo;
+}
+
+NSArray<GroupInfo *>* convertGroupInfos(const std::list<const mars::stn::TGroupInfo> &groupInfoList) {
+    NSMutableArray *out = [[NSMutableArray alloc] init];
+    for (std::list<const mars::stn::TGroupInfo>::const_iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {
+        [out addObject:convertGroupInfo(*it)];
+    }
+    return out;
+}
+
 class GUCB : public mars::stn::GetUserInfoCallback {
   public:
   GUCB(id<RefreshUserInfoDelegate> delegate) : m_delegate(delegate) {}
@@ -119,7 +138,10 @@ class GGCB : public mars::stn::GetGroupInfoCallback {
   public:
   GGCB(id<RefreshGroupInfoDelegate> delegate) : m_delegate(delegate) {}
   
-  void onSuccess(std::list<mars::stn::TGroupInfo> groupInfoList) {
+  void onSuccess(const std::list<const mars::stn::TGroupInfo> &groupInfoList) {
+      if(m_delegate) {
+          [m_delegate onGroupInfoUpdated:convertGroupInfos(groupInfoList)];
+      }
   }
   void onFalure(int errorCode) {
   }

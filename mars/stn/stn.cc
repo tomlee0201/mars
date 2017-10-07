@@ -106,9 +106,9 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
             
         public:
             RefreshGroupInfoCallback() {};
-            void onSuccess(std::list<TGroupInfo> groupInfoList) {
+            void onSuccess(const std::list<const mars::stn::TGroupInfo> &groupInfoList) {
                 
-                for (std::list<TGroupInfo>::iterator it = groupInfoList.begin(); it != groupInfoList.end(); ++it) {
+                for (std::list<const TGroupInfo>::const_iterator it = groupInfoList.begin(); it != groupInfoList.end(); ++it) {
                     MessageDB::Instance()->InsertGroupInfo(*it);
                 }
                 delete this;

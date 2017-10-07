@@ -738,7 +738,7 @@ void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLin
             
             PullGroupInfoResult result;
             if(result.ParsePartialFromArray(data, (int)len)) {
-                std::list<TGroupInfo> retList;
+                std::list<const TGroupInfo> retList;
                 
                 for (::google::protobuf::RepeatedPtrField< ::mars::stn::GroupInfo >::const_iterator it = result.info().begin(); it != result.info().end(); it++) {
                     const ::mars::stn::GroupInfo &info = *it;
@@ -748,9 +748,9 @@ void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLin
                     tInfo.portrait = info.portrait();
                     tInfo.owner = info.owner();
                     tInfo.extra = info.extra();
-                    retList.push_back(tInfo);
+                    retList.push_back(*const_cast<const TGroupInfo*>(&tInfo));
                 }
-                callback->onSuccess(retList);
+                callback->onSuccess(*const_cast<const std::list<const mars::stn::TGroupInfo>*>(&retList));
             } else {
                 callback->onFalure(-1);
             }

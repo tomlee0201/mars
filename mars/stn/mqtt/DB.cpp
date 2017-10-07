@@ -292,6 +292,26 @@ namespace mars {
             _database->exec(WCDB::StatementCreateTable().create(USER_TABLE_NAME, userDefList, true),
                             error);
             
+            //create user index
+            std::list<const WCDB::ColumnIndex> userUidIndexList = {
+                WCDB::ColumnIndex(Column("_uid"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                            .create("user_uid_index", true, true)
+                            .on(USER_TABLE_NAME, userUidIndexList),
+                            error);
+            
+            std::list<const WCDB::ColumnIndex> userNameIndexList = {
+                WCDB::ColumnIndex(Column("_name"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                            .create("user_name_index", true, true)
+                            .on(USER_TABLE_NAME, userNameIndexList),
+                            error);
+
+            
+            
+            
             
             //create group table
             std::list<const WCDB::ColumnDef> groupDefList = {
@@ -304,10 +324,19 @@ namespace mars {
                 WCDB::ColumnDef(Column("_extra"), ColumnType::Text),
                 WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
             };
-            
         
             _database->exec(WCDB::StatementCreateTable().create(GROUP_TABLE_NAME, groupDefList, true),
                             error);
+            
+            //create group index
+            std::list<const WCDB::ColumnIndex> groupUidIndexList = {
+                WCDB::ColumnIndex(Column("_uid"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                            .create("group_uid_index", true, true)
+                            .on(GROUP_TABLE_NAME, groupUidIndexList),
+                            error);
+
             
             
             //create group member table
@@ -320,6 +349,19 @@ namespace mars {
             };
             _database->exec(WCDB::StatementCreateTable().create(GROUP_MEMBER_TABLE_NAME, groupMemberDefList, true),
                             error);
+            
+            //create group member index
+            std::list<const WCDB::ColumnIndex> groupMemberIndexList = {
+                WCDB::ColumnIndex(Column("_gid"),OrderTerm::NotSet),
+                WCDB::ColumnIndex(Column("_mid"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                            .create("group_member_index", true, true)
+                            .on(GROUP_MEMBER_TABLE_NAME, groupMemberIndexList),
+                            error);
+
+            
+            
 
             
             //create timeline table
@@ -345,7 +387,7 @@ namespace mars {
             _database->exec(WCDB::StatementCreateTable().create(CONVERSATION_TABLE_NAME, convDefList, true),
                             error);
             
-            //create conversation index table
+            //create conversation index
             std::list<const WCDB::ColumnIndex> convIndexList = {
                 WCDB::ColumnIndex(Column("_conv_type"),OrderTerm::NotSet),
                 WCDB::ColumnIndex(Column("_conv_target"),OrderTerm::NotSet),

@@ -232,7 +232,7 @@ struct DnsProfile;
     };
     class GetGroupInfoCallback {
     public:
-        virtual void onSuccess(std::list<TGroupInfo> groupInfoList) = 0;
+        virtual void onSuccess(const std::list<const mars::stn::TGroupInfo> &groupInfoList) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
         

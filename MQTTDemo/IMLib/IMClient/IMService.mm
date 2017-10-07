@@ -12,7 +12,7 @@
 #import "MediaMessageContent.h"
 #import <mars/stn/MessageDB.hpp>
 #import <objc/runtime.h>
-
+#import "NetworkService.h"
 
 class IMSendMessageCallback : public mars::stn::SendMessageCallback {
 private:
@@ -118,12 +118,12 @@ private:
     void(^m_errorBlock)(int error_code);
 public:
     IMGetGroupInfoCallback(void(^successBlock)(NSArray<GroupInfo *> *), void(^errorBlock)(int error_code)) : mars::stn::GetGroupInfoCallback(), m_successBlock(successBlock), m_errorBlock(errorBlock) {};
-    void onSuccess(std::list<mars::stn::TGroupInfo> groupInfoList) {
+    void onSuccess(const std::list<const mars::stn::TGroupInfo> &groupInfoList) {
         if (m_successBlock) {
             NSMutableArray *ret = [[NSMutableArray alloc] init];
-            for (std::list<mars::stn::TGroupInfo>::iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {
+            for (std::list<const mars::stn::TGroupInfo>::const_iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {
                 GroupInfo *gi = [[GroupInfo alloc] init];
-                mars::stn::TGroupInfo &tgi = *it;
+                const mars::stn::TGroupInfo &tgi = *it;
                 gi.target = [NSString stringWithUTF8String:tgi.target.c_str()];
                 gi.type = (GroupType)tgi.type;
                 gi.name = [NSString stringWithUTF8String:tgi.name.c_str()];
@@ -329,6 +329,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::TMessage tmsg;
     fillTMessage(tmsg, conversation, payload);
     mars::stn::sendMessage(tmsg, new IMSendMessageCallback(message, successBlock, errorBlock));
+    message.fromUser = [NetworkService sharedInstance].userId;
     return message;
 }
 
