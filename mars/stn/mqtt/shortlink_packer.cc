@@ -26,6 +26,24 @@ using namespace http;
 namespace mars { namespace stn {
 
 static const std::string UploadBoundary = "--727f6ee7446cbf7263";
+    std::map<std::string, std::string> stringToMap(std::string &str)
+    {
+        std::map<std::string, std::string> out;
+        while (!str.empty()) {
+            long Keybegin = str.find("{\"");
+            long keyend = str.find("\":\"");
+            long valueend = str.find("\"}");
+            
+            if(Keybegin == -1 || keyend == -1 || valueend == -1)
+                break;
+            
+            std::string key = str.substr(Keybegin + 2, keyend - Keybegin - 2);
+            std::string value = str.substr(keyend + 3, valueend - keyend - 3);
+            str = str.substr(valueend+2);
+            out[key] = value;
+        }
+        return out;
+    }
     
 shortlink_tracker* (*shortlink_tracker::Create)()
 =  []() { return new shortlink_tracker; };
@@ -34,43 +52,36 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
 = [](const std::string& _url, const std::map<std::string, std::string>& _headers, const AutoBuffer& _body, const AutoBuffer& _extension, AutoBuffer& _out_buff, shortlink_tracker* _tracker) {
 
 	Builder req_builder(kRequest);
-	req_builder.Request().Method(RequestLine::kPost);
+    
+    std::string strMap((const char*)_extension.Ptr(), _extension.Length());
+    std::map<std::string, std::string> parsedMap = stringToMap(strMap);
+    std::string method = parsedMap["method"];
+    
+    if(method == "POST") {
+        req_builder.Request().Method(RequestLine::kPost);
+    } else if (method == "GET") {
+        req_builder.Request().Method(RequestLine::kGet);
+    } else if (method == "PUT") {
+        req_builder.Request().Method(RequestLine::kPut);
+    } else if (method == "DELETE") {
+        req_builder.Request().Method(RequestLine::kDelete);
+    } else {
+        req_builder.Request().Method(RequestLine::kGet);
+    }
+    
 	req_builder.Request().Version(kVersion_1_1);
 
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeAcceptAll());
 	req_builder.Fields().HeaderFiled(HeaderFields::KStringUserAgent, HeaderFields::KStringMicroMessenger);
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeCacheControlNoCache());
-	req_builder.Fields().HeaderFiled(std::make_pair("Content-Type", "multipart/form-data; boundary="+UploadBoundary));
 	req_builder.Fields().HeaderFiled(HeaderFields::MakeConnectionClose());
-
-    unsigned char mediaType = *((const unsigned char  *)_extension.Ptr());
     
-    std::string uploadToken((const char *)_extension.Ptr() + 1, _extension.Length()-1);
-    std::string fileName;
-    std::stringstream ss;
-    ss << mars::app::GetUserName();
-    ss << "-";
-    ss << time(NULL);
-    ss << "_";
-    ss << rand()%10000;
-    ss >> fileName;
-    
-    std::string mimeType;
-    if (mediaType == 3) {
-        mimeType = "image_jpeg";
-    } else if(mediaType == 2) {
-        mimeType = "audio_amr";
+    for(std::map<std::string, std::string>::iterator it = parsedMap.begin(); it != parsedMap.end(); ++it) {
+        if(it->first != "method") {
+            req_builder.Fields().HeaderFiled(it->first.c_str(), it->second.c_str());
+        }
     }
-    
-    std::string firstBody = "--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n"
-    + uploadToken + "\r\n--" + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"key\"\r\n\r\n" + fileName + "\r\n--"
-    + UploadBoundary + "\r\nContent-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\nContent-Type: " + mimeType + "\r\n\r\n";
-    
-    std::string lastBody =  "\r\n--" + UploadBoundary + "--";
-    
-    char len_str[32] = {0};
-	snprintf(len_str, sizeof(len_str), "%u", (unsigned int)(_body.Length() + firstBody.length() + lastBody.length()));
-	req_builder.Fields().HeaderFiled(HeaderFields::KStringContentLength, len_str);
+	
 
 	for (std::map<std::string, std::string>::const_iterator iter = _headers.begin(); iter != _headers.end(); ++iter) {
 		req_builder.Fields().HeaderFiled(iter->first.c_str(), iter->second.c_str());
@@ -80,9 +91,7 @@ void (*shortlink_pack)(const std::string& _url, const std::map<std::string, std:
 	req_builder.HeaderToBuffer(_out_buff);
     
      
-    _out_buff.Write(firstBody.c_str(), firstBody.length());
-	_out_buff.Write(_body.Ptr(), _body.Length());
-    _out_buff.Write(lastBody.c_str(), lastBody.length());
+    _out_buff.Write(_body.Ptr(), _body.Length());
 };
 
 }}

@@ -511,12 +511,14 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
             GetUploadTokenResult result;
             if(result.ParseFromArray((const void*)data, (int)len)) {
                 UploadTask *uploadTask = new UploadTask(mediaData, result.token(), msg.content.mediaType, new UploadQiniuCallback(callback, result.domain()));
-                uploadTask->cgi = result.server();
-                uploadTask->shortlink_host_list.push_back("up.qbox.me"); 
+                uploadTask->cgi = "/fs";//*/result.server();
+                std::string server = result.server();
+                uploadTask->shortlink_host_list.push_back(server);
                 StartTask(*uploadTask);
             } else {
               callback->onFalure(-1);
             }
+            
             
             delete this;
         };
