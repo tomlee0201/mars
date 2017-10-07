@@ -747,7 +747,9 @@ void (*dismissGroup)(const std::string &groupId, const std::list<int> &notifyLin
                     tInfo.name = info.name();
                     tInfo.portrait = info.portrait();
                     tInfo.owner = info.owner();
+                    tInfo.type = info.type();
                     tInfo.extra = info.extra();
+                    tInfo.updateDt = info.update_dt();
                     retList.push_back(*const_cast<const TGroupInfo*>(&tInfo));
                 }
                 callback->onSuccess(*const_cast<const std::list<const mars::stn::TGroupInfo>*>(&retList));

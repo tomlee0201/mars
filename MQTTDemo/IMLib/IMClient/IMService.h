@@ -88,10 +88,6 @@ typedef enum : NSUInteger {
                 success:(void(^)())successBlock
                   error:(void(^)(int error_code))errorBlock;
 
-- (void)getGroupInfo:(NSArray<NSString *> *)groupIds
-             success:(void(^)(NSArray<GroupInfo *> *))successBlock
-               error:(void(^)(int error_code))errorBlock;
-
 - (void)getGroupMembers:(NSString *)groupId
                 success:(void(^)(NSArray<NSString *> *))successBlock
                   error:(void(^)(int error_code))errorBlock;

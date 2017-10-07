@@ -536,16 +536,6 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     mars::stn::modifyGroupInfo([groupInfo.target UTF8String], tInfo, lines, tmsg, new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
-- (void)getGroupInfo:(NSArray<NSString *> *)groupIds success:(void(^)(NSArray<GroupInfo *> *))successBlock error:(void(^)(int error_code))errorBlock {
-
-    std::list<std::string> idList;
-    for (NSString *groupId in groupIds) {
-        idList.push_back([groupId UTF8String]);
-    }
-    
-   // mars::stn::getGroupInfo(idList, new IMGetGroupInfoCallback(successBlock, errorBlock));
-}
-
 - (void)getGroupMembers:(NSString *)groupId success:(void(^)(NSArray<NSString *> *))successBlock error:(void(^)(int error_code))errorBlock {
 
     mars::stn::getGroupMembers([groupId UTF8String], new IMGetGroupMemberCallback(successBlock, errorBlock));

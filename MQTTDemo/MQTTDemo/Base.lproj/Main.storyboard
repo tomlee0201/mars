@@ -336,39 +336,10 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5je-So-Xr1" id="kbX-GH-rim" customClass="GroupTableViewCell">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SCS-Ae-7PN">
-                                            <rect key="frame" x="8" y="0.0" width="36" height="36"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="36" id="Zad-MQ-JUV"/>
-                                                <constraint firstAttribute="height" constant="36" id="s08-KW-A33"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1bV-sQ-g3C">
-                                            <rect key="frame" x="52" y="12" width="154" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="154" id="Eqd-cS-udf"/>
-                                                <constraint firstAttribute="height" constant="21" id="uQX-wb-qJO"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="SCS-Ae-7PN" firstAttribute="top" secondItem="kbX-GH-rim" secondAttribute="top" id="0lS-L8-asi"/>
-                                        <constraint firstItem="SCS-Ae-7PN" firstAttribute="leading" secondItem="kbX-GH-rim" secondAttribute="leading" constant="8" id="1Cc-fr-cVV"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="1bV-sQ-g3C" secondAttribute="bottom" constant="3" id="9a8-Aa-0E4"/>
-                                        <constraint firstAttribute="bottom" secondItem="SCS-Ae-7PN" secondAttribute="bottom" constant="8" id="ONb-2R-STA"/>
-                                        <constraint firstItem="1bV-sQ-g3C" firstAttribute="leading" secondItem="SCS-Ae-7PN" secondAttribute="trailing" constant="8" id="a7k-0G-4C5"/>
-                                        <constraint firstItem="1bV-sQ-g3C" firstAttribute="top" secondItem="kbX-GH-rim" secondAttribute="topMargin" constant="4" id="xeF-oa-Wm8"/>
-                                    </constraints>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="name" destination="1bV-sQ-g3C" id="dwr-uE-6UL"/>
-                                    <outlet property="portrait" destination="SCS-Ae-7PN" id="xo3-io-o0J"/>
                                     <segue destination="QDf-ZZ-WoK" kind="push" id="4QG-Ms-D3y"/>
                                 </connections>
                             </tableViewCell>

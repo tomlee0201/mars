@@ -24,38 +24,44 @@
 
 
 @interface GroupTableViewController ()
-@property (nonatomic, strong)NSMutableArray<NSString *> *groupIds;
-@property (nonatomic, strong)NSMutableDictionary<NSString *, GroupInfo *> *groupInfoDict;
+@property (nonatomic, strong)NSMutableArray<GroupInfo *> *groups;
 @end
 
 @implementation GroupTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.groupInfoDict = [[NSMutableDictionary alloc] init];
+    self.groups = [[NSMutableArray alloc] init];
 }
 
 - (void)refreshList {
     __weak typeof(self) ws = self;
     [[IMService sharedIMService] getMyGroups:^(NSArray<NSString *> *ids) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            ws.groupIds = [ids mutableCopy];
+            [ws.groups removeAllObjects];
+            for (NSString *groupId in ids) {
+                GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:groupId refresh:NO];
+                groupInfo.target = groupId;
+                [ws.groups addObject:groupInfo];
+                [[NSNotificationCenter defaultCenter] addObserver:ws selector:@selector(onGroupInfoUpdated:) name:kGroupInfoUpdated object:groupId];
+            }
             [ws.tableView reloadData];
         });
-        
-        
-        [[IMService sharedIMService] getGroupInfo:ids success:^(NSArray<GroupInfo *> *groupInfos) {
-            for (GroupInfo *info in groupInfos) {
-                ws.groupInfoDict[info.target] = info;
-            }
-        } error:^(int error_code) {
-            
-        }];
-
     } error:^(int error_code) {
         
     }];
 }
+
+- (void)onGroupInfoUpdated:(NSNotification *)notification {
+    GroupInfo *groupInfo = notification.userInfo[@"groupInfo"];
+    for (int i = 0; i < self.groups.count; i++) {
+        if([self.groups[i].target isEqualToString:groupInfo.target]) {
+            self.groups[i] = groupInfo;
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self refreshList];
@@ -68,14 +74,14 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.groupIds.count;
+    return self.groups.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     GroupTableViewCell *cell = (GroupTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"groupCellId" forIndexPath:indexPath];
     
-    cell.groupId = self.groupIds[indexPath.row];
+    cell.groupInfo = self.groups[indexPath.row];
     
     return cell;
 }
@@ -101,10 +107,9 @@
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *groupId = self.groupIds[indexPath.row];
+    NSString *groupId = self.groups[indexPath.row].target;
     __weak typeof(self) ws = self;
     UITableViewRowAction *invite = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"邀请" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSString *groupId = ws.groupIds[indexPath.row];
         InviteGroupMemberViewController *igmvc = [[InviteGroupMemberViewController alloc] init];
         igmvc.groupId = groupId;
         
@@ -123,7 +128,6 @@
     }];
     
     UITableViewRowAction *kickoff = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"移除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSString *groupId = ws.groupIds[indexPath.row];
         GroupMemberTableViewController *gmtvc = [[GroupMemberTableViewController alloc] init];
         gmtvc.groupId = groupId;
         gmtvc.selectable = YES;
@@ -143,7 +147,6 @@
     }];
     
     UITableViewRowAction *transfer = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"转让" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        NSString *groupId = ws.groupIds[indexPath.row];
         GroupMemberTableViewController *gmtvc = [[GroupMemberTableViewController alloc] init];
         gmtvc.groupId = groupId;
         gmtvc.selectable = YES;
@@ -200,8 +203,8 @@
     kickoff.backgroundColor = [UIColor purpleColor];
     transfer.backgroundColor = [UIColor orangeColor];
     
-    GroupInfo *groupInfo = self.groupInfoDict[groupId];
-    if (groupInfo == nil) {
+    GroupInfo *groupInfo = self.groups[indexPath.row];
+    if (groupInfo == nil || groupInfo.name.length == 0) {
         return @[];
     } else {
         switch (groupInfo.type) {
@@ -255,7 +258,7 @@
     // Pass the selected object to the new view controller.
     if ([segue.destinationViewController isKindOfClass:[MessageViewController class]]) {
         MessageViewController *mvc = (MessageViewController *)segue.destinationViewController;
-        NSString *groupId = self.groupIds[self.tableView.indexPathForSelectedRow.row];
+        NSString *groupId = self.groups[self.tableView.indexPathForSelectedRow.row].target;
         mvc.conversation = [Conversation conversationWithType:Group_Type target:groupId line:0];
     }
 }

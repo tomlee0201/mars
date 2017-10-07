@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GroupInfo.h"
 @interface GroupTableViewCell : UITableViewCell
-@property (nonatomic, strong)NSString *groupId;
+@property (nonatomic, strong)GroupInfo *groupInfo;
 @end
