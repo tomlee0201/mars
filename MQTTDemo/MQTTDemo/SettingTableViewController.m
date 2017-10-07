@@ -28,7 +28,11 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoUpdated:) name:kUserInfoUpdated object:[NetworkService sharedInstance].userId];
   
-  self.myInfo = [[IMService sharedIMService] getUserInfo:[NetworkService sharedInstance].userId refresh:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.myInfo = [[IMService sharedIMService] getUserInfo:[NetworkService sharedInstance].userId refresh:YES];
 }
 
   - (void)onUserInfoUpdated:(NSNotification *)notification {

@@ -75,13 +75,39 @@ public:
   id<ReceiveMessageDelegate> m_delegate;
 };
 
+UserInfo* convertUserInfo(const mars::stn::TUserInfo &tui) {
+    UserInfo *userInfo = [[UserInfo alloc] init];
+    userInfo.userId = [NSString stringWithUTF8String:tui.uid.c_str()];
+    userInfo.name = [NSString stringWithUTF8String:tui.name.c_str()];
+    userInfo.portrait = [NSString stringWithUTF8String:tui.portrait.c_str()];
+    
+    userInfo.displayName = [NSString stringWithUTF8String:tui.displayName.c_str()];
+    userInfo.mobile = [NSString stringWithUTF8String:tui.mobile.c_str()];
+    userInfo.email = [NSString stringWithUTF8String:tui.email.c_str()];
+    userInfo.address = [NSString stringWithUTF8String:tui.address.c_str()];
+    userInfo.company = [NSString stringWithUTF8String:tui.company.c_str()];
+    userInfo.social = [NSString stringWithUTF8String:tui.social.c_str()];
+    userInfo.extra = [NSString stringWithUTF8String:tui.extra.c_str()];
+    userInfo.updateDt = tui.updateDt;
+    return userInfo;
+}
+
+NSArray<UserInfo *>* converUserInfos(const std::list<const mars::stn::TUserInfo> &userInfoList) {
+    NSMutableArray *out = [[NSMutableArray alloc] init];
+    for (std::list<const mars::stn::TUserInfo>::const_iterator it = userInfoList.begin(); it != userInfoList.end(); it++) {
+        [out addObject:convertUserInfo(*it)];
+    }
+    return out;
+}
 
 class GUCB : public mars::stn::GetUserInfoCallback {
   public:
   GUCB(id<RefreshUserInfoDelegate> delegate) : m_delegate(delegate) {}
   
   void onSuccess(const std::list<const mars::stn::TUserInfo> &userInfoList) {
-    
+      if(m_delegate) {
+          [m_delegate onUserInfoUpdated:converUserInfos(userInfoList)];
+      }
   }
   void onFalure(int errorCode) {
     

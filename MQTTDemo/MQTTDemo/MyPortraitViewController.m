@@ -27,6 +27,7 @@
   UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:[NetworkService sharedInstance].userId refresh:NO];
   [self.portraitView sd_setImageWithURL:[NSURL URLWithString:userInfo.portrait] placeholderImage:[UIImage imageNamed:@"PersonalChat"]];
 }
+
 - (IBAction)onModify:(id)sender {
   UIActionSheet *actionSheet =
   [[UIActionSheet alloc] initWithTitle:@"修改头像"
@@ -116,6 +117,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
       [ws showHud:@"更新失败"];
     });
   }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
   
   - (void)showHud:(NSString *)text {
