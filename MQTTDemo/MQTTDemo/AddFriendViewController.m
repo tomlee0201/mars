@@ -7,6 +7,9 @@
 //
 
 #import "AddFriendViewController.h"
+#import "UserInfo.h"
+#import "IMService.h"
+
 
 @interface AddFriendViewController () <UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate>
 @property (nonatomic, strong)  UITableView              *tableView;
@@ -15,6 +18,8 @@
 //数据源
 @property (nonatomic, strong) NSMutableArray            *dataList;
 @property (nonatomic, strong) NSMutableArray            *searchList;
+
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation AddFriendViewController
@@ -37,14 +42,6 @@
     _dataList   = [NSMutableArray array];
     _searchList = [NSMutableArray array];
     
-    self.dataList = [NSMutableArray arrayWithCapacity:100];//容量
-    
-    //产生100个“数字+三个随机字母”
-    for (NSInteger i = 0; i < 100; i++)
-    {
-        [self.dataList addObject:[NSString stringWithFormat:@"%ld%@",(long)i,[self shuffledAlphabet]]];
-        
-    }
     CGFloat screenWidth = self.view.frame.size.width;
     CGFloat screenHeight = self.view.frame.size.height;
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
@@ -122,7 +119,8 @@
     
     if (self.searchController.active)//如果正在搜索
     {
-        [cell.textLabel setText:self.searchList[indexPath.row]];
+        UserInfo *userInfo = self.searchList[indexPath.row];
+        [cell.textLabel setText:userInfo.displayName];
         
     }
     else//如果没有搜索
@@ -170,20 +168,42 @@
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    
     NSLog(@"updateSearchResultsForSearchController");
-    NSString *searchString = [self.searchController.searchBar text];
-    NSPredicate *preicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", searchString];
-    if (self.searchList!= nil)
-    {
-        [self.searchList removeAllObjects];
+    __weak typeof(self) ws = self;
+    if (self.timer.valid) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    
+    
+    self.timer = [NSTimer timerWithTimeInterval:0.5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        NSString *searchString = [ws.searchController.searchBar text];
+        if (searchString.length) {
+            [[IMService sharedIMService] searchUser:searchString
+                                            success:^(NSArray<UserInfo *> *machedUsers) {
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    [ws.searchList removeAllObjects];
+                                                    [ws.searchList addObjectsFromArray:machedUsers];
+                                                    [ws.tableView reloadData];
+                                                });
+                                            }
+                                              error:^(int errorCode) {
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      [ws.searchList removeAllObjects];
+                                                      [ws.tableView reloadData];
+                                                  });
+                                                  NSLog(@"Search failed, errorCode(%d)", errorCode);
+                                              }];
+            
+        } else {
+            [ws.searchList removeAllObjects];
+            [ws.tableView reloadData];
+        }
         
     }
-    //过滤数据
-    self.searchList = [NSMutableArray arrayWithArray:[_dataList filteredArrayUsingPredicate:preicate]];
-    //刷新表格
-    [self.tableView reloadData];
+                  ];
     
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)dealloc {

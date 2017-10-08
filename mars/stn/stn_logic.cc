@@ -65,6 +65,11 @@
 #include "mars/stn/mqtt/Proto/modify_my_info_request.pb.h"
 #include "stn/src/proxy_test.h"
 
+#include "mars/stn/mqtt/rapidjson/document.h"
+#include "mars/stn/mqtt/rapidjson/writer.h"
+#include "mars/stn/mqtt/rapidjson/stringbuffer.h"
+#include <iostream>
+
 namespace mars {
 namespace stn {
 
@@ -640,17 +645,150 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
         }
     };
     
+    using namespace rapidjson;
+
+    int parseSearchUserResult(const std::string &json, std::list<TUserInfo> &userInfos) {
+        const std::string &key = json;
+//        "{                        \
+//                \"code\": 0,             \
+//                \"msg\": \"success\",       \
+//                \"result\": {                   \
+//                    \"keyword\": \"张\",            \
+//                    \"page\": 0,                      \
+//                    \"users\": [                        \
+//                        {                             \
+//                            \"userId\": \"user1\",           \
+//                            \"name\": \"zhangsan\",              \
+//                            \"displayName\": \"张三\",               \
+//                            \"portrait\": \"http:7xqgbn.com1.z0.glb.clouddn.com/user1-1507346359_8727\",    \
+//                            \"mobile\": \"10086\",                        \
+//                            \"email\": \"zhangsan@example.com\",                  \
+//                            \"address\": \"南国中路38号\",                         \
+//                            \"company\": \"纵横世界大发展股份有限公司\",               \
+//                            \"extra\": \"{\\\"title\\\":\\\"老总\\\"}\"                  \
+//                        }                                                     \
+//                    ]                                                 \
+//                }                                                           \
+//            }";
+        
+        
+        Document d;
+        d.Parse(key.c_str());
+        
+        if(d.HasParseError()) {
+            return -1; //json paser error
+        }
+        
+        Value& s = d["code"];
+        
+        int code = s.GetInt();
+        if(code != 0) {
+            return code;
+        } else {
+            s = d["result"];
+            if(s.IsObject()) {
+                s = s["users"];
+                if (!s.IsArray()) {
+                    return -1;
+                } else {
+                    for (int i = 0; i < s.Size(); i++) {
+                        Value& user = s[i];
+                        if(user.IsObject()) {
+                            TUserInfo userInfo;
+                            
+                            if (user.HasMember("userId") && user["userId"].IsString()) {
+                                std::string userId = user["userId"].GetString();
+                                userInfo.uid = userId;
+                            }
+                            
+                            if (user.HasMember("name") && user["name"].IsString()) {
+                                std::string name = user["name"].GetString();
+                                userInfo.name = name;
+                            }
+                            
+                            if (user.HasMember("displayName") && user["displayName"].IsString()) {
+                                std::string displayName = user["displayName"].GetString();
+                                userInfo.displayName = displayName;
+                            }
+                            
+                            if (user.HasMember("portrait") && user["portrait"].IsString()) {
+                                std::string portrait = user["portrait"].GetString();
+                                userInfo.portrait = portrait;
+                            }
+                            
+                            if (user.HasMember("mobile") && user["mobile"].IsString()) {
+                                std::string mobile = user["mobile"].GetString();
+                                userInfo.mobile = mobile;
+                            }
+                            
+                            if (user.HasMember("email") && user["email"].IsString()) {
+                                std::string email = user["email"].GetString();
+                                userInfo.email = email;
+                            }
+                            
+                            if (user.HasMember("address") && user["address"].IsString()) {
+                                std::string address = user["address"].GetString();
+                                userInfo.address = address;
+                            }
+                            
+                            if (user.HasMember("company") && user["company"].IsString()) {
+                                std::string company = user["company"].GetString();
+                                userInfo.company = company;
+                            }
+                            
+                            if (user.HasMember("extra") && user["extra"].IsString()) {
+                                std::string extra = user["extra"].GetString();
+                                userInfo.extra = extra;
+                            }
+                            userInfos.push_back(userInfo);
+                        }
+                    }
+                }
+            } else {
+                return -1;;
+            }
+        }
+        return 0;
+    }
+    class TSearchUserCallback : public GeneralStringCallback {
+    private:
+        SearchUserCallback *mCallback;
+    public:
+        TSearchUserCallback(SearchUserCallback *callback) : mCallback(callback) {}
+        void onSuccess(std::string key) {
+            std::list<TUserInfo> userInfos;
+            int code = parseSearchUserResult(key, userInfos);
+            if (code == 0) {
+                mCallback->onSuccess(userInfos, "", 0);
+            } else {
+                mCallback->onFalure(code);
+            }
+            
+            delete this;
+        }
+        
+        void onFalure(int errorCode) {
+            mCallback->onFalure(errorCode);
+            delete this;
+        }
+        
+        ~TSearchUserCallback() {
+            
+        }
+    };
+    
+    
 void searchUser(const std::string &keyword, bool puzzy, int page, SearchUserCallback *callback) {
     std::string cgi = "/api/search?keyword=" + keyword;
     if (puzzy) {
-        cgi += "&puzzy=true";
+        cgi += "&fuzzy=true";
     }
     if (page>0) {
         cgi += "&page=";
         cgi += page;
     }
     
-    HTTPTask *httpTask = new HTTPTask("GET", cgi,  new UploadQiniuCallback(NULL, ""));
+    HTTPTask *httpTask = new HTTPTask("GET", cgi,  new TSearchUserCallback(callback));
     
     StartTask(*httpTask);
     

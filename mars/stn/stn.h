@@ -223,7 +223,7 @@ struct DnsProfile;
 
     class SearchUserCallback {
     public:
-        virtual void onSuccess(std::list<TUserInfo> users, std::string keyword, int page) = 0;
+        virtual void onSuccess(const std::list<TUserInfo> &users, const std::string &keyword, int page) = 0;
         virtual void onFalure(int errorCode) = 0;
     };
         

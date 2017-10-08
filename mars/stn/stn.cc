@@ -27,10 +27,44 @@
 #include "mars/stn/mqtt/DB.hpp"
 #include "mars/stn/mqtt/MessageDB.hpp"
 #include "mars/stn/mqtt/stn_callback.h"
+
+
 namespace mars{
     namespace stn{
       
-      
+        using namespace std;
+        
+        string UrlEncode(const string& szToEncode)
+        {
+            string src = szToEncode;
+            char hex[] = "0123456789ABCDEF";
+            string dst;
+            
+            for (size_t i = 0; i < src.size(); ++i)
+            {
+                unsigned char cc = src[i];
+                if (isascii(cc))
+                {
+                    if (cc == ' ')
+                    {
+                        dst += "%20";
+                    }
+                    else
+                        dst += cc;
+                }
+                else
+                {
+                    unsigned char c = static_cast<unsigned char>(src[i]);
+                    dst += '%';
+                    dst += hex[c / 16];
+                    dst += hex[c % 16];
+                }
+            }
+            return dst;
+        }
+
+        
+        
 static uint32_t gs_taskid = 10;
 Task::Task():Task(atomic_inc32(&gs_taskid)) {}
         
@@ -67,12 +101,14 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
             channel_select = ChannelType_ShortConn;
             cmdid = UPLOAD_SEND_OUT_CMDID;
         }
-
+        
         HTTPTask::HTTPTask(const std::string &m, const std::string &i, GeneralStringCallback *callback) : Task(), method(m), mCallback(callback) {
             user_context = this;
             channel_select = ChannelType_ShortConn;
             cgi = i;
             cmdid = HTTP_REQUEST_CMDID;
+            cgi = UrlEncode(cgi);
+            shortlink_host_list.push_back("192.168.1.101");
         }
         
       MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {

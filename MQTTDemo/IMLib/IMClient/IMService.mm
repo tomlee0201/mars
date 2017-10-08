@@ -60,7 +60,7 @@ public:
         m_message = nil;
     }
 };
-
+extern UserInfo* convertUserInfo(const mars::stn::TUserInfo &tui);
 
 class IMCreateGroupCallback : public mars::stn::CreateGroupCallback {
 private:
@@ -398,8 +398,32 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 - (void)setConversation:(Conversation *)conversation top:(BOOL)top {
     mars::stn::MessageDB::Instance()->updateConversationIsTop(conversation.type, [conversation.target UTF8String], conversation.line, top);
 }
-- (void)searchUser:(NSString *)keyword success:(void(^)(NSArray<UserInfo *> *machedUsers))successBlock error:(void(^)(int errorCode))errorBlock {
+
+class IMSearchUserCallback : public mars::stn::SearchUserCallback {
+private:
+    void(^m_successBlock)(NSArray<UserInfo *> *machedUsers);
+    void(^m_errorBlock)(int errorCode);
+public:
+    IMSearchUserCallback(void(^successBlock)(NSArray<UserInfo *> *machedUsers), void(^errorBlock)(int errorCode)) : m_successBlock(successBlock), m_errorBlock(errorBlock) {}
     
+    void onSuccess(const std::list<mars::stn::TUserInfo> &users, const std::string &keyword, int page) {
+        NSMutableArray *outUsers = [[NSMutableArray alloc] initWithCapacity:users.size()];
+        for(std::list<mars::stn::TUserInfo>::const_iterator it = users.begin(); it != users.end(); it++) {
+            [outUsers addObject:convertUserInfo(*it)];
+        }
+        m_successBlock(outUsers);
+        delete this;
+    }
+    void onFalure(int errorCode) {
+        m_errorBlock(errorCode);
+        delete this;
+    }
+    
+    ~IMSearchUserCallback() {}
+};
+
+- (void)searchUser:(NSString *)keyword success:(void(^)(NSArray<UserInfo *> *machedUsers))successBlock error:(void(^)(int errorCode))errorBlock {
+    mars::stn::searchUser([keyword UTF8String], YES, 0, new IMSearchUserCallback(successBlock, errorBlock));
 }
 
 - (void)createGroup:(NSString *)groupId
@@ -620,19 +644,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 - (UserInfo *)getUserInfo:(NSString *)userId refresh:(BOOL)refresh {
     mars::stn::TUserInfo tui = mars::stn::MessageDB::Instance()->getUserInfo([userId UTF8String], refresh);
     if (!tui.uid.empty()) {
-        UserInfo *userInfo = [[UserInfo alloc] init];
-        userInfo.userId = [NSString stringWithUTF8String:tui.uid.c_str()];
-        userInfo.name = [NSString stringWithUTF8String:tui.name.c_str()];
-        userInfo.portrait = [NSString stringWithUTF8String:tui.portrait.c_str()];
-        
-        userInfo.displayName = [NSString stringWithUTF8String:tui.displayName.c_str()];
-        userInfo.mobile = [NSString stringWithUTF8String:tui.mobile.c_str()];
-        userInfo.email = [NSString stringWithUTF8String:tui.email.c_str()];
-        userInfo.address = [NSString stringWithUTF8String:tui.address.c_str()];
-        userInfo.company = [NSString stringWithUTF8String:tui.company.c_str()];
-        userInfo.social = [NSString stringWithUTF8String:tui.social.c_str()];
-        userInfo.extra = [NSString stringWithUTF8String:tui.extra.c_str()];
-        userInfo.updateDt = tui.updateDt;
+        UserInfo *userInfo = convertUserInfo(tui);
         return userInfo;
     }
     return nil;
