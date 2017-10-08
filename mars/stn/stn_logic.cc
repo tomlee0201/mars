@@ -478,7 +478,7 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
         publishTask(message, new MessagePublishCallback(messageId, callback), sendMessageTopic);
     }
     
-    class UploadQiniuCallback : public UPloadCallback {
+    class UploadQiniuCallback : public GeneralStringCallback {
         TMessage mMsg;
         UpdateMediaCallback *mCallback;
         std::string mDomain;
@@ -639,7 +639,24 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
             
         }
     };
-   
+    
+void searchUser(const std::string &keyword, bool puzzy, int page, SearchUserCallback *callback) {
+    std::string cgi = "/api/search?keyword=" + keyword;
+    if (puzzy) {
+        cgi += "&puzzy=true";
+    }
+    if (page>0) {
+        cgi += "&page=";
+        cgi += page;
+    }
+    
+    HTTPTask *httpTask = new HTTPTask("GET", cgi,  new UploadQiniuCallback(NULL, ""));
+    
+    StartTask(*httpTask);
+    
+    return;
+}
+    
 void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback)
 = [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback) {
     CreateGroupRequest request;

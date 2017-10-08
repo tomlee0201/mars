@@ -398,6 +398,10 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
 - (void)setConversation:(Conversation *)conversation top:(BOOL)top {
     mars::stn::MessageDB::Instance()->updateConversationIsTop(conversation.type, [conversation.target UTF8String], conversation.line, top);
 }
+- (void)searchUser:(NSString *)keyword success:(void(^)(NSArray<UserInfo *> *machedUsers))successBlock error:(void(^)(int errorCode))errorBlock {
+    
+}
+
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait

@@ -318,6 +318,28 @@ bool StnCallBack::Req2Buf(uint32_t _taskid, void* const _user_context, AutoBuffe
         packageUploadMediaData(uploadTask->mData, _outbuffer, _extend, uploadTask->mMediaType, uploadTask->mToken);
         return true;
     }
+    
+    if(task->cmdid == HTTP_REQUEST_CMDID) {
+        HTTPTask *httpTask = (HTTPTask *)_user_context;
+        
+        std::map<std::string, std::string> paramMap;
+        paramMap["method"] = "POST";
+        
+        if (httpTask->method == "POST" || httpTask->method == "PUT") {
+            paramMap[http::HeaderFields::KStringContentType] = httpTask->contentType;
+            paramMap[http::HeaderFields::KStringContentLength] = httpTask->contentLen;
+            
+            _outbuffer.AllocWrite(httpTask->contentBody.length());
+            _outbuffer.Write(httpTask->contentBody.c_str(), httpTask->contentBody.length());
+            
+            std::string mapStr = mapToString(paramMap);
+            _extend.AllocWrite(mapStr.size());
+            _extend.Write(mapStr.c_str(), mapStr.size());
+        } else {
+            
+        }
+        return true;
+    }
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
@@ -363,6 +385,15 @@ int StnCallBack::Buf2Resp(uint32_t _taskid, void* const _user_context, const Aut
 
         return mars::stn::kTaskFailHandleNormal;
     }
+    
+    if(task->cmdid == HTTP_REQUEST_CMDID) {
+        HTTPTask *httpTask = (HTTPTask *)_user_context;
+        
+        std::string result((char *)_inbuffer.Ptr(), _inbuffer.Length());
+        httpTask->mCallback->onSuccess(result);
+        return mars::stn::kTaskFailHandleNormal;
+    }
+    
   const MQTTTask *mqttTask = (const MQTTTask *)_user_context;
   if (mqttTask->type == MQTT_MSG_PUBLISH) {
     const MQTTPublishTask *publishTask = (const MQTTPublishTask *)_user_context;
@@ -407,6 +438,9 @@ int StnCallBack::OnTaskEnd(uint32_t _taskid, void* const _user_context, int _err
     Task *task = (Task *)_user_context;
     if(task->cmdid == UPLOAD_SEND_OUT_CMDID) {
         UploadTask *uploadTask = (UploadTask *)_user_context;
+        if (_error_code != 0) {
+            uploadTask->mCallback->onFalure(_error_code);
+        }
         delete uploadTask;
         return 0;
     }

@@ -21,9 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [self initSearchUIAndData];
+    [self initSearchUIAndData];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(onCancel:)];
 }
 
+- (void)onCancel:(id)sender {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)initSearchUIAndData {
     self.view.backgroundColor = [UIColor whiteColor];

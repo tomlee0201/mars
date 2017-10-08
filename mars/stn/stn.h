@@ -45,6 +45,8 @@ namespace mars{
 
         
 #define UPLOAD_SEND_OUT_CMDID 20
+
+#define HTTP_REQUEST_CMDID 21
         
       typedef enum : int32_t {
         ChannelType_ShortConn = 1,
@@ -185,7 +187,7 @@ struct DnsProfile;
             virtual ~TConversation(){}
         };
         
-        class UPloadCallback {
+        class GeneralStringCallback {
         public:
             virtual void onSuccess(std::string key) = 0;
             virtual void onFalure(int errorCode) = 0;
@@ -219,6 +221,12 @@ struct DnsProfile;
       };
 
 
+    class SearchUserCallback {
+    public:
+        virtual void onSuccess(std::list<TUserInfo> users, std::string keyword, int page) = 0;
+        virtual void onFalure(int errorCode) = 0;
+    };
+        
     class CreateGroupCallback {
     public:
         virtual void onSuccess(std::string groupId) = 0;
@@ -316,13 +324,26 @@ public:
 };
         class UploadTask : public Task {
         public:
-            UploadTask(const std::string &data, const std::string &token, int mediaType, UPloadCallback *callback);
+            UploadTask(const std::string &data, const std::string &token, int mediaType, GeneralStringCallback *callback);
         public:
             std::string mData;
             std::string mToken;
             unsigned char mMediaType;
-            UPloadCallback *mCallback;
+            GeneralStringCallback *mCallback;
             virtual ~UploadTask() {}
+        };
+        
+        class HTTPTask : public Task {
+        public:
+            HTTPTask(const std::string &method, const std::string &cgi, GeneralStringCallback *callback);
+            GeneralStringCallback *mCallback;
+            
+            std::string method;
+            std::string contentType;
+            std::string contentLen;
+            std::string contentBody;
+            
+            virtual ~HTTPTask() {}
         };
 
       class MQTTTask : public Task {
@@ -554,7 +575,9 @@ extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);
 extern int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaCallback *callback);
 
       extern int modifyMyInfo(const std::list<std::pair<int, std::string>> &infos, GeneralOperationCallback *callback);
-      
+        
+        extern void searchUser(const std::string &keyword, bool puzzy, int page, SearchUserCallback *callback);
+        
         extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback);
         
 extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);

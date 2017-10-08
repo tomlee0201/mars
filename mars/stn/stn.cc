@@ -62,12 +62,19 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
   channel_select = ChannelType_LongConn;
 }
         
-        UploadTask::UploadTask(const std::string &data, const std::string &token, int mediaType, UPloadCallback *callback) : Task(), mData(data), mToken(token), mMediaType(mediaType), mCallback(callback) {
+        UploadTask::UploadTask(const std::string &data, const std::string &token, int mediaType, GeneralStringCallback *callback) : Task(), mData(data), mToken(token), mMediaType(mediaType), mCallback(callback) {
             user_context = this;
             channel_select = ChannelType_ShortConn;
             cmdid = UPLOAD_SEND_OUT_CMDID;
         }
-      
+
+        HTTPTask::HTTPTask(const std::string &m, const std::string &i, GeneralStringCallback *callback) : Task(), method(m), mCallback(callback) {
+            user_context = this;
+            channel_select = ChannelType_ShortConn;
+            cgi = i;
+            cmdid = HTTP_REQUEST_CMDID;
+        }
+        
       MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {
         cmdid = MQTT_SEND_OUT_CMDID;
       }
