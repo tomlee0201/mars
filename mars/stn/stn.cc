@@ -108,7 +108,7 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
             cgi = i;
             cmdid = HTTP_REQUEST_CMDID;
             cgi = UrlEncode(cgi);
-            shortlink_host_list.push_back("192.168.1.101");
+            shortlink_host_list.push_back("www.liyufan.win");
         }
         
       MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {

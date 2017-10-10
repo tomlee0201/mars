@@ -9,7 +9,7 @@
 #ifndef Config_h
 #define Config_h
 
-const NSString *HOST = @"http://192.168.1.101";
+const NSString *HOST = @"http://www.liyufan.win";
 const int longLinkPort = 1883;
 const int shortLinkPort = 18090;
 

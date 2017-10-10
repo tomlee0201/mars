@@ -47,6 +47,12 @@ typedef enum : NSUInteger {
 - (void)registerMessageContent:(Class)contentClass;
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 - (void)searchUser:(NSString *)keyword success:(void(^)(NSArray<UserInfo *> *machedUsers))successBlock error:(void(^)(int errorCode))errorBlock;
+
+- (void)sendFriendRequest:(NSString *)userId
+                   reason:(NSString *)reason
+                  success:(void(^)())successBlock
+                    error:(void(^)(int error_code))errorBlock;
+
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait

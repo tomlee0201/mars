@@ -577,6 +577,8 @@ extern int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaC
       extern int modifyMyInfo(const std::list<std::pair<int, std::string>> &infos, GeneralOperationCallback *callback);
         
         extern void searchUser(const std::string &keyword, bool puzzy, int page, SearchUserCallback *callback);
+        extern void sendFriendRequest(const std::string &userId, const std::string &reason, GeneralOperationCallback *callback);
+        
         
         extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback);
         

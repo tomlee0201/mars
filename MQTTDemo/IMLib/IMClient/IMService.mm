@@ -426,6 +426,14 @@ public:
     mars::stn::searchUser([keyword UTF8String], YES, 0, new IMSearchUserCallback(successBlock, errorBlock));
 }
 
+- (void)sendFriendRequest:(NSString *)userId
+                   reason:(NSString *)reason
+                  success:(void(^)())successBlock
+                    error:(void(^)(int error_code))errorBlock {
+    mars::stn::sendFriendRequest([userId UTF8String], [reason UTF8String], new IMGeneralOperationCallback(successBlock, errorBlock));
+}
+
+
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait

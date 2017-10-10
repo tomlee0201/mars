@@ -63,6 +63,7 @@
 #include "mars/stn/mqtt/Proto/pull_user_response.pb.h"
 #include "mars/stn/mqtt/Proto/pull_user_request.pb.h"
 #include "mars/stn/mqtt/Proto/modify_my_info_request.pb.h"
+#include "mars/stn/mqtt/Proto/add_friends_request.pb.h"
 #include "stn/src/proxy_test.h"
 
 #include "mars/stn/mqtt/rapidjson/document.h"
@@ -92,6 +93,9 @@ const std::string transferGroupTopic = "GTG";
     
 const std::string getQiniuUploadTokenTopic = "GQNUT";
 
+const std::string AddFriendRequestTopic = "FAR";
+const std::string HandleFriendRequestTopic = "FHR";
+const std::string DeleteFriendTopic = "FDL";
 const std::string modifyMyInfoTopic = "MMI";
     
 #define STN_WEAK_CALL(func) \
@@ -793,6 +797,13 @@ void searchUser(const std::string &keyword, bool puzzy, int page, SearchUserCall
     StartTask(*httpTask);
     
     return;
+}
+
+void sendFriendRequest(const std::string &userId, const std::string &reason, GeneralOperationCallback *callback) {
+    AddFriendRequest request;
+    request.set_target_uid(userId);
+    request.set_reason(reason);
+    publishTask(request, new GeneralOperationPublishCallback(callback), AddFriendRequestTopic);
 }
     
 void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback)

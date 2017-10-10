@@ -1,0 +1,15 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "HandleFriendRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+
+message HandleFriendRequest {
+string target_uid = 1;
+int32 status = 2;
+}
+

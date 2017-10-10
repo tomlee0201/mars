@@ -107,6 +107,9 @@
 		2E1F1B091F3F5E04000A84E9 /* wire_format.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1A9E1F3F5E04000A84E9 /* wire_format.cc */; };
 		2E1F1B0A1F3F5E04000A84E9 /* wire_format_lite.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA01F3F5E04000A84E9 /* wire_format_lite.cc */; };
 		2E1F1B0B1F3F5E04000A84E9 /* wrappers.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */; };
+		2E3453471F8C52D0003CD73D /* add_group_member_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E3453461F8C52CF003CD73D /* add_group_member_request.pb.cc */; };
+		2E34534A1F8C52E1003CD73D /* handle_friends_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E3453491F8C52E0003CD73D /* handle_friends_request.pb.cc */; };
+		2E34534F1F8C5432003CD73D /* add_friends_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E34534E1F8C5432003CD73D /* add_friends_request.pb.cc */; };
 		2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */; };
 		2E4C68A01F71F692008336A8 /* transfer_group_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C689E1F71F692008336A8 /* transfer_group_request.pb.cc */; };
 		2E8D662A1F5D2D2F009BDBCB /* get_upload_token_result.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2E8D66281F5D2D2F009BDBCB /* get_upload_token_result.pb.cc */; };
@@ -434,6 +437,14 @@
 		2E1F1AA31F3F5E04000A84E9 /* wrappers.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrappers.pb.cc; sourceTree = "<group>"; };
 		2E1F1AA41F3F5E04000A84E9 /* wrappers.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrappers.pb.h; sourceTree = "<group>"; };
 		2E1F1B0C1F3F5F3F000A84E9 /* libpthread.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpthread.tbd; path = usr/lib/libpthread.tbd; sourceTree = SDKROOT; };
+		2E3453431F8C5193003CD73D /* add_friends_request.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = add_friends_request.proto; sourceTree = "<group>"; };
+		2E3453441F8C51B8003CD73D /* handle_friends_request.proto */ = {isa = PBXFileReference; lastKnownFileType = text; path = handle_friends_request.proto; sourceTree = "<group>"; };
+		2E3453451F8C52CF003CD73D /* add_group_member_request.pb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = add_group_member_request.pb.h; sourceTree = "<group>"; };
+		2E3453461F8C52CF003CD73D /* add_group_member_request.pb.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = add_group_member_request.pb.cc; sourceTree = "<group>"; };
+		2E3453481F8C52E0003CD73D /* handle_friends_request.pb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = handle_friends_request.pb.h; sourceTree = "<group>"; };
+		2E3453491F8C52E0003CD73D /* handle_friends_request.pb.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = handle_friends_request.pb.cc; sourceTree = "<group>"; };
+		2E34534D1F8C5431003CD73D /* add_friends_request.pb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = add_friends_request.pb.h; sourceTree = "<group>"; };
+		2E34534E1F8C5432003CD73D /* add_friends_request.pb.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = add_friends_request.pb.cc; sourceTree = "<group>"; };
 		2E3FB83C1F516DF100D8F8E3 /* MessageDB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDB.cpp; sourceTree = "<group>"; };
 		2E3FB83D1F516DF100D8F8E3 /* MessageDB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageDB.hpp; sourceTree = "<group>"; };
 		2E4C689D1F71F63A008336A8 /* transfer_group_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = transfer_group_request.proto; sourceTree = "<group>"; };
@@ -613,6 +624,7 @@
 			children = (
 				2E1F199D1F3F5E04000A84E9 /* protobuf */,
 				2E1F15AB1F3F4CFC000A84E9 /* add_group_member_request.pb.cc */,
+				2E3453461F8C52CF003CD73D /* add_group_member_request.pb.cc */,
 				2E1F15AC1F3F4CFC000A84E9 /* add_group_member_request.pb.h */,
 				2E1F15AD1F3F4CFC000A84E9 /* add_group_member_request.proto */,
 				2E1F15AE1F3F4CFC000A84E9 /* conversation.pb.cc */,
@@ -684,6 +696,13 @@
 				2E0009091F87AC1B00955A66 /* modify_my_info_request.pb.cc */,
 				2E0009081F87AC1A00955A66 /* modify_my_info_request.pb.h */,
 				2E0009071F87ABC100955A66 /* modify_my_info_request.proto */,
+				2E3453451F8C52CF003CD73D /* add_group_member_request.pb.h */,
+				2E34534E1F8C5432003CD73D /* add_friends_request.pb.cc */,
+				2E34534D1F8C5431003CD73D /* add_friends_request.pb.h */,
+				2E3453431F8C5193003CD73D /* add_friends_request.proto */,
+				2E3453491F8C52E0003CD73D /* handle_friends_request.pb.cc */,
+				2E3453481F8C52E0003CD73D /* handle_friends_request.pb.h */,
+				2E3453441F8C51B8003CD73D /* handle_friends_request.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -1235,6 +1254,7 @@
 				2E8D662A1F5D2D2F009BDBCB /* get_upload_token_result.pb.cc in Sources */,
 				2E1F1AE01F3F5E04000A84E9 /* time.cc in Sources */,
 				2E1F1AD01F3F5E04000A84E9 /* atomicops_internals_x86_gcc.cc in Sources */,
+				2E34534F1F8C5432003CD73D /* add_friends_request.pb.cc in Sources */,
 				2E1F1AAF1F3F5E04000A84E9 /* descriptor_database.cc in Sources */,
 				2E1F15ED1F3F4CFC000A84E9 /* pull_group_info_result.pb.cc in Sources */,
 				2E1F1ABD1F3F5E04000A84E9 /* strtod.cc in Sources */,
@@ -1249,6 +1269,7 @@
 				2E1F1AE41F3F5E04000A84E9 /* text_format.cc in Sources */,
 				2E1F1AF81F3F5E04000A84E9 /* object_writer.cc in Sources */,
 				2E1F1AB71F3F5E04000A84E9 /* generated_message_reflection.cc in Sources */,
+				2E34534A1F8C52E1003CD73D /* handle_friends_request.pb.cc in Sources */,
 				2E1F1AC01F3F5E04000A84E9 /* zero_copy_stream_impl.cc in Sources */,
 				4B07F2E41C4F8E7A00FD1B8D /* frequency_limit.cc in Sources */,
 				4F85ED521CA934EF0039267F /* task_profile.cc in Sources */,
@@ -1284,6 +1305,7 @@
 				2E1F1ADB1F3F5E04000A84E9 /* stringpiece.cc in Sources */,
 				2E1F15F11F3F4CFC000A84E9 /* quit_group_request.pb.cc in Sources */,
 				2EC9FC1B1F619B27001C733E /* pull_user_response.pb.cc in Sources */,
+				2E3453471F8C52D0003CD73D /* add_group_member_request.pb.cc in Sources */,
 				2E3FB83E1F516DF100D8F8E3 /* MessageDB.cpp in Sources */,
 				2F395A571F04727E000F2C79 /* longlink_packer.cc in Sources */,
 				2E1F15E31F3F4CFC000A84E9 /* create_group_request.pb.cc in Sources */,

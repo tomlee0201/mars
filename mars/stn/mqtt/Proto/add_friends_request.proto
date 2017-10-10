@@ -1,0 +1,14 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "AddFriendRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+
+message AddFriendRequest {
+  string target_uid = 1;
+  string reason = 2;
+}
