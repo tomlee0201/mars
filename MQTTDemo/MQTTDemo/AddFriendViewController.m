@@ -9,7 +9,7 @@
 #import "AddFriendViewController.h"
 #import "UserInfo.h"
 #import "IMService.h"
-
+#import "UserInfoViewController.h"
 
 @interface AddFriendViewController () <UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate>
 @property (nonatomic, strong)  UITableView              *tableView;
@@ -108,6 +108,14 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.searchController.active) {
+        UserInfo *userInfo = self.searchList[indexPath.row];
+        UserInfoViewController *uivc = [[UserInfoViewController alloc] init];
+        uivc.userInfo = userInfo;
+        [self.navigationController presentViewController:uivc animated:YES completion:nil];
+    }
+}
 //返回单元格内容
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *flag = @"cell";

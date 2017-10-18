@@ -28,6 +28,8 @@ namespace mars {
         const std::string TIMELINE_TABLE_NAME = "t_timeline";
         const std::string CONVERSATION_TABLE_NAME = "t_conversation";
         
+        const std::string FRIEND_TABLE_NAME = "t_friend";
+        const std::string FRIEND_REQUEST_TABLE_NAME = "t_friend_request";
         
         DB* DB::instance_ = NULL;
         
@@ -361,7 +363,49 @@ namespace mars {
                             error);
 
             
+
+            //create friend table
+            std::list<const WCDB::ColumnDef> friendDefList = {
+                WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+                WCDB::ColumnDef(Column("_friend_uid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create(FRIEND_TABLE_NAME, friendDefList, true),
+                            error);
             
+            //create friend index
+            std::list<const WCDB::ColumnIndex> friendIndexList = {
+                WCDB::ColumnIndex(Column("_friend_uid"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                            .create("friend_index", true, true)
+                            .on(FRIEND_TABLE_NAME, friendIndexList),
+                            error);
+            
+            
+            
+            
+            //create friend request table
+            std::list<const WCDB::ColumnDef> friendRequestDefList = {
+                WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
+                WCDB::ColumnDef(Column("_direction"), ColumnType::Integer32),
+                WCDB::ColumnDef(Column("_target_uid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_reason"), ColumnType::Text),
+                WCDB::ColumnDef(Column("_status"), ColumnType::Integer32),
+                WCDB::ColumnDef(Column("_read_status"), ColumnType::Integer32),
+                WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
+            };
+            _database->exec(WCDB::StatementCreateTable().create(FRIEND_REQUEST_TABLE_NAME, friendRequestDefList, true),
+                            error);
+            
+            //create friend index
+            std::list<const WCDB::ColumnIndex> friendRequestIndexList = {
+                WCDB::ColumnIndex(Column("_target_uid"),OrderTerm::NotSet)
+            };
+            _database->exec(WCDB::StatementCreateIndex()
+                            .create("friend_request_index", true, true)
+                            .on(FRIEND_REQUEST_TABLE_NAME, friendRequestIndexList),
+                            error);
 
             
             //create timeline table

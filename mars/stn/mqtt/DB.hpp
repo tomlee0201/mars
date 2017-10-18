@@ -36,6 +36,11 @@ namespace mars {
         extern const std::string TIMELINE_TABLE_NAME;
         extern const std::string CONVERSATION_TABLE_NAME;
         
+        extern const std::string FRIEND_TABLE_NAME;
+        extern const std::string FRIEND_REQUEST_TABLE_NAME;
+        
+        
+        
         class DB {
             
         private:

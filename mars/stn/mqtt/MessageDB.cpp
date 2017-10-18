@@ -745,5 +745,107 @@ namespace mars {
             db->ExecuteInsert(statementHandle, &ret);
             return ret;
         }
+        bool MessageDB::isMyFriend(const std::string &userId) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            if (!db->isOpened()) {
+                return false;
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_friend_uid")) == userId);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_TABLE_NAME, {"_id"}, error, &where);
+            
+            std::list<std::pair<std::string, int64_t>> refreshReqList;
+            
+            if (statementHandle->step()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        std::list<std::string> MessageDB::getMyFriendList(bool refresh) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            TUserInfo ui;
+            if (!db->isOpened()) {
+                return std::list<std::string>();
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_friend_uid")) == app::GetUserName());
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(USER_TABLE_NAME, {"_friend_uid"}, error, &where);
+            
+            std::list<std::string> result;
+            
+            while(statementHandle->step()) {
+                result.push_back(db->getStringValue(statementHandle, 0));
+               
+            }
+            return result;
+        }
+        
+        std::list<TFriendRequest> MessageDB::getFriendRequest(int direction) {
+            std::list<TFriendRequest> requests;
+            
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            TUserInfo ui;
+            if (!db->isOpened()) {
+                return requests;
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_direction")) == direction);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_REQUEST_TABLE_NAME, {"_target_uid", "_reason", "_status", "_read_status", "_update_dt"}, error, &where);
+            
+            std::list<std::string> result;
+            
+            while(statementHandle->step()) {
+                TFriendRequest request;
+                request.target = db->getStringValue(statementHandle, 0);
+                request.reason = db->getStringValue(statementHandle, 1);
+                request.status = db->getIntValue(statementHandle, 2);
+                request.readStatus = db->getIntValue(statementHandle, 3);
+                request.timestamp = db->getBigIntValue(statementHandle, 4);
+                requests.push_back(request);
+            }
+            
+            return requests;
+        }
+        
+        int MessageDB::unreadFriendRequest() {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+
+            if (!db->isOpened()) {
+                return 0;
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_direction")) == 1) && (WCDB::Expr(WCDB::Column("_read_status")) == 0);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_REQUEST_TABLE_NAME, {"count(*)"}, error, &where);
+            
+
+            if(statementHandle->step()) {
+                return db->getIntValue(statementHandle, 0);
+            }
+
+            return 0;
+        }
+        
+        void MessageDB::clearUnreadFriendRequestStatus() {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            
+            if (!db->isOpened()) {
+                return;
+            }
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_direction")) == 1) && (WCDB::Expr(WCDB::Column("_read_status")) == 0);
+            WCDB::RecyclableStatement updateStatementHandle = db->GetUpdateStatement(MESSAGE_TABLE_NAME, {"_status"}, &where);
+            
+            db->Bind(updateStatementHandle, 1, 1);
+            int count = db->ExecuteUpdate(updateStatementHandle);
+            
+            return;
+        }
     }
 }

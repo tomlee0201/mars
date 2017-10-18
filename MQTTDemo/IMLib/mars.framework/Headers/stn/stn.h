@@ -103,7 +103,19 @@ struct DnsProfile;
             int64_t updateDt;
             virtual ~TUserInfo() {}
         };
-
+        
+        class TFriendRequest {
+        public:
+            TFriendRequest() {}
+            int direction;
+            std::string target;
+            std::string reason;
+            int status;
+            int readStatus;
+            int64_t timestamp;
+            virtual ~TFriendRequest(){}
+        };
+        
         class TMessageContent {
         public:
             TMessageContent() : type(0) {}

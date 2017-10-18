@@ -11,6 +11,7 @@
 #import "GroupInfo.h"
 #import "ConversationInfo.h"
 #import "UserInfo.h"
+#import "FriendRequest.h"
 
 typedef enum : NSUInteger {
   Modify_DisplayName = 0,
@@ -48,10 +49,31 @@ typedef enum : NSUInteger {
 - (MessageContent *)messageContentFromPayload:(MessagePayload *)payload;
 - (void)searchUser:(NSString *)keyword success:(void(^)(NSArray<UserInfo *> *machedUsers))successBlock error:(void(^)(int errorCode))errorBlock;
 
+
+- (BOOL)isMyFriend:(NSString *)userId;
+
+- (NSArray<NSString *> *)getMyFriendList:(BOOL)refresh;
+
+- (NSArray<FriendRequest *> *)getIncommingFriendRequest;
+- (NSArray<FriendRequest *> *)getOutgoingFriendRequest;
+
+- (void)clearUnreadFriendRequestStatus;
+- (int)getUnreadFriendRequestStatus;
+
+- (void)removeFriend:(NSString *)userId
+             success:(void(^)())successBlock
+               error:(void(^)(int error_code))errorBlock;
+
 - (void)sendFriendRequest:(NSString *)userId
                    reason:(NSString *)reason
                   success:(void(^)())successBlock
                     error:(void(^)(int error_code))errorBlock;
+
+- (void)acceptFriendRequest:(NSString *)userId
+                   reason:(NSString *)reason
+                  success:(void(^)())successBlock
+                    error:(void(^)(int error_code))errorBlock;
+
 
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName

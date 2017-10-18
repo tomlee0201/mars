@@ -245,7 +245,7 @@ static NetworkService * sharedSingleton = nil;
     mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
   [self setLongLinkAddress:@"www.liyufan.win" port:1883];
-    [self setShortLinkPort:18090];
+    [self setShortLinkPort:1884];
     self.userId = userName;
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);

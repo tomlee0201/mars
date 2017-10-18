@@ -11,6 +11,6 @@
 
 const NSString *HOST = @"http://www.liyufan.win";
 const int longLinkPort = 1883;
-const int shortLinkPort = 18090;
+const int shortLinkPort = 1884;
 
 #endif /* Config_h */

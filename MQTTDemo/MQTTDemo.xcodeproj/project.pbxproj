@@ -86,11 +86,14 @@
 		2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */; };
 		2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1C41F59498100424902 /* Utilities.m */; };
 		2E9A57AC1F700DF4006FEF85 /* InviteGroupMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */; };
+		2EAC83851F92F7A3009103E0 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC83841F92F7A3009103E0 /* UserInfoViewController.m */; };
 		2EB49BF11F88AE7000BF5563 /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB49BF01F88AE7000BF5563 /* ContactListViewController.m */; };
 		2EB49BF51F88B9FF00BF5563 /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB49BF41F88B9FF00BF5563 /* AddFriendViewController.m */; };
 		2EB49BF81F88C07D00BF5563 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB49BF61F88C07D00BF5563 /* SearchViewController.m */; };
 		2EB6C1271F58200E00F8ABD7 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */; };
 		2EBB78C31F6695A400C53CF3 /* libmars-open-iphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */; };
+		2EC0972B1F963A5300120886 /* FriendRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC097291F963A5300120886 /* FriendRequest.h */; };
+		2EC0972D1F963A5300120886 /* FriendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0972A1F963A5300120886 /* FriendRequest.m */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
 		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
@@ -299,6 +302,8 @@
 		2E95BA801F5AA0870079B516 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
 		2E9A57AA1F700DF4006FEF85 /* InviteGroupMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteGroupMemberViewController.h; sourceTree = "<group>"; };
 		2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteGroupMemberViewController.m; sourceTree = "<group>"; };
+		2EAC83831F92F7A3009103E0 /* UserInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
+		2EAC83841F92F7A3009103E0 /* UserInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		2EB49BEF1F88AE7000BF5563 /* ContactListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactListViewController.h; sourceTree = "<group>"; };
 		2EB49BF01F88AE7000BF5563 /* ContactListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactListViewController.m; sourceTree = "<group>"; };
 		2EB49BF31F88B9FF00BF5563 /* AddFriendViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddFriendViewController.h; sourceTree = "<group>"; };
@@ -308,6 +313,8 @@
 		2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		2EBB78C21F6695A400C53CF3 /* libmars-open-iphone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmars-open-iphone.a"; path = "../../../../Workspace/DerivedData/mars-mqtt-workspace-ekrhhxtcfrwydhetbuznykxwrnxr/Build/Products/Debug-iphoneos/libmars-open-iphone.a"; sourceTree = "<group>"; };
+		2EC097291F963A5300120886 /* FriendRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FriendRequest.h; sourceTree = "<group>"; };
+		2EC0972A1F963A5300120886 /* FriendRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendRequest.m; sourceTree = "<group>"; };
 		2EC3BD761F04D61A006C6E6F /* MQTTDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MQTTDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -563,6 +570,8 @@
 				2EB49BF41F88B9FF00BF5563 /* AddFriendViewController.m */,
 				2EB49BF71F88C07D00BF5563 /* SearchViewController.h */,
 				2EB49BF61F88C07D00BF5563 /* SearchViewController.m */,
+				2EAC83831F92F7A3009103E0 /* UserInfoViewController.h */,
+				2EAC83841F92F7A3009103E0 /* UserInfoViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -640,6 +649,8 @@
 				2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */,
 				2ED386241F7DC0AE00DC4C98 /* UserInfo.h */,
 				2ED386251F7DC0AE00DC4C98 /* UserInfo.m */,
+				2EC097291F963A5300120886 /* FriendRequest.h */,
+				2EC0972A1F963A5300120886 /* FriendRequest.m */,
 			);
 			name = Message;
 			path = ../MQTTClient;
@@ -806,6 +817,7 @@
 				2E3071D71F43D2C300B17DC9 /* TextMessageContent.h in Headers */,
 				2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */,
 				2EDB880B1F63C37800578E7D /* SoundMessageContent.h in Headers */,
+				2EC0972B1F963A5300120886 /* FriendRequest.h in Headers */,
 				2E4C688B1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.h in Headers */,
 				2EC51A861F3EBB3D009D60AE /* IMService.h in Headers */,
 				2E4C689A1F71E875008336A8 /* TransferGroupOwnerNotificationContent.h in Headers */,
@@ -969,6 +981,7 @@
 				2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */,
 				2EB49BF11F88AE7000BF5563 /* ContactListViewController.m in Sources */,
 				2EFEC1BF1F59434C00424902 /* InformationCell.m in Sources */,
+				2EAC83851F92F7A3009103E0 /* UserInfoViewController.m in Sources */,
 				2E32E3721F622527000063A6 /* FLAnimatedImageView+WebCache.m in Sources */,
 				2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */,
 				2E32E3791F622527000063A6 /* SDWebImageDecoder.m in Sources */,
@@ -1013,6 +1026,7 @@
 				2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */,
 				2E3071C81F43C89300B17DC9 /* Conversation.m in Sources */,
 				2EC51B7D1F3EBB49009D60AE /* PublishTask.mm in Sources */,
+				2EC0972D1F963A5300120886 /* FriendRequest.m in Sources */,
 				2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */,
 				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,

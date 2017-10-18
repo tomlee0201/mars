@@ -64,6 +64,14 @@ namespace mars {
             
             TUserInfo getUserInfo(const std::string &userId, bool refresh);
             long InsertUserInfoOrReplace(const TUserInfo &userInfo);
+            
+            
+            bool isMyFriend(const std::string &userId);
+            std::list<std::string> getMyFriendList(bool refresh);
+            
+            std::list<TFriendRequest> getFriendRequest(int direction);
+            int unreadFriendRequest();
+            void clearUnreadFriendRequestStatus();
         private:
             static MessageDB* instance_;
         };

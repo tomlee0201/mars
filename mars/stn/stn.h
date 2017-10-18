@@ -187,6 +187,18 @@ struct DnsProfile;
             virtual ~TConversation(){}
         };
         
+        class TFriendRequest {
+        public:
+            TFriendRequest() {}
+            int direction;
+            std::string target;
+            std::string reason;
+            int status;
+            int readStatus;
+            int64_t timestamp;
+            virtual ~TFriendRequest(){}
+        };
+        
         class GeneralStringCallback {
         public:
             virtual void onSuccess(std::string key) = 0;

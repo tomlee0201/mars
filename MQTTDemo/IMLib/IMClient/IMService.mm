@@ -426,13 +426,59 @@ public:
     mars::stn::searchUser([keyword UTF8String], YES, 0, new IMSearchUserCallback(successBlock, errorBlock));
 }
 
+- (BOOL)isMyFriend:(NSString *)userId {
+    return mars::stn::MessageDB::Instance()->isMyFriend([userId UTF8String]);
+}
+
+- (NSArray<NSString *> *)getMyFriendList:(BOOL)refresh {
+    NSMutableArray *ret = [[NSMutableArray alloc] init];
+    std::list<std::string> friendList = mars::stn::MessageDB::Instance()->getMyFriendList(refresh);
+    for (std::list<std::string>::iterator it = friendList.begin(); it != friendList.end(); it++) {
+        [ret addObject:[NSString stringWithUTF8String:(*it).c_str()]];
+    }
+    return ret;
+}
+
+- (NSArray<FriendRequest *> *)convertFriendRequest:(std::list<mars::stn::TFriendRequest>)tRequests {
+    NSMutableArray *ret = [[NSMutableArray alloc] init];
+    for (std::list<mars::stn::TFriendRequest>::iterator it = tRequests.begin(); it != tRequests.end(); it++) {
+        FriendRequest *request = [[FriendRequest alloc] init];
+        mars::stn::TFriendRequest *tRequest = &(*it);
+        request.direction = tRequest->direction;
+        request.target = [NSString stringWithUTF8String:tRequest->target.c_str()];
+        request.reason = [NSString stringWithUTF8String:tRequest->reason.c_str()];
+        request.status = tRequest->status;
+        request.readStatus = tRequest->readStatus;
+        request.timestamp = tRequest->timestamp;
+        [ret addObject:request];
+    }
+    return ret;
+}
+
+- (NSArray<FriendRequest *> *)getIncommingFriendRequest {
+    std::list<mars::stn::TFriendRequest> tRequests = mars::stn::MessageDB::Instance()->getFriendRequest(1);
+    return [self convertFriendRequest:tRequests];
+}
+
+- (NSArray<FriendRequest *> *)getOutgoingFriendRequest {
+    std::list<mars::stn::TFriendRequest> tRequests = mars::stn::MessageDB::Instance()->getFriendRequest(0);
+    return [self convertFriendRequest:tRequests];
+}
+
+- (void)clearUnreadFriendRequestStatus {
+    mars::stn::MessageDB::Instance()->clearUnreadFriendRequestStatus();
+}
+
+- (int)getUnreadFriendRequestStatus {
+    return mars::stn::MessageDB::Instance()->unreadFriendRequest();
+}
+
 - (void)sendFriendRequest:(NSString *)userId
                    reason:(NSString *)reason
                   success:(void(^)())successBlock
                     error:(void(^)(int error_code))errorBlock {
     mars::stn::sendFriendRequest([userId UTF8String], [reason UTF8String], new IMGeneralOperationCallback(successBlock, errorBlock));
 }
-
 
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
