@@ -70,13 +70,10 @@ namespace stn{
     };
 
    extern  void SetCallback(Callback* const callback);
-
-//    extern void SetLonglinkSvrAddr(const std::string& host, const std::vector<uint16_t> ports);
-//    extern void SetShortlinkSvrAddr(const uint16_t port);
     
 
     // 'host' will be ignored when 'debugip' is not empty.
-	extern void (*SetLonglinkSvrAddr)(const std::string& host, const std::vector<uint16_t> ports, const std::string& debugip);
+    extern void (*SetSvrAddr)(const std::string& host, const std::vector<uint16_t> longLinkPorts, uint16_t shortLinkPort);
     
     // 'task.host' will be ignored when 'debugip' is not empty.
 	extern void (*SetShortlinkSvrAddr)(const uint16_t port, const std::string& debugip);

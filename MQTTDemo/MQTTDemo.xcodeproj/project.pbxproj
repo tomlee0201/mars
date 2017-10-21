@@ -130,6 +130,7 @@
 		2ED476A61F865AD100360D0D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476A51F865AD100360D0D /* libc++.tbd */; };
 		2ED476A71F865BA500360D0D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476A51F865AD100360D0D /* libc++.tbd */; };
 		2ED476AF1F865C3A00360D0D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2ED476AE1F865C3900360D0D /* Security.framework */; };
+		2ED49E3E1F9B651C00DF4FAF /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED49E3D1F9B651C00DF4FAF /* Config.m */; };
 		2EDB87F91F63AF4300578E7D /* interf_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F01F63AF4300578E7D /* interf_dec.h */; };
 		2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EDB87F11F63AF4300578E7D /* interf_enc.h */; };
 		2EDB87FB1F63AF4300578E7D /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */; };
@@ -355,6 +356,7 @@
 		2ED476A31F865A9E00360D0D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2ED476A51F865AD100360D0D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		2ED476AE1F865C3900360D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2ED49E3D1F9B651C00DF4FAF /* Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
 		2EDB87F01F63AF4300578E7D /* interf_dec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
 		2EDB87F11F63AF4300578E7D /* interf_enc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interf_enc.h; sourceTree = "<group>"; };
 		2EDB87F21F63AF4300578E7D /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
@@ -678,6 +680,7 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2ED49E3F1F9B660700DF4FAF /* Utilities */,
 				2E0009141F87D5B900955A66 /* MBProgressHUD */,
 				2E0008F31F87776900955A66 /* AFNetworking */,
 				2EDB88021F63AFD200578E7D /* View */,
@@ -687,9 +690,8 @@
 				2E8A32491F60BDC000A25131 /* ViewController */,
 				2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */,
 				2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */,
-				2EFEC1C31F59498100424902 /* Utilities.h */,
-				2EFEC1C41F59498100424902 /* Utilities.m */,
 				2ED476921F8656C700360D0D /* Config.h */,
+				2ED49E3D1F9B651C00DF4FAF /* Config.m */,
 				2EC3BD791F04D61A006C6E6F /* Supporting Files */,
 			);
 			path = MQTTDemo;
@@ -771,6 +773,15 @@
 				2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */,
 			);
 			path = MQTTClient;
+			sourceTree = "<group>";
+		};
+		2ED49E3F1F9B660700DF4FAF /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2EFEC1C31F59498100424902 /* Utilities.h */,
+				2EFEC1C41F59498100424902 /* Utilities.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		2EDB87EF1F63AF4300578E7D /* amr */ = {
@@ -1005,6 +1016,7 @@
 				2E32E37D1F622527000063A6 /* SDWebImagePrefetcher.m in Sources */,
 				2EFEC1BC1F59423B00424902 /* MessageCellBase.m in Sources */,
 				2E32E3881F622839000063A6 /* ImagePreviewViewController.m in Sources */,
+				2ED49E3E1F9B651C00DF4FAF /* Config.m in Sources */,
 				2EFEC1B91F593F5700424902 /* MessageCell.m in Sources */,
 				2E32E37B1F622527000063A6 /* SDWebImageDownloaderOperation.m in Sources */,
 				2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */,

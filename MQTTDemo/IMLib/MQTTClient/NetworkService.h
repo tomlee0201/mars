@@ -69,10 +69,7 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)login:(NSString *)userName password:(NSString *)password;
 
 - (void)logout;
-- (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port;
-- (void)setShortLinkPort:(const unsigned short)port;
-- (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port debugIP:(NSString *)IP;
-- (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port;
+- (void)setServerAddress:(NSString *)host longLinkPort:(const unsigned short)longLinkPort shortLinkPort:(const unsigned short)shortLinkPort;
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 
 

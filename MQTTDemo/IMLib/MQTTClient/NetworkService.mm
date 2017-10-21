@@ -152,6 +152,10 @@ class GGCB : public mars::stn::GetGroupInfoCallback {
 @interface NetworkService () <ConnectionStatusDelegate, ReceiveMessageDelegate, RefreshUserInfoDelegate, RefreshGroupInfoDelegate>
 @property(nonatomic, assign)ConnectionStatus currentConnectionStatus;
 @property (nonatomic, strong)NSString *userId;
+
+@property(nonatomic, strong)NSString *serverHost;
+@property(nonatomic, assign)int16_t longLinkPort;
+@property(nonatomic, assign)int16_t shortLinkPort;
 @end
 
 @implementation NetworkService
@@ -244,8 +248,7 @@ static NetworkService * sharedSingleton = nil;
   _logined = YES;
     mars::app::AppCallBack::Instance()->SetAccountUserName([userName UTF8String]);
   [self createMars];
-  [self setLongLinkAddress:@"www.liyufan.win" port:1883];
-    [self setShortLinkPort:1884];
+    [self setServerAddress:self.serverHost longLinkPort:self.longLinkPort shortLinkPort:self.shortLinkPort];
     self.userId = userName;
   std::string name([userName cStringUsingEncoding:NSUTF8StringEncoding]);
   std::string pwd([password cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -266,28 +269,19 @@ static NetworkService * sharedSingleton = nil;
   }
 }
 
-- (void)setShortLinkDebugIP:(NSString *)IP port:(const unsigned short)port {
-    std::string ipAddress([IP UTF8String]);
-    mars::stn::SetShortlinkSvrAddr(port, ipAddress);
-}
-
-- (void)setShortLinkPort:(const unsigned short)port {
-    mars::stn::SetShortlinkSvrAddr(port, "");
-}
-
-- (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port debugIP:(NSString *)IP {
-    std::string ipAddress([string UTF8String]);
-    std::string debugIP([IP UTF8String]);
+- (void)setServerAddress:(NSString *)host longLinkPort:(const unsigned short)longLinkPort shortLinkPort:(const unsigned short)shortLinkPort {
+    
+    self.serverHost = host;
+    self.longLinkPort = longLinkPort;
+    self.shortLinkPort = shortLinkPort;
+    
+    if (!self.logined) {
+        return;
+    }
+    std::string ipAddress([host UTF8String]);
     std::vector<uint16_t> ports;
-    ports.push_back(port);
-    mars::stn::SetLonglinkSvrAddr(ipAddress,ports,debugIP);
-}
-
-- (void)setLongLinkAddress:(NSString *)string port:(const unsigned short)port {
-    std::string ipAddress([string UTF8String]);
-    std::vector<uint16_t> ports;
-    ports.push_back(port);
-    mars::stn::SetLonglinkSvrAddr(ipAddress, ports, "");
+    ports.push_back(longLinkPort);
+    mars::stn::SetSvrAddr(ipAddress, ports, shortLinkPort);
 }
 
 

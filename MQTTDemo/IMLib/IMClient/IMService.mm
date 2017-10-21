@@ -480,6 +480,20 @@ public:
     mars::stn::sendFriendRequest([userId UTF8String], [reason UTF8String], new IMGeneralOperationCallback(successBlock, errorBlock));
 }
 
+
+- (void)handleFriendRequest:(NSString *)userId
+                     accept:(BOOL)accpet
+                    success:(void(^)())successBlock
+                      error:(void(^)(int error_code))errorBlock {
+    mars::stn::handleFriendRequest([userId UTF8String], accpet, new IMGeneralOperationCallback(successBlock, errorBlock));
+}
+
+- (void)deleteFriend:(NSString *)userId
+             success:(void(^)())successBlock
+               error:(void(^)(int error_code))errorBlock {
+    mars::stn::deleteFriend([userId UTF8String], new IMGeneralOperationCallback(successBlock, errorBlock));
+}
+
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName
            portrait:(NSString *)groupPortrait

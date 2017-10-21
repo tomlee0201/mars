@@ -69,11 +69,14 @@ typedef enum : NSUInteger {
                   success:(void(^)())successBlock
                     error:(void(^)(int error_code))errorBlock;
 
-- (void)acceptFriendRequest:(NSString *)userId
-                   reason:(NSString *)reason
+- (void)handleFriendRequest:(NSString *)userId
+                     accept:(BOOL)accpet
                   success:(void(^)())successBlock
                     error:(void(^)(int error_code))errorBlock;
 
+- (void)deleteFriend:(NSString *)userId
+            success:(void(^)())successBlock
+              error:(void(^)(int error_code))errorBlock;
 
 - (void)createGroup:(NSString *)groupId
                name:(NSString *)groupName

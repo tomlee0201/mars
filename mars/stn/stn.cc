@@ -34,6 +34,7 @@ namespace mars{
       
         using namespace std;
         
+        string g_ShortLinkHost;
         string UrlEncode(const string& szToEncode)
         {
             string src = szToEncode;
@@ -108,7 +109,7 @@ MQTTTask::MQTTTask(MQTT_MSG_TYPE type) : Task(), type(type) {
             cgi = i;
             cmdid = HTTP_REQUEST_CMDID;
             cgi = UrlEncode(cgi);
-            shortlink_host_list.push_back("www.liyufan.win");
+            shortlink_host_list.push_back(g_ShortLinkHost);
         }
         
       MQTTPublishTask::MQTTPublishTask(MQTTPublishCallback *callback) : MQTTTask(MQTT_MSG_PUBLISH) , m_callback(callback) {

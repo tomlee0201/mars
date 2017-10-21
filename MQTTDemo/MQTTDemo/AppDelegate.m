@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "NetworkService.h"
 #import "LoginViewController.h"
+#import "Config.h"
 
 @interface AppDelegate () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 
@@ -19,6 +20,7 @@
   [NetworkService startLog];
   [NetworkService sharedInstance].connectionStatusDelegate = self;
   [NetworkService sharedInstance].receiveMessageDelegate = self;
+    [[NetworkService sharedInstance] setServerAddress:SERVER_HOST longLinkPort:LONG_LINK_PORT shortLinkPort:SHORT_LINK_PORT];
   NSString *savedName = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedName"];
   NSString *savedPwd = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedPwd"];
     NSString *savedToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"savedToken"];

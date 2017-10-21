@@ -64,6 +64,8 @@
 #include "mars/stn/mqtt/Proto/pull_user_request.pb.h"
 #include "mars/stn/mqtt/Proto/modify_my_info_request.pb.h"
 #include "mars/stn/mqtt/Proto/add_friends_request.pb.h"
+#include "mars/stn/mqtt/Proto/handle_friends_request.pb.h"
+
 #include "stn/src/proxy_test.h"
 
 #include "mars/stn/mqtt/rapidjson/document.h"
@@ -78,7 +80,8 @@ static Callback* sg_callback = StnCallBack::Instance();
 static const std::string kLibName = "stn";
 
 const std::string sendMessageTopic = "MS";
-    
+//const std::string pullMessageTopic = "MP"; //defined in another file
+//const std::string notifyMessageTopic = "MN";
 const std::string createGroupTopic = "GC";
 const std::string addGroupMemberTopic = "GAM";
 const std::string kickoffGroupMemberTopic = "GKM";
@@ -90,13 +93,13 @@ const std::string getUserInfoTopic = "UPUI";
 const std::string getGroupMemberTopic = "GPGM";
 const std::string getMyGroupsTopic = "GMG";
 const std::string transferGroupTopic = "GTG";
-    
 const std::string getQiniuUploadTokenTopic = "GQNUT";
-
+const std::string modifyMyInfoTopic = "MMI";
+    
 const std::string AddFriendRequestTopic = "FAR";
 const std::string HandleFriendRequestTopic = "FHR";
 const std::string DeleteFriendTopic = "FDL";
-const std::string modifyMyInfoTopic = "MMI";
+    
     
 #define STN_WEAK_CALL(func) \
     boost::shared_ptr<NetCore> stn_ptr = NetCore::Singleton::Instance_Weak().lock();\
@@ -238,19 +241,17 @@ bool (*ProxyIsAvailable)(const mars::comm::ProxyInfo& _proxy_info, const std::st
     return ProxyTest::Singleton::Instance()->ProxyIsAvailable(_proxy_info, _test_host, _hardcode_ips);
 };
 
-//void SetLonglinkSvrAddr(const std::string& host, const std::vector<uint16_t> ports)
-// {
-//	SetLonglinkSvrAddr(host, ports, "");
-//};
-
-
-void (*SetLonglinkSvrAddr)(const std::string& host, const std::vector<uint16_t> ports, const std::string& debugip)
-= [](const std::string& host, const std::vector<uint16_t> ports, const std::string& debugip) {
+extern std::string g_ShortLinkHost;
+    
+void (*SetSvrAddr)(const std::string& host, const std::vector<uint16_t> longLinkPorts, uint16_t shortLinkPort)
+= [](const std::string& host, const std::vector<uint16_t> longLinkPorts, uint16_t shortLinkPort) {
 	std::vector<std::string> hosts;
 	if (!host.empty()) {
 		hosts.push_back(host);
 	}
-	NetSource::SetLongLink(hosts, ports, debugip);
+	NetSource::SetLongLink(hosts, longLinkPorts, "");
+    NetSource::SetShortlink(shortLinkPort, "");
+    g_ShortLinkHost = host;
 };
 
 //void SetShortlinkSvrAddr(const uint16_t port)
@@ -806,6 +807,19 @@ void sendFriendRequest(const std::string &userId, const std::string &reason, Gen
     publishTask(request, new GeneralOperationPublishCallback(callback), AddFriendRequestTopic);
 }
     
+void handleFriendRequest(const std::string &userId, bool accept, GeneralOperationCallback *callback) {
+    HandleFriendRequest request;
+    request.set_status(accept ? 1 : 2);
+    request.set_target_uid(userId);
+    publishTask(request, new GeneralOperationPublishCallback(callback), HandleFriendRequestTopic);
+}
+  
+void deleteFriend(const std::string &userId, GeneralOperationCallback *callback) {
+    IDBuf request;
+    request.set_id(userId);
+    publishTask(request, new GeneralOperationPublishCallback(callback), DeleteFriendTopic);
+}
+
 void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback)
 = [](const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback) {
     CreateGroupRequest request;
