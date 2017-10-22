@@ -68,7 +68,7 @@ namespace mars {
           opened = true;
         }
         
-        WCDB::RecyclableStatement DB::GetSelectStatement(const std::string &tableName, const std::list<const std::string> &columns, WCDB::Error &error, const WCDB::Expr *where, const std::list<const WCDB::Order> *orderBy, int limit, int offset) {
+        WCDB::RecyclableStatement DB::GetSelectStatement(const std::string &tableName, const std::list<const std::string> &columns, WCDB::Error &error, const WCDB::Expr *where, const std::list<const WCDB::Order> *orderBy, int limit, int offset, const std::list<const WCDB::Expr> *groupBy) {
             WCDB::StatementSelect statement;
             std::list<const WCDB::ColumnResult> selectList;
             for (std::list<const std::string>::const_iterator it = columns.begin(); it != columns.end(); ++it) {
@@ -79,6 +79,12 @@ namespace mars {
             if (where != NULL) {
                 statement.where(*where);
             }
+            
+            
+            if (groupBy) {
+                statement.groupBy(*groupBy);
+            }
+            
             if (orderBy) {
                 statement.orderBy(*orderBy);
             }
@@ -88,6 +94,8 @@ namespace mars {
             if (offset > 0) {
                 statement.offset(Expr(offset));
             }
+            
+            
             
             WCDB::RecyclableStatement statementHandle = _database->prepare(statement, error);
             return statementHandle;

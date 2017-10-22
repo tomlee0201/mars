@@ -57,7 +57,16 @@
     self.targetView.text = [NSString stringWithFormat:@"group<%@>", self.info.conversation.target];
   }
 }
-  
+
+- (void)setSearchInfo:(ConversationSearchInfo *)searchInfo {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _searchInfo = searchInfo;
+    self.bubbleView.hidden = YES;
+    self.timeView.hidden = YES;
+    [self update:searchInfo.conversation];
+    self.digestView.text = [NSString stringWithFormat:@"%d条记录", searchInfo.marchedCount];
+}
+
 - (void)setInfo:(ConversationInfo *)info {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
     _info = info;
@@ -69,34 +78,10 @@
         self.bubbleView.isShowNotificationNumber = YES;
     }
   
-    if(info.conversation.type == Single_Type) {
-      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoUpdated:) name:kUserInfoUpdated object:info.conversation.target];
-      
-      
-        UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:info.conversation.target refresh:NO];
-      if(userInfo.userId.length == 0) {
-        userInfo = [[UserInfo alloc] init];
-        userInfo.userId = info.conversation.target;
-      }
-      [self updateUserInfo:userInfo];
-    } else if (info.conversation.type == Group_Type) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onGroupInfoUpdated:) name:kGroupInfoUpdated object:info.conversation.target];
-      
-        GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:info.conversation.target refresh:NO];
-      if(groupInfo.target.length == 0) {
-        groupInfo = [[GroupInfo alloc] init];
-        groupInfo.target = info.conversation.target;
-      }
-      [self updateGroupInfo:groupInfo];
-    } else {
-        self.targetView.text = [NSString stringWithFormat:@"chatroom<%@>", info.conversation.target];
-    }
-    
-    self.digestView.text = info.lastMessage.content.digest;
-    self.potraitView.layer.cornerRadius = 3.f;
-    
+    [self update:info.conversation];
+    self.timeView.hidden = NO;
     self.timeView.text = [Utilities formatTimeLabel:info.timestamp];
-    
+    self.digestView.text = info.lastMessage.content.digest;
     if (info.isTop) {
         [self.contentView setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.f]];
     } else {
@@ -104,6 +89,32 @@
     }
 }
 
+- (void)update:(Conversation *)conversation {
+    if(conversation.type == Single_Type) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoUpdated:) name:kUserInfoUpdated object:conversation.target];
+        
+        
+        UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:conversation.target refresh:NO];
+        if(userInfo.userId.length == 0) {
+            userInfo = [[UserInfo alloc] init];
+            userInfo.userId = conversation.target;
+        }
+        [self updateUserInfo:userInfo];
+    } else if (conversation.type == Group_Type) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onGroupInfoUpdated:) name:kGroupInfoUpdated object:conversation.target];
+        
+        GroupInfo *groupInfo = [[IMService sharedIMService] getGroupInfo:conversation.target refresh:NO];
+        if(groupInfo.target.length == 0) {
+            groupInfo = [[GroupInfo alloc] init];
+            groupInfo.target = conversation.target;
+        }
+        [self updateGroupInfo:groupInfo];
+    } else {
+        self.targetView.text = [NSString stringWithFormat:@"chatroom<%@>", conversation.target];
+    }
+    
+    self.potraitView.layer.cornerRadius = 3.f;
+}
 - (BubbleTipView *)bubbleView {
     if (!_bubbleView) {
         _bubbleView = [[BubbleTipView alloc] initWithParentView:self.contentView];

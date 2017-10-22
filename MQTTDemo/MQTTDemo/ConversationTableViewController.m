@@ -25,11 +25,45 @@
 #import "Utilities.h"
 #import "UITabBar+badge.h"
 
-@interface ConversationTableViewController ()
+
+#import "ConversationSearchInfo.h"
+
+@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
+
+@property (nonatomic, strong)  UISearchController       *searchController;
+@property (nonatomic, strong) NSArray            *searchList;
 @end
 
 @implementation ConversationTableViewController
+- (void)initSearchUIAndData {
+    //self.view.backgroundColor = [UIColor whiteColor];
+    
+    _searchList = [NSMutableArray array];
+    
+    
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消分割线
+    
+    //创建UISearchController
+    _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    //设置代理
+    _searchController.delegate = self;
+    _searchController.searchResultsUpdater = self;
+    
+    
+    //设置UISearchController的显示属性，以下3个属性默认为YES
+    //搜索时，背景变暗色
+    //    _searchController.dimsBackgroundDuringPresentation = NO;
+    //搜索时，背景变模糊
+    _searchController.obscuresBackgroundDuringPresentation = NO;
+    //隐藏导航栏
+    //    _searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    _searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+    
+    // 添加 searchbar 到 headerview
+    self.tableView.tableHeaderView = _searchController.searchBar;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,6 +75,8 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onClearAllUnread:) name:@"kTabBarClearBadgeNotification" object:nil];
+    
+    [self initSearchUIAndData];
 }
 
 - (void)updateConnectionStatus:(ConnectionStatus)status {
@@ -119,15 +155,23 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.conversations.count;
+    if (self.searchController.active) {
+        return self.searchList.count;
+    } else {
+        return self.conversations.count;
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ConversationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReuseableConversationCell" forIndexPath:indexPath];
     
-    cell.info = self.conversations[indexPath.row];
-  
+    if (self.searchController.active) {
+        cell.searchInfo = self.searchList[indexPath.row];
+    } else {
+        cell.info = self.conversations[indexPath.row];
+    }
+    
     return cell;
 }
 
@@ -139,6 +183,9 @@
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
+    if (self.searchController.active) {
+        return NO;
+    }
     return YES;
 }
 
@@ -193,12 +240,56 @@
   if ([segue.destinationViewController isKindOfClass:[MessageViewController class]]) {
     MessageViewController *mvc = (MessageViewController *)segue.destinationViewController;
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
-    ConversationInfo *info = self.conversations[indexPath.row];
-    mvc.conversation = info.conversation;
+      if (self.searchController.active) {
+          NSString *searchString = [self.searchController.searchBar text];
+          ConversationSearchInfo *info = self.searchList[indexPath.row];
+          mvc.conversation = info.conversation;
+          mvc.keyword = searchString;
+          self.searchController.active = NO;
+      } else {
+        ConversationInfo *info = self.conversations[indexPath.row];
+        mvc.conversation = info.conversation;
+      }
   }
 }
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _searchController = nil;
+    _searchList       = nil;
 }
+
+#pragma mark - UISearchControllerDelegate
+//测试UISearchController的执行过程
+
+- (void)willPresentSearchController:(UISearchController *)searchController {
+    NSLog(@"willPresentSearchController");
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController {
+    NSLog(@"didPresentSearchController");
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController {
+    NSLog(@"willDismissSearchController");
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController {
+    NSLog(@"didDismissSearchController");
+}
+
+- (void)presentSearchController:(UISearchController *)searchController {
+    NSLog(@"presentSearchController");
+}
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    
+    NSLog(@"updateSearchResultsForSearchController");
+    NSString *searchString = [self.searchController.searchBar text];
+    
+    self.searchList = [[IMService sharedIMService] searchConversation:searchString];
+    //刷新表格
+    [self.tableView reloadData];
+}
+
 @end

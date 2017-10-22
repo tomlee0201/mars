@@ -12,6 +12,8 @@
 #import "ConversationInfo.h"
 #import "UserInfo.h"
 #import "FriendRequest.h"
+#import "ConversationSearchInfo.h"
+
 
 typedef enum : NSUInteger {
   Modify_DisplayName = 0,
@@ -41,6 +43,9 @@ typedef enum : NSUInteger {
 - (void)setConversation:(Conversation *)conversation top:(BOOL)top;
 
 - (BOOL)deleteMessage:(long)messageId;
+
+- (NSArray<ConversationSearchInfo *> *)searchConversation:(NSString *)keyword;
+- (NSArray<Message *> *)searchMessage:(Conversation *)conversation keyword:(NSString *)keyword;
 
 - (GroupInfo *)getGroupInfo:(NSString *)groupId refresh:(BOOL)refresh;
 - (UserInfo *)getUserInfo:(NSString *)userId refresh:(BOOL)refresh;

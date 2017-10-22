@@ -16,4 +16,5 @@
 @property (weak, nonatomic) IBOutlet UITextField *inputTextField;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
 @property (nonatomic, strong)Conversation *conversation;
+@property (nonatomic, strong)NSString *keyword;
 @end

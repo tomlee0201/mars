@@ -609,6 +609,118 @@ namespace mars {
             return false;
         }
         
+        std::list<TMessage> MessageDB::SearchMessages(int conversationType, const std::string &target, int line, const std::string &keyword, int limit) {
+            DB *db = DB::Instance();
+            if (!db->isOpened() || keyword.empty()) {
+                return std::list<TMessage>();
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_conv_type")) == conversationType) && (WCDB::Expr(WCDB::Column("_conv_target")) == target) && (WCDB::Expr(WCDB::Column("_conv_line")) == line) && (WCDB::Expr(WCDB::Column("_cont_searchable")).like(WCDB::Expr("%" + keyword + "%")));
+            
+            
+            std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
+            
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(MESSAGE_TABLE_NAME,
+                                                                               {
+                                                                                   "_id",
+                                                                                   "_conv_type",
+                                                                                   "_conv_target",
+                                                                                   "_conv_line",
+                                                                                   "_from",
+                                                                                   "_cont_type",
+                                                                                   "_cont_searchable",
+                                                                                   "_cont_push",
+                                                                                   "_cont",
+                                                                                   "_cont_data",
+                                                                                   "_cont_local",
+                                                                                   "_cont_media_type",
+                                                                                   "_cont_remote_media_url",
+                                                                                   "_cont_local_media_path",
+                                                                                   "_direction",
+                                                                                   "_status",
+                                                                                   "_uid",
+                                                                                   "_timestamp"}, error, &where, &orderBy, limit);
+            
+            std::list<TMessage> result;
+            
+            while (statementHandle->step()) {
+                TMessage msg;
+                msg.messageId = db->getIntValue(statementHandle, 0);
+                msg.conversationType = db->getIntValue(statementHandle, 1);
+                msg.target = db->getStringValue(statementHandle, 2);
+                msg.line = db->getIntValue(statementHandle, 3);
+                msg.from = db->getStringValue(statementHandle, 4);
+                
+                msg.content.type = db->getIntValue(statementHandle, 5);
+                msg.content.searchableContent = db->getStringValue(statementHandle, 6);
+                msg.content.pushContent = db->getStringValue(statementHandle, 7);
+                msg.content.content = db->getStringValue(statementHandle, 8);
+                int size = 0;
+                const void *p = db->getBlobValue(statementHandle, 9, size);
+                msg.content.binaryContent = std::string((const char *)p, size);
+                msg.content.localContent = db->getStringValue(statementHandle, 10);
+                msg.content.mediaType = db->getIntValue(statementHandle, 11);
+                msg.content.remoteMediaUrl = db->getStringValue(statementHandle, 12);
+                msg.content.localMediaPath = db->getStringValue(statementHandle, 13);
+                
+                msg.direction = db->getIntValue(statementHandle, 14);
+                msg.status = (MessageStatus)db->getIntValue(statementHandle, 15);
+                msg.messageUid = db->getBigIntValue(statementHandle, 16);
+                msg.timestamp = db->getBigIntValue(statementHandle, 17);
+                
+                result.push_back(msg);
+            }
+            
+            
+            return result;
+        }
+        
+        std::list<TConversationSearchresult> MessageDB::SearchConversations(const std::string &keyword, int limit) {
+            DB *db = DB::Instance();
+            if (!db->isOpened() || keyword.empty()) {
+                return std::list<TConversationSearchresult>();
+            }
+            WCDB::Error error;
+            
+            
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_cont_searchable")).like(WCDB::Expr("%" + keyword + "%")));
+            
+            
+            std::list<const WCDB::Order> orderBy = {WCDB::Order(WCDB::Expr(WCDB::Column("_timestamp")), WCDB::OrderTerm::DESC)};
+            
+            std::list<const WCDB::Expr> groupBy = {WCDB::Expr(WCDB::Column("_conv_type")), WCDB::Expr(WCDB::Column("_conv_target")), WCDB::Expr(WCDB::Column("_conv_line"))};
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(MESSAGE_TABLE_NAME,
+                                                                               {
+                                                                                   "count(*)",
+                                                                                   "_id",
+                                                                                   "_conv_type",
+                                                                                   "_conv_target",
+                                                                                   "_conv_line",
+                                                                                   "_timestamp"
+                                                                               }, error, &where, &orderBy, limit, 0, &groupBy);
+            
+            std::list<TConversationSearchresult> results;
+            
+            while (statementHandle->step()) {
+                int count = db->getIntValue(statementHandle, 0);
+                if (count == 0) {
+                    continue;
+                }
+                TConversationSearchresult result;
+                result.marchedCount = count;
+                int messageId = db->getIntValue(statementHandle, 1);
+                result.conversationType = db->getIntValue(statementHandle, 2);
+                result.target = db->getStringValue(statementHandle, 3);
+                result.line = db->getIntValue(statementHandle, 4);
+                result.timestamp = db->getBigIntValue(statementHandle, 5);
+                results.push_back(result);
+            }
+            
+            return results;
+        }
+        
         class TGetGroupInfoCallback : public GetGroupInfoCallback {
             void onSuccess(const std::list<const mars::stn::TGroupInfo> &groupInfoList) {
                 for (std::list<const TGroupInfo>::const_iterator it = groupInfoList.begin(); it != groupInfoList.end(); it++) {

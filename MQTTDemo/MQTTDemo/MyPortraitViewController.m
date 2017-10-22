@@ -94,7 +94,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   
   UIImage *previousImage = self.portraitView.image;
   __weak typeof(self) ws = self;
-  MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  __block MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   hud.label.text = @"更新中...";
   [hud showAnimated:YES];
   
@@ -102,18 +102,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [[IMService sharedIMService] modifyMyInfo:@{@(Modify_Portrait):remoteUrl} success:^{
       dispatch_async(dispatch_get_main_queue(), ^{
         [ws.portraitView sd_setImageWithURL:[NSURL URLWithString:remoteUrl] placeholderImage:previousImage];
-        [hud showAnimated:NO];
+          [hud hideAnimated:NO];
         [ws showHud:@"更新成功"];
       });
     } error:^(int error_code) {
       dispatch_async(dispatch_get_main_queue(), ^{
-        [hud showAnimated:NO];
+        [hud hideAnimated:NO];
         [ws showHud:@"更新失败"];
       });
     }];
   } error:^(int error_code) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [hud showAnimated:NO];
+      [hud hideAnimated:NO];
       [ws showHud:@"更新失败"];
     });
   }];

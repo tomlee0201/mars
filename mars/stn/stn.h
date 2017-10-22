@@ -187,6 +187,19 @@ struct DnsProfile;
             virtual ~TConversation(){}
         };
         
+        class TConversationSearchresult {
+        public:
+            TConversationSearchresult() : conversationType(0) {}
+            int conversationType;
+            std::string target;
+            int line;
+            //only marchedCount == 1, load the message
+            TMessage marchedMessage;
+            int64_t timestamp;
+            int marchedCount;
+            virtual ~TConversationSearchresult(){}
+        };
+        
         class TFriendRequest {
         public:
             TFriendRequest() {}

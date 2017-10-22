@@ -58,6 +58,9 @@ namespace mars {
             
             bool FailSendingMessages();
             
+            std::list<TMessage> SearchMessages(int conversationType, const std::string &target, int line, const std::string &keyword, int limit);
+            
+            std::list<TConversationSearchresult> SearchConversations(const std::string &keyword, int limit);
             
             TGroupInfo GetGroupInfo(const std::string &groupId, bool refresh);
             long InsertGroupInfo(const TGroupInfo &groupInfo);

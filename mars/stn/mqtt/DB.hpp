@@ -52,7 +52,7 @@ namespace mars {
             void Open();
             void Upgrade();
           bool isOpened();
-            WCDB::RecyclableStatement GetSelectStatement(const std::string &tableName, const std::list<const std::string> &columns, WCDB::Error &error, const WCDB::Expr *where = NULL, const std::list<const WCDB::Order> *orderBy = NULL, int limit = 0, int offset = 0);
+            WCDB::RecyclableStatement GetSelectStatement(const std::string &tableName, const std::list<const std::string> &columns, WCDB::Error &error, const WCDB::Expr *where = NULL, const std::list<const WCDB::Order> *orderBy = NULL, int limit = 0, int offset = 0, const std::list<const WCDB::Expr> *groupBy = NULL);
             WCDB::RecyclableStatement GetInsertStatement(const std::string &table, const std::list<const std::string> &columns, bool replace = false);
             bool ExecuteInsert(WCDB::RecyclableStatement statementHandle, long *rowId = NULL);
             

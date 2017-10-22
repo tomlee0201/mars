@@ -10,6 +10,8 @@
 #import "UserInfo.h"
 #import "IMService.h"
 #import "UserInfoViewController.h"
+#import "ProfileTableViewController.h"
+
 
 @interface AddFriendViewController () <UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate>
 @property (nonatomic, strong)  UITableView              *tableView;
@@ -50,12 +52,16 @@
     _tableView.delegate   = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消分割线
+    _tableView.allowsSelection = YES;
     
     //创建UISearchController
     _searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
     //设置代理
     _searchController.delegate = self;
+    
     _searchController.searchResultsUpdater = self;
+    
+    _searchController.dimsBackgroundDuringPresentation = NO;
     
     
     //设置UISearchController的显示属性，以下3个属性默认为YES
@@ -76,26 +82,6 @@
     
 }
 
-//生成三个随机字母
-- (NSString *)shuffledAlphabet
-{
-    NSMutableArray * shuffledAlphabet = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D",@"E",@"F",@"G",
-                                                                         @"H",@"I",@"J",@"K",@"L",@"M",@"N",
-                                                                         @"O",@"P",@"Q",@"R",@"S",@"T",@"U",
-                                                                         @"V",@"W",@"X",@"Y",@"Z"]];
-    
-    NSString *strTest = [[NSString alloc]init];
-    
-    for (int i = 0; i < 3; i++)
-    {
-        int x = arc4random() % 25;//0~24 的随机数
-        strTest = [NSString stringWithFormat:@"%@%@",strTest,shuffledAlphabet[x]];
-        
-    }
-    
-    return strTest;
-}
-
 #pragma mark - UITableViewDataSource
 
 //table 返回的行数
@@ -111,9 +97,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.searchController.active) {
         UserInfo *userInfo = self.searchList[indexPath.row];
-        UserInfoViewController *uivc = [[UserInfoViewController alloc] init];
-        uivc.userInfo = userInfo;
-        [self.navigationController presentViewController:uivc animated:YES completion:nil];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ProfileTableViewController *pvc = [sb instantiateViewControllerWithIdentifier:@"profileVC"];
+        pvc.userInfo = userInfo;
+        self.searchController.active = NO;
+        [self.navigationController pushViewController:pvc animated:YES];
     }
 }
 //返回单元格内容
@@ -124,6 +112,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
     }
+    cell.userInteractionEnabled = YES;
+    
     
     if (self.searchController.active)//如果正在搜索
     {

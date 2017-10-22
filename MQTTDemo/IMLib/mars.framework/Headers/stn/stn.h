@@ -103,19 +103,7 @@ struct DnsProfile;
             int64_t updateDt;
             virtual ~TUserInfo() {}
         };
-        
-        class TFriendRequest {
-        public:
-            TFriendRequest() {}
-            int direction;
-            std::string target;
-            std::string reason;
-            int status;
-            int readStatus;
-            int64_t timestamp;
-            virtual ~TFriendRequest(){}
-        };
-        
+
         class TMessageContent {
         public:
             TMessageContent() : type(0) {}
@@ -197,6 +185,31 @@ struct DnsProfile;
             int unreadCount;
             bool isTop;
             virtual ~TConversation(){}
+        };
+        
+        class TConversationSearchresult {
+        public:
+            TConversationSearchresult() : conversationType(0) {}
+            int conversationType;
+            std::string target;
+            int line;
+            //only marchedCount == 1, load the message
+            TMessage marchedMessage;
+            int64_t timestamp;
+            int marchedCount;
+            virtual ~TConversationSearchresult(){}
+        };
+        
+        class TFriendRequest {
+        public:
+            TFriendRequest() {}
+            int direction;
+            std::string target;
+            std::string reason;
+            int status;
+            int readStatus;
+            int64_t timestamp;
+            virtual ~TFriendRequest(){}
         };
         
         class GeneralStringCallback {
@@ -590,10 +603,9 @@ extern int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaC
         
         extern void searchUser(const std::string &keyword, bool puzzy, int page, SearchUserCallback *callback);
         extern void sendFriendRequest(const std::string &userId, const std::string &reason, GeneralOperationCallback *callback);
-        extern void deleteFriend(const std::string &userId, GeneralOperationCallback *callback);
         
         extern void handleFriendRequest(const std::string &userId, bool accept, GeneralOperationCallback *callback);
-        
+        extern void deleteFriend(const std::string &userId, GeneralOperationCallback *callback);
         extern void (*createGroup)(const std::string &groupId, const std::string &groupName, const std::string &groupPortrait, const std::list<std::string> &groupMembers, const std::list<int> &notifyLines, TMessage &tmsg, CreateGroupCallback *callback);
         
 extern void (*addMembers)(const std::string &groupId, const std::list<std::string> &members, const std::list<int> &notifyLines, TMessage &tmsg, GeneralOperationCallback *callback);

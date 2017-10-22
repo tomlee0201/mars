@@ -69,6 +69,8 @@ alpha:1.0]
   
 @property(nonatomic, strong)UserInfo *targetUser;
 @property(nonatomic, strong)GroupInfo *targetGroup;
+
+@property(nonatomic, assign, readonly)BOOL isSearchResult;
 @end
 
 @implementation MessageViewController
@@ -91,8 +93,13 @@ alpha:1.0]
   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onResetKeyboard:)];
   [self.collectionView addGestureRecognizer:tap];
     
-  NSArray *messageList = [[IMService sharedIMService] getMessages:self.conversation from:0 count:10];
-    [[IMService sharedIMService] clearUnreadStatus:self.conversation];
+    NSArray *messageList;
+    if (self.isSearchResult) {
+        messageList = [[IMService sharedIMService] searchMessage:self.conversation keyword:self.keyword];
+    } else {
+        messageList = [[IMService sharedIMService] getMessages:self.conversation from:0 count:10];
+        [[IMService sharedIMService] clearUnreadStatus:self.conversation];
+    }
     
   self.modelList = [[NSMutableArray alloc] init];
   Message *lastMsg = nil;
@@ -133,19 +140,27 @@ alpha:1.0]
     [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
     [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchCancel];
 }
-  
+
+- (BOOL)isSearchResult {
+    return self.keyword.length > 0;
+}
+
 - (void)setTargetUser:(UserInfo *)targetUser {
   _targetUser = targetUser;
-  if(targetUser.displayName.length == 0) {
-    self.title = [NSString stringWithFormat:@"User<%@>", self.conversation.target];
-  } else {
-    self.title = targetUser.displayName;
-  }
+    if (self.isSearchResult) {
+        self.title = @"搜索结果";
+    } else if(targetUser.displayName.length == 0) {
+        self.title = [NSString stringWithFormat:@"User<%@>", self.conversation.target];
+    } else {
+        self.title = targetUser.displayName;
+    }
 }
   
 - (void)setTargetGroup:(GroupInfo *)targetGroup {
   _targetGroup = targetGroup;
-  if(targetGroup.name.length == 0) {
+    if (self.isSearchResult) {
+        self.title = @"搜索结果";
+    } else if(targetGroup.name.length == 0) {
     self.title = [NSString stringWithFormat:@"Group<%@>", self.conversation.target];
   } else {
     self.title = targetGroup.name;

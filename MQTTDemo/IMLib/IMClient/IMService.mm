@@ -473,6 +473,12 @@ public:
     return mars::stn::MessageDB::Instance()->unreadFriendRequest();
 }
 
+- (void)removeFriend:(NSString *)userId
+             success:(void(^)())successBlock
+               error:(void(^)(int error_code))errorBlock {
+    
+}
+
 - (void)sendFriendRequest:(NSString *)userId
                    reason:(NSString *)reason
                   success:(void(^)())successBlock
@@ -692,6 +698,33 @@ public:
 
 - (BOOL)deleteMessage:(long)messageId {
     return mars::stn::MessageDB::Instance()->DeleteMessage(messageId);
+}
+
+- (NSArray<ConversationSearchInfo *> *)searchConversation:(NSString *)keyword {
+    if (keyword.length == 0) {
+        return nil;
+    }
+    std::list<mars::stn::TConversationSearchresult> tresult = mars::stn::MessageDB::Instance()->SearchConversations([keyword UTF8String], 50);
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    for (std::list<mars::stn::TConversationSearchresult>::iterator it = tresult.begin(); it != tresult.end(); it++) {
+        ConversationSearchInfo *info = [[ConversationSearchInfo alloc] init];
+        [results addObject:info];
+        info.conversation = [[Conversation alloc] init];
+        info.conversation.type = (ConversationType)(it->conversationType);
+        info.conversation.target = [NSString stringWithUTF8String:it->target.c_str()];
+        info.conversation.line = it->line;
+        info.marchedCount = it->marchedCount;
+        info.marchedMessage = convertProtoMessage(&(it->marchedMessage));
+    }
+    return results;
+}
+
+- (NSArray<Message *> *)searchMessage:(Conversation *)conversation keyword:(NSString *)keyword {
+    if (keyword.length == 0) {
+        return nil;
+    }
+    std::list<mars::stn::TMessage> tmessages = mars::stn::MessageDB::Instance()->SearchMessages(conversation.type, [conversation.target UTF8String], conversation.line, [keyword UTF8String], 500);
+    return convertProtoMessageList(tmessages);
 }
 
 - (GroupInfo *)getGroupInfo:(NSString *)groupId refresh:(BOOL)refresh {

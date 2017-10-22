@@ -71,8 +71,6 @@
     self.tableView.tableHeaderView = _searchController.searchBar;
     
     [self.view addSubview:_tableView];
-    
-    
 }
 
 //生成三个随机字母
