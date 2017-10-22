@@ -251,7 +251,7 @@ void (*SetSvrAddr)(const std::string& host, const std::vector<uint16_t> longLink
 	}
 	NetSource::SetLongLink(hosts, longLinkPorts, "");
     NetSource::SetShortlink(shortLinkPort, "");
-    g_ShortLinkHost = "http://" + host;
+    g_ShortLinkHost = host;
 };
 
 //void SetShortlinkSvrAddr(const uint16_t port)
