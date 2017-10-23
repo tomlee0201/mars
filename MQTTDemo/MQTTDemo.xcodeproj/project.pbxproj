@@ -86,7 +86,6 @@
 		2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E95BA7B1F5A9DBE0079B516 /* ImageMessageContent.m */; };
 		2E95BA9C1F5AE9770079B516 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFEC1C41F59498100424902 /* Utilities.m */; };
 		2E9A57AC1F700DF4006FEF85 /* InviteGroupMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */; };
-		2EAC83851F92F7A3009103E0 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC83841F92F7A3009103E0 /* UserInfoViewController.m */; };
 		2EB0655F1F9CDD8A00F66539 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB0655E1F9CDD8A00F66539 /* ProfileTableViewController.m */; };
 		2EB49BF11F88AE7000BF5563 /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB49BF01F88AE7000BF5563 /* ContactListViewController.m */; };
 		2EB49BF51F88B9FF00BF5563 /* AddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB49BF41F88B9FF00BF5563 /* AddFriendViewController.m */; };
@@ -115,12 +114,6 @@
 		2EC51B771F3EBB49009D60AE /* NetworkService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B691F3EBB49009D60AE /* NetworkService.mm */; };
 		2EC51B781F3EBB49009D60AE /* NetworkStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC51B6A1F3EBB49009D60AE /* NetworkStatus.h */; };
 		2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B6B1F3EBB49009D60AE /* NetworkStatus.m */; };
-		2EC51B7B1F3EBB49009D60AE /* PublishTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC51B6C1F3EBB49009D60AE /* PublishTask.h */; };
-		2EC51B7D1F3EBB49009D60AE /* PublishTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B6D1F3EBB49009D60AE /* PublishTask.mm */; };
-		2EC51B7E1F3EBB49009D60AE /* SubscribeTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC51B6E1F3EBB49009D60AE /* SubscribeTask.h */; };
-		2EC51B801F3EBB49009D60AE /* SubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B6F1F3EBB49009D60AE /* SubscribeTask.mm */; };
-		2EC51B811F3EBB49009D60AE /* UnsubscribeTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */; };
-		2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */; };
 		2EC51B851F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
 		2EC51B861F3EBB98009D60AE /* mars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EC51B841F3EBB98009D60AE /* mars.framework */; };
 		2ED386261F7DC0AE00DC4C98 /* UserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2ED386241F7DC0AE00DC4C98 /* UserInfo.h */; };
@@ -306,8 +299,6 @@
 		2E95BA801F5AA0870079B516 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
 		2E9A57AA1F700DF4006FEF85 /* InviteGroupMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteGroupMemberViewController.h; sourceTree = "<group>"; };
 		2E9A57AB1F700DF4006FEF85 /* InviteGroupMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteGroupMemberViewController.m; sourceTree = "<group>"; };
-		2EAC83831F92F7A3009103E0 /* UserInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
-		2EAC83841F92F7A3009103E0 /* UserInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		2EB0655D1F9CDD8A00F66539 /* ProfileTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
 		2EB0655E1F9CDD8A00F66539 /* ProfileTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
 		2EB49BEF1F88AE7000BF5563 /* ContactListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactListViewController.h; sourceTree = "<group>"; };
@@ -347,12 +338,6 @@
 		2EC51B691F3EBB49009D60AE /* NetworkService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkService.mm; sourceTree = "<group>"; };
 		2EC51B6A1F3EBB49009D60AE /* NetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkStatus.h; sourceTree = "<group>"; };
 		2EC51B6B1F3EBB49009D60AE /* NetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkStatus.m; sourceTree = "<group>"; };
-		2EC51B6C1F3EBB49009D60AE /* PublishTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTask.h; sourceTree = "<group>"; };
-		2EC51B6D1F3EBB49009D60AE /* PublishTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PublishTask.mm; sourceTree = "<group>"; };
-		2EC51B6E1F3EBB49009D60AE /* SubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeTask.h; sourceTree = "<group>"; };
-		2EC51B6F1F3EBB49009D60AE /* SubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SubscribeTask.mm; sourceTree = "<group>"; };
-		2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubscribeTask.h; sourceTree = "<group>"; };
-		2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnsubscribeTask.mm; sourceTree = "<group>"; };
 		2EC51B841F3EBB98009D60AE /* mars.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mars.framework; path = IMLib/mars.framework; sourceTree = "<group>"; };
 		2ED386241F7DC0AE00DC4C98 /* UserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		2ED386251F7DC0AE00DC4C98 /* UserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
@@ -579,8 +564,6 @@
 				2EB49BF41F88B9FF00BF5563 /* AddFriendViewController.m */,
 				2EB49BF71F88C07D00BF5563 /* SearchViewController.h */,
 				2EB49BF61F88C07D00BF5563 /* SearchViewController.m */,
-				2EAC83831F92F7A3009103E0 /* UserInfoViewController.h */,
-				2EAC83841F92F7A3009103E0 /* UserInfoViewController.m */,
 				2EB0655D1F9CDD8A00F66539 /* ProfileTableViewController.h */,
 				2EB0655E1F9CDD8A00F66539 /* ProfileTableViewController.m */,
 			);
@@ -776,12 +759,6 @@
 				2EC51B691F3EBB49009D60AE /* NetworkService.mm */,
 				2EC51B6A1F3EBB49009D60AE /* NetworkStatus.h */,
 				2EC51B6B1F3EBB49009D60AE /* NetworkStatus.m */,
-				2EC51B6C1F3EBB49009D60AE /* PublishTask.h */,
-				2EC51B6D1F3EBB49009D60AE /* PublishTask.mm */,
-				2EC51B6E1F3EBB49009D60AE /* SubscribeTask.h */,
-				2EC51B6F1F3EBB49009D60AE /* SubscribeTask.mm */,
-				2EC51B701F3EBB49009D60AE /* UnsubscribeTask.h */,
-				2EC51B711F3EBB49009D60AE /* UnsubscribeTask.mm */,
 			);
 			path = MQTTClient;
 			sourceTree = "<group>";
@@ -845,13 +822,11 @@
 				2E4C689A1F71E875008336A8 /* TransferGroupOwnerNotificationContent.h in Headers */,
 				2E95BA7C1F5A9DBE0079B516 /* ImageMessageContent.h in Headers */,
 				2EDB87FF1F63AF4300578E7D /* wavreader.h in Headers */,
-				2EC51B7E1F3EBB49009D60AE /* SubscribeTask.h in Headers */,
 				2EF842971F9C9F23006F1C0F /* ConversationSearchInfo.h in Headers */,
 				2E3071D01F43CEA600B17DC9 /* Conversation.h in Headers */,
 				2EDB87FD1F63AF4300578E7D /* wav_amr.h in Headers */,
 				2E3071D21F43CEB500B17DC9 /* GroupInfo.h in Headers */,
 				2E4C68901F71DC4B008336A8 /* QuitGroupNotificationContent.h in Headers */,
-				2EC51B7B1F3EBB49009D60AE /* PublishTask.h in Headers */,
 				2EDB88011F63AF4300578E7D /* wavwriter.h in Headers */,
 				2E3071CE1F43CE9400B17DC9 /* Message.h in Headers */,
 				2EDB87FA1F63AF4300578E7D /* interf_enc.h in Headers */,
@@ -859,7 +834,6 @@
 				2EFA8AE11F5F804700356D30 /* MediaMessageContent.h in Headers */,
 				2EF9A6BA1F605D330009D908 /* IMUtilities.h in Headers */,
 				2ED386261F7DC0AE00DC4C98 /* UserInfo.h in Headers */,
-				2EC51B811F3EBB49009D60AE /* UnsubscribeTask.h in Headers */,
 				2E4C68951F71DC63008336A8 /* DismissGroupNotificationContent.h in Headers */,
 				2E4C68861F71DC0C008336A8 /* AddGroupeMemberNotificationContent.h in Headers */,
 				2E0A9EBA1F71579C0028E8B7 /* CreateGroupNotificationContent.h in Headers */,
@@ -1005,7 +979,6 @@
 				2EB0655F1F9CDD8A00F66539 /* ProfileTableViewController.m in Sources */,
 				2EB49BF11F88AE7000BF5563 /* ContactListViewController.m in Sources */,
 				2EFEC1BF1F59434C00424902 /* InformationCell.m in Sources */,
-				2EAC83851F92F7A3009103E0 /* UserInfoViewController.m in Sources */,
 				2E32E3721F622527000063A6 /* FLAnimatedImageView+WebCache.m in Sources */,
 				2E32E38F1F622A17000063A6 /* FLAnimatedImageView.m in Sources */,
 				2E32E3791F622527000063A6 /* SDWebImageDecoder.m in Sources */,
@@ -1050,10 +1023,8 @@
 			files = (
 				2EFA8AE31F5F804700356D30 /* MediaMessageContent.m in Sources */,
 				2E3071C81F43C89300B17DC9 /* Conversation.m in Sources */,
-				2EC51B7D1F3EBB49009D60AE /* PublishTask.mm in Sources */,
 				2EC0972D1F963A5300120886 /* FriendRequest.m in Sources */,
 				2EDB87FE1F63AF4300578E7D /* wavreader.c in Sources */,
-				2EC51B831F3EBB49009D60AE /* UnsubscribeTask.mm in Sources */,
 				2E95BA8B1F5AE7E40079B516 /* ImageMessageContent.m in Sources */,
 				2EF842961F9C9F23006F1C0F /* ConversationSearchInfo.m in Sources */,
 				2ED386281F7DC0AE00DC4C98 /* UserInfo.m in Sources */,
@@ -1067,7 +1038,6 @@
 				2E4C68881F71DC0C008336A8 /* AddGroupeMemberNotificationContent.m in Sources */,
 				2E4C688D1F71DC31008336A8 /* KickoffGroupMemberNotificaionContent.m in Sources */,
 				2E4995301F43402400C52CA2 /* MessageContent.m in Sources */,
-				2EC51B801F3EBB49009D60AE /* SubscribeTask.mm in Sources */,
 				2E4C689C1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */,
 				2EC51B7A1F3EBB49009D60AE /* NetworkStatus.m in Sources */,
 				2EDB87FC1F63AF4300578E7D /* wav_amr.mm in Sources */,

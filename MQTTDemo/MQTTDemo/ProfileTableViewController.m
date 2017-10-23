@@ -9,6 +9,8 @@
 #import "ProfileTableViewController.h"
 #import "SDWebImage.h"
 #import "IMService.h"
+#import "MessageViewController.h"
+#import "MBProgressHUD.h"
 
 @interface ProfileTableViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *portraitView;
@@ -71,20 +73,39 @@
     
     if ([[IMService sharedIMService] isMyFriend:self.userInfo.userId]) {
         self.addFriendCell.hidden = YES;
-    } else {
-        self.sendMessageCell.hidden = YES;
-        self.voipCallCell.hidden = YES;
     }
+    
     self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 
 - (IBAction)onSendMessageBtn:(id)sender {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MessageViewController *mvc = [sb instantiateViewControllerWithIdentifier:@"messageVC"];
+    mvc.conversation = [Conversation conversationWithType:Single_Type target:self.userInfo.userId line:0];
+    [self.navigationController pushViewController:mvc animated:YES];
 }
 
 - (IBAction)onVoipCallBtn:(id)sender {
+    
 }
+
 - (IBAction)onAddFriendBtn:(id)sender {
+    __block MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.label.text = @"更新中...";
+    [hud showAnimated:YES];
+    
+    [[IMService sharedIMService] sendFriendRequest:self.userInfo.userId reason:@"请求添加您为好友" success:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            hud.label.text = @"请求发送成功";
+            [hud hideAnimated:YES afterDelay:1.f];
+        });
+    } error:^(int error_code) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            hud.label.text = @"请求发送失败";
+            [hud hideAnimated:YES afterDelay:1.f];
+        });
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

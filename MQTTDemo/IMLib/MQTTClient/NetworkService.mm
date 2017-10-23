@@ -32,7 +32,6 @@
 #include <mars/xlog/appender.h>
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
-#import "PublishTask.h"
 
 extern NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList);
 

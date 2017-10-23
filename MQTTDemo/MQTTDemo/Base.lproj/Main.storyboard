@@ -117,7 +117,7 @@
         <!--Message View Controller-->
         <scene sceneID="2Uu-3b-LYJ">
             <objects>
-                <viewController id="QDf-ZZ-WoK" customClass="MessageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="messageVC" id="QDf-ZZ-WoK" customClass="MessageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mpp-h3-Fxb"/>
                         <viewControllerLayoutGuide type="bottom" id="ssZ-Yt-vPE"/>

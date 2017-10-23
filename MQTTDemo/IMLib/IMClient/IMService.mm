@@ -7,7 +7,6 @@
 //
 
 #import "IMService.h"
-#import "PublishTask.h"
 #import <mars/stn/stn.h>
 #import "MediaMessageContent.h"
 #import <mars/stn/MessageDB.hpp>

@@ -9,7 +9,6 @@
 #import "AddFriendViewController.h"
 #import "UserInfo.h"
 #import "IMService.h"
-#import "UserInfoViewController.h"
 #import "ProfileTableViewController.h"
 
 

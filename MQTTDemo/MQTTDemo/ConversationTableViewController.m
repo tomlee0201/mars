@@ -11,12 +11,7 @@
 #import "ConversationTableViewCell.h"
 
 #import "MessageViewController.h"
-
-
 #import "NetworkService.h"
-#import "PublishTask.h"
-#import "SubscribeTask.h"
-#import "UnsubscribeTask.h"
 #import "Message.h"
 #import "Conversation.h"
 #import "IMService.h"
@@ -24,8 +19,6 @@
 
 #import "Utilities.h"
 #import "UITabBar+badge.h"
-
-
 #import "ConversationSearchInfo.h"
 
 @interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
