@@ -454,6 +454,10 @@ public:
     return ret;
 }
 
+- (void)loadFriendRequestFromRemote {
+    mars::stn::loadFriendRequestFromRemote(NULL);
+}
+
 - (NSArray<FriendRequest *> *)getIncommingFriendRequest {
     std::list<mars::stn::TFriendRequest> tRequests = mars::stn::MessageDB::Instance()->getFriendRequest(1);
     return [self convertFriendRequest:tRequests];

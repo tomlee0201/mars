@@ -10,6 +10,8 @@
 #import "UserInfo.h"
 #import "IMService.h"
 #import "ProfileTableViewController.h"
+#import "SDWebImage.h"
+#import "FriendRequestTableViewCell.h"
 
 
 @interface AddFriendViewController () <UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate>
@@ -17,8 +19,8 @@
 @property (nonatomic, strong)  UISearchController       *searchController;
 
 //数据源
-@property (nonatomic, strong) NSMutableArray            *dataList;
-@property (nonatomic, strong) NSMutableArray            *searchList;
+@property (nonatomic, strong) NSArray            *dataList;
+@property (nonatomic, strong) NSArray            *searchList;
 
 @property (nonatomic, strong) NSTimer *timer;
 @end
@@ -40,7 +42,7 @@
     self.navigationItem.title = @"添加好友";
     
     //初始化数据源
-    _dataList   = [NSMutableArray array];
+    _dataList   = [[IMService sharedIMService] getIncommingFriendRequest];
     _searchList = [NSMutableArray array];
     
     CGFloat screenWidth = self.view.frame.size.width;
@@ -77,8 +79,6 @@
     self.tableView.tableHeaderView = _searchController.searchBar;
     
     [self.view addSubview:_tableView];
-    
-    
 }
 
 #pragma mark - UITableViewDataSource
@@ -106,25 +106,36 @@
 //返回单元格内容
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *flag = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:flag];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
-    }
-    cell.userInteractionEnabled = YES;
+    static NSString *requestFlag = @"request_cell";
+    UITableViewCell *cell = nil;
     
     
     if (self.searchController.active)//如果正在搜索
     {
+        cell = [tableView dequeueReusableCellWithIdentifier:flag];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:flag];
+        }
         UserInfo *userInfo = self.searchList[indexPath.row];
         [cell.textLabel setText:userInfo.displayName];
         
     }
     else//如果没有搜索
     {
-        [cell.textLabel setText:self.dataList[indexPath.row]];
+        cell = [tableView dequeueReusableCellWithIdentifier:requestFlag];
         
+        if (cell == nil) {
+            cell = [[FriendRequestTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:requestFlag];
+        }
+        
+        FriendRequestTableViewCell *frCell = (FriendRequestTableViewCell *)cell;
+        
+        FriendRequest *request = self.dataList[indexPath.row];
+        frCell.friendRequest = request;
     }
+    
+    cell.userInteractionEnabled = YES;
     return cell;
     
 }
@@ -179,21 +190,20 @@
             [[IMService sharedIMService] searchUser:searchString
                                             success:^(NSArray<UserInfo *> *machedUsers) {
                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                    [ws.searchList removeAllObjects];
-                                                    [ws.searchList addObjectsFromArray:machedUsers];
+                                                    ws.searchList = machedUsers;
                                                     [ws.tableView reloadData];
                                                 });
                                             }
                                               error:^(int errorCode) {
                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [ws.searchList removeAllObjects];
+                                                      ws.searchList = nil;
                                                       [ws.tableView reloadData];
                                                   });
                                                   NSLog(@"Search failed, errorCode(%d)", errorCode);
                                               }];
             
         } else {
-            [ws.searchList removeAllObjects];
+            ws.searchList = nil;
             [ws.tableView reloadData];
         }
         

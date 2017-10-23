@@ -72,6 +72,9 @@ namespace mars {
             bool isMyFriend(const std::string &userId);
             std::list<std::string> getMyFriendList(bool refresh);
             
+            int64_t getFriendRequestHeader();
+            
+            long InsertFriendRequestOrReplace(const TFriendRequest &friendRequest);
             std::list<TFriendRequest> getFriendRequest(int direction);
             int unreadFriendRequest();
             void clearUnreadFriendRequestStatus();

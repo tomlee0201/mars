@@ -62,6 +62,7 @@ typedef enum : NSUInteger {
 - (NSArray<FriendRequest *> *)getIncommingFriendRequest;
 - (NSArray<FriendRequest *> *)getOutgoingFriendRequest;
 
+- (void)loadFriendRequestFromRemote;
 - (void)clearUnreadFriendRequestStatus;
 - (int)getUnreadFriendRequestStatus;
 

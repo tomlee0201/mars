@@ -25,6 +25,7 @@
 #include <map>
 #include <iterator>
 #include <fstream>
+#include <sstream>
 
 #include "mars/log/appender.h"
 
@@ -805,6 +806,131 @@ void sendFriendRequest(const std::string &userId, const std::string &reason, Gen
     request.set_target_uid(userId);
     request.set_reason(reason);
     publishTask(request, new GeneralOperationPublishCallback(callback), AddFriendRequestTopic);
+}
+    int parseAndSaveFriendRequest(const std::string &json) {
+        const std::string &key = json;
+        
+        Document d;
+        d.Parse(key.c_str());
+        
+        if(d.HasParseError()) {
+            return -1; //json paser error
+        }
+        
+        Value& s = d["code"];
+        
+        int code = s.GetInt();
+        if(code != 0) {
+            return code;
+        } else {
+            s = d["result"];
+            if (!s.IsArray()) {
+                return -1;
+            } else {
+                for (int i = 0; i < s.Size(); i++) {
+                    Value& user = s[i];
+                    if(user.IsObject()) {
+                        TFriendRequest friendRequest;
+                        
+                        bool isSend = false;
+                        if (user.HasMember("fromUid_") && user["fromUid_"].IsString()) {
+                            std::string fromUid = user["fromUid_"].GetString();
+                            if (fromUid == app::GetUserName()) {
+                                isSend = true;
+                                friendRequest.direction = 0;
+                            } else {
+                                friendRequest.direction = 1;
+                                friendRequest.target = fromUid;
+                            }
+                            
+                        }
+                        
+                        if (user.HasMember("toUid_") && user["toUid_"].IsString()) {
+                            std::string to = user["toUid_"].GetString();
+                            if (!isSend) {
+                                friendRequest.target = to;
+                            }
+                        }
+                        
+                        if (user.HasMember("reason_") && user["reason_"].IsString()) {
+                            std::string reason = user["reason_"].GetString();
+                            friendRequest.reason = reason;
+                        }
+                        
+                        if (user.HasMember("status_") && user["status_"].IsInt()) {
+                            int status = user["status_"].GetInt();
+                            friendRequest.status = status;
+                        }
+                        
+                        if (user.HasMember("updateDt_") && user["updateDt_"].IsInt64()) {
+                            int64_t updateDt = user["updateDt_"].GetInt64();
+                            friendRequest.timestamp = updateDt;
+                        }
+                        
+                        if (user.HasMember("fromReadStatus_") && user["fromReadStatus_"].IsInt()) {
+                            int fromReadStatus = user["fromReadStatus_"].GetInt();
+                            if (isSend) {
+                                friendRequest.readStatus = fromReadStatus;
+                            }
+                        }
+                        
+                        if (user.HasMember("toReadStatus_") && user["toReadStatus_"].IsInt()) {
+                            int toReadStatus = user["toReadStatus_"].GetInt();
+                            if (!isSend) {
+                                friendRequest.readStatus = toReadStatus;
+                            }
+                        }
+                        
+                        MessageDB::Instance()->InsertFriendRequestOrReplace(friendRequest);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    
+    class TLoadFriendRequestCallback : public GeneralStringCallback {
+    private:
+        GeneralOperationCallback *mCallback;
+    public:
+        TLoadFriendRequestCallback(GeneralOperationCallback *callback) : mCallback(callback) {}
+        void onSuccess(std::string key) {
+            int code = parseAndSaveFriendRequest(key);
+            if (code == 0) {
+                if (mCallback) {
+                    mCallback->onSuccess();
+                }
+            } else {
+                if(mCallback) {
+                    mCallback->onFalure(code);
+                }
+            }
+            
+            delete this;
+        }
+        
+        void onFalure(int errorCode) {
+            mCallback->onFalure(errorCode);
+            delete this;
+        }
+        
+        ~TLoadFriendRequestCallback() {}
+    };
+    
+void loadFriendRequestFromRemote(GeneralOperationCallback *callback) {
+    int64_t maxTS = MessageDB::Instance()->getFriendRequestHeader();
+    std::stringstream stream;
+    stream << "/api/friend_request?version=";
+    stream << maxTS;  //n为int类型
+    stream << "&userId=";
+    stream << app::GetUserName();
+
+    std::string cgi =  stream.str();
+    
+    
+    HTTPTask *httpTask = new HTTPTask("GET", cgi,  new TLoadFriendRequestCallback(callback));
+    
+    StartTask(*httpTask);
 }
     
 void handleFriendRequest(const std::string &userId, bool accept, GeneralOperationCallback *callback) {

@@ -896,6 +896,48 @@ namespace mars {
             return result;
         }
         
+        int64_t MessageDB::getFriendRequestHeader() {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            
+            if (!db->isOpened()) {
+                return LONG_MAX;
+            }
+            
+            int64_t maxTS = 0;
+            
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_REQUEST_TABLE_NAME, {"max(_update_dt)"}, error);
+            
+            
+            while(statementHandle->step()) {
+                maxTS = db->getBigIntValue(statementHandle, 0);
+            }
+            
+            return maxTS;
+        }
+        
+        long MessageDB::InsertFriendRequestOrReplace(const TFriendRequest &friendRequest) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            if (!db->isOpened()) {
+                return 0L;
+            }
+            
+            
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(FRIEND_REQUEST_TABLE_NAME, {"_direction", "_target_uid", "_reason", "_status", "_read_status", "_update_dt"}, true);
+            db->Bind(statementHandle, friendRequest.direction, 1);
+            db->Bind(statementHandle, friendRequest.target, 2);
+            db->Bind(statementHandle, friendRequest.reason, 3);
+            db->Bind(statementHandle, friendRequest.status, 4);
+            
+            db->Bind(statementHandle, friendRequest.readStatus, 5);
+            db->Bind(statementHandle, friendRequest.timestamp, 6);
+            
+            long ret = 0;
+            db->ExecuteInsert(statementHandle, &ret);
+            return ret;
+        }
+        
         std::list<TFriendRequest> MessageDB::getFriendRequest(int direction) {
             std::list<TFriendRequest> requests;
             

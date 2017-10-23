@@ -33,6 +33,9 @@
 #include <mars/stn/stn.h>
 #include <mars/stn/stn_logic.h>
 
+#import "IMService.h"
+
+
 extern NSMutableArray* convertProtoMessageList(const std::list<mars::stn::TMessage> &messageList);
 
 NSString *kGroupInfoUpdated = @"kGroupInfoUpdated";
@@ -208,6 +211,9 @@ static NetworkService * sharedSingleton = nil;
     return;
   }
     self.currentConnectionStatus = status;
+    if (status == kConnectionStatusConnected) {
+        [[IMService sharedIMService] loadFriendRequestFromRemote];
+    }
 }
 
 + (NetworkService *)sharedInstance {
