@@ -22,7 +22,7 @@
 #import "ConversationSearchInfo.h"
 #import "KxMenu.h"
 
-@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating, AwesomeMenuDelegate>
+@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
 
 @property (nonatomic, strong)  UISearchController       *searchController;
@@ -303,8 +303,4 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - AwesomeMenuDelegate
-- (void)awesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx {
-    
-}
 @end
