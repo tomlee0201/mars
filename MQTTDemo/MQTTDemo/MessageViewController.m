@@ -30,6 +30,8 @@
 #import "QuitGroupNotificationContent.h"
 #import "DismissGroupNotificationContent.h"
 #import "TransferGroupOwnerNotificationContent.h"
+#import "ProfileTableViewController.h"
+
 
 #define IOS_SYSTEM_VERSION_LESS_THAN(v)                                     \
 ([[[UIDevice currentDevice] systemVersion]                                   \
@@ -139,6 +141,19 @@ alpha:1.0]
     [self.voiceBtn addTarget:self action:@selector(onTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
     [self.voiceBtn addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchCancel];
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"=" style:UIBarButtonItemStyleDone target:self action:@selector(onRightBarBtn:)];
+}
+
+- (void)onRightBarBtn:(UIBarButtonItem *)sender {
+    if (self.conversation.type == Single_Type) {
+        UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:self.conversation.target refresh:NO];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ProfileTableViewController *pvc = [sb instantiateViewControllerWithIdentifier:@"profileVC"];
+        pvc.userInfo = userInfo;
+        [self.navigationController pushViewController:pvc animated:YES];
+    }
 }
 
 - (BOOL)isSearchResult {

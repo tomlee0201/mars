@@ -79,6 +79,7 @@
 		2E4C689C1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */; };
 		2E5B65AF1FA01C26001A9B2B /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B65AE1FA01C26001A9B2B /* KxMenu.m */; };
 		2E5B65B11FA01DC4001A9B2B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5B65B01FA01DC4001A9B2B /* QuartzCore.framework */; };
+		2E5F635F1FA0D782007F62DB /* ContactSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5F635E1FA0D782007F62DB /* ContactSelectTableViewCell.m */; };
 		2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9B61F682438006D31E8 /* BubbleTipView.m */; };
 		2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C21F68A834006D31E8 /* UITabBar+badge.m */; };
 		2E79A9C61F68A8B0006D31E8 /* TabbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C51F68A8B0006D31E8 /* TabbarButton.m */; };
@@ -99,7 +100,6 @@
 		2EC0972D1F963A5300120886 /* FriendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0972A1F963A5300120886 /* FriendRequest.m */; };
 		2EC3BD7B1F04D61A006C6E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7A1F04D61A006C6E6F /* main.m */; };
 		2EC3BD7E1F04D61A006C6E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */; };
-		2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3BD801F04D61A006C6E6F /* ViewController.m */; };
 		2EC3BD841F04D61A006C6E6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD821F04D61A006C6E6F /* Main.storyboard */; };
 		2EC3BD861F04D61A006C6E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD851F04D61A006C6E6F /* Assets.xcassets */; };
 		2EC3BD891F04D61A006C6E6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3BD871F04D61A006C6E6F /* LaunchScreen.storyboard */; };
@@ -291,6 +291,8 @@
 		2E5B65AD1FA01C26001A9B2B /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
 		2E5B65AE1FA01C26001A9B2B /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		2E5B65B01FA01DC4001A9B2B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2E5F635D1FA0D782007F62DB /* ContactSelectTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactSelectTableViewCell.h; sourceTree = "<group>"; };
+		2E5F635E1FA0D782007F62DB /* ContactSelectTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactSelectTableViewCell.m; sourceTree = "<group>"; };
 		2E79A9B51F682438006D31E8 /* BubbleTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleTipView.h; sourceTree = "<group>"; };
 		2E79A9B61F682438006D31E8 /* BubbleTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleTipView.m; sourceTree = "<group>"; };
 		2E79A9C11F68A834006D31E8 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
@@ -324,8 +326,6 @@
 		2EC3BD7A1F04D61A006C6E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2EC3BD7C1F04D61A006C6E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2EC3BD7D1F04D61A006C6E6F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2EC3BD7F1F04D61A006C6E6F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2EC3BD801F04D61A006C6E6F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2EC3BD831F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2EC3BD851F04D61A006C6E6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EC3BD881F04D61A006C6E6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -556,8 +556,6 @@
 			children = (
 				2EB6C1251F58200E00F8ABD7 /* MessageViewController.h */,
 				2EB6C1261F58200E00F8ABD7 /* MessageViewController.m */,
-				2EC3BD7F1F04D61A006C6E6F /* ViewController.h */,
-				2EC3BD801F04D61A006C6E6F /* ViewController.m */,
 				2F698A0B1F12489E004B7A80 /* LoginViewController.h */,
 				2F698A0C1F12489E004B7A80 /* LoginViewController.m */,
 				2EDD766C1F55542200F1FC8C /* ConversationTableViewController.h */,
@@ -613,6 +611,8 @@
 				2E18FD431F6F483C000C2929 /* GroupMemberTableViewCell.m */,
 				2E41F2CC1F9E409500298F3B /* FriendRequestTableViewCell.h */,
 				2E41F2CD1F9E409500298F3B /* FriendRequestTableViewCell.m */,
+				2E5F635D1FA0D782007F62DB /* ContactSelectTableViewCell.h */,
+				2E5F635E1FA0D782007F62DB /* ContactSelectTableViewCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -1010,7 +1010,6 @@
 				2E32E37E1F622527000063A6 /* UIButton+WebCache.m in Sources */,
 				2E32E37C1F622527000063A6 /* SDWebImageManager.m in Sources */,
 				2E79A9C61F68A8B0006D31E8 /* TabbarButton.m in Sources */,
-				2EC3BD811F04D61A006C6E6F /* ViewController.m in Sources */,
 				2E32E3831F622527000063A6 /* UIImageView+WebCache.m in Sources */,
 				2EDB881C1F64004E00578E7D /* MediaMessageCell.m in Sources */,
 				2E32E3751F622527000063A6 /* NSImage+WebCache.m in Sources */,
@@ -1019,6 +1018,7 @@
 				2E9A57AC1F700DF4006FEF85 /* InviteGroupMemberViewController.m in Sources */,
 				2E32E3741F622527000063A6 /* NSData+ImageContentType.m in Sources */,
 				2E32E3821F622527000063A6 /* UIImageView+HighlightedWebCache.m in Sources */,
+				2E5F635F1FA0D782007F62DB /* ContactSelectTableViewCell.m in Sources */,
 				2E32E38E1F622A17000063A6 /* FLAnimatedImage.m in Sources */,
 				2E18FD441F6F483C000C2929 /* GroupMemberTableViewCell.m in Sources */,
 				2E32E37A1F622527000063A6 /* SDWebImageDownloader.m in Sources */,

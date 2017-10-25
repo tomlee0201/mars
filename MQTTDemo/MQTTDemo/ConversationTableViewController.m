@@ -9,6 +9,7 @@
 #import "ConversationTableViewController.h"
 #import "ConversationInfo.h"
 #import "ConversationTableViewCell.h"
+#import "ContactListViewController.h"
 
 #import "MessageViewController.h"
 #import "NetworkService.h"
@@ -22,7 +23,7 @@
 #import "ConversationSearchInfo.h"
 #import "KxMenu.h"
 
-@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
+@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating, ContactSelectDelegate>
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
 
 @property (nonatomic, strong)  UISearchController       *searchController;
@@ -73,7 +74,13 @@
 }
 
 - (void)menuItemAction:(id)sender {
-    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ContactListViewController *pvc = [sb instantiateViewControllerWithIdentifier:@"contactVC"];
+    pvc.selectContact = YES;
+    pvc.multiSelect = YES;
+    pvc.delegate = self;
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:pvc];
+    [self.navigationController presentViewController:navi animated:YES completion:nil];
 }
 
 - (void)viewDidLoad {
@@ -303,4 +310,15 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - ContactSelectDelegate
+- (void)didSelectContact:(NSArray<NSString *> *)contacts {
+    if (contacts.count == 1) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MessageViewController *mvc = [sb instantiateViewControllerWithIdentifier:@"messageVC"];
+        mvc.conversation = [Conversation conversationWithType:Single_Type target:contacts[0] line:0];
+        [self.navigationController pushViewController:mvc animated:YES];
+    } else {
+        
+    }
+}
 @end

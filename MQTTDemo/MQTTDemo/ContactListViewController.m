@@ -10,6 +10,8 @@
 #import "IMService.h"
 #import "SDWebImage.h"
 #import "MessageViewController.h"
+#import "ContactSelectTableViewCell.h"
+
 
 @interface ContactListViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong)UITableView *tableView;
@@ -28,9 +30,30 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     [self.tableView reloadData];
-    if (self.selectContact && self.multiSelect) {
-        self.selectedContacts = [[NSMutableArray alloc] init];
+    if (self.selectContact) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(onLeftBarBtn:)];
+        
+        if(self.multiSelect) {
+            self.selectedContacts = [[NSMutableArray alloc] init];
+            [self updateRightBarBtn];
+        }
     }
+    
+}
+- (void)updateRightBarBtn {
+    if(self.selectedContacts.count == 0) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(onRightBarBtn:)];
+    } else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"确定(%d)", (int)self.selectedContacts.count] style:UIBarButtonItemStyleDone target:self action:@selector(onRightBarBtn:)];
+    }
+}
+- (void)onRightBarBtn:(UIBarButtonItem *)sender {
+    [self.delegate didSelectContact:self.selectedContacts];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)onLeftBarBtn:(UIBarButtonItem *)sender {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,17 +84,32 @@
 // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-#define REUSEIDENTIFY @"resueCell"
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSEIDENTIFY];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSEIDENTIFY];
-    }
+    UITableViewCell *cell = nil;
+    
     if (self.selectContact) {
+#define SELECT_REUSEIDENTIFY @"resueSelectCell"
+        ContactSelectTableViewCell *selectCell = [tableView dequeueReusableCellWithIdentifier:SELECT_REUSEIDENTIFY];
+        if (selectCell == nil) {
+            selectCell = [[ContactSelectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SELECT_REUSEIDENTIFY];
+        }
         NSString *friendUid = self.dataArray[indexPath.row];
-        UserInfo *friendInfo = [[IMService sharedIMService] getUserInfo:friendUid refresh:NO];
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait]];
-        cell.textLabel.text = friendInfo.displayName;
+        selectCell.friendUid = friendUid;
+        selectCell.multiSelect = self.multiSelect;
+        
+        if (self.multiSelect) {
+            if ([self.selectedContacts containsObject:friendUid]) {
+                selectCell.checked = YES;
+            } else {
+                selectCell.checked = NO;
+            }
+        }
+        cell = selectCell;
     } else {
+#define REUSEIDENTIFY @"resueCell"
+        cell = [tableView dequeueReusableCellWithIdentifier:REUSEIDENTIFY];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSEIDENTIFY];
+        }
         if (indexPath.section == 0) {
             cell.imageView.image = [UIImage imageNamed:@""];
             if (indexPath.row == 0) {
@@ -108,10 +146,17 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (self.selectContact) {
         if (self.multiSelect) {
-            //record here
-            
+            if ([self.selectedContacts containsObject:self.dataArray[indexPath.row]]) {
+                [self.selectedContacts removeObject:self.dataArray[indexPath.row]];
+                ((ContactSelectTableViewCell *)[tableView cellForRowAtIndexPath:indexPath]).checked = NO;
+            } else {
+                [self.selectedContacts addObject:self.dataArray[indexPath.row]];
+                ((ContactSelectTableViewCell *)[tableView cellForRowAtIndexPath:indexPath]).checked = YES;
+            }
+            [self updateRightBarBtn];
         } else {
             [self.delegate didSelectContact:[NSArray arrayWithObjects:self.dataArray[indexPath.row], nil]];
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
     } else {
         if (indexPath.section == 0) {
