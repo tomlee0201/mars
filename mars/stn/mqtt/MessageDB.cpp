@@ -864,7 +864,7 @@ namespace mars {
                 return false;
             }
             
-            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_friend_uid")) == userId);
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_friend_uid")) == userId) && (WCDB::Expr(WCDB::Column("_state")) == 0);
             WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_TABLE_NAME, {"_id"}, error, &where);
             
             std::list<std::pair<std::string, int64_t>> refreshReqList;
@@ -884,19 +884,22 @@ namespace mars {
                 return std::list<std::string>();
             }
             
-            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_friend_uid")) == app::GetUserName());
-            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(USER_TABLE_NAME, {"_friend_uid"}, error, &where);
+            WCDB::Expr where = (WCDB::Expr(WCDB::Column("_state")) == 0);
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_TABLE_NAME, {"_friend_uid"}, error, &where);
             
             std::list<std::string> result;
             
             while(statementHandle->step()) {
                 result.push_back(db->getStringValue(statementHandle, 0));
-               
+            }
+            
+            if (result.empty() || refresh) {
+                loadFriendFromRemote(NULL);
             }
             return result;
         }
         
-        int64_t MessageDB::getFriendRequestHeader() {
+        int64_t MessageDB::getFriendRequestHead() {
             DB *db = DB::Instance();
             WCDB::Error error;
             
@@ -916,6 +919,26 @@ namespace mars {
             return maxTS;
         }
         
+        int64_t MessageDB::getFriendHead() {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            
+            if (!db->isOpened()) {
+                return LONG_MAX;
+            }
+            
+            int64_t maxTS = 0;
+            
+            WCDB::RecyclableStatement statementHandle = db->GetSelectStatement(FRIEND_TABLE_NAME, {"max(_update_dt)"}, error);
+            
+            
+            while(statementHandle->step()) {
+                maxTS = db->getBigIntValue(statementHandle, 0);
+            }
+            
+            return maxTS;
+
+        }
         long MessageDB::InsertFriendRequestOrReplace(const TFriendRequest &friendRequest) {
             DB *db = DB::Instance();
             WCDB::Error error;
@@ -932,6 +955,23 @@ namespace mars {
             
             db->Bind(statementHandle, friendRequest.readStatus, 5);
             db->Bind(statementHandle, friendRequest.timestamp, 6);
+            
+            long ret = 0;
+            db->ExecuteInsert(statementHandle, &ret);
+            return ret;
+        }
+        
+        long MessageDB::InsertFriendOrReplace(const std::string &friendUid, int state, int64_t timestamp) {
+            DB *db = DB::Instance();
+            WCDB::Error error;
+            if (!db->isOpened()) {
+                return 0L;
+            }
+            
+            WCDB::RecyclableStatement statementHandle = db->GetInsertStatement(FRIEND_TABLE_NAME, {"_friend_uid", "_state", "_update_dt"}, true);
+            db->Bind(statementHandle, friendUid, 1);
+            db->Bind(statementHandle, state, 2);
+            db->Bind(statementHandle, timestamp, 3);
             
             long ret = 0;
             db->ExecuteInsert(statementHandle, &ret);

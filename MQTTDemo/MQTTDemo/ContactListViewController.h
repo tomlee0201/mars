@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ContactListViewController : UIViewController
+@protocol ContactSelectDelegate <NSObject>
+- (void)didSelectContact:(NSArray<NSString *> *)contacts;
+@end
 
+@interface ContactListViewController : UIViewController
+@property (nonatomic, assign)BOOL selectContact;
+@property (nonatomic, assign)BOOL multiSelect;
+@property (nonatomic, weak)id<ContactSelectDelegate> delegate;
 @end

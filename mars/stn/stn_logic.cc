@@ -847,7 +847,7 @@ void sendFriendRequest(const std::string &userId, const std::string &reason, Gen
                         
                         if (user.HasMember("toUid_") && user["toUid_"].IsString()) {
                             std::string to = user["toUid_"].GetString();
-                            if (!isSend) {
+                            if (isSend) {
                                 friendRequest.target = to;
                             }
                         }
@@ -910,7 +910,8 @@ void sendFriendRequest(const std::string &userId, const std::string &reason, Gen
         }
         
         void onFalure(int errorCode) {
-            mCallback->onFalure(errorCode);
+            if(mCallback)
+                mCallback->onFalure(errorCode);
             delete this;
         }
         
@@ -918,10 +919,10 @@ void sendFriendRequest(const std::string &userId, const std::string &reason, Gen
     };
     
 void loadFriendRequestFromRemote(GeneralOperationCallback *callback) {
-    int64_t maxTS = MessageDB::Instance()->getFriendRequestHeader();
+    int64_t maxTS = MessageDB::Instance()->getFriendRequestHead();
     std::stringstream stream;
     stream << "/api/friend_request?version=";
-    stream << maxTS;  //n为int类型
+    stream << maxTS;
     stream << "&userId=";
     stream << app::GetUserName();
 
@@ -929,6 +930,98 @@ void loadFriendRequestFromRemote(GeneralOperationCallback *callback) {
     
     
     HTTPTask *httpTask = new HTTPTask("GET", cgi,  new TLoadFriendRequestCallback(callback));
+    
+    StartTask(*httpTask);
+}
+  
+    int parseAndSaveFriend(const std::string &json) {
+        const std::string &key = json;
+        
+        Document d;
+        d.Parse(key.c_str());
+        
+        if(d.HasParseError()) {
+            return -1; //json paser error
+        }
+        
+        Value& s = d["code"];
+        
+        int code = s.GetInt();
+        if(code != 0) {
+            return code;
+        } else {
+            s = d["result"];
+            if (!s.IsArray()) {
+                return -1;
+            } else {
+                for (int i = 0; i < s.Size(); i++) {
+                    Value& user = s[i];
+                    
+                    if(user.IsObject()) {
+                        std::string friendUid;
+                        if (user.HasMember("friendUid") && user["friendUid"].IsString()) {
+                            friendUid = user["friendUid"].GetString();
+                        }
+                        
+                        int state = 0;
+                        if (user.HasMember("state") && user["state"].IsInt()) {
+                            state = user["state"].GetInt();
+                        }
+                        
+                        int64_t timestamp = 0;
+                        if (user.HasMember("timestamp") && user["timestamp"].IsInt64()) {
+                            timestamp = user["timestamp"].GetInt64();
+                        }
+                        
+                        MessageDB::Instance()->InsertFriendOrReplace(friendUid, state, timestamp);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    
+    class TLoadFriendCallback : public GeneralStringCallback {
+    private:
+        GeneralOperationCallback *mCallback;
+    public:
+        TLoadFriendCallback(GeneralOperationCallback *callback) : mCallback(callback) {}
+        void onSuccess(std::string key) {
+            int code = parseAndSaveFriend(key);
+            if (code == 0) {
+                if (mCallback) {
+                    mCallback->onSuccess();
+                }
+            } else {
+                if(mCallback) {
+                    mCallback->onFalure(code);
+                }
+            }
+            
+            delete this;
+        }
+        
+        void onFalure(int errorCode) {
+            if(mCallback)
+                mCallback->onFalure(errorCode);
+            delete this;
+        }
+        
+        ~TLoadFriendCallback() {}
+    };
+    
+void loadFriendFromRemote(GeneralOperationCallback *callback) {
+    int64_t maxTS = MessageDB::Instance()->getFriendHead();
+    std::stringstream stream;
+    stream << "/api/friend?version=";
+    stream << maxTS;
+    stream << "&userId=";
+    stream << app::GetUserName();
+    
+    std::string cgi =  stream.str();
+    
+    
+    HTTPTask *httpTask = new HTTPTask("GET", cgi,  new TLoadFriendCallback(callback));
     
     StartTask(*httpTask);
 }

@@ -41,19 +41,25 @@
     }
     
     self.portraitView = [[UIImageView alloc] initWithFrame:CGRectMake(4, 4, 48, 48)];
-    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 4, self.contentView.bounds.size.width - 112, 21)];
-    self.reasonLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 29, self.contentView.bounds.size.width - 112, 18)];
-    self.reasonLabel.font = [UIFont systemFontOfSize:18];
+    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 4, self.contentView.bounds.size.width - 128, 21)];
+    self.reasonLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 29, self.contentView.bounds.size.width - 128, 15)];
+    self.reasonLabel.font = [UIFont systemFontOfSize:15];
     self.reasonLabel.textColor = [UIColor grayColor];
     
-    self.acceptBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.contentView.bounds.size.width - 64, 4, 48, 48)];
-    self.acceptBtn.titleLabel.text = @"Accept";
-    self.acceptBtn.hidden = YES;
+    self.acceptBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.contentView.bounds.size.width - 68, 12, 64, 32)];
+    [self.acceptBtn setTitle:@"同意" forState:UIControlStateNormal];
+    [self.acceptBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
     [self.contentView addSubview:self.portraitView];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.reasonLabel];
     [self.contentView addSubview:self.acceptBtn];
+    
+    [self.acceptBtn addTarget:self action:@selector(onAddBtn:) forControlEvents:UIControlEventTouchDown];
+}
+
+- (void)onAddBtn:(id)sender {
+    [self.delegate onAcceptBtn:self.friendRequest.target];
 }
 
 - (void)setFriendRequest:(FriendRequest *)friendRequest {
@@ -64,7 +70,17 @@
     self.reasonLabel.text = friendRequest.reason;
     
     if (friendRequest.status == 0) {
-        self.acceptBtn.hidden = NO;
+        [self.acceptBtn setTitle:@"同意" forState:UIControlStateNormal];
+        [self.acceptBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.acceptBtn setEnabled:YES];
+    } else if (friendRequest.status == 1) {
+        [self.acceptBtn setTitle:@"已同意" forState:UIControlStateNormal];
+        [self.acceptBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.acceptBtn setEnabled:NO];
+    } else if (friendRequest.status == 2) {
+        [self.acceptBtn setTitle:@"已拒绝" forState:UIControlStateNormal];
+        [self.acceptBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.acceptBtn setEnabled:NO];
     }
 }
 

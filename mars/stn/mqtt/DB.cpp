@@ -376,6 +376,7 @@ namespace mars {
             std::list<const WCDB::ColumnDef> friendDefList = {
                 WCDB::ColumnDef(Column("_id"), ColumnType::Integer32).makePrimary(OrderTerm::NotSet, true),
                 WCDB::ColumnDef(Column("_friend_uid"), ColumnType::Text).makeNotNull(),
+                WCDB::ColumnDef(Column("_state"), ColumnType::Integer32),
                 WCDB::ColumnDef(Column("_update_dt"), ColumnType::Integer64).makeDefault(0)
             };
             _database->exec(WCDB::StatementCreateTable().create(FRIEND_TABLE_NAME, friendDefList, true),

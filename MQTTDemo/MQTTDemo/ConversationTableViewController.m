@@ -20,8 +20,9 @@
 #import "Utilities.h"
 #import "UITabBar+badge.h"
 #import "ConversationSearchInfo.h"
+#import "KxMenu.h"
 
-@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
+@interface ConversationTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating, AwesomeMenuDelegate>
 @property (nonatomic, strong)NSMutableArray<ConversationInfo *> *conversations;
 
 @property (nonatomic, strong)  UISearchController       *searchController;
@@ -56,6 +57,23 @@
     
     // 添加 searchbar 到 headerview
     self.tableView.tableHeaderView = _searchController.searchBar;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStyleDone target:self action:@selector(onRightBarBtn:)];
+}
+
+- (void)onRightBarBtn:(UIBarButtonItem *)sender {    
+    [KxMenu showMenuInView:self.view
+                  fromRect:CGRectMake(self.view.bounds.size.width - 48, 64, 48, 5)
+                 menuItems:@[
+                             [KxMenuItem menuItem:@"创建聊天"
+                                            image:nil
+                                           target:self
+                                           action:@selector(menuItemAction:)],
+                             ]];
+}
+
+- (void)menuItemAction:(id)sender {
+    
 }
 
 - (void)viewDidLoad {
@@ -285,4 +303,8 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - AwesomeMenuDelegate
+- (void)awesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx {
+    
+}
 @end

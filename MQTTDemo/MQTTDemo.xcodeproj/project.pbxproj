@@ -77,6 +77,8 @@
 		2E4C689A1F71E875008336A8 /* TransferGroupOwnerNotificationContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4C68981F71E875008336A8 /* TransferGroupOwnerNotificationContent.h */; };
 		2E4C689B1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */; };
 		2E4C689C1F71E875008336A8 /* TransferGroupOwnerNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */; };
+		2E5B65AF1FA01C26001A9B2B /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B65AE1FA01C26001A9B2B /* KxMenu.m */; };
+		2E5B65B11FA01DC4001A9B2B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E5B65B01FA01DC4001A9B2B /* QuartzCore.framework */; };
 		2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9B61F682438006D31E8 /* BubbleTipView.m */; };
 		2E79A9C31F68A834006D31E8 /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C21F68A834006D31E8 /* UITabBar+badge.m */; };
 		2E79A9C61F68A8B0006D31E8 /* TabbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E79A9C51F68A8B0006D31E8 /* TabbarButton.m */; };
@@ -286,6 +288,9 @@
 		2E4C68941F71DC63008336A8 /* DismissGroupNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissGroupNotificationContent.m; sourceTree = "<group>"; };
 		2E4C68981F71E875008336A8 /* TransferGroupOwnerNotificationContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferGroupOwnerNotificationContent.h; sourceTree = "<group>"; };
 		2E4C68991F71E875008336A8 /* TransferGroupOwnerNotificationContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferGroupOwnerNotificationContent.m; sourceTree = "<group>"; };
+		2E5B65AD1FA01C26001A9B2B /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
+		2E5B65AE1FA01C26001A9B2B /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
+		2E5B65B01FA01DC4001A9B2B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2E79A9B51F682438006D31E8 /* BubbleTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleTipView.h; sourceTree = "<group>"; };
 		2E79A9B61F682438006D31E8 /* BubbleTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleTipView.m; sourceTree = "<group>"; };
 		2E79A9C11F68A834006D31E8 /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
@@ -403,6 +408,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E5B65B11FA01DC4001A9B2B /* QuartzCore.framework in Frameworks */,
 				2ED476AF1F865C3A00360D0D /* Security.framework in Frameworks */,
 				2ED476A61F865AD100360D0D /* libc++.tbd in Frameworks */,
 				2EC3BE0D1F04E62F006C6E6F /* SystemConfiguration.framework in Frameworks */,
@@ -534,6 +540,15 @@
 				2E32E38D1F622A17000063A6 /* FLAnimatedImageView.m */,
 			);
 			path = FLAnimatedImage;
+			sourceTree = "<group>";
+		};
+		2E5B65AC1FA01C26001A9B2B /* KxMenu */ = {
+			isa = PBXGroup;
+			children = (
+				2E5B65AD1FA01C26001A9B2B /* KxMenu.h */,
+				2E5B65AE1FA01C26001A9B2B /* KxMenu.m */,
+			);
+			path = KxMenu;
 			sourceTree = "<group>";
 		};
 		2E8A32491F60BDC000A25131 /* ViewController */ = {
@@ -679,6 +694,7 @@
 		2EC3BD781F04D61A006C6E6F /* MQTTDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2E5B65AC1FA01C26001A9B2B /* KxMenu */,
 				2ED49E3F1F9B660700DF4FAF /* Utilities */,
 				2E0009141F87D5B900955A66 /* MBProgressHUD */,
 				2E0008F31F87776900955A66 /* AFNetworking */,
@@ -712,6 +728,7 @@
 		2EC3BD961F04D666006C6E6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E5B65B01FA01DC4001A9B2B /* QuartzCore.framework */,
 				2ED476AE1F865C3900360D0D /* Security.framework */,
 				2ED476A51F865AD100360D0D /* libc++.tbd */,
 				2ED476A31F865A9E00360D0D /* CoreGraphics.framework */,
@@ -1018,6 +1035,7 @@
 				2E32E3771F622527000063A6 /* SDImageCacheConfig.m in Sources */,
 				2E00090D1F87CA9A00955A66 /* SettingTableViewController.m in Sources */,
 				2EDB88101F63D1EF00578E7D /* VoiceCell.m in Sources */,
+				2E5B65AF1FA01C26001A9B2B /* KxMenu.m in Sources */,
 				2E79A9B71F682438006D31E8 /* BubbleTipView.m in Sources */,
 				2EFEC1C21F5943B000424902 /* MessageModel.m in Sources */,
 			);

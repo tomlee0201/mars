@@ -12,9 +12,9 @@
 #import "ProfileTableViewController.h"
 #import "SDWebImage.h"
 #import "FriendRequestTableViewCell.h"
+#import "MBProgressHUD.h"
 
-
-@interface AddFriendViewController () <UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate>
+@interface AddFriendViewController () <UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate, FriendRequestTableViewCellDelegate>
 @property (nonatomic, strong)  UITableView              *tableView;
 @property (nonatomic, strong)  UISearchController       *searchController;
 
@@ -42,6 +42,7 @@
     self.navigationItem.title = @"添加好友";
     
     //初始化数据源
+    [[IMService sharedIMService] loadFriendRequestFromRemote];
     _dataList   = [[IMService sharedIMService] getIncommingFriendRequest];
     _searchList = [NSMutableArray array];
     
@@ -129,8 +130,9 @@
             cell = [[FriendRequestTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:requestFlag];
         }
         
-        FriendRequestTableViewCell *frCell = (FriendRequestTableViewCell *)cell;
         
+        FriendRequestTableViewCell *frCell = (FriendRequestTableViewCell *)cell;
+        frCell.delegate = self;
         FriendRequest *request = self.dataList[indexPath.row];
         frCell.friendRequest = request;
     }
@@ -139,6 +141,34 @@
     return cell;
     
 }
+#pragma mark - FriendRequestTableViewCellDelegate
+- (void)onAcceptBtn:(NSString *)targetUserId {
+    __block MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.label.text = @"更新中...";
+    [hud showAnimated:YES];
+    
+    __weak typeof(self) ws = self;
+    [[IMService sharedIMService] handleFriendRequest:targetUserId accept:YES success:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            hud.label.text = @"请求发送成功";
+            [hud hideAnimated:YES afterDelay:1.f];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [[IMService sharedIMService] loadFriendRequestFromRemote];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    ws.dataList   = [[IMService sharedIMService] getIncommingFriendRequest];
+                    [ws.tableView reloadData];
+                });
+            });
+        });
+    } error:^(int error_code) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            hud.label.text = @"请求发送失败";
+            [hud hideAnimated:YES afterDelay:1.f];
+        });
+    }];
+}
+
 
 #pragma mark - UISearchControllerDelegate
 //测试UISearchController的执行过程

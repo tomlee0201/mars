@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "FriendRequest.h"
 
+
+@protocol FriendRequestTableViewCellDelegate <NSObject>
+- (void)onAcceptBtn:(NSString *)targetUserId;
+@end
+
+
 @interface FriendRequestTableViewCell : UITableViewCell
 @property (nonatomic, strong)FriendRequest *friendRequest;
+@property (nonatomic, weak)id<FriendRequestTableViewCellDelegate> delegate;
 @end

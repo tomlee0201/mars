@@ -7,9 +7,14 @@
 //
 
 #import "ContactListViewController.h"
+#import "IMService.h"
+#import "SDWebImage.h"
+#import "MessageViewController.h"
 
 @interface ContactListViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong)UITableView *tableView;
+@property (nonatomic, strong)NSArray *dataArray;
+@property (nonatomic, strong)NSMutableArray *selectedContacts;
 @end
 
 @implementation ContactListViewController
@@ -23,8 +28,17 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     [self.tableView reloadData];
+    if (self.selectContact && self.multiSelect) {
+        self.selectedContacts = [[NSMutableArray alloc] init];
+    }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.dataArray = [[IMService sharedIMService] getMyFriendList:YES];
+    [self.tableView reloadData];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -32,10 +46,14 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 2;
+    if (self.selectContact) {
+        return self.dataArray.count;
     } else {
-        return 1;
+        if (section == 0) {
+            return 2;
+        } else {
+            return self.dataArray.count;
+        }
     }
 }
 
@@ -48,33 +66,67 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSEIDENTIFY];
     }
-    if (indexPath.section == 0) {
-        cell.imageView.image = [UIImage imageNamed:@""];
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"新朋友";
-        } else {
-            cell.textLabel.text = @"群组";
-        }
+    if (self.selectContact) {
+        NSString *friendUid = self.dataArray[indexPath.row];
+        UserInfo *friendInfo = [[IMService sharedIMService] getUserInfo:friendUid refresh:NO];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait]];
+        cell.textLabel.text = friendInfo.displayName;
     } else {
-        cell.imageView.image = [UIImage imageNamed:@""];
-        cell.textLabel.text = @"好友1";
+        if (indexPath.section == 0) {
+            cell.imageView.image = [UIImage imageNamed:@""];
+            if (indexPath.row == 0) {
+                cell.textLabel.text = @"新朋友";
+            } else {
+                cell.textLabel.text = @"群组";
+            }
+        } else {
+            NSString *friendUid = self.dataArray[indexPath.row];
+            UserInfo *friendInfo = [[IMService sharedIMService] getUserInfo:friendUid refresh:NO];
+            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait]];
+            cell.textLabel.text = friendInfo.displayName;
+        }
     }
     return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (self.selectContact) {
+        return 1;
+    }
     return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return nil;
+    } else {
+        return @"  ";
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            UIViewController *addFriendVC = [sb instantiateViewControllerWithIdentifier:@"searchToAddFriendVC"];
-            [self.navigationController presentViewController:addFriendVC animated:YES completion:nil];
+    if (self.selectContact) {
+        if (self.multiSelect) {
+            //record here
+            
         } else {
-            UIViewController *groupVC = [sb instantiateViewControllerWithIdentifier:@"groupTableView"];
-            [self.navigationController pushViewController:groupVC animated:YES];
+            [self.delegate didSelectContact:[NSArray arrayWithObjects:self.dataArray[indexPath.row], nil]];
+        }
+    } else {
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
+                UIViewController *addFriendVC = [sb instantiateViewControllerWithIdentifier:@"searchToAddFriendVC"];
+                [self.navigationController presentViewController:addFriendVC animated:YES completion:nil];
+            } else {
+                UIViewController *groupVC = [sb instantiateViewControllerWithIdentifier:@"groupTableView"];
+                [self.navigationController pushViewController:groupVC animated:YES];
+            }
+        } else if (indexPath.section == 1) {
+            MessageViewController *mvc = [sb instantiateViewControllerWithIdentifier:@"messageVC"];
+            NSString *friendUid = self.dataArray[indexPath.row];
+            mvc.conversation = [Conversation conversationWithType:Single_Type target:friendUid line:0];
+            [self.navigationController pushViewController:mvc animated:YES];
         }
     }
 }
