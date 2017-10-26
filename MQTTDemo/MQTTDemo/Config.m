@@ -8,6 +8,7 @@
 
 #import "Config.h"
 
-const NSString *SERVER_HOST = @"192.168.1.101";
+//const NSString *SERVER_HOST = @"192.168.1.101";
+const NSString *SERVER_HOST = @"www.liyufan.win";
 const int LONG_LINK_PORT = 1883;
 const int SHORT_LINK_PORT = 1884;

@@ -10,6 +10,8 @@
 #import "ConversationInfo.h"
 #import "ConversationTableViewCell.h"
 #import "ContactListViewController.h"
+#import "CreateGroupViewController.h"
+
 
 #import "MessageViewController.h"
 #import "NetworkService.h"
@@ -318,7 +320,9 @@
         mvc.conversation = [Conversation conversationWithType:Single_Type target:contacts[0] line:0];
         [self.navigationController pushViewController:mvc animated:YES];
     } else {
-        
+        CreateGroupViewController *vc = [[CreateGroupViewController alloc] init];
+        vc.memberIds = contacts;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 @end

@@ -625,21 +625,8 @@ int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback)
         CreateGroupPublishCallback(CreateGroupCallback *cb) : MQTTPublishCallback(), callback(cb) {}
         CreateGroupCallback *callback;
         void onSuccess(const unsigned char* data, size_t len) {
-            int errorCode = 0;
-            if (len == 4) {
-                const unsigned char* p = data;
-                for (int i = 0; i < 4; i++) {
-                    errorCode = (errorCode << 8) + *(p + i);
-                }
-                if (errorCode == 0) {
-                    callback->onSuccess("");
-                } else {
-                    callback->onFalure(errorCode);
-                }
-            } else {
-                callback->onFalure(-1);
-            }
-            
+            std::string gid((const char*)data, len);
+            callback->onSuccess(gid);
             delete this;
         };
         void onFalure(int errorCode) {
@@ -1355,6 +1342,5 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
         publishTask(request, new GetUserInfoPublishCallback(callback), getUserInfoTopic);
     };
 #endif
-
 }
 }

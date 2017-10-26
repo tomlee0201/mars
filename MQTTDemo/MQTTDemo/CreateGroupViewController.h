@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CreateGroupViewController : UIViewController
-
+@property(nonatomic, strong)NSArray<NSString *> *memberIds;
 @end
