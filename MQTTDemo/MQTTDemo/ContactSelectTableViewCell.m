@@ -58,7 +58,7 @@
 - (void)setFriendUid:(NSString *)friendUid {
     _friendUid = friendUid;
     UserInfo *friendInfo = [[IMService sharedIMService] getUserInfo:friendUid refresh:NO];
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait] placeholderImage: [UIImage imageNamed:@"PersonalChat"]];
     self.textLabel.text = friendInfo.displayName;
 }
 @end

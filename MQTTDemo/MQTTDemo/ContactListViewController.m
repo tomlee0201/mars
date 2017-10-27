@@ -122,12 +122,12 @@
         } else {
             NSString *friendUid = self.dataArray[indexPath.row];
             UserInfo *friendInfo = [[IMService sharedIMService] getUserInfo:friendUid refresh:NO];
-            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait]];
-          
+
           CGRect frame = cell.imageView.frame;
           frame.size.width = 36;
           frame.size.height = 36;
           cell.imageView.frame = frame;
+            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait] placeholderImage: [UIImage imageNamed:@"PersonalChat"]];
             cell.textLabel.text = friendInfo.displayName;
         }
     }

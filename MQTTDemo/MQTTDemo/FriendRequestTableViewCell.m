@@ -65,7 +65,7 @@
 - (void)setFriendRequest:(FriendRequest *)friendRequest {
     _friendRequest = friendRequest;
     UserInfo *userInfo = [[IMService sharedIMService] getUserInfo:friendRequest.target refresh:NO];
-    [self.portraitView sd_setImageWithURL:[NSURL URLWithString:userInfo.portrait]];
+    [self.portraitView sd_setImageWithURL:[NSURL URLWithString:userInfo.portrait]  placeholderImage: [UIImage imageNamed:@"PersonalChat"]];
     self.nameLabel.text = userInfo.displayName;
     self.reasonLabel.text = friendRequest.reason;
     

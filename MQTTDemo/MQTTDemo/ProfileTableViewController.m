@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.portraitView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.portrait]];
+    [self.portraitView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.portrait] placeholderImage: [UIImage imageNamed:@"PersonalChat"]];
     [self.nameLabel setText:self.userInfo.name];
     self.displayNameLabel.text = self.userInfo.displayName;
     
