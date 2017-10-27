@@ -114,13 +114,20 @@
             cell.imageView.image = [UIImage imageNamed:@""];
             if (indexPath.row == 0) {
                 cell.textLabel.text = @"新朋友";
+              cell.imageView.image = [UIImage imageNamed:@"friend_request_icon"];
             } else {
                 cell.textLabel.text = @"群组";
+              cell.imageView.image = [UIImage imageNamed:@"contact_group_icon"];
             }
         } else {
             NSString *friendUid = self.dataArray[indexPath.row];
             UserInfo *friendInfo = [[IMService sharedIMService] getUserInfo:friendUid refresh:NO];
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:friendInfo.portrait]];
+          
+          CGRect frame = cell.imageView.frame;
+          frame.size.width = 36;
+          frame.size.height = 36;
+          cell.imageView.frame = frame;
             cell.textLabel.text = friendInfo.displayName;
         }
     }
