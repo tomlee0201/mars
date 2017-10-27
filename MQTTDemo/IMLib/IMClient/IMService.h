@@ -35,6 +35,7 @@ typedef enum : NSUInteger {
 - (NSArray<ConversationInfo *> *)getConversations:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *> *)lines;
 - (NSArray<Message *> *)getMessages:(Conversation *)conversation from:(NSUInteger)fromIndex count:(NSUInteger)count;
 
+- (NSUInteger)getUnreadCount:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *> *)lines;
 - (void)clearUnreadStatus:(Conversation *)conversation;
 - (void)clearAllUnreadStatus;
 

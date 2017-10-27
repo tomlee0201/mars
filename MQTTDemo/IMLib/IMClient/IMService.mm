@@ -369,7 +369,7 @@ static void fillTMessage(mars::stn::TMessage &tmsg, Conversation *conv, MessageP
     return mars::stn::MessageDB::Instance()->GetUnreadCount(conversation.type, [conversation.target UTF8String], conversation.line);
 }
 
-- (int)getUnreadCount:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *>*)lines {
+- (NSUInteger)getUnreadCount:(NSArray<NSNumber *> *)conversationTypes lines:(NSArray<NSNumber *> *)lines {
     std::list<int> types;
     std::list<int> ls;
     for (NSNumber *type in conversationTypes) {

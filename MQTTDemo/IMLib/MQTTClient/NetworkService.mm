@@ -301,6 +301,10 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnForeground(isForeground);
 }
 
+- (void)setDeviceToken:(NSString *)token {
+    
+}
+
 - (void)onGroupInfoUpdated:(NSArray<GroupInfo *> *)updatedGroupInfo {
   dispatch_async(dispatch_get_main_queue(), ^{
     for (GroupInfo *groupInfo in updatedGroupInfo) {

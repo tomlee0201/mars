@@ -10,6 +10,8 @@
 #import "NetworkService.h"
 #import "LoginViewController.h"
 #import "Config.h"
+#import "IMService.h"
+
 
 @interface AppDelegate () <ConnectionStatusDelegate, ReceiveMessageDelegate>
 
@@ -36,9 +38,36 @@
   } else {
     [self onConnectionStatusChanged:[NetworkService sharedInstance].currentConnectionStatus];
   }
+    
+    [self setupNavBar];
+    
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings
+                                            settingsForTypes:(UIUserNotificationTypeBadge |
+                                                              UIUserNotificationTypeSound |
+                                                              UIUserNotificationTypeAlert)
+                                            categories:nil];
+    [application registerUserNotificationSettings:settings];
+    
+    
   return YES;
 }
 
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:
+(UIUserNotificationSettings *)notificationSettings {
+    // register to receive notifications
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"
+                                                           withString:@""]
+                                                   stringByReplacingOccurrencesOfString:@">"
+                                                      withString:@""]
+                                                   stringByReplacingOccurrencesOfString:@" "
+                                                     withString:@""];
+    
+    [[NetworkService sharedInstance] setDeviceToken:token];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -50,6 +79,8 @@
   // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
   // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
   [[NetworkService sharedInstance] reportEvent_OnForeground:NO];
+    NSUInteger count = [[IMService sharedIMService] getUnreadCount:@[@(0), @(1), @(2)] lines:@[@(0), @(1)]];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = count;
 }
 
 
@@ -87,5 +118,14 @@
   });
 }
 
+- (void)setupNavBar {
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
+    UINavigationBar *bar = [UINavigationBar appearance];
+    CGFloat rgb = 0.1;
+    bar.barTintColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.9];
+    bar.tintColor = [UIColor whiteColor];
+    bar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+}
 
 @end

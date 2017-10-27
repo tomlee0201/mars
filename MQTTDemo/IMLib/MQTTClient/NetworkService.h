@@ -72,6 +72,7 @@ typedef NS_ENUM(NSInteger, ConnectionStatus) {
 - (void)setServerAddress:(NSString *)host longLinkPort:(const unsigned short)longLinkPort shortLinkPort:(const unsigned short)shortLinkPort;
 - (void)reportEvent_OnForeground:(BOOL)isForeground;
 
+- (void)setDeviceToken:(NSString *)token;
 
 @end
 

@@ -103,6 +103,7 @@
   UIView *title;
   if (status != kConnectionStatusConnectiong) {
     UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2 - 40, 0, 80, 44)];
+      
     switch (status) {
       case kConnectionStatusLogout:
         navLabel.text = @"未登录";
@@ -118,12 +119,12 @@
         break;
     }
     
-    navLabel.textColor = [UIColor blueColor];
+    [navLabel setTextColor:[UIColor whiteColor]];
     navLabel.font = [UIFont systemFontOfSize:18];
     navLabel.textAlignment = NSTextAlignmentCenter;
     title = navLabel;
   } else {
-    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     indicatorView.center = CGPointMake(self.navigationController.navigationBar.bounds.size.width/2, self.navigationController.navigationBar.bounds.size.height/2);
     [indicatorView startAnimating];
     title = indicatorView;
