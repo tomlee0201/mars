@@ -61,21 +61,29 @@
     // 添加 searchbar 到 headerview
     self.tableView.tableHeaderView = _searchController.searchBar;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStyleDone target:self action:@selector(onRightBarBtn:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"bar_plus"] style:UIBarButtonItemStyleDone target:self action:@selector(onRightBarBtn:)];
 }
 
 - (void)onRightBarBtn:(UIBarButtonItem *)sender {    
     [KxMenu showMenuInView:self.view
-                  fromRect:CGRectMake(self.view.bounds.size.width - 48, 64, 48, 5)
+                  fromRect:CGRectMake(self.view.bounds.size.width - 56, 64, 48, 5)
                  menuItems:@[
                              [KxMenuItem menuItem:@"创建聊天"
-                                            image:nil
+                                            image:[UIImage imageNamed:@"menu_start_chat"]
                                            target:self
-                                           action:@selector(menuItemAction:)],
+                                           action:@selector(startChatAction:)],
+                             [KxMenuItem menuItem:@"添加朋友"
+                                            image:[UIImage imageNamed:@"menu_add_friends"]
+                                           target:self
+                                           action:@selector(addFriendsAction:)],
+                             [KxMenuItem menuItem:@"扫一扫"
+                                            image:[UIImage imageNamed:@"menu_scan"]
+                                           target:self
+                                           action:@selector(scanAction:)]
                              ]];
 }
 
-- (void)menuItemAction:(id)sender {
+- (void)startChatAction:(id)sender {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ContactListViewController *pvc = [sb instantiateViewControllerWithIdentifier:@"contactVC"];
     pvc.selectContact = YES;
@@ -83,6 +91,17 @@
     pvc.delegate = self;
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:pvc];
     [self.navigationController presentViewController:navi animated:YES completion:nil];
+}
+
+- (void)addFriendsAction:(id)sender {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UIViewController *addFriendVC = [sb instantiateViewControllerWithIdentifier:@"searchToAddFriendVC"];
+    [self.navigationController presentViewController:addFriendVC animated:YES completion:nil];
+}
+
+- (void)scanAction:(id)sender {
+    
 }
 
 - (void)viewDidLoad {
