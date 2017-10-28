@@ -595,6 +595,8 @@ extern void (*ReportDnsProfile)(const DnsProfile& _dns_profile);
         
       extern ConnectionStatus getConnectionStatus();
         
+        extern void setDeviceToken(const std::string &appName, const std::string &deviceToken);
+        
 extern int (*sendMessage)(TMessage &tmsg, SendMessageCallback *callback);
       
 extern int uploadGeneralMedia(std::string mediaData, int mediaType, UpdateMediaCallback *callback);

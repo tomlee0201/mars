@@ -302,7 +302,8 @@ static NetworkService * sharedSingleton = nil;
 }
 
 - (void)setDeviceToken:(NSString *)token {
-    
+    NSString *appName =
+    [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
 }
 
 - (void)onGroupInfoUpdated:(NSArray<GroupInfo *> *)updatedGroupInfo {

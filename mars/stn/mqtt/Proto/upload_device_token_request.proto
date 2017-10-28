@@ -1,0 +1,25 @@
+syntax = "proto3";
+package mars.stn;
+
+
+option java_package = "win.liyufan.im.proto";
+option java_outer_classname = "UploadDeviceTokenRequestOuterClass";
+
+//option objc_class_prefix = "LYF";
+
+enum Platform {
+    Platform_UNSET = 0;
+    Platform_iOS = 1;
+    Platform_Android = 2;
+    Platform_Windows = 3;
+    Platform_OSX = 4;
+    Platform_WEB = 5;
+}
+
+
+message UploadDeviceTokenRequest {
+    Platform platform = 1;
+    string app_name = 2;
+    string device_token = 3;
+}
+

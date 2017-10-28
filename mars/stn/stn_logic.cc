@@ -52,7 +52,7 @@
 #include "mars/stn/mqtt/Proto/add_group_member_request.pb.h"
 #include "mars/stn/mqtt/Proto/remove_group_member_request.pb.h"
 #include "mars/stn/mqtt/Proto/quit_group_request.pb.h"
-
+#include "mars/stn/mqtt/Proto/upload_device_token_request.pb.h"
 #include "mars/stn/mqtt/Proto/dismiss_group_request.pb.h"
 #include "mars/stn/mqtt/Proto/modify_group_info_request.pb.h"
 #include "mars/stn/mqtt/Proto/id_buf.pb.h"
@@ -100,7 +100,8 @@ const std::string modifyMyInfoTopic = "MMI";
 const std::string AddFriendRequestTopic = "FAR";
 const std::string HandleFriendRequestTopic = "FHR";
 const std::string DeleteFriendTopic = "FDL";
-    
+
+const std::string UploadDeviceTokenTopic = "UDT";
     
 #define STN_WEAK_CALL(func) \
     boost::shared_ptr<NetCore> stn_ptr = NetCore::Singleton::Instance_Weak().lock();\
@@ -405,11 +406,13 @@ void (*ReportDnsProfile)(const DnsProfile& _dns_profile)
     GeneralOperationPublishCallback(GeneralOperationCallback *cb) : MQTTPublishCallback(), callback(cb) {}
     GeneralOperationCallback *callback;
     void onSuccess(const unsigned char* data, size_t len) {
-      callback->onSuccess();
+        if(callback)
+            callback->onSuccess();
       delete this;
     };
     void onFalure(int errorCode) {
-      callback->onFalure(errorCode);
+        if(callback)
+            callback->onFalure(errorCode);
       delete this;
     };
     virtual ~GeneralOperationPublishCallback() {
@@ -1341,6 +1344,16 @@ void (*getMyGroups)(GetMyGroupsCallback *callback)
         
         publishTask(request, new GetUserInfoPublishCallback(callback), getUserInfoTopic);
     };
+    
+    void setDeviceToken(const std::string &appName, const std::string &deviceToken) {
+        UploadDeviceTokenRequest request;
+        request.set_platform(Platform_iOS);
+        request.set_app_name(appName);
+        request.set_device_token(deviceToken);
+        
+        publishTask(request, new GeneralOperationPublishCallback(NULL), UploadDeviceTokenTopic);
+    }
+
 #endif
 }
 }

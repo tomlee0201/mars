@@ -39,7 +39,7 @@
     _searchList = [NSMutableArray array];
     
     
-    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消分割线
+    //self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;//取消分割线
     
     //创建UISearchController
     _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];

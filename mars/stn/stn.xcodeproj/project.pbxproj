@@ -117,6 +117,7 @@
 		2EC9FC1B1F619B27001C733E /* pull_user_response.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC191F619B27001C733E /* pull_user_response.pb.cc */; };
 		2EC9FC201F619BF6001C733E /* pull_user_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EC9FC1F1F619BF6001C733E /* pull_user_request.pb.cc */; };
 		2ED871151F8A27C20013F9F0 /* url_helper.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2ED871141F8A26A90013F9F0 /* url_helper.cc */; };
+		2EDEDF401FA3FCF7003E9D0F /* upload_device_token_request.pb.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2EDEDF3E1FA3FCF6003E9D0F /* upload_device_token_request.pb.cc */; };
 		2EFAF0E31F6A14FE000FB75F /* WCDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFAF0E21F6A14FE000FB75F /* WCDB.framework */; };
 		2EFD82321F4E438200542244 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD82301F4E438200542244 /* DB.cpp */; };
 		2F395A551F04727E000F2C79 /* libemqtt.cc in Sources */ = {isa = PBXBuildFile; fileRef = 2F395A4A1F04727D000F2C79 /* libemqtt.cc */; };
@@ -498,6 +499,9 @@
 		2ED871671F8A2E740013F9F0 /* stream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stream.h; sourceTree = "<group>"; };
 		2ED871681F8A2E740013F9F0 /* stringbuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stringbuffer.h; sourceTree = "<group>"; };
 		2ED871691F8A2E740013F9F0 /* writer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
+		2EDEDF3D1FA3FCA8003E9D0F /* upload_device_token_request.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = upload_device_token_request.proto; sourceTree = "<group>"; };
+		2EDEDF3E1FA3FCF6003E9D0F /* upload_device_token_request.pb.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = upload_device_token_request.pb.cc; sourceTree = "<group>"; };
+		2EDEDF3F1FA3FCF7003E9D0F /* upload_device_token_request.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upload_device_token_request.pb.h; sourceTree = "<group>"; };
 		2EFAF0E21F6A14FE000FB75F /* WCDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WCDB.framework; path = framework/WCDB.framework; sourceTree = "<group>"; };
 		2EFD82301F4E438200542244 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DB.cpp; sourceTree = "<group>"; };
 		2EFD82311F4E438200542244 /* DB.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DB.hpp; sourceTree = "<group>"; };
@@ -703,6 +707,9 @@
 				2E3453491F8C52E0003CD73D /* handle_friends_request.pb.cc */,
 				2E3453481F8C52E0003CD73D /* handle_friends_request.pb.h */,
 				2E3453441F8C51B8003CD73D /* handle_friends_request.proto */,
+				2EDEDF3E1FA3FCF6003E9D0F /* upload_device_token_request.pb.cc */,
+				2EDEDF3F1FA3FCF7003E9D0F /* upload_device_token_request.pb.h */,
+				2EDEDF3D1FA3FCA8003E9D0F /* upload_device_token_request.proto */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -1225,6 +1232,7 @@
 				4B07F3131C4F8F0700FD1B8D /* longlink_speed_test.cc in Sources */,
 				2F395A581F04727E000F2C79 /* shortlink_packer.cc in Sources */,
 				2E1F1AD71F3F5E04000A84E9 /* status.cc in Sources */,
+				2EDEDF401FA3FCF7003E9D0F /* upload_device_token_request.pb.cc in Sources */,
 				2E1F1AD41F3F5E04000A84E9 /* int128.cc in Sources */,
 				4B07F31E1C4F8F0700FD1B8D /* timing_sync.cc in Sources */,
 				2E1F1ACB1F3F5E04000A84E9 /* reflection_ops.cc in Sources */,
