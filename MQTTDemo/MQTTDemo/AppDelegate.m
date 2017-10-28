@@ -126,6 +126,7 @@
     bar.barTintColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:0.9];
     bar.tintColor = [UIColor whiteColor];
     bar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    bar.barStyle = UIBarStyleBlack;
 }
 
 @end

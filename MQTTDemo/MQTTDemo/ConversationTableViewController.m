@@ -131,7 +131,7 @@
         navLabel.text = @"未连接";
         break;
       case kConnectionStatusConnected:
-        navLabel.text = @"已连接";
+        navLabel.text = @"信息";
         break;
         
       default:
